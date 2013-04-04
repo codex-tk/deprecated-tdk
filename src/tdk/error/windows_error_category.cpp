@@ -52,8 +52,4 @@ std::string windows_error_category::message(int ec) const  {
 	return tdk::string::wcs_to_utf_8( buffer );
 }
 
-std::error_condition windows_error_category::default_error_condition(int _Errval) const  {
-	return std::error_condition( _Errval ,*this ); 
-}
-
 }

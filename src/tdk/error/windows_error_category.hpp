@@ -11,7 +11,6 @@ public:
 	virtual ~windows_error_category(void) ;
 	virtual const char *name() const;
 	virtual std::string message(int _Errval) const ;
-	virtual std::error_condition default_error_condition(int _Errval) const ;
 };
 
 }
