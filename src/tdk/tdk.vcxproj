@@ -81,6 +81,8 @@
     <ClInclude Include="error\windows_error_category.hpp" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
+    <ClInclude Include="threading\atomic\atomic.hpp" />
+    <ClInclude Include="threading\atomic\memory_order.hpp" />
     <ClInclude Include="time\ctime.hpp" />
     <ClInclude Include="time\date_time.hpp" />
     <ClInclude Include="time\tick.hpp" />
@@ -95,6 +97,8 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="threading\atomic\atomic_win32.cpp" />
+    <ClCompile Include="threading\atomic\memory_order_win32.cpp" />
     <ClCompile Include="time\ctime.cpp" />
     <ClCompile Include="time\date_time.cpp" />
     <ClCompile Include="time\tick.cpp" />
