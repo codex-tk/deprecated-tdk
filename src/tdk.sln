@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "tdk", "tdk\tdk.vcxproj", "{E0493485-14CA-4053-B197-0E05E1B7A17A}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "test.tdk", "test.tdk\test.tdk.vcxproj", "{47027A66-6BDB-486A-BA94-D90DA0AD5636}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -13,6 +15,10 @@ Global
 		{E0493485-14CA-4053-B197-0E05E1B7A17A}.Debug|Win32.Build.0 = Debug|Win32
 		{E0493485-14CA-4053-B197-0E05E1B7A17A}.Release|Win32.ActiveCfg = Release|Win32
 		{E0493485-14CA-4053-B197-0E05E1B7A17A}.Release|Win32.Build.0 = Release|Win32
+		{47027A66-6BDB-486A-BA94-D90DA0AD5636}.Debug|Win32.ActiveCfg = Debug|Win32
+		{47027A66-6BDB-486A-BA94-D90DA0AD5636}.Debug|Win32.Build.0 = Debug|Win32
+		{47027A66-6BDB-486A-BA94-D90DA0AD5636}.Release|Win32.ActiveCfg = Release|Win32
+		{47027A66-6BDB-486A-BA94-D90DA0AD5636}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
