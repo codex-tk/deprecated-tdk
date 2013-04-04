@@ -54,6 +54,9 @@
     <ClInclude Include="threading\atomic\memory_order.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="threading\spin_lock.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -87,6 +90,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="threading\atomic\memory_order_win32.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="threading\spin_lock.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

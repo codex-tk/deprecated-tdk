@@ -83,6 +83,7 @@
     <ClInclude Include="targetver.h" />
     <ClInclude Include="threading\atomic\atomic.hpp" />
     <ClInclude Include="threading\atomic\memory_order.hpp" />
+    <ClInclude Include="threading\spin_lock.hpp" />
     <ClInclude Include="time\ctime.hpp" />
     <ClInclude Include="time\date_time.hpp" />
     <ClInclude Include="time\tick.hpp" />
@@ -99,6 +100,7 @@
     </ClCompile>
     <ClCompile Include="threading\atomic\atomic_win32.cpp" />
     <ClCompile Include="threading\atomic\memory_order_win32.cpp" />
+    <ClCompile Include="threading\spin_lock.cpp" />
     <ClCompile Include="time\ctime.cpp" />
     <ClCompile Include="time\date_time.cpp" />
     <ClCompile Include="time\tick.cpp" />
