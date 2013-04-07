@@ -17,8 +17,13 @@ date_time::date_time( const date_time& rhs )
 :_time( rhs._time ) {
 }
 
-date_time::date_time( const uint16_t year , const uint16_t month ,  const uint16_t day , 
-                    const uint16_t hour , const uint16_t minute , const uint16_t second  ) {
+date_time::date_time( const uint16_t year 
+					 , const uint16_t month 
+					 , const uint16_t day 
+					 , const uint16_t hour 
+					 , const uint16_t minute 
+					 , const uint16_t second  ) 
+{
 	time_span span = time_span::from_seconds( second );
 	span += time_span::from_minutes( minute );
 	span += time_span::from_hours( hour );
@@ -44,11 +49,9 @@ date_time date_time::local() {
 }
 
 
-tick::value_type date_time::time( void ) const {
+uint64_t date_time::time( void ) const {
     return _time;
 }
-
-
 
 bool date_time::operator==( const date_time& rhs ) const{
     return this->_time == rhs._time;
@@ -97,77 +100,6 @@ time_span  date_time::operator- ( const date_time& rhs ) const {
 	return time_span::from_micro_seconds( _time - rhs._time );
 }
 
-/*
-time_t date_time::to_time_t( ) const {
-	return tick::to_time_t( _time );
-}
-
-struct tm date_time::to_tm(  ) const {
-	return tick::to_tm( _time );
-}
-
-SYSTEMTIME   date_time::to_systemtime( ) const{
-	tick::systemtime st = tick::to_systemtime( _time );
-	SYSTEMTIME stime;
-	memcpy( &stime , &st , sizeof( stime ) );
-	return stime;
-}
-
-FILETIME   date_time::to_filetime( ) const{
-	tick::filetime ft = tick::to_filetime( _time );
-	FILETIME ftime;
-	ftime.dwHighDateTime = ft.highDateTime;
-	ftime.dwLowDateTime  = ft.lowDateTime;
-    return ftime;
-}
-
-
-date_time date_time::from( const time_t timeV  ){
-	uint64_t t = tick::from( timeV );
-	return date_time( t );
-}
-
-date_time date_time::from( const SYSTEMTIME& st  ){
-	tick::systemtime tickSt( st );
-	uint64_t t = tick::from( tickSt );
-    return date_time( t );
-}
-
-date_time date_time::from( const FILETIME& ft ) {
-	tick::filetime tickFt( ft );
-	uint64_t t = tick::from( tickFt );
-    return date_time( t );
-}
-
-date_time date_time::from( const uint64_t ms ) {
-	return date_time( ms );
-}
-
-
-TCHAR* date_time::to_string( void ) const {
-	
-	TCHAR* buffer = nullptr;
-	if ( tdk::threading::lib_tls* ltls = tdk::threading::lib_tls::instance() ) {
-		buffer = static_cast< TCHAR* >(ltls->buffer( 4096 * sizeof( TCHAR ) ));
-	} else {
-		TDK_ASSERT( !"[tdk::diagnostics::default_category::description()] tls nullptr" );
-		static TCHAR _buffer[4096];
-		buffer = _buffer;
-	}
-	SYSTEMTIME st = to_systemtime();
-	_stprintf_s( 
-			buffer 
-			, 4096
-			, _T("%04d%02d%02d %02d%02d%02d")
-			, st.wYear
-			, st.wMonth
-			, st.wDay
-			, st.wHour
-			, st.wMinute
-			, st.wSecond); 
-	return buffer;
-}*/
-
 int32_t date_time::year( void ) const {
 	return tick::to_tm( _time ).tm_year + 1900;
 }
@@ -193,7 +125,7 @@ int32_t date_time::second( void )const{
 }
 
 date_time::WEEKDAY date_time::weekday( void ) const{
-	return static_cast< date_time::WEEKDAY >(  tick::to_tm( _time ).tm_wday );
+	return static_cast< date_time::WEEKDAY >( tick::to_tm( _time ).tm_wday );
 }
 
 }

@@ -20,72 +20,62 @@ namespace time {
 // UTC ±‚¡ÿ
 class tick {
 public:
-	static const uint64_t BASE_YEAR					= 1900;
-	static const uint64_t EPOCH_YEAR				= 1970;
+	static const uint64_t BASE_YEAR						= 1900;
+	static const uint64_t EPOCH_YEAR					= 1970;
 
-	static const uint64_t HOUR_TO_MINUTES			= 60;
-	static const uint64_t DAY_TO_HOURS				= 24;
-	static const uint64_t WEEK_TO_DAYS				= 7;
+	static const uint64_t HOUR_TO_MINUTES				= 60;
+	static const uint64_t DAY_TO_HOURS					= 24;
+	static const uint64_t WEEK_TO_DAYS					= 7;
 
-	static const uint64_t MINUTE_TO_SECONDS			= 60;
-	static const uint64_t HOUR_TO_SECONDS			= 60 * 60;
-	static const uint64_t DAY_TO_SECONDS			= 60 * 60 * 24;
-	static const uint64_t WEEK_TO_SECONDS			= 60 * 60 * 24 * 7;
-	static const uint64_t EPOCH_SECONDS				= 11644473600;
+	static const uint64_t MINUTE_TO_SECONDS				= 60;
+	static const uint64_t HOUR_TO_SECONDS				= 60 * 60;
+	static const uint64_t DAY_TO_SECONDS				= 60 * 60 * 24;
+	static const uint64_t WEEK_TO_SECONDS				= 60 * 60 * 24 * 7;
+	static const uint64_t EPOCH_SECONDS					= 11644473600;
 
 	static const uint64_t SECOND_TO_MILLI_SECONDS		= 1000;
-	static const uint64_t MILLI_SECOND_TO_MICRO_SECONDS= 1000;
+	static const uint64_t MILLI_SECOND_TO_MICRO_SECONDS = 1000;
 
 	static const uint64_t SECOND_TO_MICRO_SECONDS	= 1000 * 1000;
-	static const uint64_t MINUTE_TO_MICRO_SECONDS	= SECOND_TO_MICRO_SECONDS * MINUTE_TO_SECONDS;
-	static const uint64_t HOUR_TO_MICRO_SECONDS		= SECOND_TO_MICRO_SECONDS * HOUR_TO_SECONDS;
-	static const uint64_t DAY_TO_MICRO_SECONDS		= SECOND_TO_MICRO_SECONDS * DAY_TO_SECONDS;
-	static const uint64_t WEEK_TO_MICRO_SECONDS		= SECOND_TO_MICRO_SECONDS * WEEK_TO_SECONDS;
-	static const uint64_t EPOCH_TO_MICRO_SECONDS	= EPOCH_SECONDS			* SECOND_TO_MICRO_SECONDS;
+	static const uint64_t MINUTE_TO_MICRO_SECONDS	= SECOND_TO_MICRO_SECONDS	* MINUTE_TO_SECONDS;
+	static const uint64_t HOUR_TO_MICRO_SECONDS		= SECOND_TO_MICRO_SECONDS	* HOUR_TO_SECONDS;
+	static const uint64_t DAY_TO_MICRO_SECONDS		= SECOND_TO_MICRO_SECONDS	* DAY_TO_SECONDS;
+	static const uint64_t WEEK_TO_MICRO_SECONDS		= SECOND_TO_MICRO_SECONDS	* WEEK_TO_SECONDS;
+	static const uint64_t EPOCH_TO_MICRO_SECONDS	= EPOCH_SECONDS				* SECOND_TO_MICRO_SECONDS;
 public:
-	typedef uint64_t value_type;
-public:
+#if defined(_WIN32) || defined(_WIN64)
+	typedef SYSTEMTIME systemtime;
+	typedef FILETIME filetime;
+#else
 	struct systemtime {
-		systemtime( void ) {
-			memset( this , 0x00 , sizeof( *this ) );				
-		}
-		systemtime( const SYSTEMTIME& st ) {
-			memcpy( this , &st , sizeof( *this ) );				
-		}
-		uint16_t year;
-		uint16_t month;
-		uint16_t dayOfWeek;
-		uint16_t day;
-		uint16_t hour;
-		uint16_t minute;
-		uint16_t second;
-		uint16_t milliseconds;
+		uint16_t wYear;
+		uint16_t wMonth;
+		uint16_t wDayOfWeek;
+		uint16_t wDay;
+		uint16_t wHour;
+		uint16_t wMinute;
+		uint16_t wSecond;
+		uint16_t wMilliseconds;
 	};
-
 	struct filetime {
-		filetime( void ) : lowDateTime(0) , highDateTime(0){}
-		filetime( const FILETIME& ft ) {
-			memcpy( this , &ft , sizeof( *this ) );				
-		}				
-		uint32_t lowDateTime;
-		uint32_t highDateTime;
+		uint32_t dwLowDateTime;
+		uint32_t dwHighDateTime;
 	};
-
+#endif
 public:
-	static value_type local( void );
-	static value_type utc( void );
-	static value_type from( const tm& t );
-	static value_type from( const time_t& t );
-	static value_type from( const timeval& tv );
-	static value_type from( const systemtime& st );
-	static value_type from( const filetime& ft );
+	static uint64_t local( void );
+	static uint64_t utc( void );
+	static uint64_t from( const tm& t );
+	static uint64_t from( const time_t& t );
+	static uint64_t from( const timeval& tv );
+	static uint64_t from( const systemtime& st );
+	static uint64_t from( const filetime& ft );
 
-	static tm			to_tm( const value_type v );
-	static time_t		to_time_t( const value_type v );
-	static timeval		to_timeval( const value_type v );
-	static systemtime	to_systemtime( const value_type v );
-	static filetime		to_filetime( const value_type v );
-
+	static tm			to_tm( const uint64_t v );
+	static time_t		to_time_t( const uint64_t v );
+	static timeval		to_timeval( const uint64_t v );
+	static systemtime	to_systemtime( const uint64_t v );
+	static filetime		to_filetime( const uint64_t v );
 };
 
 

@@ -23,7 +23,9 @@ time_span::time_span( const time_span& rhs ) : _delta( rhs._delta ) {
 
 }
 
-time_span::time_span( const uint32_t hours , const uint32_t minutes , const uint32_t seconds ) 
+time_span::time_span( const uint32_t hours 
+					 , const uint32_t minutes 
+					 , const uint32_t seconds ) 
     : _delta( hours ) {
     _delta *= static_cast<int64_t>(tick::HOUR_TO_MINUTES);
     _delta += minutes;
@@ -32,7 +34,10 @@ time_span::time_span( const uint32_t hours , const uint32_t minutes , const uint
     _delta *= static_cast<int64_t>(tick::SECOND_TO_MICRO_SECONDS);
 }
 
-time_span::time_span( const uint32_t days , const uint32_t hours , const uint32_t minutes , const uint32_t seconds ) 
+time_span::time_span( const uint32_t days 
+					 , const uint32_t hours 
+					 , const uint32_t minutes 
+					 , const uint32_t seconds ) 
 : _delta( days ) {
     _delta *= static_cast<const int64_t>(tick::DAY_TO_HOURS);
     _delta += hours;
@@ -43,7 +48,11 @@ time_span::time_span( const uint32_t days , const uint32_t hours , const uint32_
     _delta *= static_cast<const int64_t>(tick::SECOND_TO_MICRO_SECONDS);    
 }
 
-time_span::time_span( const uint32_t days , const uint32_t hours , const uint32_t minutes , const uint32_t seconds , const uint32_t milliseconds )
+time_span::time_span( const uint32_t days 
+					 , const uint32_t hours 
+					 , const uint32_t minutes 
+					 , const uint32_t seconds 
+					 , const uint32_t milliseconds )
 : _delta( days ) {
     _delta *= static_cast<int64_t>(tick::DAY_TO_HOURS);
     _delta += hours;

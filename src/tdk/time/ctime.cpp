@@ -113,9 +113,21 @@ time_t ctime::mktime( const tm& aTm ) {
 }
 
 int  ctime::bias() {
+#if defined(_WIN32) || defined(_WIN64)
 	TIME_ZONE_INFORMATION tz;
 	GetTimeZoneInformation( &tz );
 	return tz.Bias;
+#else
+	static int diff = 0;
+	if ( diff == 0 ) {
+		 time_t utc_time;
+		 std::time( &utc_time );
+		 struct tm* local = std::localtime( &utc_time );
+		 time_t local_time = std::mktime( local );
+		 diff = static_cast<int>(local_time - utc_time) / 60;
+	}
+	return diff;
+#endif
 }
 
 }}

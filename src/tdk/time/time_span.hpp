@@ -11,11 +11,19 @@ public:
 public:
     time_span( void );
     time_span( const time_span& rhs );    
-    time_span( const uint32_t hours , const uint32_t minutes , const uint32_t seconds );
-    time_span( const uint32_t days  , const uint32_t hours   , const uint32_t minutes , 
-              const uint32_t seconds );
-    time_span( const uint32_t days  , const uint32_t hours   , const uint32_t minutes , 
-              const uint32_t seconds , const uint32_t milliseconds );
+	explicit time_span( const int64_t microSec );
+    time_span( const uint32_t hours 
+		, const uint32_t minutes 
+		, const uint32_t seconds );
+    time_span( const uint32_t days 
+		, const uint32_t hours   
+		, const uint32_t minutes 
+		, const uint32_t seconds );
+    time_span( const uint32_t days  
+		, const uint32_t hours   
+		, const uint32_t minutes 
+		, const uint32_t seconds 
+		, const uint32_t milliseconds );
 
 	time_span& operator=( const time_span& rhs );    
 
@@ -71,10 +79,11 @@ public:
     static time_span from_minutes( const int32_t v );
     static time_span from_hours( const int32_t v );
     static time_span from_days( const int32_t v );
-	static const int64_t INFINITE_DELTA;
+	
 	static time_span infinite( void );
 private:
-    time_span( const int64_t microSec );
+	static const int64_t INFINITE_DELTA;
+    
 private:
     int64_t _delta;
 };

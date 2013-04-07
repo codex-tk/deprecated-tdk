@@ -30,7 +30,7 @@ std::string windows_error_category::message(int ec) const  {
         lpSource = GetModuleHandleA("winhttp.dll"); // this handle DOES NOT need to be freed
     }
 #endif*/
-
+	/*
     std::wstring buffer;
     buffer.resize(buffer_size);
     unsigned long result;
@@ -41,6 +41,24 @@ std::string windows_error_category::message(int ec) const  {
         ec,
         0,
         &buffer[0],
+        buffer_size,
+        NULL);
+
+    if (result == 0) {
+        std::ostringstream os;
+        os << "Unable to get an error message for error code: " << ec << ".";
+        return os.str();
+    }
+	return tdk::string::wcs_to_utf_8( buffer );*/
+
+	wchar_t buffer[buffer_size] = {0,};
+	unsigned long result;
+    result = ::FormatMessageW(
+        dwFlags,
+        lpSource,
+        ec,
+        0,
+        buffer,
         buffer_size,
         NULL);
 

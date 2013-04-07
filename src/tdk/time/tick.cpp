@@ -5,13 +5,12 @@
 
 namespace tdk {
 namespace time {
-	
-tick::value_type tick::utc( void ) {
+
+uint64_t tick::utc( void ) {
 #if defined(_WIN32) || defined(_WIN64)
-	FILETIME ft;
+	filetime ft;
     GetSystemTimeAsFileTime( &ft );
-	tick::filetime paramFt( ft );
-	return tick::from( paramFt );
+	return tick::from( ft );
 #else
     timeval now;
     gettimeofday(&now, NULL);
@@ -19,41 +18,44 @@ tick::value_type tick::utc( void ) {
 #endif
 }
 
-tick::value_type tick::local( void ) {	
-	SYSTEMTIME st;
+uint64_t tick::local( void ) {	
+#if defined(_WIN32) || defined(_WIN64)
+	systemtime st;
 	GetLocalTime( &st );
-	FILETIME ft;
+	filetime ft;
     SystemTimeToFileTime(&st, &ft);
-	tick::filetime paramFt( ft );
-	return tick::from( paramFt );
+	return tick::from( ft );
+#else
+	timeval now;
+    gettimeofday(&now, NULL);
+	now.tv_sec -= ( ctime::bias() * 60 );
+    return tick::from( now );
+#endif
 }
 
-tick::value_type tick::from( const struct tm& t ){
+uint64_t tick::from( const struct tm& t ){
 	time_t v = ctime::mktime( t );
 	return tick::from( v );
 }
 
-tick::value_type tick::from( const time_t& t ){
+uint64_t tick::from( const time_t& t ){
 	timeval tv;
 	tv.tv_sec = static_cast<long>(t);
 	tv.tv_usec = 0;
 	return tick::from( tv );
 }
 
-tick::value_type tick::from( const timeval& tv ){
-	tick::value_type v = tv.tv_sec;
+uint64_t tick::from( const timeval& tv ){
+	uint64_t v = tv.tv_sec;
 	v *= tick::SECOND_TO_MICRO_SECONDS;
 	v += tv.tv_usec;
 	return v;
 }
 
-tick::value_type tick::from( const tick::systemtime& st ){
+uint64_t tick::from( const tick::systemtime& st ){
 #if defined(_WIN32) || defined(_WIN64)
 	filetime ft;
-    SystemTimeToFileTime( 
-		reinterpret_cast< SYSTEMTIME* >( 
-			const_cast< systemtime* >( &st )) , 
-		reinterpret_cast< FILETIME* > (&ft) );
+    SystemTimeToFileTime( &st, &ft );
 	return from( ft );
 #else
     struct tm tm_date;
@@ -69,35 +71,34 @@ tick::value_type tick::from( const tick::systemtime& st ){
 #endif
 }
 
-tick::value_type tick::from( const tick::filetime& ft ){
-	tick::value_type v;
-	v = ft.highDateTime;
+uint64_t tick::from( const tick::filetime& ft ){
+	uint64_t v = ft.dwHighDateTime;
 	v <<= 32;
-	v += ft.lowDateTime;
+	v += ft.dwLowDateTime;
 	v /= 10;				// 100 ns 를 microsecond 단위로
 	v -= ( tick::EPOCH_SECONDS * tick::SECOND_TO_MICRO_SECONDS );	// 윈도우는 1601 기준이므로 1970 년 사이의 값을 제거 
 	return v;
 }
 
-struct tm   tick::to_tm( const tick::value_type v ){
+struct tm   tick::to_tm( const uint64_t v ){
 	time_t t = v / tick::SECOND_TO_MICRO_SECONDS;
 	struct tm ret;
 	ctime::gmtime( t , ret );
 	return ret;
 }
 
-time_t		tick::to_time_t( const tick::value_type v ){
+time_t		tick::to_time_t( const uint64_t v ){
 	return v / tick::SECOND_TO_MICRO_SECONDS;
 }
 
-timeval		tick::to_timeval( const tick::value_type v ){
+timeval		tick::to_timeval( const uint64_t v ){
 	timeval tv;
 	tv.tv_sec  = static_cast< long >( v / tick::SECOND_TO_MICRO_SECONDS );
 	tv.tv_usec = v % tick::SECOND_TO_MICRO_SECONDS;
 	return tv;
 }
 
-tick::systemtime	tick::to_systemtime( const tick::value_type v ){
+tick::systemtime	tick::to_systemtime( const uint64_t v ){
 #if defined(_WIN32) || defined(_WIN64)
 	tick::filetime ft = to_filetime( v );
 	SYSTEMTIME st;
@@ -106,23 +107,23 @@ tick::systemtime	tick::to_systemtime( const tick::value_type v ){
 #else
     systemtime st;
     struct tm tm_date = to_tm( v );
-    st.hour     = tm_date.tm_hour;
-    st.minute   = tm_date.tm_min ;
-    st.day      = tm_date.tm_mday;
-    st.month    = tm_date.tm_mon + 1;
-    st.second   = tm_date.tm_sec ;
-    st.year     = tm_date.tm_year + 1900;
+    st.wHour     = tm_date.tm_hour;
+    st.wMinute   = tm_date.tm_min ;
+    st.wDay      = tm_date.tm_mday;
+    st.wMonth    = tm_date.tm_mon + 1;
+    st.wSecond   = tm_date.tm_sec ;
+    st.wYear     = tm_date.tm_year + 1900;
     return st;
 #endif
 }
 
-tick::filetime		tick::to_filetime( const tick::value_type v ){
-	tick::value_type tickV = v;
-	tickV += ( tick::EPOCH_SECONDS * tick::SECOND_TO_MICRO_SECONDS );
-	tickV *= 10;
+tick::filetime		tick::to_filetime( const uint64_t v ){
+	uint64_t tv = v;
+	tv += ( tick::EPOCH_SECONDS * tick::SECOND_TO_MICRO_SECONDS );
+	tv *= 10;
 	filetime ft;
-	ft.highDateTime = ( tickV & 0xFFFFFFFF00000000 ) >> 32;
-	ft.lowDateTime  = ( tickV & 0xFFFFFFFF		   );
+	ft.dwHighDateTime = ( tv & 0xFFFFFFFF00000000 ) >> 32;
+	ft.dwLowDateTime  = ( tv & 0xFFFFFFFF		   );
 	return ft;
 }
 
