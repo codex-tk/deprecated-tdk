@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include <tdk/error/platform_error.hpp>
 #include <tdk/error/windows_error_category.hpp>
+#include <thread>
 
 namespace tdk {
 

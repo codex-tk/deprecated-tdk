@@ -93,6 +93,21 @@
     <ClInclude Include="log\writer\console_writer.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="network\address.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="network\socket.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="error\last_error.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="threading\thread_local.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="threading\thread_data.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -162,6 +177,24 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="log\writer\console_writer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="network\address.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tdk.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="network\socket.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="error\last_error.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="threading\thread_local.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="threading\thread_data.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

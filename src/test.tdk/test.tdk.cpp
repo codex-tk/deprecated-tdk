@@ -7,8 +7,11 @@
 #include <tdk/util/string.hpp>
 #include <tdk/log/logger.hpp>
 #include <tdk/log/writer/console_writer.hpp>
+#include <tdk/network/address.hpp>
 
 #pragma comment( lib , "tdk.lib")
+#pragma comment( lib , "ws2_32")
+#pragma comment( lib , "mswsock")
 
 #include <iostream>
 #include <string>
@@ -23,17 +26,18 @@ int _tmain(int argc, _TCHAR* argv[])
 	old_locale = setlocale( LC_ALL , "" );
 	//std::cout << tdk::string::utf_8_to_mbs( tdk::platform_error(0).message() )<< std::endl;
 	*/
+
+	tdk::init();
+
 	tdk::log::logger log("test.logger");
 	log.add_writer( tdk::log::console_writer::instance() );
 	LOG_D( log , _T("ÇÑ±Û %d") , 1 );	
+	LOG_D( log , "%s" , tdk::platform_error(0).message().c_str());
+	LOG_D( log , _T("%s") , tdk::string::mbs_to_wcs(tdk::platform_error(0).message()).c_str());
 	//std::wcout << tdk::string::utf_8_to_wcs( tdk::platform_error( 0 ).message() ) << std::endl;
-
-	std::atomic_int val;
-	val.store(0);
-	int v = val.load();
-
-	v = val.fetch_add(1);
-	v = val.fetch_sub(1);
+	
+	tdk::network::address addr("google.co.kr" , 80 );
+	LOG_D( log , "%s"  , addr.ip_address().c_str());
 	getchar();
 	return 0;
 }

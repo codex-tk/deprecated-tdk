@@ -11,9 +11,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{E0493485-14CA-4053-B197-0E05E1B7A17A}</ProjectGuid>
+    <ProjectGuid>{5CE33EF2-F327-4E13-AD29-80BBF6A4FB77}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>tdk</RootNamespace>
+    <RootNamespace>tdkexecutor</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -40,8 +40,6 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>$(SolutionDir);$(ProjectDir);$(IncludePath)</IncludePath>
-    <OutDir>$(SolutionDir)$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)$(Configuration)\$(ProjectName)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -80,71 +78,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="buffer\allocator.hpp" />
-    <ClInclude Include="buffer\buffer_base.hpp" />
-    <ClInclude Include="buffer\marker.hpp" />
-    <ClInclude Include="buffer\memory_block.hpp" />
-    <ClInclude Include="error\last_error.hpp" />
-    <ClInclude Include="error\platform_error.hpp" />
-    <ClInclude Include="log\category.hpp" />
-    <ClInclude Include="log\formatter\formatter.hpp" />
-    <ClInclude Include="log\formatter\string_formatter.hpp" />
-    <ClInclude Include="log\logger.hpp" />
-    <ClInclude Include="log\record.hpp" />
-    <ClInclude Include="log\writer\console_writer.hpp" />
-    <ClInclude Include="log\writer\writer.hpp" />
-    <ClInclude Include="network\address.hpp" />
-    <ClInclude Include="network\socket.hpp" />
-    <ClInclude Include="task\handler.hpp" />
-    <ClInclude Include="tdk.hpp" />
-    <ClInclude Include="error\tdk_error_category.hpp" />
-    <ClInclude Include="error\windows_error_category.hpp" />
-    <ClInclude Include="stdafx.h" />
-    <ClInclude Include="targetver.h" />
-    <ClInclude Include="threading\atomic\atomic.hpp" />
-    <ClInclude Include="threading\atomic\memory_order.hpp" />
-    <ClInclude Include="threading\spin_lock.hpp" />
-    <ClInclude Include="threading\thread_data.hpp" />
-    <ClInclude Include="threading\thread_local.hpp" />
-    <ClInclude Include="time\ctime.hpp" />
-    <ClInclude Include="time\date_time.hpp" />
-    <ClInclude Include="time\tick.hpp" />
-    <ClInclude Include="time\time_span.hpp" />
-    <ClInclude Include="util\string.hpp" />
+    <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="buffer\allocator.cpp" />
-    <ClCompile Include="buffer\buffer_base.cpp" />
-    <ClCompile Include="buffer\marker.cpp" />
-    <ClCompile Include="buffer\memory_block.cpp" />
-    <ClCompile Include="error\last_error.cpp" />
-    <ClCompile Include="error\platform_error.cpp" />
-    <ClCompile Include="error\tdk_error_category.cpp" />
-    <ClCompile Include="error\windows_error_category.cpp" />
-    <ClCompile Include="log\category.cpp" />
-    <ClCompile Include="log\formatter\formatter.cpp" />
-    <ClCompile Include="log\formatter\string_formatter.cpp" />
-    <ClCompile Include="log\logger.cpp" />
-    <ClCompile Include="log\record.cpp" />
-    <ClCompile Include="log\writer\console_writer.cpp" />
-    <ClCompile Include="log\writer\writer.cpp" />
-    <ClCompile Include="network\address.cpp" />
-    <ClCompile Include="network\socket.cpp" />
-    <ClCompile Include="tdk.cpp" />
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="targetver.h" />
+  </ItemGroup>
+  <ItemGroup>
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="threading\atomic\atomic_win32.cpp" />
-    <ClCompile Include="threading\atomic\memory_order_win32.cpp" />
-    <ClCompile Include="threading\spin_lock.cpp" />
-    <ClCompile Include="threading\thread_data.cpp" />
-    <ClCompile Include="threading\thread_local.cpp" />
-    <ClCompile Include="time\ctime.cpp" />
-    <ClCompile Include="time\date_time.cpp" />
-    <ClCompile Include="time\tick.cpp" />
-    <ClCompile Include="time\time_span.cpp" />
-    <ClCompile Include="util\string_win32.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

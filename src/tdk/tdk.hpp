@@ -39,7 +39,11 @@ namespace option {
 
 extern bool enable_assert;
 
-}}
+}
+
+bool init( void );
+void cleanup( void );
+}
 
 #ifndef assert_msg
 #define assert_msg( expr , msg ) assert( expr && msg )
