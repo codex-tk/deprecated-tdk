@@ -117,6 +117,12 @@
     <ClInclude Include="threading\thread.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="util\list_node.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="util\rc_ptr.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">

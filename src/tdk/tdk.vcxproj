@@ -113,6 +113,8 @@
     <ClInclude Include="time\date_time.hpp" />
     <ClInclude Include="time\tick.hpp" />
     <ClInclude Include="time\time_span.hpp" />
+    <ClInclude Include="util\list_node.hpp" />
+    <ClInclude Include="util\rc_ptr.hpp" />
     <ClInclude Include="util\string.hpp" />
   </ItemGroup>
   <ItemGroup>
