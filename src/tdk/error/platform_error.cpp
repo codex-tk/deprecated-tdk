@@ -18,4 +18,8 @@ tdk::error_code platform_error( int ec ) {
 	return tdk::error_code( ec , platform_category());
 }
 
+tdk::error_code platform_error( void ){
+	return tdk::error_code( GetLastError() , platform_category());
+}
+
 }

@@ -106,6 +106,7 @@
     <ClInclude Include="threading\atomic\atomic.hpp" />
     <ClInclude Include="threading\atomic\memory_order.hpp" />
     <ClInclude Include="threading\spin_lock.hpp" />
+    <ClInclude Include="threading\thread.hpp" />
     <ClInclude Include="threading\thread_data.hpp" />
     <ClInclude Include="threading\thread_local.hpp" />
     <ClInclude Include="time\ctime.hpp" />
@@ -142,6 +143,7 @@
     <ClCompile Include="threading\atomic\atomic_win32.cpp" />
     <ClCompile Include="threading\atomic\memory_order_win32.cpp" />
     <ClCompile Include="threading\spin_lock.cpp" />
+    <ClCompile Include="threading\thread.cpp" />
     <ClCompile Include="threading\thread_data.cpp" />
     <ClCompile Include="threading\thread_local.cpp" />
     <ClCompile Include="time\ctime.cpp" />

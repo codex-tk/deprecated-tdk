@@ -7,6 +7,7 @@ namespace tdk {
 	
 const tdk::error_category& platform_category( void );
 tdk::error_code platform_error( int ec );
+tdk::error_code platform_error( void );
 
 }
 

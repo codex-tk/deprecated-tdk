@@ -114,6 +114,9 @@
     <ClInclude Include="error\error_category.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="threading\thread.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -207,6 +210,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="error\error_category.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="threading\thread.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
