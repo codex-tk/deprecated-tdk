@@ -3,7 +3,7 @@
 
 #include <tdk/tdk.hpp>
 #include <tdk/buffer/allocator.hpp>
-#include <atomic>
+#include <tdk/threading/atomic/atomic.hpp>
 
 namespace tdk {
 namespace buffer {
@@ -28,14 +28,15 @@ public:
 	uint8_t* data_ptr( void ) const;
 	std::size_t size( void ) const;
 
-	int retain( void );
-	int release( void );
+	int add_ref( void );
+	int dec_ref( void );
 
 	void swap( buffer_base& rhs );
 
 	void reserve( std::size_t sz );
 private:
-	std::atomic_int* _counter(void);
+	// std::atomic<int> c++11 지원이 좋아지면 쓰자
+	tdk::threading::atomic<int>* _counter(void);
 private:
 	void* _base;
 	std::size_t _size;

@@ -5,7 +5,7 @@
 
 namespace tdk {
 
-const std::error_category& platform_category( void ) {
+const tdk::error_category& platform_category( void ) {
 #if defined( _WIN32 ) 
 	static tdk::windows_error_category impl;
 	return impl;
@@ -14,8 +14,8 @@ const std::error_category& platform_category( void ) {
 #endif
 }
 
-std::error_code platform_error( int ec ) {
-	return std::error_code( ec , platform_category());
+tdk::error_code platform_error( int ec ) {
+	return tdk::error_code( ec , platform_category());
 }
 
 }

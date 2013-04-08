@@ -84,6 +84,8 @@
     <ClInclude Include="buffer\buffer_base.hpp" />
     <ClInclude Include="buffer\marker.hpp" />
     <ClInclude Include="buffer\memory_block.hpp" />
+    <ClInclude Include="error\error_category.hpp" />
+    <ClInclude Include="error\error_code.hpp" />
     <ClInclude Include="error\last_error.hpp" />
     <ClInclude Include="error\platform_error.hpp" />
     <ClInclude Include="log\category.hpp" />
@@ -117,6 +119,8 @@
     <ClCompile Include="buffer\buffer_base.cpp" />
     <ClCompile Include="buffer\marker.cpp" />
     <ClCompile Include="buffer\memory_block.cpp" />
+    <ClCompile Include="error\error_category.cpp" />
+    <ClCompile Include="error\error_code.cpp" />
     <ClCompile Include="error\last_error.cpp" />
     <ClCompile Include="error\platform_error.cpp" />
     <ClCompile Include="error\tdk_error_category.cpp" />

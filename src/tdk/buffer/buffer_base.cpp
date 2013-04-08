@@ -18,10 +18,10 @@ buffer_base::buffer_base( std::size_t sz
 	if ( _allocator == nullptr ) {
 		_allocator = &detail::malloc_allocator;
 	}
-	_base = _allocator->alloc( sizeof( std::atomic_int ) + _size );
-	new (_base) std::atomic_int;
+	_base = _allocator->alloc( sizeof( tdk::threading::atomic<int> ) + _size );
+	new (_base) tdk::threading::atomic<int>;
 	_counter()->store(0);
-	retain();
+	add_ref();
 }
 
 buffer_base::buffer_base( void* base 
@@ -35,7 +35,7 @@ buffer_base::buffer_base( void* base
 }
 
 buffer_base::~buffer_base( void ) {
-	release();
+	dec_ref();
 }
 
 buffer_base::buffer_base( const buffer_base& rhs )
@@ -43,7 +43,7 @@ buffer_base::buffer_base( const buffer_base& rhs )
 	,_size ( rhs._size )
 	,_allocator ( rhs._allocator )
 {
-	retain();
+	add_ref();
 }
 
 buffer_base& buffer_base::operator=( const buffer_base& rhs ) {
@@ -58,7 +58,7 @@ int buffer_base::ref_count( void ) {
 
 uint8_t* buffer_base::data_ptr( void ) const {
 	if ( _allocator ) {
-		return static_cast< uint8_t* >( _base ) + sizeof( std::atomic_int );
+		return static_cast< uint8_t* >( _base ) + sizeof( tdk::threading::atomic<int> );
 	}
 	return static_cast< uint8_t* >( _base );
 }
@@ -67,29 +67,37 @@ std::size_t buffer_base::size( void ) const {
 	return _size;
 }
 
-std::atomic_int* buffer_base::_counter(void) {
+tdk::threading::atomic<int>* buffer_base::_counter(void) {
 	if ( _allocator ) {
-		return static_cast<std::atomic_int*>(_base);
+		return static_cast<tdk::threading::atomic<int>*>(_base);
 	}
 	return nullptr;
 }
 
-int buffer_base::retain( void ) {
+int buffer_base::add_ref( void ) {
 	if ( _allocator ) {
-		int old = _counter()->fetch_add(1);
-		return old + 1;
+		return _counter()->increment();
+		//int old = _counter()->fetch_add(1);
+		//return old + 1;
 	}
 	return 1;
 }
 
-int buffer_base::release( void ) {
+int buffer_base::dec_ref( void ) {
 	if ( _allocator ) {
+		/*
 		int old = _counter()->fetch_sub(1);
 		if ( old == 1 ) {
-			_counter()->~atomic_int();
+			_counter()->~atomic<int>();
 			_allocator->free( _base );
 		}
 		return old - 1;
+		*/
+		if ( _counter()->decrement()  == 0 ) {
+			_allocator->free( _base );
+			_allocator = nullptr;
+			_base = nullptr;
+		}
 	}
 	return 1;
 }

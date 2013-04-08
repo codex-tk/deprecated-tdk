@@ -108,6 +108,12 @@
     <ClInclude Include="threading\thread_data.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="error\error_code.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="error\error_category.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -195,6 +201,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="threading\thread_data.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="error\error_code.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="error\error_category.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -2,10 +2,10 @@
 #define __tdk_windows_error_castgory_h__
 
 #include <system_error>
-
+#include <tdk/error/error_category.hpp>
 namespace tdk {
 
-class windows_error_category : public std::error_category {
+class windows_error_category : public tdk::error_category {
 public:
 	windows_error_category(void);
 	virtual ~windows_error_category(void) ;
