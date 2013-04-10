@@ -1,7 +1,7 @@
 #ifndef __tck_threading_memory_order_h__
 #define __tck_threading_memory_order_h__
 
-#include "tdk.hpp"
+#include <tdk/tdk.hpp>
 
 namespace tdk {
 namespace threading {

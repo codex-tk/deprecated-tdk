@@ -1,8 +1,8 @@
 #ifndef __tck_threading_atomic_h__
 #define __tck_threading_atomic_h__
 
-#include "tdk.hpp"
-#include "memory_order.hpp"
+#include <tdk/tdk.hpp>
+#include <tdk/threading/atomic/memory_order.hpp>
 
 namespace tdk {
 namespace threading {
