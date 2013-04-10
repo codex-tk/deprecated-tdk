@@ -38,6 +38,13 @@ public:
 
 	socket& operator=( const socket& rhs );
 
+	bool open_tcp( int family ) {
+		if ( family == AF_INET6) {
+			return open( tcp_v6 );
+		}
+		return open( tcp_v4 );
+	}
+
 	template < typename T_category >
 	bool open( const T_category& cate ) {
 		return open( cate.family() , cate.type() , cate.protocol());

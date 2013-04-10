@@ -5,6 +5,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "tdk", "tdk\tdk.vcxproj", "{
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "test.tdk", "test.tdk\test.tdk.vcxproj", "{47027A66-6BDB-486A-BA94-D90DA0AD5636}"
 	ProjectSection(ProjectDependencies) = postProject
+		{0585FB47-80C2-4309-8DA0-532697DD34D6} = {0585FB47-80C2-4309-8DA0-532697DD34D6}
 		{E0493485-14CA-4053-B197-0E05E1B7A17A} = {E0493485-14CA-4053-B197-0E05E1B7A17A}
 	EndProjectSection
 EndProject

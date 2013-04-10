@@ -32,5 +32,8 @@
     <ClCompile Include="test.tdk.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="test.eventloop.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

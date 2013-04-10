@@ -17,8 +17,8 @@
 	#pragma comment( lib , "gtest_x86_release_mt")
 #endif
 
-#pragma comment( lib , "tdk")
-#pragma comment( lib , "tdk.task")
+#pragma comment( lib , "tdk.lib")
+#pragma comment( lib , "tdk.task.lib")
 #pragma comment( lib , "ws2_32")
 #pragma comment( lib , "mswsock")
 

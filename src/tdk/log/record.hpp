@@ -7,15 +7,15 @@
 namespace tdk {
 namespace log {
 
-enum class LEVEL {
-	LOG_DEBUG = 0,
-	LOG_INFO  ,
-	LOG_WARN  ,
-	LOG_ERROR ,
-	LOG_FATAL ,
+enum class level {
+	log_debug = 0,
+	log_info  ,
+	log_warn  ,
+	log_error ,
+	log_fatal ,
 };
 struct record {
-	tdk::log::LEVEL				level;
+	tdk::log::level				level;
 	const tdk::log::category&	category;
 	std::string					message;	// utf-8 string
 	const char*					file_name;
@@ -25,7 +25,7 @@ struct record {
 	int							process_id;
 	int							thread_id;
 
-	record( tdk::log::LEVEL l 
+	record( tdk::log::level l 
 	, const tdk::log::category& cate
 	, const std::string& msg 
 	, const char* file

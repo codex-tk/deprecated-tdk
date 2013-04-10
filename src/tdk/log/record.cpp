@@ -4,7 +4,7 @@
 namespace tdk {
 namespace log {
 
-record::record( tdk::log::LEVEL l 
+record::record( tdk::log::level l 
 	, const tdk::log::category& cate
 	, const std::string& msg 
 	, const char* file
@@ -28,11 +28,11 @@ record::record( tdk::log::LEVEL l
 
 const char* record::level_string( void ) const {
 	switch( level ) {
-	case tdk::log::LEVEL::LOG_DEBUG: return "D";
-	case tdk::log::LEVEL::LOG_WARN:  return "W";
-	case tdk::log::LEVEL::LOG_INFO:  return "I";
-	case tdk::log::LEVEL::LOG_ERROR: return "E";
-	case tdk::log::LEVEL::LOG_FATAL: return "F";
+	case tdk::log::level::log_debug: return "D";
+	case tdk::log::level::log_warn:  return "W";
+	case tdk::log::level::log_info:  return "I";
+	case tdk::log::level::log_error: return "E";
+	case tdk::log::level::log_fatal: return "F";
 	}
 	return "?";
 }

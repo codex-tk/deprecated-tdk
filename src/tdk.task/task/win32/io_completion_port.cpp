@@ -8,9 +8,10 @@
 
 namespace tdk {
 namespace task {
-io_completion_port::io_completion_port(io_engine& engine) 
+io_completion_port::io_completion_port( void ) 
 	: _handle( INVALID_HANDLE_VALUE )
-	, _engine( engine )
+	, _callback( nullptr )
+	, _ctx(nullptr)
 {
 
 }
@@ -19,10 +20,11 @@ io_completion_port::~io_completion_port( void ) {
 	close();
 }
 
-bool io_completion_port::open( void ) {
+bool io_completion_port::open( complete_callback cb , void* ctx , int concurrent_thread  ) {
 	close();
-
-	_handle = CreateIoCompletionPort( INVALID_HANDLE_VALUE , NULL , NULL , 0 );
+	_callback = cb;
+	_ctx = ctx;
+	_handle = CreateIoCompletionPort( INVALID_HANDLE_VALUE , NULL , NULL , concurrent_thread );
 	if ( _handle == INVALID_HANDLE_VALUE ) {
 		TDK_ASSERT( !"CreateIoCompletionPort Failed" );
 		tdk::set_last_error( tdk::platform_error());
@@ -116,10 +118,11 @@ int io_completion_port::wait( const tdk::time_span& t ){
 
 	for ( ULONG i = 0 ; i < entry_count ; ++i ) {
 		tdk::error_code code = tdk::platform_error( static_cast<int>(entry[i].Internal));
-		_engine.on_complete( code 
+		_callback( code 
 			, entry[i].dwNumberOfBytesTransferred
 			, reinterpret_cast< void* >(entry[i].lpCompletionKey)
-			, entry[i].lpOverlapped );
+			, entry[i].lpOverlapped 
+			, _ctx );
 	}
 	return entry_count;
 #else	
@@ -133,21 +136,22 @@ int io_completion_port::wait( const tdk::time_span& t ){
 		, &overlapped
 		, static_cast<DWORD>(t.total_milli_seconds())) == TRUE;
 
+	tdk::error_code code;
 	if ( !result ) {
-		tdk::error_code code = tdk::platform_error();
+		code = tdk::platform_error();
 		switch ( code.value() ) {
 		case WAIT_TIMEOUT:
 			break;
 		case ERROR_ABANDONED_WAIT_0:
-			break;
+			tdk::set_last_error( code );
+			return -1;
 		}
-		tdk::set_last_error( code );
-		return 0;
-	}
-	_engine.on_complete( tdk::platform_error() 
+	} 
+	_callback( code
 			, bytes_transferred
 			, reinterpret_cast< void* >(key)
-			, overlapped );
+			, overlapped 
+			, _ctx );
 
 	return 1;
 #endif

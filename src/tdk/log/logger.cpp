@@ -11,14 +11,14 @@ std::map< std::string , logger::impl* > _loggers;
 }
 
 struct logger::impl {
-	tdk::log::LEVEL level;
+	tdk::log::level level;
 	tdk::log::category category;
 	
 	std::vector< writer_ptr > writers;
 	impl( const tdk::log::category& cate ) 
 		: category( cate ) 
 	{
-		level = tdk::log::LEVEL::LOG_DEBUG;
+		level = tdk::log::level::log_debug;
 	}	
 
 	static logger::impl* get_instance( const std::string& cate ) {
@@ -51,7 +51,7 @@ logger::~logger( void ) {
 }
 
 void logger::write( 
-		tdk::log::LEVEL level
+		tdk::log::level level
 		, const char* file 
 		, const int line 
 		, const char* function 
@@ -104,7 +104,7 @@ void logger::write(
 }
 
 void logger::write( 
-		tdk::log::LEVEL level
+		tdk::log::level level
 		, const char* file 
 		, const int line 
 		, const char* function 
@@ -163,7 +163,7 @@ void logger::_write( const tdk::log::record& r ) {
 	}
 }
 
-void logger::level( tdk::log::LEVEL l ) {
+void logger::level( tdk::log::level l ) {
 	_impl->level = l;
 }
 

@@ -17,7 +17,6 @@ private:
 	event_loop* _loop;
 };
 
-
 }}
 
 #endif

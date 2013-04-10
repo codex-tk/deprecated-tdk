@@ -30,9 +30,6 @@
     <ClInclude Include="error\platform_error.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="error\tdk_error_category.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="tdk.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -121,6 +118,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="util\rc_ptr.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="error\tdk_error_category.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

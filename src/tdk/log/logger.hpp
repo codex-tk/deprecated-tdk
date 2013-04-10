@@ -8,17 +8,17 @@
 #include <crtdefs.h>
 #include <vector>
 
-#define LOG_D( logger_instance , msg , ... ) do { logger_instance.write( tdk::log::LEVEL::LOG_DEBUG ,  __FILE__ , __LINE__ , __FUNCTION__ , msg , __VA_ARGS__ ); } while(0)
-#define LOG_I( logger_instance , msg , ... ) do { logger_instance.write( tdk::log::LEVEL::LOG_INFO  ,  __FILE__ , __LINE__ , __FUNCTION__ , msg , __VA_ARGS__ ); } while(0)
-#define LOG_W( logger_instance , msg , ... ) do { logger_instance.write( tdk::log::LEVEL::LOG_WARN  ,  __FILE__ , __LINE__ , __FUNCTION__ , msg , __VA_ARGS__ ); } while(0)
-#define LOG_E( logger_instance , msg , ... ) do { logger_instance.write( tdk::log::LEVEL::LOG_ERROR ,  __FILE__ , __LINE__ , __FUNCTION__ , msg , __VA_ARGS__ ); } while(0)
-#define LOG_F( logger_instance , msg , ... ) do { logger_instance.write( tdk::log::LEVEL::LOG_FATAL ,  __FILE__ , __LINE__ , __FUNCTION__ , msg , __VA_ARGS__ ); } while(0)
+#define LOG_D( logger_instance , msg , ... ) do { logger_instance.write( tdk::log::level::log_debug ,  __FILE__ , __LINE__ , __FUNCTION__ , msg , __VA_ARGS__ ); } while(0)
+#define LOG_I( logger_instance , msg , ... ) do { logger_instance.write( tdk::log::level::log_info  ,  __FILE__ , __LINE__ , __FUNCTION__ , msg , __VA_ARGS__ ); } while(0)
+#define LOG_W( logger_instance , msg , ... ) do { logger_instance.write( tdk::log::level::log_warn  ,  __FILE__ , __LINE__ , __FUNCTION__ , msg , __VA_ARGS__ ); } while(0)
+#define LOG_E( logger_instance , msg , ... ) do { logger_instance.write( tdk::log::level::log_error ,  __FILE__ , __LINE__ , __FUNCTION__ , msg , __VA_ARGS__ ); } while(0)
+#define LOG_F( logger_instance , msg , ... ) do { logger_instance.write( tdk::log::level::log_fatal ,  __FILE__ , __LINE__ , __FUNCTION__ , msg , __VA_ARGS__ ); } while(0)
 
-#define LOG_DUMP_D( logger_instance , buffer , sz , msg , ... ) do { logger_instance.write( tdk::log::LEVEL::LOG_DEBUG ,  __FILE__ , __LINE__ , __FUNCTION__ , buffer , sz , msg , __VA_ARGS__ ); } while(0)
-#define LOG_DUMP_I( logger_instance , buffer , sz , msg , ... ) do { logger_instance.write( tdk::log::LEVEL::LOG_INFO  ,  __FILE__ , __LINE__ , __FUNCTION__ , buffer , sz , msg , __VA_ARGS__ ); } while(0)
-#define LOG_DUMP_W( logger_instance , buffer , sz , msg , ... ) do { logger_instance.write( tdk::log::LEVEL::LOG_WARN  ,  __FILE__ , __LINE__ , __FUNCTION__ , buffer , sz , msg , __VA_ARGS__ ); } while(0)
-#define LOG_DUMP_E( logger_instance , buffer , sz , msg , ... ) do { logger_instance.write( tdk::log::LEVEL::LOG_ERROR ,  __FILE__ , __LINE__ , __FUNCTION__ , buffer , sz , msg , __VA_ARGS__ ); } while(0)
-#define LOG_DUMP_F( logger_instance , buffer , sz , msg , ... ) do { logger_instance.write( tdk::log::LEVEL::LOG_FATAL ,  __FILE__ , __LINE__ , __FUNCTION__ , buffer , sz , msg , __VA_ARGS__ ); } while(0)
+#define LOG_DUMP_D( logger_instance , buffer , sz , msg , ... ) do { logger_instance.write( tdk::log::level::log_debug ,  __FILE__ , __LINE__ , __FUNCTION__ , buffer , sz , msg , __VA_ARGS__ ); } while(0)
+#define LOG_DUMP_I( logger_instance , buffer , sz , msg , ... ) do { logger_instance.write( tdk::log::level::log_info  ,  __FILE__ , __LINE__ , __FUNCTION__ , buffer , sz , msg , __VA_ARGS__ ); } while(0)
+#define LOG_DUMP_W( logger_instance , buffer , sz , msg , ... ) do { logger_instance.write( tdk::log::level::log_warn  ,  __FILE__ , __LINE__ , __FUNCTION__ , buffer , sz , msg , __VA_ARGS__ ); } while(0)
+#define LOG_DUMP_E( logger_instance , buffer , sz , msg , ... ) do { logger_instance.write( tdk::log::level::log_error ,  __FILE__ , __LINE__ , __FUNCTION__ , buffer , sz , msg , __VA_ARGS__ ); } while(0)
+#define LOG_DUMP_F( logger_instance , buffer , sz , msg , ... ) do { logger_instance.write( tdk::log::level::log_fatal ,  __FILE__ , __LINE__ , __FUNCTION__ , buffer , sz , msg , __VA_ARGS__ ); } while(0)
 
 namespace tdk{
 namespace log{
@@ -33,7 +33,7 @@ public:
 	~logger( void );
 
 	void write( 
-		tdk::log::LEVEL level
+		tdk::log::level level
 		, const char* file 
 		, const int line 
 		, const char* function 
@@ -41,14 +41,14 @@ public:
 		, ... );
 
 	void write( 
-		tdk::log::LEVEL level
+		tdk::log::level level
 		, const char* file 
 		, const int line 
 		, const char* function 
 		, const wchar_t* msg
 		, ... );
 
-	void level( tdk::log::LEVEL l );
+	void level( tdk::log::level l );
 
 	void add_writer( writer_ptr& writer );
 private:

@@ -1,16 +1,28 @@
 #include "stdafx.h"
+
 #include <tdk/error/last_error.hpp>
+#include <tdk/error/tdk_error_category.hpp>
 #include <tdk/threading/thread_data.hpp>
+
 #include <thread>
 
 namespace tdk {
 
 void set_last_error( const tdk::error_code& ec ) {
-	threading::data::get_thread_data()->error = ec;
+	threading::data* td = threading::data::get_thread_data();
+	if ( td ) {
+		td->error = ec;
+	}
 }
 
 const tdk::error_code& get_last_error( void ) {
-	return threading::data::get_thread_data()->error;
+	threading::data* td = threading::data::get_thread_data();
+	if ( td ) {
+		return td->error;
+	}
+	static tdk::error_code tls_not_initialized 
+		= tdk_error( (int)tdk::errc::tdk_tls_not_initialized ); 
+	return tls_not_initialized;
 }
 
 }

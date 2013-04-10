@@ -39,14 +39,14 @@ public:
     time_span  operator- ( const date_time& rhs ) const;
 
 public:	
-    enum class WEEKDAY {
-		SUNDAY	    = 0, 
-		MONDAY	    = 1, 
-		TUESDAY		= 2, 
-		WEDNESDAY	= 3, 
-		THURSDAY	= 4, 
-		FRIDAY		= 5, 
-		SATURDAY	= 6,
+    enum class day_of_the_week {
+		sunday	    = 0, 
+		monday	    = 1, 
+		tuesday		= 2, 
+		wednesday	= 3, 
+		thursday	= 4, 
+		friday		= 5, 
+		saturday	= 6,
     };	
 	int32_t year( void ) const;
 	int32_t month( void ) const;
@@ -54,7 +54,7 @@ public:
 	int32_t hour( void ) const; 
 	int32_t minute( void ) const;
 	int32_t second( void ) const;
-	WEEKDAY weekday( void ) const;	
+	day_of_the_week wday( void ) const;	
 public: 
 	static date_time utc();
 	static date_time local();

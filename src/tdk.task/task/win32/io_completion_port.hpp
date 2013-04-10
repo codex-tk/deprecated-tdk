@@ -9,12 +9,16 @@ namespace task {
 class io_engine;
 class io_completion_port {
 public:
-
+	typedef void (*complete_callback)( const tdk::error_code& code 
+		, int io_byte 
+		, void* key
+		, OVERLAPPED* ov
+		, void* ctx );
 public:
-	io_completion_port ( io_engine& engine );
+	io_completion_port ( void );
 	~io_completion_port ( void );
 
-	bool open( void );
+	bool open( complete_callback cb , void* ctx , int concurrent_thread = 0 );
 	void close( void );
 
 	bool bind( SOCKET fd , void* object );
@@ -27,7 +31,8 @@ public:
 
 	int wait( const tdk::time_span& t );
 private:
-	io_engine& _engine;
+	complete_callback _callback;
+	void* _ctx;
 	HANDLE _handle;
 };
 

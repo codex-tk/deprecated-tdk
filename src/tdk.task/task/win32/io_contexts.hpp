@@ -1,34 +1,49 @@
 #ifndef __tdk_task_results_h__
 #define __tdk_task_results_h__
 
+#include <tdk/network/socket.hpp>
+#include <tdk/error/error_code.hpp>
+#include <tdk.task/network/tcp/acceptor.hpp>
+#include <tdk.task/network/tcp/channel.hpp>
+
 namespace tdk{
 namespace task {
 
-enum class IO_EVENT {
-	ACCEPT 
-	, CONNECT
-	, RECV
-	, SEND
+enum class io_event {
+	accept 
+	, connect
+	, recv
+	, send
 };
 
-struct IO_CONTEXT : OVERLAPPED {
-	IO_EVENT event;
+struct io_context : OVERLAPPED {
+	io_event event;
+
+	void reset( void );
+	tdk::error_code error( void );
+	void error( const tdk::error_code& code );
 };
 
-struct ACCEPT_IO_CONTEXT : public IO_CONTEXT {
-	ACCEPT_IO_CONTEXT( void );
+struct accept_io_context : public io_context {
+	accept_io_context( void );
+
+	tdk::network::tcp::acceptor* acceptor;
+	tdk::network::socket fd;
+	sockaddr_storage address[2];
 };
 
-struct CONNECT_IO_CONTEXT : public IO_CONTEXT {
-	CONNECT_IO_CONTEXT( void );
+struct connect_io_context : public io_context {
+	connect_io_context( void );
 };
 
-struct RECV_IO_CONTEXT : public IO_CONTEXT {
-	RECV_IO_CONTEXT( void );
+struct recv_io_context : public io_context {
+	recv_io_context( void );
+	tdk::network::tcp::channel* channel;
+	tdk::buffer::memory_block recv_buffer;
 };
 
-struct SEND_IO_CONTEXT : public IO_CONTEXT {
-	SEND_IO_CONTEXT( void );
+struct send_io_context : public io_context {
+	send_io_context( void );
 };
 
 }}

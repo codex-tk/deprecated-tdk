@@ -123,9 +123,9 @@ int32_t date_time::minute( void )const{
 int32_t date_time::second( void )const{
 	return tick::to_tm( _time ).tm_sec;
 }
-
-date_time::WEEKDAY date_time::weekday( void ) const{
-	return static_cast< date_time::WEEKDAY >( tick::to_tm( _time ).tm_wday );
+ 
+date_time::day_of_the_week date_time::wday( void ) const{
+	return static_cast< date_time::day_of_the_week >( tick::to_tm( _time ).tm_wday );
 }
 
 }

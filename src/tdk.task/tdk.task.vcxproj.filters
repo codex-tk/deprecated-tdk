@@ -48,6 +48,9 @@
     <ClInclude Include="task\event_loop_object.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="task\callback_handler.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">

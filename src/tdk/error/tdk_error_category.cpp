@@ -20,7 +20,13 @@ const char* tdk_error_category::name() const {
 }
 
 std::string tdk_error_category::message(int ec) const  {
-	return std::string("");
+	switch ( ec ) {
+	case errc::tdk_success:
+		return "tdk_success";
+	case errc::tdk_tls_not_initialized:
+		return "tdk_tls_not_initialized";
+	}
+	return std::string("undefined");
 }
 
 }
