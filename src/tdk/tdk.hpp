@@ -126,11 +126,11 @@ template <> class compile_time_error< true >{};
 #ifndef COMPLETION_PORT_SEH
 #define COMPLETION_PORT_SEH
 #endif
-
+/*
 #ifndef COMPLETION_PORT_USE_GQCS_EX
 #define COMPLETION_PORT_USE_GQCS_EX
 #endif
-
+*/
 #ifndef OPERATION_SEH
 #define OPERATION_SEH
 #endif

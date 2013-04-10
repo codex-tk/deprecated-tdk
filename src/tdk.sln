@@ -8,7 +8,14 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "test.tdk", "test.tdk\test.t
 		{E0493485-14CA-4053-B197-0E05E1B7A17A} = {E0493485-14CA-4053-B197-0E05E1B7A17A}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "tdk.executor", "tdk.executor\tdk.executor.vcxproj", "{5CE33EF2-F327-4E13-AD29-80BBF6A4FB77}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tdk", "tdk", "{AF45FA5A-2D5D-4A28-8915-FCC80CA7719D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{B2817DC1-3338-49C2-BADF-3F1EDD2B17CD}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "tdk.task", "tdk.task\tdk.task.vcxproj", "{0585FB47-80C2-4309-8DA0-532697DD34D6}"
+	ProjectSection(ProjectDependencies) = postProject
+		{E0493485-14CA-4053-B197-0E05E1B7A17A} = {E0493485-14CA-4053-B197-0E05E1B7A17A}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -24,12 +31,17 @@ Global
 		{47027A66-6BDB-486A-BA94-D90DA0AD5636}.Debug|Win32.Build.0 = Debug|Win32
 		{47027A66-6BDB-486A-BA94-D90DA0AD5636}.Release|Win32.ActiveCfg = Release|Win32
 		{47027A66-6BDB-486A-BA94-D90DA0AD5636}.Release|Win32.Build.0 = Release|Win32
-		{5CE33EF2-F327-4E13-AD29-80BBF6A4FB77}.Debug|Win32.ActiveCfg = Debug|Win32
-		{5CE33EF2-F327-4E13-AD29-80BBF6A4FB77}.Debug|Win32.Build.0 = Debug|Win32
-		{5CE33EF2-F327-4E13-AD29-80BBF6A4FB77}.Release|Win32.ActiveCfg = Release|Win32
-		{5CE33EF2-F327-4E13-AD29-80BBF6A4FB77}.Release|Win32.Build.0 = Release|Win32
+		{0585FB47-80C2-4309-8DA0-532697DD34D6}.Debug|Win32.ActiveCfg = Debug|Win32
+		{0585FB47-80C2-4309-8DA0-532697DD34D6}.Debug|Win32.Build.0 = Debug|Win32
+		{0585FB47-80C2-4309-8DA0-532697DD34D6}.Release|Win32.ActiveCfg = Release|Win32
+		{0585FB47-80C2-4309-8DA0-532697DD34D6}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{E0493485-14CA-4053-B197-0E05E1B7A17A} = {AF45FA5A-2D5D-4A28-8915-FCC80CA7719D}
+		{0585FB47-80C2-4309-8DA0-532697DD34D6} = {AF45FA5A-2D5D-4A28-8915-FCC80CA7719D}
+		{47027A66-6BDB-486A-BA94-D90DA0AD5636} = {B2817DC1-3338-49C2-BADF-3F1EDD2B17CD}
 	EndGlobalSection
 EndGlobal

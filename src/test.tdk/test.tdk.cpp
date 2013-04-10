@@ -9,9 +9,7 @@
 #include <tdk/log/writer/console_writer.hpp>
 #include <tdk/network/address.hpp>
 
-#pragma comment( lib , "tdk.lib")
-#pragma comment( lib , "ws2_32")
-#pragma comment( lib , "mswsock")
+
 
 #if defined ( _DEBUG )
 	#pragma comment( lib , "gtest_x86_debug_mtd")
@@ -19,13 +17,16 @@
 	#pragma comment( lib , "gtest_x86_release_mt")
 #endif
 
+#pragma comment( lib , "tdk")
+#pragma comment( lib , "tdk.task")
+#pragma comment( lib , "ws2_32")
+#pragma comment( lib , "mswsock")
+
 #include <iostream>
 #include <string>
 #include <atomic>
 
 #include <gtest/gtest.h>
-
-
 
 int _tmain(int argc, _TCHAR* argv[])
 {

@@ -3,6 +3,7 @@
 
 //#include <system_error>
 #include <tdk/error/error_code.hpp>
+#include <tdk/error/platform_error.hpp>
 
 namespace tdk {
 
