@@ -69,10 +69,10 @@
     <ClInclude Include="task\operation\timer_operation.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="network\tcp\service\session.hpp">
+    <ClInclude Include="network\tcp\service\service.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="network\tcp\service\service.hpp">
+    <ClInclude Include="network\tcp\service\stream.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -126,6 +126,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="network\tcp\service\service.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="network\tcp\service\stream.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

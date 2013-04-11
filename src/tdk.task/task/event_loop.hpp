@@ -23,6 +23,9 @@ public:
 	void run( void );
 	bool run_once( const tdk::time_span& wait = tdk::time_span::infinite());
 
+	void post( tdk::task::operation* op);
+
+	static event_loop* current( void );
 public:
 	void increment_ref( void );
 	void decrement_ref( void );
@@ -32,6 +35,28 @@ private:
 	io_engine _engine;
 	tdk::task::scheduler _scheduler;
 	tdk::threading::atomic<int> _ref;
+
+public:
+	template < typename T_handler >
+	void post( const T_handler& handler ) {
+		class operation_impl : public tdk::task::operation {
+		public:
+			operation_impl( const T_handler& h ) 
+				: _handler( h ) {
+			}
+			virtual ~operation_impl( void ) {
+			}
+
+			virtual void operator()( void ) {
+				_handler();
+				delete this;
+			}
+		private:
+			T_handler _handler;
+		};
+		tdk::task::operation* op = new operation_impl( handler );
+		post( op );
+	}
 };
 
 }}

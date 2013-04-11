@@ -1,8 +1,14 @@
 #include "stdafx.h"
 #include <tdk.task/task/event_loop.hpp>
+#include <tdk/threading/thread_local.hpp>
 
 namespace tdk {
 namespace task {
+namespace detail {
+
+tdk::threading::thread_local< event_loop* > loop;
+
+}
 
 event_loop::event_loop()
 	: _engine( *this )
@@ -27,17 +33,21 @@ io_engine& event_loop::engine( void ){
 }
 
 void event_loop::run( void ) {
+	detail::loop.set( this );
 	while ( _ref.compare_and_swap( 1 , 1 ) != 0 ) {
 		_engine.run( _scheduler.next_schedule() );
 		_scheduler.drain();
 	}
+	detail::loop.set( nullptr );
 }
 
 bool event_loop::run_once( const tdk::time_span& wait ) {
+	detail::loop.set( this );
 	if ( _ref.compare_and_swap( 1 , 1 ) == 0 )
 		return false;
 	_engine.run( _scheduler.next_schedule() );
 	_scheduler.drain();
+	detail::loop.set( nullptr );
 	return true;
 }
 
@@ -50,12 +60,21 @@ event_loop& event_loop::default_loop( void ) {
 	return loop;
 }
 
+void event_loop::post( tdk::task::operation* op) {
+	increment_ref();
+	_engine.post( op );
+}
+
 void event_loop::increment_ref( void ) {
 	_ref.increment();
 }
 
 void event_loop::decrement_ref( void ) {
 	_ref.decrement();
+}
+
+event_loop* event_loop::current( void ) {
+	return detail::loop.get();
 }
 
 

@@ -52,7 +52,7 @@ void io_engine::add_accept_io( tdk::network::tcp::accept_operation* op)
 	op->reset();	
 	if ( !op->socket().open_tcp( op->acceptor()->address().family() )) {
 		op->error( platform_error() );
-		_post( op );
+		post( op );
 		return;
 	}
 	DWORD dwBytes = 0;
@@ -68,7 +68,7 @@ void io_engine::add_accept_io( tdk::network::tcp::accept_operation* op)
 		tdk::error_code ec = tdk::platform_error();
 		if ( ec.value() != WSA_IO_PENDING ){
 			op->error( ec );
-			_post( op );
+			post( op );
 		}
     }
 }
@@ -91,7 +91,7 @@ void io_engine::add_recv_io( tdk::network::tcp::recv_operation* op ) {
 		tdk::error_code ec = tdk::platform_error();
 		if ( ec.value() != WSA_IO_PENDING ){
 			op->error( ec );
-			_post( op );
+			post( op );
 		}
 	}
 }
@@ -115,7 +115,7 @@ void io_engine::add_send_io( tdk::network::tcp::send_operation* op ) {
 	}
 	if ( i <= 0 ) {
 		op->error( platform_error( ERROR_INVALID_PARAMETER ));
-		_post( op );
+		post( op );
 		return;
 	} 
 	DWORD flag	= 0;
@@ -130,7 +130,7 @@ void io_engine::add_send_io( tdk::network::tcp::send_operation* op ) {
 		tdk::error_code ec = tdk::platform_error();
 		if ( ec.value() != WSA_IO_PENDING ){
 			op->error( ec );
-			_post( op );
+			post( op );
 		}
 	}
 }
@@ -141,14 +141,14 @@ void io_engine::add_connect_io( tdk::network::tcp::connect_operation* op ) {
 	if ( !fd.open_tcp( op->address().family())) {
 		fd.close();
 		op->error( platform_error());
-		_post( op );
+		post( op );
 		return;
 	}
 
 	if ( !op->channel()->open( fd ) ) {
 		fd.close();
 		op->error( platform_error());
-		_post( op );
+		post( op );
 		return;
 	}
 
@@ -156,7 +156,7 @@ void io_engine::add_connect_io( tdk::network::tcp::connect_operation* op ) {
 	if ( !op->channel()->socket().bind( bind_addr ) ) {
 		fd.close();
 		op->error( platform_error());
-		_post( op );
+		post( op );
 		return;
 	}
 
@@ -177,14 +177,14 @@ void io_engine::add_connect_io( tdk::network::tcp::connect_operation* op ) {
 	{
 		fd.close();
 		op->error( platform_error());
-		_post( op );
+		post( op );
 		return;
 	}
         
 	if ( fp_connect_ex == nullptr ) {
 		fd.close();
 		op->error( platform_error());
-		_post( op );
+		post( op );
 		return;
 	}
 	op->reset();
@@ -201,7 +201,7 @@ void io_engine::add_connect_io( tdk::network::tcp::connect_operation* op ) {
 		if ( ec.value() != WSA_IO_PENDING ){
 			fd.close();
 			op->error( platform_error());
-			_post( op );
+			post( op );
 			return;
 		}
 	}
@@ -209,8 +209,8 @@ void io_engine::add_connect_io( tdk::network::tcp::connect_operation* op ) {
 }
 
 
-void io_engine::_post( operation* ctx ) {
-	if ( !_port.post( 0 , nullptr , ctx )) {
+void io_engine::post( operation* ctx ) {
+	if ( !_port.post( detail::posted_operation , nullptr , ctx )) {
 		tdk::threading::scoped_lock<> gaurd( _post_fail_lock );
 		_op_queue.add_tail( ctx );
 		_post_failed.exchange(1);

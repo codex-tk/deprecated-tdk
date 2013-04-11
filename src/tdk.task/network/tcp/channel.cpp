@@ -19,7 +19,13 @@ bool channel::open( tdk::network::socket& fd ) {
 }
 
 void channel::close( void ) {
-	_fd.close();
+	if ( loop().current() == &loop() ) {
+		_fd.close();
+	} else {
+		loop().post( [this]() {
+			close();
+		});
+	}
 }
 
 void channel::recv( recv_operation* op  ) {
@@ -33,5 +39,6 @@ void channel::send( send_operation* op ) {
 tdk::network::socket& channel::socket( void ) {
 	return _fd;
 }
+
 
 }}}

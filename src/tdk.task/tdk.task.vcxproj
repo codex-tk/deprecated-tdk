@@ -86,7 +86,7 @@
     <ClInclude Include="network\tcp\operation\recv_operation.hpp" />
     <ClInclude Include="network\tcp\operation\send_operation.hpp" />
     <ClInclude Include="network\tcp\service\service.hpp" />
-    <ClInclude Include="network\tcp\service\session.hpp" />
+    <ClInclude Include="network\tcp\service\stream.hpp" />
     <ClInclude Include="task\event_loop.hpp" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
@@ -107,6 +107,7 @@
     <ClCompile Include="network\tcp\operation\recv_operation.cpp" />
     <ClCompile Include="network\tcp\operation\send_operation.cpp" />
     <ClCompile Include="network\tcp\service\service.cpp" />
+    <ClCompile Include="network\tcp\service\stream.cpp" />
     <ClCompile Include="task\event_loop.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

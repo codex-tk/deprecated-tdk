@@ -8,19 +8,19 @@ namespace tdk {
 namespace network {
 namespace tcp{
 
-class session;
+class stream;
 
 class service_handler {
 public:
 	service_handler( void ){}
 	virtual ~service_handler ( void ){}
 
-	virtual void on_accpet( session* s ) = 0;
-	virtual void on_connect_success( session* s , const tdk::network::address& addr ) = 0;
+	virtual void on_accpet( stream* s ) = 0;
+	virtual void on_connect_success( stream* s , const tdk::network::address& addr ) = 0;
 	virtual void on_connect_fail( const tdk::network::address& addr )= 0;
-	virtual void on_recv( session* s ) = 0;
-	virtual void on_sendable( session* s ) = 0;
-	virtual void on_close( session* s )=0;
+	virtual void on_recv( stream* s ) = 0;
+	virtual void on_sendable( stream* s ) = 0;
+	virtual void on_close( stream* s )=0;
 };
 
 class service : public tdk::task::event_loop_object{

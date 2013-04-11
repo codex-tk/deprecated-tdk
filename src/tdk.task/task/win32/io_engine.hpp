@@ -42,8 +42,7 @@ public:
 
 	bool run( const tdk::time_span& wait );
 
-private:
-	void _post( operation* op );
+	void post( operation* op );
 
 private:
 	event_loop& _loop;
