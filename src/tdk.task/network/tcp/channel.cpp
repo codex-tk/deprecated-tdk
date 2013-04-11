@@ -22,8 +22,12 @@ void channel::close( void ) {
 	_fd.close();
 }
 
-void channel::recv( tdk::buffer::memory_block& mb ) {
-	loop().engine().add_recv_io( *this , mb );
+void channel::recv( recv_operation* op  ) {
+	loop().engine().add_recv_io( op );
+}
+
+void channel::send( send_operation* op ) {
+	loop().engine().add_send_io( op );
 }
 
 tdk::network::socket& channel::socket( void ) {

@@ -4,21 +4,12 @@
 #include <tdk.task/task/win32/io_engine.hpp>
 #include <tdk.task/network/tcp/acceptor.hpp>
 #include <tdk.task/network/tcp/channel.hpp>
+#include <tdk.task/task/scheduler.hpp>
 
 namespace tdk {
 namespace task {
 
 class event_loop{
-public:
-	typedef void (__stdcall* on_accept)( const tdk::error_code& code
-		, tdk::network::tcp::acceptor& acceptor
-		, tdk::network::socket fd 
-		, void* ctx );
-
-	typedef void (__stdcall* on_recv)( const tdk::error_code& code
-		, tdk::network::tcp::channel& channel
-		, tdk::buffer::memory_block& mb
-		, void* ctx );
 public:
 	event_loop( void );
 	~event_loop( void );
@@ -27,34 +18,20 @@ public:
 	void close( void );
 	
 	io_engine& engine( void );
-
-	void set_on_accept( on_accept cb , void* ctx );
-	void set_on_recv( on_recv cb , void* ctx );
+	tdk::task::scheduler& scheduler( void );
 
 	void run( void );
 	bool run_once( const tdk::time_span& wait = tdk::time_span::infinite());
+
 public:
-	void on_connect_complete( void );
-	void on_send_complete( void );
+	void increment_ref( void );
+	void decrement_ref( void );
 
-	void on_accept_complete( const tdk::error_code& code
-		, tdk::network::tcp::acceptor& acceptor
-		, tdk::network::socket fd );
-
-	void on_connect_complete( const tdk::error_code& code
-		, tdk::network::tcp::channel& channel );
-
-	void on_recv_complete( const tdk::error_code& code
-		, tdk::network::tcp::channel& channel
-		, tdk::buffer::memory_block& mb );
-
-	void on_send_complete( const tdk::error_code& code
-		, tdk::network::tcp::channel& channel
-		, int io_byte  );
+	static event_loop& default_loop( void );
 private:
 	io_engine _engine;
-	std::pair< on_accept , void* > _on_accept;
-	std::pair< on_recv , void* > _on_recv;
+	tdk::task::scheduler _scheduler;
+	tdk::threading::atomic<int> _ref;
 };
 
 }}

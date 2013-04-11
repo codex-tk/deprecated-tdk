@@ -80,19 +80,33 @@
   <ItemGroup>
     <ClInclude Include="network\tcp\acceptor.hpp" />
     <ClInclude Include="network\tcp\channel.hpp" />
-    <ClInclude Include="task\callback_handler.hpp" />
+    <ClInclude Include="network\tcp\connector.hpp" />
+    <ClInclude Include="network\tcp\operation\accept_operation.hpp" />
+    <ClInclude Include="network\tcp\operation\connect_operation.hpp" />
+    <ClInclude Include="network\tcp\operation\recv_operation.hpp" />
+    <ClInclude Include="network\tcp\operation\send_operation.hpp" />
+    <ClInclude Include="network\tcp\service\service.hpp" />
+    <ClInclude Include="network\tcp\service\session.hpp" />
     <ClInclude Include="task\event_loop.hpp" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="task\event_loop_object.hpp" />
     <ClInclude Include="task\operation.hpp" />
+    <ClInclude Include="task\operation\timer_operation.hpp" />
+    <ClInclude Include="task\scheduler.hpp" />
+    <ClInclude Include="task\timer.hpp" />
     <ClInclude Include="task\win32\io_engine.hpp" />
     <ClInclude Include="task\win32\io_completion_port.hpp" />
-    <ClInclude Include="task\win32\io_contexts.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="network\tcp\acceptor.cpp" />
     <ClCompile Include="network\tcp\channel.cpp" />
+    <ClCompile Include="network\tcp\connector.cpp" />
+    <ClCompile Include="network\tcp\operation\accept_operation.cpp" />
+    <ClCompile Include="network\tcp\operation\connect_operation.cpp" />
+    <ClCompile Include="network\tcp\operation\recv_operation.cpp" />
+    <ClCompile Include="network\tcp\operation\send_operation.cpp" />
+    <ClCompile Include="network\tcp\service\service.cpp" />
     <ClCompile Include="task\event_loop.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -100,9 +114,11 @@
     </ClCompile>
     <ClCompile Include="task\event_loop_object.cpp" />
     <ClCompile Include="task\operation.cpp" />
+    <ClCompile Include="task\operation\timer_operation.cpp" />
+    <ClCompile Include="task\scheduler.cpp" />
+    <ClCompile Include="task\timer.cpp" />
     <ClCompile Include="task\win32\io_completion_port.cpp" />
     <ClCompile Include="task\win32\io_engine.cpp" />
-    <ClCompile Include="task\win32\io_contexts.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -35,5 +35,11 @@
     <ClCompile Include="test.eventloop.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="test.timer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="test.tcp.service.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

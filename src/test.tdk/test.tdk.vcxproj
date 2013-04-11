@@ -96,7 +96,9 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="test.eventloop.cpp" />
+    <ClCompile Include="test.tcp.service.cpp" />
     <ClCompile Include="test.tdk.cpp" />
+    <ClCompile Include="test.timer.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -36,9 +36,6 @@
     <ClInclude Include="task\win32\io_engine.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="task\win32\io_contexts.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="network\tcp\channel.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -48,7 +45,34 @@
     <ClInclude Include="task\event_loop_object.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="task\callback_handler.hpp">
+    <ClInclude Include="network\tcp\operation\accept_operation.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="network\tcp\operation\recv_operation.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="network\tcp\operation\send_operation.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="network\tcp\connector.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="network\tcp\operation\connect_operation.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="task\scheduler.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="task\timer.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="task\operation\timer_operation.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="network\tcp\service\session.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="network\tcp\service\service.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -68,9 +92,6 @@
     <ClCompile Include="task\win32\io_engine.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="task\win32\io_contexts.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="network\tcp\channel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -78,6 +99,33 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="network\tcp\acceptor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="network\tcp\operation\accept_operation.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="network\tcp\operation\recv_operation.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="network\tcp\operation\send_operation.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="network\tcp\operation\connect_operation.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="network\tcp\connector.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="task\scheduler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="task\timer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="task\operation\timer_operation.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="network\tcp\service\service.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

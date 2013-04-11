@@ -4,9 +4,10 @@
 #include <tdk/error/error_code.hpp>
 
 #include <tdk.task/task/win32/io_completion_port.hpp>
-#include <tdk.task/task/win32/io_contexts.hpp>
+#include <tdk.task/task/operation.hpp>
 
 #include <tdk.task/network/tcp/acceptor.hpp>
+#include <tdk.task/network/tcp/connector.hpp>
 #include <tdk.task/network/tcp/channel.hpp>
 
 #include <tdk/threading/spin_lock.hpp>
@@ -29,13 +30,10 @@ public:
 
 	bool bind( SOCKET fd , void* obj );
 
-	void add_accept_io( 
-		tdk::network::tcp::acceptor& acceptor );
-
-	void add_recv_io( 
-		tdk::network::tcp::channel& chan 
-		, tdk::buffer::memory_block& mb );
-
+	void add_accept_io( tdk::network::tcp::accept_operation* op );
+	void add_recv_io( tdk::network::tcp::recv_operation* op );
+	void add_send_io( tdk::network::tcp::send_operation* op );
+	void add_connect_io( tdk::network::tcp::connect_operation* op );
 	void on_complete( 
 		const tdk::error_code& code 
 		, int io_byte 
@@ -45,14 +43,14 @@ public:
 	bool run( const tdk::time_span& wait );
 
 private:
-	void _post( io_context* ctx );
+	void _post( operation* op );
 
 private:
 	event_loop& _loop;
 	io_completion_port _port;
 	tdk::threading::atomic<int> _post_failed;
 	tdk::threading::spin_lock _post_fail_lock;
-	std::vector< io_context * > _post_fails;
+	tdk::slist_queue< operation > _op_queue;
 };
 
 }}

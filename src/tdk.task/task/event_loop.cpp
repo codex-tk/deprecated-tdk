@@ -6,8 +6,8 @@ namespace task {
 
 event_loop::event_loop()
 	: _engine( *this )
+	, _scheduler(*this)
 {
-
 }
 
 event_loop::~event_loop(){
@@ -27,47 +27,36 @@ io_engine& event_loop::engine( void ){
 }
 
 void event_loop::run( void ) {
-	return ;
+	while ( _ref.compare_and_swap( 1 , 1 ) != 0 ) {
+		_engine.run( _scheduler.next_schedule() );
+		_scheduler.drain();
+	}
 }
 
 bool event_loop::run_once( const tdk::time_span& wait ) {
-	return _engine.run( wait );
+	if ( _ref.compare_and_swap( 1 , 1 ) == 0 )
+		return false;
+	_engine.run( _scheduler.next_schedule() );
+	_scheduler.drain();
+	return true;
 }
 
-void event_loop::set_on_accept( on_accept cb , void* ctx ) {
-	_on_accept.first = cb;
-	_on_accept.second = ctx;
+tdk::task::scheduler& event_loop::scheduler( void ) {
+	return _scheduler;
 }
 
-void event_loop::set_on_recv( on_recv cb , void* ctx ) {
-	_on_recv.first = cb;
-	_on_recv.second = ctx;
+event_loop& event_loop::default_loop( void ) {
+	static event_loop loop;
+	return loop;
 }
 
-
-void event_loop::on_connect_complete( void ){}
-void event_loop::on_send_complete( void ){}
-
-void event_loop::on_recv_complete( const tdk::error_code& code
-		, tdk::network::tcp::channel& channel
-		, tdk::buffer::memory_block& mb )
-{
-	if ( _on_recv.first ) {
-		_on_recv.first( code , channel , mb , _on_recv.second );
-	} else {
-		channel.close();
-	}
+void event_loop::increment_ref( void ) {
+	_ref.increment();
 }
 
-void event_loop::on_accept_complete( const tdk::error_code& code
-		, tdk::network::tcp::acceptor& acceptor
-		, tdk::network::socket fd )
-{
-	if ( _on_accept.first ) {
-		_on_accept.first( code , acceptor , fd , _on_accept.second );
-	} else {
-		fd.close();
-	}
+void event_loop::decrement_ref( void ) {
+	_ref.decrement();
 }
+
 
 }}

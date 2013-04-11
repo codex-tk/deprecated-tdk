@@ -51,10 +51,14 @@ void acceptor::close( void ) {
 	_fd.close();
 }
 
+void acceptor::accept( tdk::network::tcp::accept_operation* op ) {
+	return loop().engine().add_accept_io( op );
+}
+/*
 void acceptor::accept( void ) {
 	return loop().engine().add_accept_io( *this );
 }
-
+*/
 tdk::network::socket& acceptor::socket( void ) {
 	return _fd;
 }

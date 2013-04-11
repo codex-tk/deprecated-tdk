@@ -141,7 +141,7 @@ int io_completion_port::wait( const tdk::time_span& t ){
 		code = tdk::platform_error();
 		switch ( code.value() ) {
 		case WAIT_TIMEOUT:
-			break;
+			return 0;
 		case ERROR_ABANDONED_WAIT_0:
 			tdk::set_last_error( code );
 			return -1;

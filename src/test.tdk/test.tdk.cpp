@@ -8,6 +8,7 @@
 #include <tdk/log/logger.hpp>
 #include <tdk/log/writer/console_writer.hpp>
 #include <tdk/network/address.hpp>
+#include <tdk.task/task/event_loop.hpp>
 
 
 
@@ -42,6 +43,8 @@ int _tmain(int argc, _TCHAR* argv[])
 	tdk::network::address addr("google.co.kr" , 80 );
 	LOG_D( log , "%s"  , addr.ip_address().c_str());
 	
+	tdk::task::event_loop::default_loop().open();
+
 	return RUN_ALL_TESTS();
 	/*
 	// default C
