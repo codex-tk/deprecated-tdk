@@ -175,5 +175,9 @@ std::size_t memory_block::read( void* buf , std::size_t read_size ) {
 	return rd_ptr( read_size );
 }
 
+std::size_t memory_block::write( const char* msg ) {
+	return write( const_cast<char*>(msg) , strlen(msg));
+}
+
 }}
 

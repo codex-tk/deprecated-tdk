@@ -19,6 +19,7 @@ public:
 
 	tdk::network::tcp::channel* channel( void );
 	std::vector< tdk::buffer::memory_block >& buffers( void );
+	void buffer( const tdk::buffer::memory_block& mb );
 	void buffers( const std::vector< tdk::buffer::memory_block >& bufs );
 	int total_req_size( void );
 

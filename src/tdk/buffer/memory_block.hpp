@@ -70,6 +70,8 @@ public:
 	std::size_t peek( void* buf , std::size_t peek_size ) ;
 	//! 데이터를 읽어오는 함수
 	std::size_t read( void* buf , std::size_t read_size ) ;
+
+	std::size_t write( const char* msg );
 private:
 	tdk::buffer::buffer_base _base;
 	std::size_t _read_pos;

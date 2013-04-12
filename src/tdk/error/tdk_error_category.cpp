@@ -25,6 +25,10 @@ std::string tdk_error_category::message(int ec) const  {
 		return "tdk_success";
 	case errc::tdk_tls_not_initialized:
 		return "tdk_tls_not_initialized";
+	case errc::tdk_network_user_abort:
+		return "tdk_network_user_abort";
+	case errc::tdk_network_remote_closed:
+		return "tdk_network_remote_closed";
 	}
 	return std::string("undefined");
 }

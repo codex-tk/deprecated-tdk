@@ -20,8 +20,8 @@ const tdk::error_code& get_last_error( void ) {
 	if ( td ) {
 		return td->error;
 	}
-	static tdk::error_code tls_not_initialized 
-		= tdk_error( (int)tdk::errc::tdk_tls_not_initialized ); 
+	static tdk::error_code tls_not_initialized
+		= tdk_error( tdk::errc::tdk_tls_not_initialized ); 
 	return tls_not_initialized;
 }
 

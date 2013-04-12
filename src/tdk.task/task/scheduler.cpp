@@ -27,6 +27,9 @@ void scheduler::schedule( const timer_id& id ) {
 
 tdk::time_span scheduler::next_schedule(void) {
 	tdk::threading::scoped_lock<> guard( _lock );
+	if ( !_cancelled.empty() ) {
+		return tdk::time_span::from_seconds(0);
+	}
 	tdk::date_time local = tdk::date_time::local();
 	if ( _timers.empty() ||  
 		((*_timers.begin())->expired_at() <= local )) {

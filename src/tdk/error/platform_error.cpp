@@ -29,8 +29,8 @@ tdk::error_code platform_error( void ){
 }
 
 
-tdk::error_code tdk_error( int ec ){
-	return tdk::error_code( ec , tdk_category());
+tdk::error_code tdk_error( tdk::errc ec ){
+	return tdk::error_code( (int)ec , tdk_category());
 }
 
 }

@@ -2,7 +2,6 @@
 #define __tdk_network_tcp_stream_h__
 
 #include <tdk.task/network/tcp/channel.hpp>
-
 namespace tdk {
 namespace network {
 namespace tcp {
@@ -26,9 +25,24 @@ public:
 	// for connect
 	bool open( stream_handler* handler );
 
-	void close( void );
+	stream_handler* handler( void ){
+		return _handler;
+	}
+
+	void close();
+	void close( const tdk::error_code& err );
 	void recv( const tdk::buffer::memory_block& mb );
 	void send( const tdk::buffer::memory_block& mb );
+
+	void add_ref(void);
+	void dec_ref(void);
+
+	void reset( void );
+
+	tdk::network::tcp::channel& channel(void){
+		return _channel;
+	}
+
 private:
 	void _on_recv( tdk::network::tcp::recv_operation& r );
 	void _on_send( tdk::network::tcp::send_operation& r );
@@ -36,8 +50,10 @@ private:
 	tdk::network::tcp::channel _channel;
 	tdk::network::tcp::recv_operation* _recv_op;
 	tdk::network::tcp::send_operation* _send_op;
+	tdk::task::operation* _close_op;
 	stream_handler* _handler;
-	int _io_ref;
+	tdk::threading::atomic<int> _ref_count;
+	bool _sending;
 	bool _closed;
 	std::vector< tdk::buffer::memory_block > _send_buffer;
 };

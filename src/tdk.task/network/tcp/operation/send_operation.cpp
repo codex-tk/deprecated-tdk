@@ -37,6 +37,12 @@ std::vector< tdk::buffer::memory_block >& send_operation::buffers( void ) {
 	return _buffers;
 }
 
+void send_operation::buffer( const tdk::buffer::memory_block& mb ) {
+	_buffers.clear();
+	_buffers.push_back( mb );
+	_total_req_size = mb.length();
+}
+
 void send_operation::buffers( const std::vector< tdk::buffer::memory_block >& bufs ) {
 	_buffers = bufs;
 	_total_req_size = 0;
@@ -44,6 +50,8 @@ void send_operation::buffers( const std::vector< tdk::buffer::memory_block >& bu
 		_total_req_size += v.length();
 	}
 }
+
+
 
 int send_operation::total_req_size( void ) {
 	return _total_req_size;
