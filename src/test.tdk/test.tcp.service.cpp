@@ -3,7 +3,7 @@
 #include <tdk.task/network/tcp/acceptor.hpp>
 #include <tdk.task/network/tcp/connector.hpp>
 #include <tdk.task/network/tcp/channel.hpp>
-#include <tdk.task/network/tcp/service/stream.hpp>
+#include <tdk.task/network/tcp/stream.hpp>
 #include <tdk/log/logger.hpp>
 
 

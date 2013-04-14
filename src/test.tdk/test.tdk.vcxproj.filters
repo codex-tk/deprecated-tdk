@@ -41,5 +41,11 @@
     <ClCompile Include="test.tcp.service.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="test.buffer.captuer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="test.udp.channel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

@@ -208,16 +208,61 @@ void io_engine::add_connect_io( tdk::network::tcp::connect_operation* op ) {
 	return;
 }
 
+void io_engine::add_recvfrom_io( tdk::network::udp::recvfrom_operation* op ) {
+	_loop.increment_ref();
+	op->reset();
+	DWORD flag = 0;
+	WSABUF buffer;
+	buffer.buf = (CHAR*)op->buffer().wr_ptr();
+	buffer.len = op->buffer().space();
+	if ( WSARecvFrom(	op->channel()->socket().handle() 
+					, &buffer
+					, 1
+					, nullptr 
+					, &flag 
+					, op->address().sockaddr()
+					, op->address().sockaddr_length_ptr()
+					, op
+					, nullptr ) == SOCKET_ERROR )
+	{
+		tdk::error_code ec = tdk::platform_error();
+		if ( ec.value() != WSA_IO_PENDING ){
+			op->error( ec );
+			post( op );
+		}
+	}
+}
 
 void io_engine::post( operation* ctx ) {
+	// iocp post 는 내부적으로 실패할수 잇으며
+	// post 순서가 필요하므로 post 는 내부적인 queue 로 처리한다.
+	tdk::threading::scoped_lock<> gaurd( _op_queue_lock );
+	_op_queue.add_tail( ctx );
+	/*
 	if ( !_port.post( detail::posted_operation , nullptr , ctx )) {
 		tdk::threading::scoped_lock<> gaurd( _post_fail_lock );
 		_op_queue.add_tail( ctx );
 		_post_failed.exchange(1);
-	}
+	}*/
 }
 
 bool io_engine::run( const tdk::time_span& wait ) {
+	tdk::slist_queue< operation > drains;
+	do {
+		tdk::threading::scoped_lock< > guard( _op_queue_lock );
+		while ( !_op_queue.is_empty() ) {
+			drains.add_tail( _op_queue.front() );
+			_op_queue.pop_front();
+		}
+	}while(0);
+	while ( !drains.is_empty() ) {
+		on_complete( drains.front()->error() 
+			, detail::posted_operation
+			, drains.front()->object()
+			, drains.front() );
+		drains.pop_front();
+	}
+	/*
 	if( _post_failed.compare_and_swap( 0 , 1 ) == 1 ) {
 		tdk::slist_queue< operation > drains;
 		do {
@@ -234,7 +279,7 @@ bool io_engine::run( const tdk::time_span& wait ) {
 				, drains.front() );
 			drains.pop_front();
 		}
-	}
+	}*/
 	return _port.wait( wait ) >= 0;
 }
 

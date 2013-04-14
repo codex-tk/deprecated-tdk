@@ -9,7 +9,7 @@
 #include <tdk.task/network/tcp/acceptor.hpp>
 #include <tdk.task/network/tcp/connector.hpp>
 #include <tdk.task/network/tcp/channel.hpp>
-
+#include <tdk.task/network/udp/channel.hpp>
 #include <tdk/threading/spin_lock.hpp>
 #include <tdk/threading/atomic/atomic.hpp>
 #include <vector>
@@ -34,6 +34,8 @@ public:
 	void add_recv_io( tdk::network::tcp::recv_operation* op );
 	void add_send_io( tdk::network::tcp::send_operation* op );
 	void add_connect_io( tdk::network::tcp::connect_operation* op );
+	void add_recvfrom_io( tdk::network::udp::recvfrom_operation* op );
+
 	void on_complete( 
 		const tdk::error_code& code 
 		, int io_byte 
@@ -47,8 +49,8 @@ public:
 private:
 	event_loop& _loop;
 	io_completion_port _port;
-	tdk::threading::atomic<int> _post_failed;
-	tdk::threading::spin_lock _post_fail_lock;
+	//tdk::threading::atomic<int> _post_failed;
+	tdk::threading::spin_lock _op_queue_lock;
 	tdk::slist_queue< operation > _op_queue;
 };
 

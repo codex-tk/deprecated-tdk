@@ -14,7 +14,7 @@ channel::channel( tdk::task::event_loop& loop )
 bool channel::open( tdk::network::socket& fd ) {
 	_fd.close();
 	_fd.handle( fd.handle());
-
+	_fd.set_option( tdk::network::socket::option::non_blocking());
 	return loop().engine().bind( _fd.handle() , this );
 }
 

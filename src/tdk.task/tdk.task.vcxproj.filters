@@ -69,7 +69,13 @@
     <ClInclude Include="task\operation\timer_operation.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="network\tcp\service\stream.hpp">
+    <ClInclude Include="network\tcp\stream.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="network\udp\channel.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="network\udp\operation\recvfrom_operation.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -122,7 +128,13 @@
     <ClCompile Include="task\operation\timer_operation.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="network\tcp\service\stream.cpp">
+    <ClCompile Include="network\tcp\stream.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="network\udp\channel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="network\udp\operation\recvfrom_operation.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
