@@ -106,14 +106,6 @@ TEST( tcp_stream , connect ) {
 			request.write( "GET /index HTTP/1.1\r\n\r\n" );
 			s.send( request );
 		});
-
-	/*
-	acceptor.open( tdk::network::address::any( 8888 ));
-	acceptor.accept( [&s]( tdk::network::tcp::accept_operation& r ) {
-		s.open( r.socket() , new handler_impl );
-		s.recv( tdk::buffer::memory_block(4096));
-	});
-	*/
 	loop.run();
 
 	loop.close();

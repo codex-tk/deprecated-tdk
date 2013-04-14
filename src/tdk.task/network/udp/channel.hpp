@@ -21,6 +21,8 @@ public:
 	int sendto( const tdk::buffer::memory_block& mb 
 		, const tdk::network::address& addr );
 
+	int sendto( void* data , int sz , const tdk::network::address& addr );
+
 	void recvfrom( recvfrom_operation* op );
 
 	tdk::network::socket& socket( void );

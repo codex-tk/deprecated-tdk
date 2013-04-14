@@ -47,5 +47,8 @@
     <ClCompile Include="test.udp.channel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="test.accept.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

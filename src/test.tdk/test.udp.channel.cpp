@@ -55,9 +55,8 @@ TEST( udp_channel , init ){
 	tdk::network::address send_addr( "127.0.0.1" , 9999 );
 
 	int id = 0;
-	tdk::buffer::memory_block mb( &id , sizeof(int) , sizeof(int),nullptr);
-
-	client.sendto( mb , send_addr );
+	
+	client.sendto( &id ,sizeof(id) , send_addr );
 	client.recvfrom( tdk::buffer::memory_block(8) , &on_client_recv_from );
 	
 	loop.run();

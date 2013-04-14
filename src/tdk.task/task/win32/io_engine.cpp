@@ -235,7 +235,7 @@ void io_engine::add_recvfrom_io( tdk::network::udp::recvfrom_operation* op ) {
 
 void io_engine::post( operation* ctx ) {
 	// iocp post 는 내부적으로 실패할수 잇으며
-	// post 순서가 필요하므로 post 는 내부적인 queue 로 처리한다.
+	// post 순서가 필요하므로 내부적인 queue 로 처리한다.
 	tdk::threading::scoped_lock<> gaurd( _op_queue_lock );
 	_op_queue.add_tail( ctx );
 	/*

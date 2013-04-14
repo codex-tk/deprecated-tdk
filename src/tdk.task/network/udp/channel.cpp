@@ -38,6 +38,10 @@ int channel::sendto( const tdk::buffer::memory_block& mb
 	return _fd.sendto( mb.rd_ptr() , mb.length() , address );
 }
 
+int channel::sendto( void* data , int sz , const tdk::network::address& addr ) {
+	return _fd.sendto( data , sz , addr );
+}
+
 void channel::recvfrom( recvfrom_operation* op ) {
 	loop().engine().add_recvfrom_io( op );
 }
