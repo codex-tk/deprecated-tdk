@@ -44,3 +44,5 @@ packages/
 
 # visual studio database projects
 *.dbmdl
+
+.svn
