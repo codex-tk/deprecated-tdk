@@ -32,7 +32,7 @@ void __stdcall on_accept_complete(
 				on_recv_complete( rr );
 			});
 	}
-	op.acceptor()->accept(
+	op.acceptor().accept(
 		[]( tdk::network::tcp::accept_operation& op ) {
 			on_accept_complete( op );
 		});
@@ -42,15 +42,15 @@ void __stdcall on_recv_complete( tdk::network::tcp::recv_operation& r )
 {
 	if ( r.error() || r.io_byte() == 0 ) {
 		pacceptor->close();
-		r.channel()->close();
+		r.channel().close();
 	} else {
 		char e = '\0';
 		r.buffer().write( &e , 1);
 		tdk::log::logger log("test.logger");
 		LOG_D( log , "%s" , r.buffer().rd_ptr());
-		r.channel()->send( r.buffer() , [] ( tdk::network::tcp::send_operation& sr ) {
+		r.channel().send( r.buffer() , [] ( tdk::network::tcp::send_operation& sr ) {
 		});
-		r.channel()->recv( tdk::buffer::memory_block(10)
+		r.channel().recv( tdk::buffer::memory_block(10)
 			, []( tdk::network::tcp::recv_operation& r ) {
 				on_recv_complete( r );
 			});
@@ -72,33 +72,33 @@ TEST( event_loop , acceptor ) {
 
 	tdk::network::tcp::channel conn( loop );
 	tdk::network::tcp::connector connector;
-	connector.connect( &conn , tdk::network::address( "127.0.0.1" , 7543 )
+	connector.connect( conn , tdk::network::address( "127.0.0.1" , 7543 )
 		, []( tdk::network::tcp::connect_operation& r ) {
 			tdk::buffer::memory_block mb;
 			mb.write( "test", 4 );
-			r.channel()->send( mb , [] ( tdk::network::tcp::send_operation& r ) {
+			r.channel().send( mb , [] ( tdk::network::tcp::send_operation& r ) {
 				int io_byte = r.io_byte();
 			});
 			mb.reserve(6);
 			mb.clear();
 			mb.write( "test2" , 5 );
-			r.channel()->send( mb , [] ( tdk::network::tcp::send_operation& r ) {
+			r.channel().send( mb , [] ( tdk::network::tcp::send_operation& r ) {
 				int io_byte = r.io_byte();
 			});
 
 			mb.reserve(6);
 			mb.clear();
 			mb.write( "test3" , 5 );
-			r.channel()->send( mb , [] ( tdk::network::tcp::send_operation& r ) {
+			r.channel().send( mb , [] ( tdk::network::tcp::send_operation& r ) {
 				int io_byte = r.io_byte();
 			});
 
 			mb.reserve(6);
 			mb.clear();
 			mb.write( "test4" , 5 );
-			r.channel()->send( mb , [] ( tdk::network::tcp::send_operation& r ) {
+			r.channel().send( mb , [] ( tdk::network::tcp::send_operation& r ) {
 				int io_byte = r.io_byte();
-				r.channel()->close();
+				r.channel().close();
 			});
 		});
 

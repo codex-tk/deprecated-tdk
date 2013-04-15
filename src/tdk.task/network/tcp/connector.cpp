@@ -6,7 +6,7 @@ namespace network {
 namespace tcp {
 
 void connector::connect( tdk::network::tcp::connect_operation* op ) {
-	op->channel()->loop().engine().add_connect_io( op );
+	op->channel().loop().engine().add_connect_io( op );
 }
 
 }}}

@@ -6,16 +6,16 @@ namespace tdk {
 namespace network {
 namespace tcp {
 
-send_operation::send_operation( tdk::network::tcp::channel* c )
-	: _channel( c ) 
+send_operation::send_operation( tdk::network::tcp::channel& c )
+	: _channel( &c ) 
 	, _total_req_size(0)
 {
 
 }
 
-send_operation::send_operation( tdk::network::tcp::channel* c
+send_operation::send_operation( tdk::network::tcp::channel& c
 	, std::vector< tdk::buffer::memory_block >& buffers  )
-	:_channel( c )
+	:_channel( &c )
 	, _buffers( buffers )
 	, _total_req_size(0)
 {
@@ -29,8 +29,8 @@ send_operation::~send_operation( void ) {
 }
 
 
-tdk::network::tcp::channel* send_operation::channel( void ) {
-	return _channel;
+tdk::network::tcp::channel& send_operation::channel( void ) {
+	return *_channel;
 }
 
 std::vector< tdk::buffer::memory_block >& send_operation::buffers( void ) {

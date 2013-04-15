@@ -12,12 +12,12 @@ namespace tcp {
 class channel;
 class send_operation : public tdk::task::operation {
 public:
-	send_operation( tdk::network::tcp::channel* c );
-	send_operation( tdk::network::tcp::channel* c 
+	send_operation( tdk::network::tcp::channel& c );
+	send_operation( tdk::network::tcp::channel& c 
 		, std::vector< tdk::buffer::memory_block >& buffers );
 	virtual ~send_operation( void );
 
-	tdk::network::tcp::channel* channel( void );
+	tdk::network::tcp::channel& channel( void );
 	std::vector< tdk::buffer::memory_block >& buffers( void );
 	void buffer( const tdk::buffer::memory_block& mb );
 	void buffers( const std::vector< tdk::buffer::memory_block >& bufs );

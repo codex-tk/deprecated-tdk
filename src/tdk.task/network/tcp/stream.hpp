@@ -26,32 +26,26 @@ public:
 	// for connect
 	bool open( stream_handler* handler );
 
-	stream_handler* handler( void ){
-		return _handler;
-	}
-
 	void close();
+
 	void close( const tdk::error_code& err );
+
 	void recv( const tdk::buffer::memory_block& mb );
 	void send( const tdk::buffer::memory_block& mb );
 	
 	void reset( void );
 
-	tdk::network::tcp::channel& channel(void){
-		return _channel;
-	}
+	stream_handler* handler( void );
 
-	void* tag( void ) {
-		return _tag;
-	}
-	void tag( void* p ){
-		_tag = p;
-	}
+	tdk::network::tcp::channel& channel(void);
 
+	void* tag( void );
+	void tag( void* p );
 private:
 	void _on_recv( tdk::network::tcp::recv_operation& r );
 	void _on_send( tdk::network::tcp::send_operation& r );
 private:
+	tdk::threading::spin_lock _lock;
 	tdk::network::tcp::channel _channel;
 	tdk::network::tcp::recv_operation* _recv_op;
 	tdk::network::tcp::send_operation* _send_op;

@@ -96,7 +96,7 @@ TEST( tcp_stream , connect ) {
 	tdk::network::tcp::connector connector;
 	tdk::network::tcp::stream s(loop);
 
-	connector.connect( &s.channel() 
+	connector.connect( s.channel() 
 		, tdk::network::address( "google.co.kr" , 80 )
 		, [&s] ( tdk::network::tcp::connect_operation& r ) {
 			s.open( new handler_impl2());

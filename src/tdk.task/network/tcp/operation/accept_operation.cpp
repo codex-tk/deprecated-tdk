@@ -6,8 +6,8 @@ namespace tdk {
 namespace network {
 namespace tcp {
 
-accept_operation::accept_operation( tdk::network::tcp::acceptor* a )
-	: _acceptor( a )
+accept_operation::accept_operation( tdk::network::tcp::acceptor& a )
+	: _acceptor( &a )
 {
 }
 
@@ -23,7 +23,7 @@ sockaddr_storage* accept_operation::address_ptr( void ) {
 	return _address;
 }
 
-tdk::network::tcp::acceptor* accept_operation::acceptor( void ) {
-	return _acceptor;
+tdk::network::tcp::acceptor& accept_operation::acceptor( void ) {
+	return *_acceptor;
 }
 }}}

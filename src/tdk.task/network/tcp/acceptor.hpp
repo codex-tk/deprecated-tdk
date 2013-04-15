@@ -22,7 +22,7 @@ public:
 	void accept( const T_handler& handler ) {
 		class accept_operation_impl : public tdk::network::tcp::accept_operation{
 		public:
-			accept_operation_impl( tdk::network::tcp::acceptor* a , const T_handler& handler  )
+			accept_operation_impl( tdk::network::tcp::acceptor& a , const T_handler& handler  )
 				: accept_operation( a )
 				, _handler( handler )
 			{
@@ -37,7 +37,7 @@ public:
 		private:
 			T_handler _handler;
 		};
-		accept_operation* op = new accept_operation_impl( this , handler );
+		accept_operation* op = new accept_operation_impl( *this , handler );
 		return accept( op );
 	}
 	

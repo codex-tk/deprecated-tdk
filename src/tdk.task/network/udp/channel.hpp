@@ -34,7 +34,7 @@ public:
 		, const T_handler& handler ) {
 		class recvfrom_operation_impl : public tdk::network::udp::recvfrom_operation{
 		public:
-			recvfrom_operation_impl( tdk::network::udp::channel* c 
+			recvfrom_operation_impl( tdk::network::udp::channel& c 
 				, tdk::buffer::memory_block& mb
 				, const T_handler& handler  )
 				: recvfrom_operation( c , mb )
@@ -53,7 +53,7 @@ public:
 		private:
 			T_handler _handler;
 		};
-		return recvfrom( new recvfrom_operation_impl( this , mb , handler ));
+		return recvfrom( new recvfrom_operation_impl( *this , mb , handler ));
 	}
 };
 

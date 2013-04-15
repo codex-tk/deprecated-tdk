@@ -11,11 +11,12 @@ namespace task {
 namespace detail{
 static int posted_operation = 0xffffffff;
 
-static void on_complete( const tdk::error_code& code 
-		, int io_byte 
-		, void* key
-		, OVERLAPPED* ov
-		, void* ctx ) 
+static void on_complete( 
+	const tdk::error_code& code 
+	, int io_byte 
+	, void* key
+	, OVERLAPPED* ov
+	, void* ctx ) 
 {
 	tdk::task::io_engine* engine = static_cast<tdk::task::io_engine*>(ctx);
 	engine->on_complete( code , io_byte , key , ov );
@@ -46,17 +47,16 @@ bool io_engine::bind( SOCKET fd , void* obj ) {
 }
 
 
-void io_engine::add_accept_io( tdk::network::tcp::accept_operation* op) 
-{
+void io_engine::add_accept_io( tdk::network::tcp::accept_operation* op) {
 	_loop.increment_ref();
 	op->reset();	
-	if ( !op->socket().open_tcp( op->acceptor()->address().family() )) {
+	if ( !op->socket().open_tcp( op->acceptor().address().family() )) {
 		op->error( platform_error() );
 		post( op );
 		return;
 	}
 	DWORD dwBytes = 0;
-	if ( AcceptEx(  op->acceptor()->socket().handle() ,
+	if ( AcceptEx(  op->acceptor().socket().handle() ,
 					op->socket().handle() ,
 					op->address_ptr() ,
                     0 ,
@@ -80,7 +80,7 @@ void io_engine::add_recv_io( tdk::network::tcp::recv_operation* op ) {
 	WSABUF buffer;
 	buffer.buf = (CHAR*)op->buffer().wr_ptr();
 	buffer.len = op->buffer().space();
-	if ( WSARecv(	op->channel()->socket().handle() 
+	if ( WSARecv(	op->channel().socket().handle() 
 					, &buffer
 					, 1
 					, nullptr 
@@ -97,9 +97,9 @@ void io_engine::add_recv_io( tdk::network::tcp::recv_operation* op ) {
 }
 
 void io_engine::add_send_io( tdk::network::tcp::send_operation* op ) {
-	_loop.increment_ref();
 	static const int send_buffer_size = 256;
 
+	_loop.increment_ref();
 	op->reset();
 	WSABUF send_buffer[send_buffer_size];
 	int i = 0;
@@ -119,7 +119,7 @@ void io_engine::add_send_io( tdk::network::tcp::send_operation* op ) {
 		return;
 	} 
 	DWORD flag	= 0;
-	if ( WSASend(	op->channel()->socket().handle() 
+	if ( WSASend(	op->channel().socket().handle() 
 					, send_buffer
 					, i
 					, nullptr 
@@ -145,7 +145,7 @@ void io_engine::add_connect_io( tdk::network::tcp::connect_operation* op ) {
 		return;
 	}
 
-	if ( !op->channel()->open( fd ) ) {
+	if ( !op->channel().open( fd ) ) {
 		fd.close();
 		op->error( platform_error());
 		post( op );
@@ -153,7 +153,7 @@ void io_engine::add_connect_io( tdk::network::tcp::connect_operation* op ) {
 	}
 
 	tdk::network::address bind_addr = tdk::network::address::any( 0 , op->address().family() );
-	if ( !op->channel()->socket().bind( bind_addr ) ) {
+	if ( !op->channel().socket().bind( bind_addr ) ) {
 		fd.close();
 		op->error( platform_error());
 		post( op );
@@ -165,7 +165,7 @@ void io_engine::add_connect_io( tdk::network::tcp::connect_operation* op ) {
 		
 	GUID guid = WSAID_CONNECTEX;
 	if ( WSAIoctl(   
-			op->channel()->socket().handle() ,
+			op->channel().socket().handle() ,
 			SIO_GET_EXTENSION_FUNCTION_POINTER , 
 			&guid , 
 			sizeof( GUID ) , 
@@ -189,7 +189,7 @@ void io_engine::add_connect_io( tdk::network::tcp::connect_operation* op ) {
 	}
 	op->reset();
 	dwbytes = 0;
-	if ( fp_connect_ex( op->channel()->socket().handle() ,  
+	if ( fp_connect_ex( op->channel().socket().handle() ,  
 						op->address().sockaddr() , 
 						op->address().sockaddr_length() , 
 						nullptr , 
@@ -215,7 +215,7 @@ void io_engine::add_recvfrom_io( tdk::network::udp::recvfrom_operation* op ) {
 	WSABUF buffer;
 	buffer.buf = (CHAR*)op->buffer().wr_ptr();
 	buffer.len = op->buffer().space();
-	if ( WSARecvFrom(	op->channel()->socket().handle() 
+	if ( WSARecvFrom(	op->channel().socket().handle() 
 					, &buffer
 					, 1
 					, nullptr 
@@ -234,60 +234,37 @@ void io_engine::add_recvfrom_io( tdk::network::udp::recvfrom_operation* op ) {
 }
 
 void io_engine::post( operation* ctx ) {
-	// iocp post 는 내부적으로 실패할수 잇으며
-	// post 순서가 필요하므로 내부적인 queue 로 처리한다.
-	tdk::threading::scoped_lock<> gaurd( _op_queue_lock );
-	_op_queue.add_tail( ctx );
-	/*
 	if ( !_port.post( detail::posted_operation , nullptr , ctx )) {
-		tdk::threading::scoped_lock<> gaurd( _post_fail_lock );
+		tdk::threading::scoped_lock<> gaurd( _op_queue_lock );
 		_op_queue.add_tail( ctx );
 		_post_failed.exchange(1);
-	}*/
+	}
 }
 
 bool io_engine::run( const tdk::time_span& wait ) {
-	tdk::slist_queue< operation > drains;
-	do {
-		tdk::threading::scoped_lock< > guard( _op_queue_lock );
-		while ( !_op_queue.is_empty() ) {
-			drains.add_tail( _op_queue.front() );
-			_op_queue.pop_front();
-		}
-	}while(0);
-	while ( !drains.is_empty() ) {
-		operation* op = drains.front();
-		drains.pop_front();
-		on_complete( op->error() 
-			, detail::posted_operation
-			, op->object()
-			, op );
-	}
-	/*
 	if( _post_failed.compare_and_swap( 0 , 1 ) == 1 ) {
 		tdk::slist_queue< operation > drains;
 		do {
-			tdk::threading::scoped_lock< > guard( _post_fail_lock );
+			tdk::threading::scoped_lock< > guard( _op_queue_lock );
 			while ( !_op_queue.is_empty() ) {
 				drains.add_tail( _op_queue.front() );
 				_op_queue.pop_front();
 			}
 		}while(0);
 		while ( !drains.is_empty() ) {
-			on_complete( drains.front()->error() 
-				, detail::posted_operation
-				, drains.front()->object()
-				, drains.front() );
+			operation* op = drains.front();
 			drains.pop_front();
+			on_complete( op->error() , detail::posted_operation , op->object() , op );
 		}
-	}*/
+	}
 	return _port.wait( wait ) >= 0;
 }
 
-void io_engine::on_complete( const tdk::error_code& code 
-		, int io_byte 
-		, void* key
-		, OVERLAPPED* ov )
+void io_engine::on_complete(
+	const tdk::error_code& code 
+	, int io_byte 
+	, void* key
+	, OVERLAPPED* ov )
 {
 	if ( ov != nullptr ) {
 		tdk::task::operation* op = static_cast< tdk::task::operation* >( ov );

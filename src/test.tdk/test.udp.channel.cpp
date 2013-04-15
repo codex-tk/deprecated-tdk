@@ -12,15 +12,15 @@ void on_recv_from( tdk::network::udp::channel* client , tdk::network::udp::recvf
 	++data;
 
 	if ( data > 10 ) {
-		r.channel()->close();
+		r.channel().close();
 		client->close();
 		return;
 	}
 
 	tdk::buffer::memory_block mb( &data , sizeof(int) , sizeof(int),nullptr);
-	r.channel()->sendto( mb , r.address() );
+	r.channel().sendto( mb , r.address() );
 	r.buffer().clear();
-	r.channel()->recvfrom( r.buffer() , [client] (tdk::network::udp::recvfrom_operation& r){
+	r.channel().recvfrom( r.buffer() , [client] (tdk::network::udp::recvfrom_operation& r){
 		on_recv_from( client , r );
 	});
 }
@@ -30,9 +30,9 @@ void on_client_recv_from( tdk::network::udp::recvfrom_operation& r ) {
 	if ( r.error() ) 
 		return;
 
-	r.channel()->sendto( r.buffer() , r.address());
+	r.channel().sendto( r.buffer() , r.address());
 	r.buffer().clear();
-	r.channel()->recvfrom( r.buffer() , &on_client_recv_from );
+	r.channel().recvfrom( r.buffer() , &on_client_recv_from );
 }
 
 TEST( udp_channel , init ){

@@ -49,7 +49,7 @@ public:
 private:
 	event_loop& _loop;
 	io_completion_port _port;
-	//tdk::threading::atomic<int> _post_failed;
+	tdk::threading::atomic<int> _post_failed;
 	tdk::threading::spin_lock _op_queue_lock;
 	tdk::slist_queue< operation > _op_queue;
 };

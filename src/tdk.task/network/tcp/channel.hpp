@@ -30,7 +30,7 @@ public:
 	tdk::network::tcp::recv_operation* create_recv_operation( const T_handler& handler ) {
 		class recv_operation_impl : public tdk::network::tcp::recv_operation{
 		public:
-			recv_operation_impl( tdk::network::tcp::channel* c 
+			recv_operation_impl( tdk::network::tcp::channel& c 
 				, const T_handler& handler  )
 				: recv_operation( c )
 				, _handler( handler )
@@ -47,14 +47,14 @@ public:
 		private:
 			T_handler _handler;
 		};
-		return new recv_operation_impl( this  , handler);
+		return new recv_operation_impl( *this  , handler);
 	}
 
 	template < typename T_handler >
 	tdk::network::tcp::send_operation* create_send_operation( const T_handler& handler ) {
 		class send_operation_impl : public tdk::network::tcp::send_operation{
 		public:
-			send_operation_impl( tdk::network::tcp::channel* c 
+			send_operation_impl( tdk::network::tcp::channel& c 
 				, const T_handler& handler  )
 				: send_operation( c )
 				, _handler( handler )
@@ -71,7 +71,7 @@ public:
 		private:
 			T_handler _handler;
 		};
-		return new send_operation_impl( this, handler );
+		return new send_operation_impl( *this, handler );
 	}
 
 
@@ -80,7 +80,7 @@ public:
 		, const T_handler& handler ) {
 		class recv_operation_impl : public tdk::network::tcp::recv_operation{
 		public:
-			recv_operation_impl( tdk::network::tcp::channel* c 
+			recv_operation_impl( tdk::network::tcp::channel& c 
 				, tdk::buffer::memory_block& mb
 				, const T_handler& handler  )
 				: recv_operation( c , mb )
@@ -99,7 +99,7 @@ public:
 		private:
 			T_handler _handler;
 		};
-		return recv( new recv_operation_impl( this , mb , handler ));
+		return recv( new recv_operation_impl( *this , mb , handler ));
 	}
 
 	template < typename T_handler >
@@ -107,7 +107,7 @@ public:
 		, const T_handler& handler ) {
 		class send_operation_impl : public tdk::network::tcp::send_operation{
 		public:
-			send_operation_impl( tdk::network::tcp::channel* c 
+			send_operation_impl( tdk::network::tcp::channel& c 
 				, std::vector<tdk::buffer::memory_block>& mb
 				, const T_handler& handler  )
 				: send_operation( c , mb )
@@ -126,7 +126,7 @@ public:
 		private:
 			T_handler _handler;
 		};
-		return send( new send_operation_impl( this , mb , handler ));
+		return send( new send_operation_impl( *this , mb , handler ));
 	}
 
 	template < typename T_handler >

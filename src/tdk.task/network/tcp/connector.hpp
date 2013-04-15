@@ -11,13 +11,13 @@ namespace tcp {
 class connector {
 public:
 	template < typename T_handler >
-	void connect( tdk::network::tcp::channel* ch 
+	void connect( tdk::network::tcp::channel& ch 
 		, const tdk::network::address& addr 
 		, const T_handler& handler )
 	{
 		class connect_operation_impl : public tdk::network::tcp::connect_operation{
 		public:
-			connect_operation_impl( tdk::network::tcp::channel* c 
+			connect_operation_impl( tdk::network::tcp::channel& c 
 				, const tdk::network::address& addr
 				, const T_handler& handler  )
 				: connect_operation( c , addr )

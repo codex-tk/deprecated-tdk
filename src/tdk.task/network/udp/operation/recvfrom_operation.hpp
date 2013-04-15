@@ -11,13 +11,13 @@ namespace udp {
 class channel;
 class recvfrom_operation : public tdk::task::operation {
 public:
-	recvfrom_operation( tdk::network::udp::channel* c );
-	recvfrom_operation( tdk::network::udp::channel* c
+	recvfrom_operation( tdk::network::udp::channel& c );
+	recvfrom_operation( tdk::network::udp::channel& c
 		, const tdk::buffer::memory_block& mb );
 
 	virtual ~recvfrom_operation( void );
 
-	tdk::network::udp::channel* channel( void );
+	tdk::network::udp::channel& channel( void );
 	tdk::buffer::memory_block& buffer( void );
 	tdk::network::address& address( void );
 	void buffer( const tdk::buffer::memory_block& mb );

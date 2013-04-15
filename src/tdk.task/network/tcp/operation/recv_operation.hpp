@@ -10,13 +10,13 @@ namespace tcp {
 class channel;
 class recv_operation : public tdk::task::operation {
 public:
-	recv_operation( tdk::network::tcp::channel* c );
-	recv_operation( tdk::network::tcp::channel* c
+	recv_operation( tdk::network::tcp::channel& c );
+	recv_operation( tdk::network::tcp::channel& c
 		, const tdk::buffer::memory_block& mb );
 
 	virtual ~recv_operation( void );
 
-	tdk::network::tcp::channel* channel( void );
+	tdk::network::tcp::channel& channel( void );
 	tdk::buffer::memory_block& buffer( void );
 	void buffer( const tdk::buffer::memory_block& mb );
 

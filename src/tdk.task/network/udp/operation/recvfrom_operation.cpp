@@ -6,14 +6,14 @@ namespace tdk {
 namespace network {
 namespace udp {
 
-recvfrom_operation::recvfrom_operation( tdk::network::udp::channel* c )
-	: _channel(c){
+recvfrom_operation::recvfrom_operation( tdk::network::udp::channel& c )
+	: _channel(&c){
 
 }
 
-recvfrom_operation::recvfrom_operation( tdk::network::udp::channel* c
+recvfrom_operation::recvfrom_operation( tdk::network::udp::channel& c
 	, const tdk::buffer::memory_block& mb  )
-	:_channel( c )
+	:_channel( &c )
 	, _buffer( mb )
 {
 }
@@ -23,8 +23,8 @@ recvfrom_operation::~recvfrom_operation( void ) {
 }
 
 
-tdk::network::udp::channel* recvfrom_operation::channel( void ) {
-	return _channel;
+tdk::network::udp::channel& recvfrom_operation::channel( void ) {
+	return *_channel;
 }
 
 tdk::buffer::memory_block& recvfrom_operation::buffer( void ) {

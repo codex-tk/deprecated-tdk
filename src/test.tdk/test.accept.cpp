@@ -4,6 +4,7 @@
 
 TEST( accept , t1 )
 {
+	/*
 	tdk::network::socket accept_fd;
 
 	accept_fd.open_tcp( AF_INET );
@@ -16,6 +17,7 @@ TEST( accept , t1 )
 
 
 	fd.close();
-	accept_fd.close();
+	accept_fd.close();*/
+
 
 }
