@@ -256,11 +256,12 @@ bool io_engine::run( const tdk::time_span& wait ) {
 		}
 	}while(0);
 	while ( !drains.is_empty() ) {
-		on_complete( drains.front()->error() 
-			, detail::posted_operation
-			, drains.front()->object()
-			, drains.front() );
+		operation* op = drains.front();
 		drains.pop_front();
+		on_complete( op->error() 
+			, detail::posted_operation
+			, op->object()
+			, op );
 	}
 	/*
 	if( _post_failed.compare_and_swap( 0 , 1 ) == 1 ) {

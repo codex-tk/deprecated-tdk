@@ -97,7 +97,9 @@ void stream::send( const tdk::buffer::memory_block& mb ) {
 	} else {
 		if ( _closed )
 			return;
+		_ref_count.increment();
 		_channel.loop().post([ this , mb ] (){
+			_ref_count.decrement();
 			send(mb);
 		});
 	}
@@ -160,6 +162,7 @@ void stream::_on_send( tdk::network::tcp::send_operation& r ) {
 	if ( remain_buffers.empty() ) {
 		_sending = false;
 	} else {
+		_ref_count.increment();
 		_send_op->buffers( remain_buffers );
 		_channel.send( _send_op );
 	}
