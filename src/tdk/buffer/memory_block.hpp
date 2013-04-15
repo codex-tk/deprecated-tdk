@@ -71,12 +71,22 @@ public:
 	//! 데이터를 읽어오는 함수
 	std::size_t read( void* buf , std::size_t read_size ) ;
 
+	template < typename T >
+	memory_block& operator<<( const T& v ) {
+		write( static_cast< void* >(
+					const_cast< T* >(&v))
+				, sizeof( v ));
+		return *this;
+	}
+
 	std::size_t write( const char* msg );
 private:
 	tdk::buffer::buffer_base _base;
 	std::size_t _read_pos;
 	std::size_t _write_pos;
 };
+
+
 	/*
 template < typename T >
 memory_block& operator << ( memory_block& buffer , const T& v ) {

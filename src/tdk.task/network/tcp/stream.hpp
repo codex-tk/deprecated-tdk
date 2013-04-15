@@ -41,6 +41,13 @@ public:
 		return _channel;
 	}
 
+	void* tag( void ) {
+		return _tag;
+	}
+	void tag( void* p ){
+		_tag = p;
+	}
+
 private:
 	void _on_recv( tdk::network::tcp::recv_operation& r );
 	void _on_send( tdk::network::tcp::send_operation& r );
@@ -55,6 +62,7 @@ private:
 	bool _close_posted;
 	tdk::error_code _code;
 	std::vector< tdk::buffer::memory_block > _send_buffer;
+	void* _tag;
 };
 
 }}}

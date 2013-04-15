@@ -123,6 +123,7 @@ void memory_block::reserve( std::size_t sz ) {
 
 //! 데이터 초기화 
 void memory_block::clear( void ) {
+	_base.reserve( _base.size() );
 	_write_pos = 0;
 	_read_pos  = 0;
 }
