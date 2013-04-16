@@ -5,7 +5,8 @@
 #include <tdk.task/network/tcp/channel.hpp>
 #include <tdk.task/network/tcp/stream.hpp>
 #include <tdk/log/logger.hpp>
-
+#include <tdk.task/task/timer.hpp>
+/*
 
 class handler_impl : public tdk::network::tcp::stream_handler {
 public:
@@ -17,7 +18,7 @@ public:
 
 	}
 
-	void on_recv( tdk::network::tcp::stream* s , tdk::buffer::memory_block& mb ) {
+	virtual void on_recv( tdk::network::tcp::stream* s , tdk::buffer::memory_block& mb ) {
 		tdk::log::logger logger( "test.logger" );
 		LOG_D( logger , "OnRecv" );
 		s->send( mb );
@@ -25,19 +26,24 @@ public:
 		s->close();
 	}
 
-	void on_send( tdk::network::tcp::stream* s , int send_bytes , int remain_bytes ) {
+	virtual void on_send( tdk::network::tcp::stream* s , int send_bytes , int remain_bytes ) {
 		tdk::log::logger logger( "test.logger" );
 		LOG_D( logger , "OnSend ");
 	}
 
-	void on_close( tdk::network::tcp::stream* s , const tdk::error_code& code ) {
+	virtual void on_error( tdk::network::tcp::stream* s , const tdk::error_code& code ) {
 		tdk::log::logger logger( "test.logger" );
-		LOG_D( logger , "OnClose %s" , code.message().c_str());
+		LOG_D( logger , "on_error %s" , code.message().c_str());
+		s->close();
+	}
+	virtual void on_close( tdk::network::tcp::stream* s ) {
+		tdk::log::logger logger( "test.logger" );
+		LOG_D( logger , "on_close %s" , code.message().c_str());
 		delete this;
 	}
 private:
 };
-
+*/
 
 TEST( event_loop , stream ){
 	/*
@@ -68,20 +74,33 @@ public:
 
 	}
 
-	void on_recv( tdk::network::tcp::stream* s , tdk::buffer::memory_block& mb ) {
+	virtual void on_recv( tdk::network::tcp::stream& s , tdk::buffer::memory_block& mb ) {
 		tdk::log::logger logger( "test.logger" );
 		LOG_D( logger , "OnRecv" );
-		s->close();
+		mb.clear();
+		s.recv( mb );
 	}
 
-	void on_send( tdk::network::tcp::stream* s , int send_bytes , int remain_bytes ) {
+	virtual void on_send( tdk::network::tcp::stream& s , int send_bytes , int remain_bytes ) {
 		tdk::log::logger logger( "test.logger" );
 		LOG_D( logger , "OnSend ");
+		tdk::task::timer timer(s.channel().loop());
+		timer.expired_at( tdk::date_time::local() + tdk::time_span::from_seconds(2));
+		timer.handler(
+			[&]( tdk::error_code& e) {
+				s.close();
+			});
+		timer.schedule();
 	}
 
-	void on_close( tdk::network::tcp::stream* s , const tdk::error_code& code ) {
+	virtual void on_error( tdk::network::tcp::stream& s , const tdk::error_code& code ) {
 		tdk::log::logger logger( "test.logger" );
-		LOG_D( logger , "OnClose %s" , code.message().c_str());
+		LOG_D( logger , "on_error %s" , code.message().c_str());
+		
+	}
+	virtual void on_close( tdk::network::tcp::stream& s ) {
+		tdk::log::logger logger( "test.logger" );
+		LOG_D( logger , "on_close" );
 		delete this;
 	}
 private:

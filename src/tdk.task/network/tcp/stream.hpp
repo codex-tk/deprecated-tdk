@@ -12,9 +12,10 @@ class stream_handler {
 public:
 	stream_handler(void){}
 	virtual ~stream_handler ( void ){}
-	virtual void on_recv( stream* s , tdk::buffer::memory_block& mb ) = 0;
-	virtual void on_send( stream* s , int sent_bytes , int remain_bytes ) = 0;
-	virtual void on_close( stream* s , const tdk::error_code& code ) = 0;
+	virtual void on_recv( stream& s , tdk::buffer::memory_block& mb ) = 0;
+	virtual void on_send( stream& s , int sent_bytes , int remain_bytes ) = 0;
+	virtual void on_error( stream& s , const tdk::error_code& code ) = 0;
+	virtual void on_close( stream& s ) = 0;
 };
 
 class stream {
@@ -27,9 +28,7 @@ public:
 	bool open( stream_handler* handler );
 
 	void close();
-
-	void close( const tdk::error_code& err );
-
+	
 	void recv( const tdk::buffer::memory_block& mb );
 	void send( const tdk::buffer::memory_block& mb );
 	
@@ -42,6 +41,10 @@ public:
 	void* tag( void );
 	void tag( void* p );
 private:
+	bool _is_closed(void);
+	void _internal_close( const tdk::error_code& code , bool closed = false );
+	bool _post_error( const tdk::error_code& code );
+	void _post_close( void );
 	void _on_recv( tdk::network::tcp::recv_operation& r );
 	void _on_send( tdk::network::tcp::send_operation& r );
 private:
@@ -50,13 +53,22 @@ private:
 	tdk::network::tcp::recv_operation* _recv_op;
 	tdk::network::tcp::send_operation* _send_op;
 	stream_handler* _handler;
-	tdk::threading::atomic<int> _ref_count;
-	bool _sending;
-	bool _closed;
-	bool _close_posted;
-	tdk::error_code _code;
-	std::vector< tdk::buffer::memory_block > _send_buffer;
 	void* _tag;
+
+	bool _sending;
+	std::vector< tdk::buffer::memory_block > _send_buffer;
+	
+	tdk::threading::atomic<int> _ref_count;
+
+	enum class post_status {
+		not_post ,
+		begin_post ,
+		end_post ,
+	};
+	post_status _error_post_status;
+	post_status _close_post_status;
+
+	bool _closed;	
 };
 
 }}}

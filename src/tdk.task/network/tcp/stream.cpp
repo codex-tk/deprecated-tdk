@@ -13,7 +13,8 @@ stream::stream ( task::event_loop& loop )
 	, _sending(false)
 	, _recv_op(nullptr)
 	, _send_op(nullptr)
-	, _close_posted( false )
+	, _error_post_status(post_status::not_post)
+	, _close_post_status(post_status::not_post)
 {
 	
 }
@@ -40,30 +41,50 @@ bool stream::open( stream_handler* handler ) {
 		[this]( tdk::network::tcp::send_operation& r ) {
 			_on_send(r);
 		});
+	channel().loop().increment_ref();
 	return true;
 }
 
-void stream::close() {
-	close( tdk::tdk_error( tdk::errc::tdk_network_user_abort ));
+bool stream::_post_error( const tdk::error_code& code ) {
+	if ( _error_post_status == post_status::not_post ) {
+		_error_post_status  = post_status::begin_post;
+		_channel.loop().post( [this , code](){
+			do {
+				tdk::threading::scoped_lock<> gaurd(_lock);
+				_error_post_status  = post_status::end_post;
+				_post_close();
+			}while(0);
+			_handler->on_error( *this , code );	
+			
+		});
+		return true;
+	}
+	return false;
 }
 
-void stream::close( const tdk::error_code& code ) {
-	tdk::threading::scoped_lock<> gaurd(_lock);
-	if ( _close_posted ) {
+void stream::_post_close( void ) {
+	if ( _close_post_status != post_status::not_post ) 
 		return;
-	}
-	if ( !_closed ) {
-		_closed = true;
-		_code = code;
-		_channel.close();
-	}
+
+	if ( !_closed )
+		return;	
+
+	if ( _error_post_status != post_status::end_post ) 
+		return;
+	
 	if ( _ref_count.compare_and_swap( 0 , 0 ) == 0 ) {
-		_close_posted = true;
+		_close_post_status = post_status::begin_post;
 		_channel.loop().post( [this](){
-			_handler->on_close( this , _code );
+			_handler->on_close( *this );
+			_close_post_status = post_status::end_post;
 			reset();
+			channel().loop().decrement_ref();
 		});
 	}
+}
+
+void stream::close() {
+	_internal_close(tdk::tdk_error( tdk::errc::tdk_network_user_abort ) , true );
 }
 
 void stream::recv( const tdk::buffer::memory_block& mb ) {
@@ -74,7 +95,7 @@ void stream::recv( const tdk::buffer::memory_block& mb ) {
 
 void stream::send( const tdk::buffer::memory_block& mb ) {
 	tdk::threading::scoped_lock<> gaurd(_lock);
-	if ( _closed )
+	if ( _is_closed() )
 		return;
 	if ( _sending ) {
 		_send_buffer.push_back( mb );
@@ -86,18 +107,35 @@ void stream::send( const tdk::buffer::memory_block& mb ) {
 	}
 }
 
+void stream::_internal_close( const tdk::error_code& code , bool closed  ) {
+	tdk::threading::scoped_lock<> gaurd(_lock);
+	if ( !_closed )
+		_closed = closed;
+	_channel.close();
+	if ( _post_error( code ) ) 
+		return;
+	_post_close();
+}
+
+bool stream::_is_closed(void) {
+	if ( _closed )
+		return true;
+	if ( _error_post_status != post_status::not_post ) 
+		return true;
+	return false;
+}
+
 void stream::_on_recv( tdk::network::tcp::recv_operation& r ) {
 	_ref_count.decrement();
 	if ( r.error() ) {
-		close(r.error());
+		_internal_close( r.error());
 		return;
 	}
-
 	if ( r.io_byte() == 0 && r.buffer().space() != 0 ) {
-		close(  tdk::tdk_error( tdk::errc::tdk_network_remote_closed ) );
+		_internal_close( tdk::tdk_error( tdk::errc::tdk_network_remote_closed ));
 		return;
 	}
-	handler()->on_recv( this , r.buffer() );
+	handler()->on_recv( *this , r.buffer() );
 }
 
 void stream::reset( void ) {
@@ -111,13 +149,14 @@ void stream::reset( void ) {
 	_send_buffer.clear();
 	_sending = false;
 	_closed = false;
-	_close_posted = false;
+	_error_post_status = post_status::not_post;
+	_close_post_status = post_status::not_post;
 }
 
 void stream::_on_send( tdk::network::tcp::send_operation& r ) {
 	_ref_count.decrement();
 	if ( r.error() ){
-		close(r.error());
+		_internal_close( r.error());
 		return;
 	}
 	int sent = r.io_byte();
@@ -136,20 +175,20 @@ void stream::_on_send( tdk::network::tcp::send_operation& r ) {
 			remain_buffers.push_back( it );
 		}
 		_send_buffer.clear();
-		if ( !remain_buffers.empty() ) {
-			for ( auto it : remain_buffers ) {
-				remain += it.length();
-			}
-		}
 		if ( remain_buffers.empty() ) {
 			_sending = false;
-		} else {
-			_ref_count.increment();
-			_send_op->buffers( remain_buffers );
-			_channel.send( _send_op );
 		}
-	} while(0);	
-	handler()->on_send( this , sent , remain );
+	}while(0);
+
+	if ( !remain_buffers.empty() ) {
+		for ( auto it : remain_buffers ) {
+			remain += it.length();
+		}
+		_ref_count.increment();
+		_send_op->buffers( remain_buffers );
+		_channel.send( _send_op );
+	}
+	handler()->on_send( *this , sent , remain );
 }
 
 stream_handler* stream::handler( void ) {

@@ -14,7 +14,7 @@ public:
 
 	void expired_at( const tdk::date_time& time );
 	template <typename T_handler>
-	void tick( const T_handler& handler ) {
+	void handler( const T_handler& handler ) {
 		class timer_operation_impl : public timer_operation {
 		public:
 			timer_operation_impl( const T_handler& handler  )

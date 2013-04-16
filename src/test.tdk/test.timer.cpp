@@ -11,7 +11,7 @@ TEST( timer , t1 ) {
 	bool canceled = false;
 
 	timer.expired_at( tdk::date_time::local() + tdk::time_span::from_seconds(1) );
-	timer.tick( 
+	timer.handler( 
 		[&execute,&canceled] ( tdk::error_code& ec ){
 			if ( ec ) {
 				canceled = true;
