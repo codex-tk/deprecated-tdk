@@ -75,10 +75,10 @@ void stream::_post_close( void ) {
 	if ( _ref_count.compare_and_swap( 0 , 0 ) == 0 ) {
 		_close_post_status = post_status::begin_post;
 		_channel.loop().post( [this](){
-			_handler->on_close( *this );
 			_close_post_status = post_status::end_post;
 			reset();
 			channel().loop().decrement_ref();
+			_handler->on_close( *this );
 		});
 	}
 }
