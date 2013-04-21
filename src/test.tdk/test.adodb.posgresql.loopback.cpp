@@ -20,4 +20,5 @@ TEST(  connection , open ) {
 	}
 	query.close();
 	connection.close();
+	CoUninitialize();
 }
