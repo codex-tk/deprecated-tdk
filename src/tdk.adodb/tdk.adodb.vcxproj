@@ -77,6 +77,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="adodb\connection.hpp" />
+    <ClInclude Include="adodb\connection_impl.hpp" />
     <ClInclude Include="adodb\query.hpp" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />

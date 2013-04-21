@@ -2,13 +2,11 @@
 #define __tdk_adodb_query_h__
 
 #include <tdk.adodb/adodb/connection.hpp>
+
 namespace tdk {
 namespace adodb {
-
+struct record_set_impl;
 class query {
-private:
-	_RecordsetPtr _record_set;
-	_ConnectionPtr _connection;
 public:
 	/// 생성자
 	query();
@@ -18,8 +16,6 @@ public:
 	/// Connection 설정 함수
 	bool connection( tdk::adodb::connection& conn );
 
-//		bool Execute( const char* query , CursorTypeEnum opt1 = adOpenDynamic , LockTypeEnum opt2 = adLockBatchOptimistic , CommandTypeEnum opt3 = adCmdText );
-		
 	// - 커서타입(ADO상수)
 	// 
 	// 0. <adOpenForwardOnly> : 레코드를 앞으로 순차적으로 한번만 이동
@@ -39,7 +35,8 @@ public:
 	// 3. adCmdTable : 테이블
 	//																		- from 지식인
 	/// 쿼리 실행 함수 
-	bool execute( const std::string& query , CursorTypeEnum opt1 = adOpenStatic , LockTypeEnum opt2 = adLockBatchOptimistic , CommandTypeEnum opt3 = adCmdText );
+	//bool execute( const std::string& query , CursorTypeEnum opt1 = adOpenStatic , LockTypeEnum opt2 = adLockBatchOptimistic , CommandTypeEnum opt3 = adCmdText );
+	bool execute( const std::string& query );
 
 	/// 레코드의 끝인지 확인
 	bool is_eof();
@@ -56,6 +53,8 @@ public:
 	bool read_int( const std::string& filed_name, int& outInt );
 	/// 필드의 값을 String 으로 가져오기
 	bool read_string( const std::string& filed_name , std::string& out  );
+private:
+	record_set_impl* _impl;
 };
 
 }}

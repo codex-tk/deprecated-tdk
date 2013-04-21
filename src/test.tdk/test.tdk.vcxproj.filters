@@ -50,5 +50,8 @@
     <ClCompile Include="test.accept.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="test.adodb.posgresql.loopback.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

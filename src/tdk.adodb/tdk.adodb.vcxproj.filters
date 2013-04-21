@@ -30,6 +30,9 @@
     <ClInclude Include="adodb\query.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="adodb\connection_impl.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
