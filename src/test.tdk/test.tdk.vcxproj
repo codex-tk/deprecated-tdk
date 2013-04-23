@@ -96,6 +96,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="test.accept.cpp" />
+    <ClCompile Include="test.adodb.posgresql.loopback.cpp" />
     <ClCompile Include="test.buffer.captuer.cpp" />
     <ClCompile Include="test.eventloop.cpp" />
     <ClCompile Include="test.tcp.service.cpp" />

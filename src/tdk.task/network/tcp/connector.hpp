@@ -10,6 +10,15 @@ namespace tcp {
 
 class connector {
 public:
+
+	template < typename T_handler >
+	void connect( tdk::network::tcp::channel& ch 
+		, const std::string& ip 
+		, int port 
+		, const T_handler& handler )
+	{
+	}
+
 	template < typename T_handler >
 	void connect( tdk::network::tcp::channel& ch 
 		, const tdk::network::address& addr 

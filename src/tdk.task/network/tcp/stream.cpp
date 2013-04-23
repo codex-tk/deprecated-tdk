@@ -63,15 +63,15 @@ bool stream::_post_error( const tdk::error_code& code ) {
 }
 
 void stream::_post_close( void ) {
-	if ( _close_post_status != post_status::not_post ) 
-		return;
-
 	if ( !_closed )
 		return;	
 
+	if ( _close_post_status != post_status::not_post ) 
+		return;
+
 	if ( _error_post_status != post_status::end_post ) 
 		return;
-	
+
 	if ( _ref_count.compare_and_swap( 0 , 0 ) == 0 ) {
 		_close_post_status = post_status::begin_post;
 		_channel.loop().post( [this](){

@@ -1,26 +1,28 @@
 #include "stdafx.h"
 #include <tdk.adodb/adodb/query.hpp>
 #include <iostream>
+#include "connection_impl.hpp"
 
 namespace tdk {
 namespace adodb {
 
 query::query()
-	: _record_set( NULL ) , _connection(NULL)
+	: _impl( new record_set_impl ())
 {
-	_record_set.CreateInstance( __uuidof( Recordset ));
+	_impl->record_set_ptr.CreateInstance( __uuidof( Recordset ));
 }
 query::~query()
 {
 	close();
-	_record_set = NULL;
+	_impl->record_set_ptr = NULL;
+	delete _impl;
 }
 bool query::connection( tdk::adodb::connection& conn  )
 {
 	try
 	{
-		_connection = conn.value();
-		_record_set->putref_ActiveConnection( _connection );
+		_impl->connection_ptr = conn.value()->connection_ptr;
+		_impl->record_set_ptr->putref_ActiveConnection( _impl->connection_ptr );
 	}
 	catch (_com_error& err)
 	{
@@ -49,17 +51,22 @@ bool query::connection( tdk::adodb::connection& conn  )
 // 3. adCmdTable : 테이블
 //																		- from 지식인
 
+/*
 bool query::execute( const std::string& query 
 	, CursorTypeEnum opt1 
 	, LockTypeEnum opt2 
 	, CommandTypeEnum opt3 )
-{
-	_variant_t vt_conn( (IDispatch*) _connection );
+	*/
+bool query::execute( const std::string& query ) {
+	_variant_t vt_conn( (IDispatch*) _impl->connection_ptr );
 	_variant_t vt_query( query.c_str());
 	try
 	{
 		close();
-		_record_set->Open(vt_query, vt_conn, opt1, opt2, opt3 );
+		_impl->record_set_ptr->Open(vt_query, vt_conn
+			, adOpenStatic
+			, adLockBatchOptimistic
+			, adCmdText );
 		//_record_set->MoveFirst();
 	}
 	catch (_com_error& err)
@@ -74,9 +81,9 @@ bool query::is_eof()
 {
 	try
 	{
-		if( _record_set == NULL )
+		if( _impl->record_set_ptr == NULL )
 			return true;
-		if( _record_set->adoEOF == VARIANT_FALSE )
+		if( _impl->record_set_ptr->adoEOF == VARIANT_FALSE )
 			return false;
 		else 
 			return true;
@@ -93,7 +100,7 @@ void query::next()
 {
 	try
 	{
-		_record_set->MoveNext();
+		_impl->record_set_ptr->MoveNext();
 	}
 	catch (_com_error& err)
 	{
@@ -104,8 +111,8 @@ void query::close()
 {
 	try
 	{
-		if( _record_set->GetState() == adStateOpen )	
-			_record_set->Close();
+		if( _impl->record_set_ptr->GetState() == adStateOpen )	
+			_impl->record_set_ptr->Close();
 	}
 	catch (_com_error& err)
 	{
@@ -118,7 +125,7 @@ int query::field_count()
 {
 	try
 	{
-		return (int)_record_set->Fields->GetCount();
+		return (int)_impl->record_set_ptr->Fields->GetCount();
 	}
 	catch (_com_error& err)
 	{
@@ -131,7 +138,7 @@ int query::record_count()
 {
 	try
 	{
-		return (int)_record_set->GetRecordCount();
+		return (int)_impl->record_set_ptr->GetRecordCount();
 	}
 	catch (_com_error& err)
 	{
@@ -146,7 +153,7 @@ bool query::read_int( const std::string& filed_name, int& outInt  )
 	//_variant_t fieldIndex( index );
 	try
 	{
-		outInt = _record_set->Fields->GetItem(filed_name.c_str())->Value.intVal;
+		outInt = _impl->record_set_ptr->Fields->GetItem(filed_name.c_str())->Value.intVal;
 		//*outInt = _record_set->Fields->Item[fieldIndex]->Value.intVal;
 	}
 	catch (_com_error& err)
@@ -165,7 +172,7 @@ bool query::read_string( const std::string& filed_name , std::string& out  )
 	{
 		_variant_t   variant(DISP_E_PARAMNOTFOUND, VT_ERROR);
 
-		variant = _record_set->Fields->GetItem(filed_name.c_str())->Value;
+		variant = _impl->record_set_ptr->Fields->GetItem(filed_name.c_str())->Value;
 
 		if (variant.vt != VT_NULL){
 			out = (LPCSTR) _bstr_t(variant.bstrVal);

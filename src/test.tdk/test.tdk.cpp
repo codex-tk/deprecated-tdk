@@ -22,6 +22,7 @@
 
 #pragma comment( lib , "tdk.lib")
 #pragma comment( lib , "tdk.task.lib")
+#pragma comment( lib , "tdk.adodb.lib")
 #pragma comment( lib , "ws2_32")
 #pragma comment( lib , "mswsock")
 
@@ -36,6 +37,8 @@ int _tmain(int argc, _TCHAR* argv[])
 	testing::InitGoogleTest( &argc , argv );
 
 	tdk::init();
+
+	//CoInitialize( nullptr );
 
 	tdk::log::logger log("test.logger");
 	log.add_writer( tdk::log::console_writer::instance() );
