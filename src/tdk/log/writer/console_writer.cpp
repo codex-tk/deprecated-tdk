@@ -11,8 +11,13 @@ console_writer::console_writer( const tdk::log::formatter_ptr& fmt )
 	if ( _console == nullptr ) {
         AllocConsole();
 		_console = GetStdHandle( STD_OUTPUT_HANDLE );
+		/*
+		HANDLE default_stdout = (HANDLE)0x00000007;
+		if ( _console != default_stdout ) {
+			SetStdHandle( STD_OUTPUT_HANDLE , default_stdout );
+		}*/
 	}
-	SetConsoleOutputCP( CP_UTF8 );	
+	//SetConsoleOutputCP( CP_UTF8 );	
 }
 
 console_writer::~console_writer( void ) {

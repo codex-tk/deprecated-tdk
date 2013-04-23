@@ -50,7 +50,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -91,6 +91,7 @@
     <ClInclude Include="log\logger.hpp" />
     <ClInclude Include="log\record.hpp" />
     <ClInclude Include="log\writer\console_writer.hpp" />
+    <ClInclude Include="log\writer\file_writer.hpp" />
     <ClInclude Include="log\writer\writer.hpp" />
     <ClInclude Include="network\address.hpp" />
     <ClInclude Include="network\socket.hpp" />
@@ -130,6 +131,7 @@
     <ClCompile Include="log\logger.cpp" />
     <ClCompile Include="log\record.cpp" />
     <ClCompile Include="log\writer\console_writer.cpp" />
+    <ClCompile Include="log\writer\file_writer.cpp" />
     <ClCompile Include="log\writer\writer.cpp" />
     <ClCompile Include="network\address.cpp" />
     <ClCompile Include="network\socket.cpp" />

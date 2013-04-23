@@ -4,7 +4,7 @@
 namespace tdk {
 namespace log {
 
-category::category( const std::string& name )
+category::category( const tdk::tstring& name )
 	: _name( name ) 
 	, _hash(0)
 {
@@ -17,7 +17,7 @@ category::~category( void ) {
 
 }
 
-const std::string& category::name( void ) const {
+const tdk::tstring& category::name( void ) const {
 	return _name;
 }
 

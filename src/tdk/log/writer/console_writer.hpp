@@ -11,7 +11,7 @@ class console_writer : public writer {
 public:
 	console_writer( const tdk::log::formatter_ptr& fmt );
 	virtual ~console_writer( void );
-	void write( const record& r );
+	virtual void write( const record& r );
 
 	static writer_ptr instance( void );
 private:

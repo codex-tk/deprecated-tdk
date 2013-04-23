@@ -123,6 +123,9 @@
     <ClInclude Include="error\tdk_error_category.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="log\writer\file_writer.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -219,6 +222,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="threading\thread.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="log\writer\file_writer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

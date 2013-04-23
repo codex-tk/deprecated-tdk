@@ -63,7 +63,7 @@ public:
 	} 
 };
 
-#ifdef _UNICODE
+#if defined(_WIN32) || defined(_WIN64)
 typedef std::wstring tstring;
 #else
 typedef std::string tstring;
