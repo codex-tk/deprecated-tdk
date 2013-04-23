@@ -77,11 +77,26 @@ public:
 	virtual void on_recv( tdk::network::tcp::stream& s , tdk::buffer::memory_block& mb ) {
 		tdk::log::logger logger( "test.logger" );
 		LOG_D( logger , "OnRecv" );
-		mb.clear();
+
+		int* header = (int*)mb.rd_ptr();
+		if ( mb.length() > 16 ) {
+			int type  = header[0];
+			int width = header[1];
+			int height= header[2];
+			int size  = header[3];
+			if ( mb.length() >= size + 16 ) {
+
+				mb.rd_ptr( size + 16 );
+				mb.align();
+			} else {
+				mb.reserve( size + 16 );
+			}
+		} 
 		s.recv( mb );
 	}
 
 	virtual void on_send( tdk::network::tcp::stream& s , int send_bytes , int remain_bytes ) {
+		/*
 		tdk::log::logger logger( "test.logger" );
 		LOG_D( logger , "OnSend ");
 		tdk::task::timer timer(s.channel().loop());
@@ -90,7 +105,7 @@ public:
 			[&]( tdk::error_code& e) {
 				s.close();
 			});
-		timer.schedule();
+		timer.schedule();*/
 	}
 
 	virtual void on_error( tdk::network::tcp::stream& s , const tdk::error_code& code ) {
@@ -116,14 +131,10 @@ TEST( tcp_stream , connect ) {
 	tdk::network::tcp::stream s(loop);
 
 	connector.connect( s.channel() 
-		, tdk::network::address( "google.co.kr" , 80 )
+		, tdk::network::address( "127.0.0.1" , 9999 )
 		, [&s] ( tdk::network::tcp::connect_operation& r ) {
 			s.open( new handler_impl2());
 			s.recv( tdk::buffer::memory_block(16384));
-			
-			tdk::buffer::memory_block request(4096);
-			request.write( "GET /index HTTP/1.1\r\n\r\n" );
-			s.send( request );
 		});
 	loop.run();
 

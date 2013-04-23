@@ -46,6 +46,11 @@ logger::logger( const tdk::log::category& cate )
 {
 }
 
+logger::logger( logger::impl* impl )
+	: _impl( impl )
+{
+}
+
 logger::~logger( void ) {
 
 }
@@ -177,6 +182,10 @@ logger logger::get_instance( const std::string& cate ) {
 
 logger logger::get_instance( const tdk::log::category& cate ) {
 	return tdk::log::logger( cate );
+}
+
+logger::impl* logger::get_impl_instance( const std::string& cate ) {
+	return impl::get_instance( cate );
 }
 
 }}

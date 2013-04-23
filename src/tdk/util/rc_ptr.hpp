@@ -79,12 +79,12 @@ public:
     }
 
     T_object* operator->(void) const {
-        TDK_ASSERT( _ptr != nullptr );
+        //TDK_ASSERT( _ptr != nullptr );
         return get();
     }
 
     T_object& operator*(void) const {
-        TDK_ASSERT( _ptr != nullptr );
+        //TDK_ASSERT( _ptr != nullptr );
         return *get();
     }
 

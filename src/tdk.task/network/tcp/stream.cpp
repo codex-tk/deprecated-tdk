@@ -20,7 +20,7 @@ stream::stream ( task::event_loop& loop )
 }
 
 stream::~stream ( void ) {
-	
+	reset();
 }
 
 // for accept
@@ -76,7 +76,6 @@ void stream::_post_close( void ) {
 		_close_post_status = post_status::begin_post;
 		_channel.loop().post( [this](){
 			_close_post_status = post_status::end_post;
-			reset();
 			channel().loop().decrement_ref();
 			_handler->on_close( *this );
 		});

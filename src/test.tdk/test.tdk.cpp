@@ -13,8 +13,8 @@
 
 
 #if defined ( _DEBUG )
-	#pragma comment( lib , "gtest_x86_debug_mdd")
-	//#pragma comment( lib , "gtest_x86_debug_mtd")
+	//#pragma comment( lib , "gtest_x86_debug_mdd")
+	#pragma comment( lib , "gtest_x86_debug_mtd")
 #else
 	//#pragma comment( lib , "gtest_x86_release_mt")
 	#pragma comment( lib , "gtest_x86_release_md")

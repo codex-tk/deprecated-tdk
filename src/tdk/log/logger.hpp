@@ -29,7 +29,7 @@ public:
 public:
 	explicit logger( const std::string& cate );
 	explicit logger( const tdk::log::category& cate );
-
+	explicit logger( logger::impl* impl );
 	~logger( void );
 
 	void write( 
@@ -56,6 +56,7 @@ private:
 public:	
 	static logger get_instance( const std::string& cate );
 	static logger get_instance( const tdk::log::category& cate );
+	static logger::impl* get_impl_instance( const std::string& cate );
 private:	
 	impl* _impl;
 };
