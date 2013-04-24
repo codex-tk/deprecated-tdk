@@ -28,7 +28,8 @@ public:
 	void error( System::String^ msg , ... array<System::Object^>^ args );
 	void fatal( System::String^ msg , ... array<System::Object^>^ args );
 
-	void add_file_writer( tdk::clr::log::file_writer^ writer );
+	void add_writer( tdk::clr::log::writer^ writer );
+	void level( enum level lv );
 private:
 	tdk::log::logger::impl* _impl;
 };

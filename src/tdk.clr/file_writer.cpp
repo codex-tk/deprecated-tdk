@@ -11,7 +11,7 @@ namespace clr {
 namespace log {
 
 file_writer::file_writer( System::String^ name )
-	: _writer(  new std::tr1::shared_ptr<tdk::log::file_writer>(
+	: _writer(  new std::tr1::shared_ptr<tdk::log::writer>(
 					new tdk::log::file_writer(marshal_as<std::wstring>(name)
 					, tdk::log::string_formatter::instance())))
 {
@@ -28,7 +28,7 @@ file_writer::!file_writer( void ) {
 	}
 	_writer = nullptr;
 }
-std::tr1::shared_ptr<tdk::log::file_writer>* file_writer::writer_ptr( void ){
+std::tr1::shared_ptr<tdk::log::writer>* file_writer::writer_ptr( void ){
 	return _writer;
 }
 

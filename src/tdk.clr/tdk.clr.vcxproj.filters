@@ -33,6 +33,9 @@
     <ClInclude Include="file_writer.hpp">
       <Filter>log</Filter>
     </ClInclude>
+    <ClInclude Include="writer.hpp">
+      <Filter>log</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="tdk.clr.cpp">

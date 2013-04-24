@@ -7,13 +7,11 @@ namespace log {
 #if defined(_WIN32) || defined(_WIN64)
 record::record( tdk::log::level l 
 	, const tdk::log::category& cate
-	, const std::wstring& msg 
 	, const wchar_t* file
 	, const int line
 	, const wchar_t* function )
 	: level( l )
 	, category( cate )
-	, message( msg )
 	, file_name( file )
 	, line_number( line )
 	, function_name( function )
@@ -42,19 +40,17 @@ const wchar_t* record::level_string( void ) const {
 
 record::record( tdk::log::level l 
 	, const tdk::log::category& cate
-	, const std::string& msg 
 	, const char* file
 	, const int line
 	, const char* function )
 	: level( l )
 	, category( cate )
-	, message( msg )
 	, file_name( file )
 	, line_number( line )
 	, function_name( function )
 	, time(tdk::date_time::local())
 	, process_id( 0 ) 
-	, thread_id( 0 )
+	, thread_id(0)
 {
 }
 

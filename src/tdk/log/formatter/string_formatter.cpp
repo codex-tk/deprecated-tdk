@@ -13,7 +13,7 @@ string_formatter::~string_formatter( void ) {
 }
 
 void string_formatter::format(  const record& r , tdk::buffer::memory_block& m ) {
-	m.reserve( 4096 );
+	m.reserve( 8192 * sizeof( wchar_t ));
 	tdk::time::tick::systemtime st = tdk::time::tick::to_systemtime( r.time.time());	
 	int len = swprintf_s( reinterpret_cast< wchar_t* >(m.wr_ptr())
 		, m.space() / sizeof( wchar_t )
@@ -21,7 +21,7 @@ void string_formatter::format(  const record& r , tdk::buffer::memory_block& m )
 		, st.wYear , st.wMonth , st.wDay , st.wHour , st.wMinute , st.wSecond
 		, r.level_string()
 		, r.category.name().c_str()
-		, r.message.c_str()
+		, r.message
 		, r.function_name
 		, r.file_name
 		, r.line_number

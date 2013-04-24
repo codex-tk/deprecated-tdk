@@ -11,10 +11,10 @@ std::map< tdk::tstring  , logger::impl* > _loggers;
 }
 
 logger::impl::impl( const tdk::log::category& cate ) 
-			: category( cate ) 
-		{
-			level = tdk::log::level::log_debug;
-		}	
+	: category( cate ) 
+{
+	level = tdk::log::level::log_debug;
+}	
 
 logger::impl* logger::impl::get_instance( const tdk::tstring& cate ) {
 	return get_instance( tdk::log::category( cate ));
@@ -60,37 +60,18 @@ void logger::write(
 		, const char* msg
 		, ... )
 {
-	if ( level < _impl->level ) {
+	if ( level < _impl->level ) 
 		return;
-	}
 	if ( msg != nullptr ) {
-		char format_buffer[4096];
-		va_list args;
-		va_start( args , msg );
-		_vsnprintf_s( format_buffer , 4096 , msg , args );
-		va_end( args );
-		tdk::log::record log_record( level
-			, _impl->category
-			, tdk::string::mbs_to_wcs(format_buffer)
-			, file
-			, line 
-			, function );
-
-		if ( IsDebuggerPresent() ) {
-			tdk::time::tick::systemtime st = tdk::time::tick::to_systemtime( log_record.time.time());
-			wchar_t msg[4096];
-			swprintf_s( msg 
-				, L"[%04d%02d%02d %02d%02d%02d][%s][%s][%s][%s][%s:%d]\r\n"
-				, st.wYear , st.wMonth , st.wDay , st.wHour , st.wMinute , st.wSecond
-				, log_record.level_string()
-				, log_record.category.name().c_str()
-				, log_record.message.c_str()
-				, log_record.function_name
-				, log_record.file_name
-				, log_record.line_number
-				);
-			OutputDebugString( msg );
-		}	
+		tdk::log::record log_record( level , _impl->category , file , line  , function );
+		do {
+			char fmt_buffer[k_log_buffer_size];
+			va_list args;
+			va_start( args , msg );
+			int len = _vsnprintf_s( fmt_buffer , k_log_buffer_size , msg , args );
+			va_end( args );
+			MultiByteToWideChar( CP_ACP , 0 , fmt_buffer , -1 , log_record.message , len );
+		} while (0);
 		_write( log_record );
 	}	
 }
@@ -104,38 +85,14 @@ void logger::write(
 		, const wchar_t* msg
 		, ... )
 {
-	if ( level < _impl->level ) {
+	if ( level < _impl->level ) 
 		return;
-	}
 	if ( msg != nullptr ) {
-		wchar_t format_buffer[4096];
+		tdk::log::record log_record( level , _impl->category , file , line  , function );
 		va_list args;
 		va_start( args , msg );
-		_vsnwprintf_s( format_buffer , 4096 , msg , args );
+		_vsnwprintf_s( log_record.message , k_log_buffer_size , _TRUNCATE , msg , args );
 		va_end( args );
-
-		tdk::log::record log_record( level
-			, _impl->category
-			, format_buffer
-			, file
-			, line 
-			, function );
-
-		if ( IsDebuggerPresent() ) {
-			tdk::time::tick::systemtime st = tdk::time::tick::to_systemtime( log_record.time.time());
-			wchar_t msg[4096];
-			swprintf_s( msg 
-				, L"[%04d%02d%02d %02d%02d%02d][%s][%s][%s][%s][%s:%d]\r\n"
-				, st.wYear , st.wMonth , st.wDay , st.wHour , st.wMinute , st.wSecond
-				, log_record.level_string()
-				, log_record.category.name().c_str()
-				, format_buffer
-				, log_record.function_name
-				, log_record.file_name
-				, log_record.line_number
-				);
-			OutputDebugString( msg );
-		}	
 		_write( log_record );
 	}	
 }
@@ -155,23 +112,34 @@ void logger::write(
 		return;
 	}
 	if ( msg != nullptr ) {
-		char format_buffer[4096];
+		tdk::log::record log_record( level , _impl->category , file , line  , function );
 		va_list args;
 		va_start( args , msg );
-		int len = vsnprintf( format_buffer , 4096 , msg , args );
+		int len = vsnprintf( log_record.message , k_log_buffer_size , msg , args );
 		va_end( args );
-		tdk::log::record log_record( level
-			, _impl->category
-			, format_buffer
-			, file
-			, line 
-			, function );
 		_write( log_record );
 	}	
 }
 #endif
 
 void logger::_write( const tdk::log::record& r ) {	
+#if defined( _WIN32 )
+	if ( IsDebuggerPresent() ) {
+		tdk::time::tick::systemtime st = tdk::time::tick::to_systemtime( r.time.time());
+		wchar_t msg[k_log_buffer_size];
+		swprintf_s( msg , L"[%04d%02d%02d %02d%02d%02d][%s][%s]["
+			, st.wYear , st.wMonth , st.wDay , st.wHour , st.wMinute , st.wSecond
+			, r.level_string()
+			, r.category.name().c_str());
+		OutputDebugString( msg );
+		OutputDebugString( r.message );
+		swprintf_s( msg , L"][%s][%s:%d]\r\n"
+			, r.function_name
+			, r.file_name
+			, r.line_number );
+		OutputDebugString( msg );
+	}	
+#endif
 	for ( writer_ptr& ptr : _impl->writers ) {
 		ptr->write( r );
 	}

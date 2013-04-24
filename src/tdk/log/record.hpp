@@ -6,6 +6,11 @@
 
 namespace tdk {
 namespace log {
+namespace {
+
+const int k_log_buffer_size = 4192;
+
+}
 
 enum class level {
 	log_debug = 0,
@@ -19,7 +24,8 @@ enum class level {
 struct record {
 	tdk::log::level				level;
 	const tdk::log::category&	category;
-	std::wstring				message;	// if windows mbs else utf-8 string
+	//std::wstring				message;	// if windows mbs else utf-8 string
+	wchar_t						message[k_log_buffer_size];
 	const wchar_t*				file_name;
 	int							line_number;
 	const wchar_t*				function_name;
@@ -29,7 +35,6 @@ struct record {
 
 	record( tdk::log::level l 
 	, const tdk::log::category& cate
-	, const std::wstring& msg 
 	, const wchar_t* file
 	, const int line
 	, const wchar_t* function );
@@ -40,7 +45,8 @@ struct record {
 struct record {
 	tdk::log::level				level;
 	const tdk::log::category&	category;
-	std::string					message;	// if windows mbs else utf-8 string
+	//std::wstring				message;	// if windows mbs else utf-8 string
+	char						message[k_log_buffer_size];
 	const char*					file_name;
 	int							line_number;
 	const char*					function_name;
@@ -50,7 +56,6 @@ struct record {
 
 	record( tdk::log::level l 
 	, const tdk::log::category& cate
-	, const std::string& msg 
 	, const char* file
 	, const int line
 	, const char* function );
