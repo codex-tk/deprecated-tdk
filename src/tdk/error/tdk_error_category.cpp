@@ -19,18 +19,18 @@ const char* tdk_error_category::name() const {
 	return "tdk_error_category";
 }
 
-std::string tdk_error_category::message(int ec) const  {
+tdk::tstring tdk_error_category::message(int ec) const  {
 	switch ( ec ) {
 	case errc::tdk_success:
-		return "tdk_success";
+		return L"tdk_success";
 	case errc::tdk_tls_not_initialized:
-		return "tdk_tls_not_initialized";
+		return L"tdk_tls_not_initialized";
 	case errc::tdk_network_user_abort:
-		return "tdk_network_user_abort";
+		return L"tdk_network_user_abort";
 	case errc::tdk_network_remote_closed:
-		return "tdk_network_remote_closed";
+		return L"tdk_network_remote_closed";
 	}
-	return std::string("undefined");
+	return tdk::tstring(L"undefined");
 }
 
 }

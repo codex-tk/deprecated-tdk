@@ -40,11 +40,11 @@ int _tmain(int argc, _TCHAR* argv[])
 
 	//CoInitialize( nullptr );
 
-	tdk::log::logger log("test.logger");
+	tdk::log::logger log(L"test.logger");
 	log.add_writer( tdk::log::console_writer::instance() );
 	LOG_D( log , _T("ÇÑ±Û %d") , 1 );	
 	LOG_D( log , "%s" , tdk::platform_error(0).message().c_str());
-	LOG_D( log , _T("%s") , tdk::string::mbs_to_wcs(tdk::platform_error(0).message()).c_str());
+	LOG_D( log , _T("%s") , tdk::platform_error(0).message().c_str() );
 	tdk::network::address addr("google.co.kr" , 80 );
 	LOG_D( log , "%s"  , addr.ip_address().c_str());
 	

@@ -13,15 +13,18 @@ protected:
 	~rc_ptr_base( void ){
 	}
 public:
-	void retain( void ) {
-		_counter.increment();
+	typedef typename T_counter::value_type value_type;
+	value_type retain( void ) {
+		return _counter.increment();
 	}
-
-	void release( void ) {
-		if ( _counter.decrement() == 0 ) {
+	
+	value_type release( void ) {
+		value_type val = _counter.decrement();
+		if ( val == 0 ) {
 			T_object* type = static_cast< T_object* >( this );
 			delete type;
 		}
+		return val;
 	}
 private:
 	T_counter _counter;
@@ -68,7 +71,9 @@ public:
 
     void release( void ) {
         if ( _ptr ){
-			_ptr->release();
+			if ( _ptr->release() == 0 ) {
+				_ptr = nullptr;
+			}
         }
     }
 

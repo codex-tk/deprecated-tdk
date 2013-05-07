@@ -96,6 +96,32 @@ void io_engine::add_recv_io( tdk::network::tcp::recv_operation* op ) {
 	}
 }
 
+void io_engine::add_recv_io( 
+	tdk::network::tcp::recv_operation* op 
+	, int size ) 
+{
+	_loop.increment_ref();
+	op->reset();
+	DWORD flag = 0;
+	WSABUF buffer;
+	buffer.buf = (CHAR*)op->buffer().wr_ptr();
+	buffer.len = min( op->buffer().space() , (std::size_t)size );
+	if ( WSARecv(	op->channel().socket().handle() 
+					, &buffer
+					, 1
+					, nullptr 
+					, &flag 
+					, op
+					, nullptr ) == SOCKET_ERROR )
+	{
+		tdk::error_code ec = tdk::platform_error();
+		if ( ec.value() != WSA_IO_PENDING ){
+			op->error( ec );
+			post( op );
+		}
+	}
+}
+
 void io_engine::add_send_io( tdk::network::tcp::send_operation* op ) {
 	static const int send_buffer_size = 256;
 

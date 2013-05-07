@@ -2,6 +2,7 @@
 #define __tdk_error_category_h__
 
 #include <string>
+#include <tdk/tdk.hpp>
 
 namespace tdk {
 
@@ -13,7 +14,7 @@ public:
 	error_category(void);
 	virtual ~error_category(void);
 	virtual const char *name() const = 0;
-	virtual std::string message(int _Errval) const = 0;
+	virtual tdk::tstring message(int _Errval) const = 0;
 
 	bool operator==(const error_category& _Right) const {	
 		return (this == &_Right);

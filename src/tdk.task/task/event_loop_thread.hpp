@@ -9,37 +9,13 @@ namespace task {
 
 class event_loop_thread {
 public:
-	event_loop_thread ( void ) {
-		_thread = new tdk::threading::thread( [this]()->int{
-			handler();
-			return 0;
-		});
-		_loop = new tdk::task::event_loop();
-	}
+	event_loop_thread ( void ) ;
+	~event_loop_thread ( void );
+	bool open( void );
+	void close( void );
+	void handler( void );
 
-	~event_loop_thread ( void ) {
-	
-	}
-
-	bool open( void ) {
-		if ( _loop->open() ) {
-			return _thread->start();
-		}
-		return false;
-	}
-
-	void close( void ) {
-
-	}
-
-	void handler( void ){
-		_loop->increment_ref();
-		_loop->run();
-	}
-
-	tdk::task::event_loop& loop( void ) {
-		return *_loop;
-	}
+	tdk::task::event_loop& loop( void ) ;
 private:
 	tdk::threading::thread* _thread;
 	tdk::task::event_loop* _loop;
