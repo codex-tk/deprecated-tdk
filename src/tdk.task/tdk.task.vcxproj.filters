@@ -78,6 +78,12 @@
     <ClInclude Include="network\udp\operation\recvfrom_operation.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="task\event_loop_thread.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="task\event_loop_group.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -135,6 +141,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="network\udp\operation\recvfrom_operation.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="task\event_loop_thread.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="task\event_loop_group.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
