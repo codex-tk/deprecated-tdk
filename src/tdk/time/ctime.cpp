@@ -116,7 +116,7 @@ int  ctime::bias() {
 #if defined(_WIN32) || defined(_WIN64)
 	TIME_ZONE_INFORMATION tz;
 	GetTimeZoneInformation( &tz );
-	return tz.Bias;
+	return tz.Bias + tz.DaylightBias;
 #else
 	static int diff = 0;
 	if ( diff == 0 ) {
