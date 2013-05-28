@@ -16,6 +16,9 @@
     <Filter Include="log">
       <UniqueIdentifier>{f206c8bb-3f55-4cc3-be0a-bd5e03098da5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="error">
+      <UniqueIdentifier>{47ca8e9c-1081-4612-8c29-e634023f939f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="tdk.clr.h">
@@ -36,6 +39,9 @@
     <ClInclude Include="writer.hpp">
       <Filter>log</Filter>
     </ClInclude>
+    <ClInclude Include="error_code.hpp">
+      <Filter>error</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="tdk.clr.cpp">
@@ -52,6 +58,9 @@
     </ClCompile>
     <ClCompile Include="file_writer.cpp">
       <Filter>log</Filter>
+    </ClCompile>
+    <ClCompile Include="error_code.cpp">
+      <Filter>error</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

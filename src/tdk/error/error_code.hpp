@@ -18,7 +18,7 @@ public:
 	error_code operator=( const error_code& rhs );
 	~error_code(void);
 
-	std::string message( void ) const;
+	tdk::tstring message( void ) const;
 
 	int value( void ) const;
 	const error_category& category( void ) const;

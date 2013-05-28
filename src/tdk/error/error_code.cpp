@@ -29,7 +29,7 @@ error_code::~error_code(void)
 }
 
 
-std::string error_code::message( void ) const {
+tdk::tstring error_code::message( void ) const {
 	return _category->message( _value );
 }
 

@@ -21,12 +21,18 @@ namespace tdk.net
         private void button1_Click(object sender, EventArgs e)
         {
             tdk.clr.log.logger logger = new clr.log.logger( "tdk.clr");
-            logger.add_file_writer( writer );
+            logger.add_writer( writer );
             logger.debug( "Debug Test {0} {1}" , DateTime.Now.ToString() , 1 );
 
             tdk.clr.log.logger logger2 = new clr.log.logger( "tdk.clr2");
-            logger2.add_file_writer( writer );
+            logger2.add_writer( writer );
             logger2.debug( "Debug Test {0} {1}" , DateTime.Now.ToString() , 1 );
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            tdk.clr.error_code ec = new clr.error_code();
+            System.Diagnostics.Trace.WriteLine(ec.message());
         }
     }
 }

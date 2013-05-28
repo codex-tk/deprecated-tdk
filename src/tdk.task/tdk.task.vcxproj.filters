@@ -78,6 +78,9 @@
     <ClInclude Include="network\udp\operation\recvfrom_operation.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="network\tcp\session.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -135,6 +138,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="network\udp\operation\recvfrom_operation.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="network\tcp\session.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

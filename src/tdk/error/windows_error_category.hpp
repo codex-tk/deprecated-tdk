@@ -11,7 +11,7 @@ public:
 	virtual ~windows_error_category(void) ;
 	virtual const char *name() const;
 	// mbs
-	virtual std::string message(int _Errval) const ;
+	virtual tdk::tstring message(int _Errval) const ;
 };
 
 }
