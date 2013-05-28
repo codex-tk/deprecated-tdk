@@ -32,6 +32,10 @@ void channel::recv( recv_operation* op  ) {
 	loop().engine().add_recv_io( op );
 }
 
+void channel::recv( recv_operation* op , int size ) {
+	loop().engine().add_recv_io( op , size );
+}
+
 void channel::send( send_operation* op ) {
 	loop().engine().add_send_io( op );
 }

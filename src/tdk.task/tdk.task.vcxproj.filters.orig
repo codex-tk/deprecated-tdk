@@ -78,13 +78,14 @@
     <ClInclude Include="network\udp\operation\recvfrom_operation.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+<<<<<<< HEAD
+    <ClInclude Include="network\tcp\session.hpp">
+=======
     <ClInclude Include="task\event_loop_thread.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="task\event_loop_group.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="network\tcp\session.hpp">
+>>>>>>> 3adc391ea7fb143f0a56e6c1a51defbe7a1f2002
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -146,13 +147,14 @@
     <ClCompile Include="network\udp\operation\recvfrom_operation.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+<<<<<<< HEAD
+    <ClCompile Include="network\tcp\session.cpp">
+=======
     <ClCompile Include="task\event_loop_thread.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="task\event_loop_group.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="network\tcp\session.cpp">
+>>>>>>> 3adc391ea7fb143f0a56e6c1a51defbe7a1f2002
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

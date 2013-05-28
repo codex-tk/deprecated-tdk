@@ -32,6 +32,7 @@ public:
 
 	void add_accept_io( tdk::network::tcp::accept_operation* op );
 	void add_recv_io( tdk::network::tcp::recv_operation* op );
+	void add_recv_io( tdk::network::tcp::recv_operation* op , int size );
 	void add_send_io( tdk::network::tcp::send_operation* op );
 	void add_connect_io( tdk::network::tcp::connect_operation* op );
 	void add_recvfrom_io( tdk::network::udp::recvfrom_operation* op );

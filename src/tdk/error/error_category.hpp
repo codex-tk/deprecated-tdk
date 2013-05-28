@@ -2,6 +2,7 @@
 #define __tdk_error_category_h__
 
 #include <string>
+#include <tdk/tdk.hpp>
 
 
 namespace tdk {

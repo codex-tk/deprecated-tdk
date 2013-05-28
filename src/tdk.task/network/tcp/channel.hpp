@@ -20,6 +20,7 @@ public:
 	void close( void );
 
 	void recv( recv_operation* op );
+	void recv( recv_operation* op , int size );
 	void send( send_operation* op );
 
 	tdk::network::socket& socket( void );

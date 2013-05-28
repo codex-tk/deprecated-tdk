@@ -75,7 +75,7 @@ public:
 	}
 
 	virtual void on_recv( tdk::network::tcp::stream& s , tdk::buffer::memory_block& mb ) {
-		tdk::log::logger logger( "test.logger" );
+		tdk::log::logger logger( L"test.logger" );
 		LOG_D( logger , "OnRecv" );
 
 		int* header = (int*)mb.rd_ptr();
@@ -109,12 +109,12 @@ public:
 	}
 
 	virtual void on_error( tdk::network::tcp::stream& s , const tdk::error_code& code ) {
-		tdk::log::logger logger( "test.logger" );
+		tdk::log::logger logger( L"test.logger" );
 		LOG_D( logger , "on_error %s" , code.message().c_str());
 		
 	}
 	virtual void on_close( tdk::network::tcp::stream& s ) {
-		tdk::log::logger logger( "test.logger" );
+		tdk::log::logger logger( L"test.logger" );
 		LOG_D( logger , "on_close" );
 		delete this;
 	}

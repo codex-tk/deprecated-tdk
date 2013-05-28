@@ -46,7 +46,7 @@ void __stdcall on_recv_complete( tdk::network::tcp::recv_operation& r )
 	} else {
 		char e = '\0';
 		r.buffer().write( &e , 1);
-		tdk::log::logger log("test.logger");
+		tdk::log::logger log(L"test.logger");
 		LOG_D( log , "%s" , r.buffer().rd_ptr());
 		r.channel().send( r.buffer() , [] ( tdk::network::tcp::send_operation& sr ) {
 		});
