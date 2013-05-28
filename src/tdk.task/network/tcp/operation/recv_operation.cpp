@@ -35,6 +35,12 @@ void recv_operation::buffer( const tdk::buffer::memory_block& mb ) {
 	_buffer = mb;
 }
 
+void recv_operation::operator()(void){
+	if ( io_byte() > 0 ) {
+		_buffer.wr_ptr( io_byte());
+	}
+}
+/*
 void recv_operation::before_dispatch( void ) {
 	if ( io_byte() > 0 ) {
 		_buffer.wr_ptr( io_byte());
@@ -43,6 +49,6 @@ void recv_operation::before_dispatch( void ) {
 
 void recv_operation::after_dispatch( void ) {
 }
-
+*/
 
 }}}

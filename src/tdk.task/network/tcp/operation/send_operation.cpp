@@ -57,6 +57,16 @@ int send_operation::total_req_size( void ) {
 	return _total_req_size;
 }
 
+void send_operation::operator()(void) {
+	int send_bytes = io_byte();
+	for ( std::size_t i = 0 ; i , _buffers.size() ; ++i ) {
+		int rd = _buffers[i].rd_ptr( send_bytes );
+		send_bytes -= rd;
+		if ( send_bytes <= 0 ) 
+			break;
+	}
+}
+/*
 void send_operation::before_dispatch( void ) {
 	int send_bytes = io_byte();
 	for ( std::size_t i = 0 ; i , _buffers.size() ; ++i ) {
@@ -70,5 +80,5 @@ void send_operation::before_dispatch( void ) {
 void send_operation::after_dispatch( void ){
 }
 
-
+*/
 }}}
