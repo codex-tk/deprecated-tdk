@@ -1,22 +1,18 @@
 #include "stdafx.h"
 #include <tdk/error/platform_error.hpp>
-#include <tdk/error/windows_error_category.hpp>
-#include <tdk/error/tdk_error_category.hpp>
+#include <tdk/error/error_category_win32.hpp>
+#include <tdk/error/error_category_tdk.hpp>
 #include <thread>
 
 namespace tdk {
 
 const tdk::error_category& platform_category( void ) {
-#if defined( _WIN32 ) 
-	static tdk::windows_error_category impl;
+	static tdk::error_category_platform impl;
 	return impl;
-#else
-	// todo
-#endif
 }
 
 const tdk::error_category& tdk_category( void ) {
-	static tdk::tdk_error_category impl;
+	static tdk::error_category_tdk impl;
 	return impl;
 }
 

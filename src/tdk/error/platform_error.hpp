@@ -2,7 +2,7 @@
 #define __tdk_platform_error_castgory_h__
 
 #include <tdk/error/error_code.hpp>
-#include <tdk/error/tdk_error_category.hpp>
+#include <tdk/error/error_category_tdk.hpp>
 namespace tdk {
 	
 const tdk::error_category& platform_category( void );

@@ -84,7 +84,7 @@
     <ClInclude Include="error\error_code.hpp" />
     <ClInclude Include="error\last_error.hpp" />
     <ClInclude Include="error\platform_error.hpp" />
-    <ClInclude Include="error\tdk_error_category.hpp" />
+    <ClInclude Include="error\error_category_tdk.hpp" />
     <ClInclude Include="log\category.hpp" />
     <ClInclude Include="log\formatter\formatter.hpp" />
     <ClInclude Include="log\formatter\string_formatter.hpp" />
@@ -97,7 +97,7 @@
     <ClInclude Include="network\socket.hpp" />
     <ClInclude Include="task\handler.hpp" />
     <ClInclude Include="tdk.hpp" />
-    <ClInclude Include="error\windows_error_category.hpp" />
+    <ClInclude Include="error\error_category_platform.hpp" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="threading\atomic\atomic.hpp" />
@@ -123,8 +123,8 @@
     <ClCompile Include="error\error_code.cpp" />
     <ClCompile Include="error\last_error.cpp" />
     <ClCompile Include="error\platform_error.cpp" />
-    <ClCompile Include="error\tdk_error_category.cpp" />
-    <ClCompile Include="error\windows_error_category.cpp" />
+    <ClCompile Include="error\error_category_tdk.cpp" />
+    <ClCompile Include="error\error_category_platform_win32.cpp" />
     <ClCompile Include="log\category.cpp" />
     <ClCompile Include="log\formatter\formatter.cpp" />
     <ClCompile Include="log\formatter\string_formatter.cpp" />

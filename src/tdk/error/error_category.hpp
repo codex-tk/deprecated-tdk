@@ -14,7 +14,7 @@ class error_category {
 public:
 	error_category(void);
 	virtual ~error_category(void);
-	virtual const char *name() const = 0;
+	virtual const TCHAR* name() const = 0;
 	virtual tdk::tstring message(int _Errval) const = 0;
 
 	bool operator==(const error_category& _Right) const {	
