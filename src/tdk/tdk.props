@@ -4,9 +4,9 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
     <OutDir>$(SolutionDir)build\$(PlatformName)-$(Configuration)\</OutDir>
-    <IntDir>$(SolutionDir)build\$(PlatformName)-$(Configuration)\$(ProjectName)\</IntDir>
+    <IntDir>$(SolutionDir)build\intermediate\$(PlatformName)-$(Configuration)\$(ProjectName)\</IntDir>
     <IncludePath>$(SolutionDir);$(ProjectDir);$(IncludePath)</IncludePath>
-    <LibraryPath>$(OutDir);$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(SolutionDir)build\$(PlatformName)-$(Configuration)\;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup>
     <ClCompile>
