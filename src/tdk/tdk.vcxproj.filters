@@ -126,6 +126,15 @@
     <ClInclude Include="error\error_category_platform.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="io\handler.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="io\network\address.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="io\network\socket.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -146,13 +155,7 @@
     <ClCompile Include="time\time_span.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="threading\atomic\atomic_win32.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="threading\atomic\memory_order_win32.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="threading\spin_lock.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="util\string_win32.cpp">
@@ -203,9 +206,6 @@
     <ClCompile Include="error\last_error.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="threading\thread_local.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="threading\thread_data.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -215,9 +215,6 @@
     <ClCompile Include="error\error_category.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="threading\thread.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="log\writer\file_writer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -225,6 +222,24 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="error\error_category_platform_win32.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="threading\atomic\atomic_win32.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="threading\spin_lock_win32.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="threading\thread_local_win32.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="threading\thread_win32.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="io\network\address.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="io\network\socket.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

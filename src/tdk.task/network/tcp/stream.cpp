@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include <tdk.task/network/tcp/stream.hpp>
 #include <tdk.task/task/event_loop.hpp>
-#include <tdk/error/tdk_error_category.hpp>
+#include <tdk/error/error_category_tdk.hpp>
 #include <tdk/error/platform_error.hpp>
 namespace tdk {
 namespace network {

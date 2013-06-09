@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include <tdk/error/platform_error.hpp>
-#include <tdk/error/error_category_win32.hpp>
+#include <tdk/error/error_category_platform.hpp>
 #include <tdk/error/error_category_tdk.hpp>
 #include <thread>
 
@@ -21,7 +21,11 @@ tdk::error_code platform_error( int ec ) {
 }
 
 tdk::error_code platform_error( void ){
+#if defined( _WIN32 )
 	return tdk::error_code( GetLastError() , platform_category());
+#else
+	return tdk::error_code( errno , platform_category());
+#endif
 }
 
 

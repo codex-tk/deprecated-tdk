@@ -98,7 +98,7 @@ public:
 
 			}
 			virtual void operator()(void ){
-				base_type::operator();
+				base_type::operator()();
 				//before_dispatch();
 				_handler( *this );
 				//after_dispatch();
@@ -127,7 +127,7 @@ public:
 
 			}
 			virtual void operator()(void ){
-				base_type::operator();
+				base_type::operator()();
 				//before_dispatch();
 				_handler( *this );
 				//after_dispatch();

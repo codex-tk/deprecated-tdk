@@ -10,8 +10,6 @@
 #include <tdk/network/address.hpp>
 #include <tdk.task/task/event_loop.hpp>
 
-
-
 #if defined ( _DEBUG )
 	#pragma comment( lib , "gtest_x86_debug_mdd")
 	//#pragma comment( lib , "gtest_x86_debug_mtd")
@@ -35,6 +33,13 @@
 int _tmain(int argc, _TCHAR* argv[])
 {
 	testing::InitGoogleTest( &argc , argv );
+
+	tdk::threading::atomic32::value_type v;
+	tdk::threading::atomic32::increment(&v);
+
+	tdk::error_code ec( tdk::platform_error() );
+
+	tdk::tstring msg = ec.message();
 
 	tdk::init();
 
