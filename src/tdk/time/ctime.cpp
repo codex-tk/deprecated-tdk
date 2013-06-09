@@ -115,17 +115,8 @@ time_t ctime::mktime( const tm& aTm ) {
 int  ctime::bias() {
 #if defined(_WIN32) || defined(_WIN64)
 	TIME_ZONE_INFORMATION tz;
-	memset( &tz , 0x00 , sizeof( &tz ));
-	int ret =  GetTimeZoneInformation( &tz );
-	switch( ret  ) {
-	case 0://TIME_ZONE_ID_UNKNOWN
-		return tz.Bias;
-	case 1://TIME_ZONE_ID_STANDARD
-		return tz.StandardBias;
-	case 2://TIME_ZONE_ID_DAYLIGHT
-		return tz.DaylightBias;
-	}
-	return 0;
+	GetTimeZoneInformation( &tz );
+	return tz.Bias + tz.DaylightBias;
 #else
 	static int diff = 0;
 	if ( diff == 0 ) {

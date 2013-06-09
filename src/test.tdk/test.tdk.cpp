@@ -13,11 +13,11 @@
 
 
 #if defined ( _DEBUG )
-	//#pragma comment( lib , "gtest_x86_debug_mdd")
-	#pragma comment( lib , "gtest_x86_debug_mtd")
+	#pragma comment( lib , "gtest_x86_debug_mdd")
+	//#pragma comment( lib , "gtest_x86_debug_mtd")
 #else
-	//#pragma comment( lib , "gtest_x86_release_mt")
-	#pragma comment( lib , "gtest_x86_release_md")
+	#pragma comment( lib , "gtest_x86_release_mt")
+	//#pragma comment( lib , "gtest_x86_release_md")
 #endif
 
 #pragma comment( lib , "tdk.lib")

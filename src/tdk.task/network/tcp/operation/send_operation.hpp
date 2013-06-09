@@ -22,10 +22,10 @@ public:
 	void buffer( const tdk::buffer::memory_block& mb );
 	void buffers( const std::vector< tdk::buffer::memory_block >& bufs );
 	int total_req_size( void );
-
+	/*
 	void before_dispatch( void );
-	void after_dispatch( void );
-
+	void after_dispatch( void );*/
+	virtual void operator()(void);
 private:
 	tdk::network::tcp::channel* _channel;
 	std::vector< tdk::buffer::memory_block > _buffers;

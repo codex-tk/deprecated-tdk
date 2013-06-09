@@ -1,25 +1,25 @@
 #include "stdafx.h"
 
-#include <tdk/error/windows_error_category.hpp>
+#include <tdk/error/error_category_platform.hpp>
 #include <tdk/util/string.hpp>
 
 #include <sstream>
 
 namespace tdk {
 
-windows_error_category::windows_error_category(void) {
+error_category_platform::error_category_platform(void) {
 
 }
 
-windows_error_category::~windows_error_category(void) {
+error_category_platform::~error_category_platform(void) {
 
 }
 
-const char* windows_error_category::name() const {
-	return "windows_error_category";
+const TCHAR* error_category_platform::name() const {
+	return _T("error_category_win32");
 }
 
-tdk::tstring windows_error_category::message(int ec) const  {
+tdk::tstring error_category_platform::message(int ec) const  {
 	const size_t buffer_size = 4096;
     DWORD dwFlags = FORMAT_MESSAGE_FROM_SYSTEM;
     LPCVOID lpSource = NULL;
@@ -31,9 +31,9 @@ tdk::tstring windows_error_category::message(int ec) const  {
     }
 #endif*/
 
-	wchar_t buffer[buffer_size] = {0,};
+	TCHAR buffer[buffer_size] = {0,};
 	unsigned long result;
-    result = ::FormatMessageW(
+    result = ::FormatMessage(
         dwFlags,
         lpSource,
         ec,

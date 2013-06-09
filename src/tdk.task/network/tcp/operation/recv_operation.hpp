@@ -19,9 +19,10 @@ public:
 	tdk::network::tcp::channel& channel( void );
 	tdk::buffer::memory_block& buffer( void );
 	void buffer( const tdk::buffer::memory_block& mb );
-
+	/*
 	void before_dispatch( void );
-	void after_dispatch( void );
+	void after_dispatch( void );*/
+	virtual void operator()(void);
 private:
 	tdk::network::tcp::channel* _channel;
 	tdk::buffer::memory_block _buffer;

@@ -21,9 +21,6 @@
     <ClInclude Include="targetver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="error\windows_error_category.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="util\string.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -120,10 +117,13 @@
     <ClInclude Include="util\rc_ptr.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="error\tdk_error_category.hpp">
+    <ClInclude Include="log\writer\file_writer.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="log\writer\file_writer.hpp">
+    <ClInclude Include="error\error_category_tdk.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="error\error_category_platform.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -131,13 +131,7 @@
     <ClCompile Include="stdafx.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="error\windows_error_category.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="error\platform_error.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="error\tdk_error_category.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="time\ctime.cpp">
@@ -225,6 +219,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="log\writer\file_writer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="error\error_category_tdk.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="error\error_category_platform_win32.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -1,7 +1,7 @@
 #include "stdafx.h"
 
 #include <tdk/error/last_error.hpp>
-#include <tdk/error/tdk_error_category.hpp>
+#include <tdk/error/error_category_tdk.hpp>
 #include <tdk/threading/thread_data.hpp>
 
 #include <thread>

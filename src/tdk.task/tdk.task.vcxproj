@@ -85,6 +85,7 @@
     <ClInclude Include="network\tcp\operation\connect_operation.hpp" />
     <ClInclude Include="network\tcp\operation\recv_operation.hpp" />
     <ClInclude Include="network\tcp\operation\send_operation.hpp" />
+    <ClInclude Include="network\tcp\session.hpp" />
     <ClInclude Include="network\tcp\stream.hpp" />
     <ClInclude Include="network\udp\channel.hpp" />
     <ClInclude Include="network\udp\operation\recvfrom_operation.hpp" />
@@ -109,6 +110,7 @@
     <ClCompile Include="network\tcp\operation\connect_operation.cpp" />
     <ClCompile Include="network\tcp\operation\recv_operation.cpp" />
     <ClCompile Include="network\tcp\operation\send_operation.cpp" />
+    <ClCompile Include="network\tcp\session.cpp" />
     <ClCompile Include="network\tcp\stream.cpp" />
     <ClCompile Include="network\udp\channel.cpp" />
     <ClCompile Include="network\udp\operation\recvfrom_operation.cpp" />
