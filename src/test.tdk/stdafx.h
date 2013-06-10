@@ -27,5 +27,7 @@
 #include <gtest/gtest.h>
 
 
+#include <tdk/tdk.hpp>
+#include <tdk/error/error_code.hpp>
 
 // TODO: reference additional headers your program requires here

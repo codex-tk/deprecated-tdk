@@ -4,6 +4,7 @@
 #include <system_error>
 #include <tdk/error/error_category.hpp>
 namespace tdk {
+namespace platform {
 
 class error_category_platform : public tdk::error_category {
 public:
@@ -14,6 +15,6 @@ public:
 	virtual tdk::tstring message(int _Errval) const ;
 };
 
-}
+}}
 
 #endif

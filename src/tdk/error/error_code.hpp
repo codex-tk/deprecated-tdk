@@ -42,4 +42,8 @@ static bool operator!=( const error_code& lhs , const error_code& rhs ) {
 
 }
 
+#include <tdk/error/last_error.hpp>
+#include <tdk/error/error_platform.hpp>
+#include <tdk/error/error_tdk.hpp>
+
 #endif

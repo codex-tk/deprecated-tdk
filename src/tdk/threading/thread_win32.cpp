@@ -1,13 +1,7 @@
 #include "stdafx.h"
 #include <tdk/threading/thread.hpp>
 #include <tdk/threading/thread_data.hpp>
-#include <tdk/error/last_error.hpp>
-#include <tdk/error/platform_error.hpp>
-/*
-#include "last_error.hpp"
-#include "mini_dump_handler.hpp"
-#include "lib_tls.hpp"
-*/
+
 namespace tdk { namespace threading {
 
 unsigned int __stdcall thread_entry_point( void* arg ) {
@@ -35,7 +29,7 @@ bool thread::start( void ) {
 			, this 
 			, 0 
 			, &tid ));
-	tdk::set_last_error( tdk::platform_error() );
+	tdk::set_last_error( tdk::platform::error() );
 	return _handle != INVALID_HANDLE_VALUE;
 }
 
@@ -50,7 +44,7 @@ bool thread::stop( const tdk::time_span& wait ) {
 		case WAIT_FAILED:
 			break;
 		}
-		tdk::set_last_error( tdk::platform_error() );
+		tdk::set_last_error( tdk::platform::error() );
 	}
 	return _handle == INVALID_HANDLE_VALUE;
 }

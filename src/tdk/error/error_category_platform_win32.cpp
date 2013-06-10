@@ -6,7 +6,7 @@
 #include <sstream>
 
 namespace tdk {
-
+namespace platform {
 error_category_platform::error_category_platform(void) {
 
 }
@@ -69,4 +69,4 @@ tdk::tstring error_category_platform::message(int ec) const  {
 	return std::string( buffer );*/
 }
 
-}
+}}

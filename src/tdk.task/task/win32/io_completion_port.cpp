@@ -1,7 +1,6 @@
 #include "stdafx.h"
 
-#include <tdk/tdk.hpp>
-#include <tdk/error/last_error.hpp>
+
 
 #include <tdk.task/task/win32/io_completion_port.hpp>
 #include <tdk.task/task/win32/io_engine.hpp>
@@ -27,7 +26,7 @@ bool io_completion_port::open( complete_callback cb , void* ctx , int concurrent
 	_handle = CreateIoCompletionPort( INVALID_HANDLE_VALUE , NULL , NULL , concurrent_thread );
 	if ( _handle == INVALID_HANDLE_VALUE ) {
 		TDK_ASSERT( !"CreateIoCompletionPort Failed" );
-		tdk::set_last_error( tdk::platform_error());
+		tdk::set_last_error( tdk::platform::error());
 		return false;
 	}
 	return true;
@@ -43,13 +42,13 @@ void io_completion_port::close( void ) {
 bool io_completion_port::bind( SOCKET fd , void* object ) {
 	if ( _handle == NULL ) {
 		TDK_ASSERT( !"uninitialized port" );
-		tdk::set_last_error( tdk::platform_error());
+		tdk::set_last_error( tdk::platform::error());
 		return false;
 	}
 
 	if ( fd == INVALID_SOCKET ) {
 		TDK_ASSERT( !"invalid_parameter" );
-		tdk::set_last_error( tdk::platform_error());
+		tdk::set_last_error( tdk::platform::error());
 		return false;
 	}
 	if ( CreateIoCompletionPort( reinterpret_cast< HANDLE >(fd) 
@@ -58,7 +57,7 @@ bool io_completion_port::bind( SOCKET fd , void* object ) {
 		, 0 ) == NULL ) 
 	{
 		TDK_ASSERT( !"CreateIoCompletionPort Failed" );
-		tdk::set_last_error( tdk::platform_error());
+		tdk::set_last_error( tdk::platform::error());
 		return false;
 	}
 	return true;
@@ -75,7 +74,7 @@ HANDLE io_completion_port::handle(void)const {
 bool io_completion_port::post( int byte , void* key , OVERLAPPED* ov  ) {
 	if ( _handle == NULL ) {
 		TDK_ASSERT( !"uninitialized port" );
-		tdk::set_last_error( tdk::platform_error());
+		tdk::set_last_error( tdk::platform::error());
 		return false;
 	}
 
@@ -86,7 +85,7 @@ bool io_completion_port::post( int byte , void* key , OVERLAPPED* ov  ) {
 				, ov ) == FALSE )
 	{
 		TDK_ASSERT( !"PostQueuedCompletionStatus Failed" );
-		tdk::set_last_error( tdk::platform_error());
+		tdk::set_last_error( tdk::platform::error());
 		return false;
 	}
 	return true;
@@ -105,7 +104,7 @@ int io_completion_port::wait( const tdk::time_span& t ){
 						, FALSE ) == TRUE;
 
 	if ( !result ) {
-		tdk::error_code code = tdk::platform_error();
+		tdk::error_code code = tdk::platform::error();
 		switch ( code.value() ) {
 		case WAIT_TIMEOUT:
 			break;
@@ -117,7 +116,7 @@ int io_completion_port::wait( const tdk::time_span& t ){
 	}
 
 	for ( ULONG i = 0 ; i < entry_count ; ++i ) {
-		tdk::error_code code = tdk::platform_error( static_cast<int>(entry[i].Internal));
+		tdk::error_code code = tdk::platform::error( static_cast<int>(entry[i].Internal));
 		_callback( code 
 			, entry[i].dwNumberOfBytesTransferred
 			, reinterpret_cast< void* >(entry[i].lpCompletionKey)
@@ -138,7 +137,7 @@ int io_completion_port::wait( const tdk::time_span& t ){
 
 	tdk::error_code code;
 	if ( !result ) {
-		code = tdk::platform_error();
+		code = tdk::platform::error();
 		switch ( code.value() ) {
 		case WAIT_TIMEOUT:
 			return 0;

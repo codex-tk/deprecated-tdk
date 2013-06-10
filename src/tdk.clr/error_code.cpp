@@ -3,7 +3,7 @@
 
 #include <msclr/marshal_cppstd.h>
 
-#include <tdk/error/platform_error.hpp>
+#include <tdk/error/error_platform.hpp>
 
 using namespace msclr::interop;
 
@@ -11,7 +11,7 @@ namespace tdk {
 namespace clr {
 
 error_code::error_code( void )
-	: _value( 0 ) , _category(&tdk::platform_category()){
+	: _value( 0 ) , _category(&tdk::platform::category()){
 
 }
 

@@ -1,11 +1,11 @@
 #include "stdafx.h"
 #include <tdk/error/error_code.hpp>
 #include <tdk/error/error_category.hpp>
-#include <tdk/error/platform_error.hpp>
+#include <tdk/error/error_platform.hpp>
 namespace tdk { 
 
 error_code::error_code( void )
-	: _value(0) , _category( &platform_category() ){
+	: _value(0) , _category( &platform::category() ){
 }
 
 error_code::error_code(int ec , const error_category& category)

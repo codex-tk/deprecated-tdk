@@ -2,7 +2,7 @@
 #include <tdk.task/network/tcp/stream.hpp>
 #include <tdk.task/task/event_loop.hpp>
 #include <tdk/error/error_category_tdk.hpp>
-#include <tdk/error/platform_error.hpp>
+#include <tdk/error/error_platform.hpp>
 namespace tdk {
 namespace network {
 namespace tcp {
@@ -83,7 +83,7 @@ void stream::_post_close( void ) {
 }
 
 void stream::close() {
-	_internal_close(tdk::tdk_error( tdk::errc::tdk_network_user_abort ) , true );
+	_internal_close(tdk::error( tdk::errc::tdk_network_user_abort ) , true );
 }
 
 void stream::recv( const tdk::buffer::memory_block& mb ) {
@@ -131,7 +131,7 @@ void stream::_on_recv( tdk::network::tcp::recv_operation& r ) {
 		return;
 	}
 	if ( r.io_byte() == 0 && r.buffer().space() != 0 ) {
-		_internal_close( tdk::tdk_error( tdk::errc::tdk_network_remote_closed ));
+		_internal_close( tdk::error( tdk::errc::tdk_network_remote_closed ));
 		return;
 	}
 	handler()->on_recv( *this , r.buffer() );

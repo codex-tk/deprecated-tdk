@@ -2,7 +2,7 @@
 #include <tdk.task/task/operation.hpp>
 #include <tdk.task/task/win32/io_engine.hpp>
 #include <tdk.task/task/event_loop.hpp>
-#include <tdk/error/platform_error.hpp>
+#include <tdk/error/error_platform.hpp>
 #include <tdk.task/network/tcp/channel.hpp>
 #include <tdk.task/task/event_loop.hpp>
 
@@ -51,7 +51,7 @@ void io_engine::add_accept_io( tdk::network::tcp::accept_operation* op) {
 	_loop.increment_ref();
 	op->reset();	
 	if ( !op->socket().open_tcp( op->acceptor().address().family() )) {
-		op->error( platform_error() );
+		op->error( platform::error() );
 		post( op );
 		return;
 	}
@@ -65,7 +65,7 @@ void io_engine::add_accept_io( tdk::network::tcp::accept_operation* op) {
                     &dwBytes , 
                     op ) == FALSE ) 
     {
-		tdk::error_code ec = tdk::platform_error();
+		tdk::error_code ec = tdk::platform::error();
 		if ( ec.value() != WSA_IO_PENDING ){
 			op->error( ec );
 			post( op );
@@ -88,7 +88,7 @@ void io_engine::add_recv_io( tdk::network::tcp::recv_operation* op ) {
 					, op
 					, nullptr ) == SOCKET_ERROR )
 	{
-		tdk::error_code ec = tdk::platform_error();
+		tdk::error_code ec = tdk::platform::error();
 		if ( ec.value() != WSA_IO_PENDING ){
 			op->error( ec );
 			post( op );
@@ -114,7 +114,7 @@ void io_engine::add_recv_io(
 					, op
 					, nullptr ) == SOCKET_ERROR )
 	{
-		tdk::error_code ec = tdk::platform_error();
+		tdk::error_code ec = tdk::platform::error();
 		if ( ec.value() != WSA_IO_PENDING ){
 			op->error( ec );
 			post( op );
@@ -140,7 +140,7 @@ void io_engine::add_send_io( tdk::network::tcp::send_operation* op ) {
 		}
 	}
 	if ( i <= 0 ) {
-		op->error( platform_error( ERROR_INVALID_PARAMETER ));
+		op->error( platform::error( ERROR_INVALID_PARAMETER ));
 		post( op );
 		return;
 	} 
@@ -153,7 +153,7 @@ void io_engine::add_send_io( tdk::network::tcp::send_operation* op ) {
 					, op
 					, nullptr ) == SOCKET_ERROR )
 	{
-		tdk::error_code ec = tdk::platform_error();
+		tdk::error_code ec = tdk::platform::error();
 		if ( ec.value() != WSA_IO_PENDING ){
 			op->error( ec );
 			post( op );
@@ -166,14 +166,14 @@ void io_engine::add_connect_io( tdk::network::tcp::connect_operation* op ) {
 	tdk::network::socket fd;
 	if ( !fd.open_tcp( op->address().family())) {
 		fd.close();
-		op->error( platform_error());
+		op->error( platform::error());
 		post( op );
 		return;
 	}
 
 	if ( !op->channel().open( fd ) ) {
 		fd.close();
-		op->error( platform_error());
+		op->error( platform::error());
 		post( op );
 		return;
 	}
@@ -181,7 +181,7 @@ void io_engine::add_connect_io( tdk::network::tcp::connect_operation* op ) {
 	tdk::network::address bind_addr = tdk::network::address::any( 0 , op->address().family() );
 	if ( !op->channel().socket().bind( bind_addr ) ) {
 		fd.close();
-		op->error( platform_error());
+		op->error( platform::error());
 		post( op );
 		return;
 	}
@@ -202,14 +202,14 @@ void io_engine::add_connect_io( tdk::network::tcp::connect_operation* op ) {
 			nullptr ) == SOCKET_ERROR ) 
 	{
 		fd.close();
-		op->error( platform_error());
+		op->error( platform::error());
 		post( op );
 		return;
 	}
         
 	if ( fp_connect_ex == nullptr ) {
 		fd.close();
-		op->error( platform_error());
+		op->error( platform::error());
 		post( op );
 		return;
 	}
@@ -223,10 +223,10 @@ void io_engine::add_connect_io( tdk::network::tcp::connect_operation* op ) {
 						&dwbytes ,
 						op ) == FALSE ) 
 	{
-		tdk::error_code ec = tdk::platform_error();
+		tdk::error_code ec = tdk::platform::error();
 		if ( ec.value() != WSA_IO_PENDING ){
 			fd.close();
-			op->error( platform_error());
+			op->error( platform::error());
 			post( op );
 			return;
 		}
@@ -251,7 +251,7 @@ void io_engine::add_recvfrom_io( tdk::network::udp::recvfrom_operation* op ) {
 					, op
 					, nullptr ) == SOCKET_ERROR )
 	{
-		tdk::error_code ec = tdk::platform_error();
+		tdk::error_code ec = tdk::platform::error();
 		if ( ec.value() != WSA_IO_PENDING ){
 			op->error( ec );
 			post( op );

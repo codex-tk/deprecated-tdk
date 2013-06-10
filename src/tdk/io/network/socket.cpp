@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include <tdk/io/network/socket.hpp>
 #include <tdk/tdk.hpp>
-#include <tdk/error/last_error.hpp>
+
 
 namespace tdk {
 namespace io {
@@ -49,7 +49,7 @@ bool socket::open( const int addressFamily , const int type , const int protocol
 						 protocol );
 #endif
 	if ( _handle == INVALID_SOCKET ) {
-		tdk::set_last_error( tdk::platform_error());
+		tdk::set_last_error( tdk::platform::error());
 		TDK_ASSERT(!"[tdk::network::socket::open()] socket create fail" );
 		return false;
 	}
@@ -69,7 +69,7 @@ void socket::close( void ) {
 
 bool socket::shutdown( const int type ) {
 	if ( ::shutdown( handle() , type ) == SOCKET_ERROR ) {
-		tdk::set_last_error( tdk::platform_error());
+		tdk::set_last_error( tdk::platform::error());
 		return false;
 	}
 	return true;
@@ -80,7 +80,7 @@ bool socket::bind( const tdk::network::address& addr ) {
 			, addr.sockaddr() 
 			, addr.sockaddr_length()) == SOCKET_ERROR )
 	{
-		tdk::set_last_error( tdk::platform_error());
+		tdk::set_last_error( tdk::platform::error());
 		return false;
 	}
 	return true;
@@ -88,7 +88,7 @@ bool socket::bind( const tdk::network::address& addr ) {
 
 bool socket::listen( const int pending ) {
 	if ( ::listen( handle() , pending ) == SOCKET_ERROR ){
-		tdk::set_last_error( tdk::platform_error());
+		tdk::set_last_error( tdk::platform::error());
 		TDK_ASSERT(!"[tdk::network::socket::listen()] listen fail" );
 		return false;
 	}
@@ -101,7 +101,7 @@ tdk::network::address socket::local_address( void ) const  {
 		, address.sockaddr()
 		, address.sockaddr_length_ptr() );
 	if ( err != 0 ) {
-		tdk::set_last_error( tdk::platform_error());		
+		tdk::set_last_error( tdk::platform::error());		
 	}
 	return address;
 }
@@ -112,7 +112,7 @@ tdk::network::address socket::remote_address( void ) const {
 		, address.sockaddr()
 		, address.sockaddr_length_ptr() );
 	if ( err != 0 ) {
-		tdk::set_last_error( tdk::platform_error());
+		tdk::set_last_error( tdk::platform::error());
 	}
     return address;
 }
@@ -120,7 +120,7 @@ tdk::network::address socket::remote_address( void ) const {
 bool socket::connect( const tdk::network::address& address ) const {
 	int err = ::connect( handle() , address.sockaddr() , address.sockaddr_length());
 	if ( err != 0 ) {
-		tdk::set_last_error( tdk::platform_error());
+		tdk::set_last_error( tdk::platform::error());
 		return false;
 	}
 	return true;
@@ -159,7 +159,7 @@ int socket::sendto( void* buf
 
 bool socket::wait_for_recv( const tdk::time_span& wait ) const {
 	if ( handle() == INVALID_SOCKET ) {
-		tdk::set_last_error( tdk::platform_error());
+		tdk::set_last_error( tdk::platform::error());
 		return false;
 	}
 	fd_set fdset;
@@ -169,7 +169,7 @@ bool socket::wait_for_recv( const tdk::time_span& wait ) const {
     timeval tval = wait.to_timeval();
 #if defined(_WIN32) || defined(_WIN64)
 	if( select( 0 , &fdset , NULL , NULL , &tval ) == SOCKET_ERROR ) {
-		tdk::set_last_error( tdk::platform_error());
+		tdk::set_last_error( tdk::platform::error());
 		return false;
 	}
 #else
@@ -188,7 +188,7 @@ bool socket::wait_for_recv( const tdk::time_span& wait ) const {
     }
 #endif
 	if( !FD_ISSET( handle() , &fdset )) {
-		tdk::set_last_error( tdk::platform_error());
+		tdk::set_last_error( tdk::platform::error());
 		return false;
 	}
 	return true;
@@ -197,7 +197,7 @@ bool socket::wait_for_recv( const tdk::time_span& wait ) const {
 bool socket::wait_for_send( const tdk::time_span& wait ) const {
 	SOCKET fd = handle();
 	if ( fd == INVALID_SOCKET ) {
-		tdk::set_last_error( tdk::platform_error());
+		tdk::set_last_error( tdk::platform::error());
 		return false;
 	}
 
@@ -208,7 +208,7 @@ bool socket::wait_for_send( const tdk::time_span& wait ) const {
     timeval tval = wait.to_timeval();
 #if defined(_WIN32) || defined(_WIN64)
 	if( select( 0 , NULL , &fdset ,  NULL , &tval ) == SOCKET_ERROR ) {
-		tdk::set_last_error( tdk::platform_error());
+		tdk::set_last_error( tdk::platform::error());
 		return false;
 	}    
 #else
@@ -227,7 +227,7 @@ bool socket::wait_for_send( const tdk::time_span& wait ) const {
     }    
 #endif
 	if( !FD_ISSET( fd , &fdset )) {
-		tdk::set_last_error( tdk::platform_error());
+		tdk::set_last_error( tdk::platform::error());
 		return false;
 	}
 	return true;
@@ -254,7 +254,7 @@ bool socket::send_time_out( void* buf , int size  , const tdk::time_span& wait )
     while ( sendsize < reqsize ) {
         int ret = this->send(  buffer + sendsize , reqsize - sendsize );
         if ( ret <= 0 ) {
-			tdk::set_last_error( tdk::platform_error());
+			tdk::set_last_error( tdk::platform::error());
 			return false;
 		}
         sendsize += ret;
@@ -268,7 +268,7 @@ int  socket::recv_time_out( void* buf , int size  , const tdk::time_span& wait )
     if ( wait_for_recv( wait ) ) {
         int ret = this->recv( buf , size );
 		if ( ret <= 0 ) {
-			tdk::set_last_error( tdk::platform_error());
+			tdk::set_last_error( tdk::platform::error());
 		}
 		return ret;
     }

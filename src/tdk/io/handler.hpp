@@ -7,15 +7,12 @@
 namespace tdk {
 namespace io{
 
-class handler {
+class handler : public OVERLAPPED {
 public:
-	handler( void ){}
-	virtual ~handler( void ){}
-	virtual void operator()(void) = 0;
-private:
+	handler( void );
+	virtual ~handler( void );
+	virtual void operator()(const tdk::error_code& e , int iobytes) = 0;
 };
-
-typedef tdk::task::handler< void ( const tdk::error_code& e , int iobytes ) > handler_type;
 
 }}
 

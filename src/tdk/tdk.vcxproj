@@ -84,8 +84,10 @@
     <ClInclude Include="error\error_category_platform.hpp" />
     <ClInclude Include="error\error_code.hpp" />
     <ClInclude Include="error\last_error.hpp" />
-    <ClInclude Include="error\platform_error.hpp" />
+    <ClInclude Include="error\error_platform.hpp" />
     <ClInclude Include="error\error_category_tdk.hpp" />
+    <ClInclude Include="error\error_tdk.hpp" />
+    <ClInclude Include="io\completion_port_win32.hpp" />
     <ClInclude Include="io\handler.hpp" />
     <ClInclude Include="io\network\address.hpp" />
     <ClInclude Include="io\network\socket.hpp" />
@@ -125,9 +127,13 @@
     <ClCompile Include="error\error_category.cpp" />
     <ClCompile Include="error\error_category_platform_win32.cpp" />
     <ClCompile Include="error\error_code.cpp" />
+    <ClCompile Include="error\error_platform_win32.cpp" />
+    <ClCompile Include="error\error_tdk.cpp" />
     <ClCompile Include="error\last_error.cpp" />
-    <ClCompile Include="error\platform_error.cpp" />
+    <ClCompile Include="error\error_platform.cpp" />
     <ClCompile Include="error\error_category_tdk.cpp" />
+    <ClCompile Include="io\completion_port_win32.cpp" />
+    <ClCompile Include="io\handler.cpp" />
     <ClCompile Include="io\network\address.cpp" />
     <ClCompile Include="io\network\socket.cpp" />
     <ClCompile Include="log\category.cpp" />

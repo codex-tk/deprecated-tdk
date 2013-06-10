@@ -24,9 +24,6 @@
     <ClInclude Include="util\string.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="error\platform_error.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="tdk.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -135,12 +132,18 @@
     <ClInclude Include="io\network\socket.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="io\completion_port_win32.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="error\error_tdk.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="error\error_platform.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="error\platform_error.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="time\ctime.cpp">
@@ -240,6 +243,21 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="io\network\socket.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="io\completion_port_win32.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="io\handler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="error\error_tdk.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="error\error_platform.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="error\error_platform_win32.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

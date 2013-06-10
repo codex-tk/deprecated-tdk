@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include <tdk.task/task/scheduler.hpp>
 #include <tdk.task/task/event_loop.hpp>
-#include <tdk/error/platform_error.hpp>
+#include <tdk/error/error_platform.hpp>
 
 namespace tdk {
 namespace task {
@@ -44,7 +44,7 @@ void scheduler::drain( void ) {
 	while ( !_cancelled.empty() ) {
 		timer_id id = _cancelled.front();
 		_cancelled.pop_front();
-		id->error( tdk::platform_error(ERROR_OPERATION_ABORTED));
+		id->error( tdk::platform::error(ERROR_OPERATION_ABORTED));
 		(*id)();
 		_loop.decrement_ref();
 	}
@@ -52,7 +52,7 @@ void scheduler::drain( void ) {
 		if ( (*_timers.begin())->expired_at() <= local ){
 			timer_id id = _timers.front();
 			_timers.pop_front();
-			id->error( tdk::platform_error(ERROR_SUCCESS));
+			id->error( tdk::platform::error(ERROR_SUCCESS));
 			(*id)();
 			_loop.decrement_ref();
 		}else{

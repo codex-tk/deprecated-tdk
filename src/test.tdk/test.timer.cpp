@@ -26,5 +26,4 @@ TEST( timer , t1 ) {
 
 	ASSERT_TRUE( execute );
 	ASSERT_TRUE( canceled );
-
 }
