@@ -88,9 +88,10 @@
     <ClInclude Include="error\error_category_tdk.hpp" />
     <ClInclude Include="error\error_tdk.hpp" />
     <ClInclude Include="io\completion_port_win32.hpp" />
-    <ClInclude Include="io\handler.hpp" />
+    <ClInclude Include="io\engine.hpp" />
     <ClInclude Include="io\network\address.hpp" />
     <ClInclude Include="io\network\socket.hpp" />
+    <ClInclude Include="io\operation.hpp" />
     <ClInclude Include="log\category.hpp" />
     <ClInclude Include="log\formatter\formatter.hpp" />
     <ClInclude Include="log\formatter\string_formatter.hpp" />
@@ -133,9 +134,9 @@
     <ClCompile Include="error\error_platform.cpp" />
     <ClCompile Include="error\error_category_tdk.cpp" />
     <ClCompile Include="io\completion_port_win32.cpp" />
-    <ClCompile Include="io\handler.cpp" />
     <ClCompile Include="io\network\address.cpp" />
     <ClCompile Include="io\network\socket.cpp" />
+    <ClCompile Include="io\operation.cpp" />
     <ClCompile Include="log\category.cpp" />
     <ClCompile Include="log\formatter\formatter.cpp" />
     <ClCompile Include="log\formatter\string_formatter.cpp" />

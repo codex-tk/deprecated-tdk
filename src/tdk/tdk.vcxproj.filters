@@ -123,9 +123,6 @@
     <ClInclude Include="error\error_category_platform.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="io\handler.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="io\network\address.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -139,6 +136,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="error\error_platform.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="io\engine.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="io\operation.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -248,9 +251,6 @@
     <ClCompile Include="io\completion_port_win32.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="io\handler.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="error\error_tdk.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -258,6 +258,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="error\error_platform_win32.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="io\operation.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
