@@ -2,7 +2,7 @@
 
 #include <tdk.adodb/adodb/connection.hpp>
 #include <tdk.adodb/adodb/query.hpp>
-
+/*
 TEST(  connection , open ) {
 	CoInitialize( nullptr );	
 	tdk::adodb::connection connection;
@@ -21,4 +21,4 @@ TEST(  connection , open ) {
 	query.close();
 	connection.close();
 	CoUninitialize();
-}
+}*/

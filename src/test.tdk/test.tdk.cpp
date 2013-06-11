@@ -11,7 +11,7 @@
 #include <tdk.task/task/event_loop.hpp>
 
 #if defined ( _DEBUG )
-	#pragma comment( lib , "gtest_x86_debug_mdd")
+	#pragma comment( lib , "gtest_x86_debug_mtdd")
 	//#pragma comment( lib , "gtest_x86_debug_mtd")
 #else
 	#pragma comment( lib , "gtest_x86_release_mt")
@@ -20,7 +20,7 @@
 
 #pragma comment( lib , "tdk.lib")
 #pragma comment( lib , "tdk.task.lib")
-#pragma comment( lib , "tdk.adodb.lib")
+//#pragma comment( lib , "tdk.adodb.lib")
 #pragma comment( lib , "ws2_32")
 #pragma comment( lib , "mswsock")
 

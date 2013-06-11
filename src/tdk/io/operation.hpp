@@ -15,7 +15,7 @@ public:
 	operation( callback cb );
 	~operation( void );
 
-	void operator()( void );
+	void operator()( const tdk::error_code& e , int io_bytes );
 private:
 	callback _callback;
 };

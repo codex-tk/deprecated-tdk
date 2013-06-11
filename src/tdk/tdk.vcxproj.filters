@@ -123,12 +123,6 @@
     <ClInclude Include="error\error_category_platform.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="io\network\address.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="io\network\socket.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="io\completion_port_win32.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -138,10 +132,22 @@
     <ClInclude Include="error\error_platform.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="io\engine.hpp">
+    <ClInclude Include="io\operation.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="io\operation.hpp">
+    <ClInclude Include="io\engine_win32.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="io\ip\tcp\socket_win32.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="io\ip\address.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="io\ip\basic_socket.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="io\ip\socket.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -242,12 +248,6 @@
     <ClCompile Include="threading\thread_win32.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="io\network\address.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="io\network\socket.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="io\completion_port_win32.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -261,6 +261,21 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="io\operation.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="io\engine_win32.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="io\ip\tcp\socket_win32.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="io\ip\address.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="io\ip\basic_socket.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="io\ip\socket.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

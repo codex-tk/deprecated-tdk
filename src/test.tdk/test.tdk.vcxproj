@@ -101,6 +101,7 @@
     <ClCompile Include="test.eventloop.cpp" />
     <ClCompile Include="test.tcp.service.cpp" />
     <ClCompile Include="test.tdk.cpp" />
+    <ClCompile Include="test.tdk.io.engine.cpp" />
     <ClCompile Include="test.timer.cpp" />
     <ClCompile Include="test.timezone.cpp" />
     <ClCompile Include="test.udp.channel.cpp" />
