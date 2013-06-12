@@ -49,7 +49,8 @@ bool engine::run( const tdk::time_span& wait ) {
 }
 
 bool engine::post( tdk::io::operation* op , const tdk::error_code& ec ){
-    return false;
+	op->error( ec );
+	return _port.post( detail::k_operation_posted , nullptr , op );
 }
 
 bool engine::bind( SOCKET fd ) {

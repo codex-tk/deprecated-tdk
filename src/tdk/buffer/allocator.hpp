@@ -7,11 +7,11 @@ namespace buffer {
 class allocator{
 public:
 	allocator( void );
-	virtual ~allocator( void );
+	~allocator( void );
 	// align required
-	virtual void* alloc( std::size_t sz ) ;
-	virtual void free( void* p ) ;
-	virtual void* realloc( void* p , std::size_t sz ) ;
+    void* (*alloc)( std::size_t sz ) ;
+    void (*free)( void* p ) ;
+    void* (*realloc)( void* p , std::size_t sz );
 };
 
 }}

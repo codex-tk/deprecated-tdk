@@ -6,6 +6,7 @@ namespace io {
 
 class buffer_adapter {
 public:
+	// TODO : 변환할 생성자 추가할것
 	buffer_adapter( void )
 		: _count(0){
 	}
