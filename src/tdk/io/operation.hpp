@@ -16,6 +16,13 @@ public:
 	~operation( void );
 
 	void operator()( const tdk::error_code& e , int io_bytes );
+
+	tdk::error_code error( void );
+	int io_bytes( void );
+
+	void error( const tdk::error_code& ec );
+
+	void reset( void );
 private:
 	callback _callback;
 };

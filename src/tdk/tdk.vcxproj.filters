@@ -150,6 +150,21 @@
     <ClInclude Include="io\ip\socket.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="io\ip\tcp\operation\connect_operation_win32.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="io\buffer_adapter.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="io\ip\tcp\operation\send_operation_win32.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="io\ip\tcp\operation\recv_operation_win32.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="io\ip\tcp\operation\accept_operation_win32.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -276,6 +291,18 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="io\ip\socket.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="io\ip\tcp\operation\connect_operation_win32.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="io\ip\tcp\operation\send_operation_win32.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="io\ip\tcp\operation\recv_operation_win32.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="io\ip\tcp\operation\accept_operation_win32.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

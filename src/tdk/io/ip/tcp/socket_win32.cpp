@@ -7,13 +7,17 @@ namespace ip {
 namespace tcp {
 
 socket::socket( tdk::io::engine& engine )
-	: _engine(engine)
+	: _engine(&engine)
 {
 
 }
 
 socket::~socket( void ) {
 
+}
+
+tdk::io::engine& socket::engine( void ){
+	return *_engine;
 }
 
 }}}}

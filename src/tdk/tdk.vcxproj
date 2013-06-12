@@ -87,11 +87,16 @@
     <ClInclude Include="error\error_platform.hpp" />
     <ClInclude Include="error\error_category_tdk.hpp" />
     <ClInclude Include="error\error_tdk.hpp" />
+    <ClInclude Include="io\buffer_adapter.hpp" />
     <ClInclude Include="io\completion_port_win32.hpp" />
     <ClInclude Include="io\engine_win32.hpp" />
     <ClInclude Include="io\ip\address.hpp" />
     <ClInclude Include="io\ip\basic_socket.hpp" />
     <ClInclude Include="io\ip\socket.hpp" />
+    <ClInclude Include="io\ip\tcp\operation\accept_operation_win32.hpp" />
+    <ClInclude Include="io\ip\tcp\operation\connect_operation_win32.hpp" />
+    <ClInclude Include="io\ip\tcp\operation\recv_operation_win32.hpp" />
+    <ClInclude Include="io\ip\tcp\operation\send_operation_win32.hpp" />
     <ClInclude Include="io\ip\tcp\socket_win32.hpp" />
     <ClInclude Include="io\operation.hpp" />
     <ClInclude Include="log\category.hpp" />
@@ -140,6 +145,10 @@
     <ClCompile Include="io\ip\address.cpp" />
     <ClCompile Include="io\ip\basic_socket.cpp" />
     <ClCompile Include="io\ip\socket.cpp" />
+    <ClCompile Include="io\ip\tcp\operation\accept_operation_win32.cpp" />
+    <ClCompile Include="io\ip\tcp\operation\connect_operation_win32.cpp" />
+    <ClCompile Include="io\ip\tcp\operation\recv_operation_win32.cpp" />
+    <ClCompile Include="io\ip\tcp\operation\send_operation_win32.cpp" />
     <ClCompile Include="io\ip\tcp\socket_win32.cpp" />
     <ClCompile Include="io\operation.cpp" />
     <ClCompile Include="log\category.cpp" />
