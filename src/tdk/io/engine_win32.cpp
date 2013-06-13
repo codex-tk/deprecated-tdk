@@ -5,6 +5,7 @@
 #include <tdk/io/ip/tcp/operation/send_operation_win32.hpp>
 #include <tdk/io/ip/tcp/operation/recv_operation_win32.hpp>
 #include <tdk/io/ip/tcp/operation/accept_operation_win32.hpp>
+#include <set>
 
 namespace tdk {
 namespace io {
@@ -27,43 +28,81 @@ static void on_port_callback (
     }
 }
 
-VOID CALLBACK TimerRoutine(PVOID lpParam, BOOLEAN TimerOrWaitFired) {
-	engine* pengine( static_cast< engine* >( lpParam ));
-	if ( pengine ) {
-		pengine->on_timer();
+class queue_timer {
+public:
+	queue_timer( void )
+		: _timer( INVALID_HANDLE_VALUE )
+	{
+		if ( !CreateTimerQueueTimer( &_timer
+			, nullptr 
+			, &queue_timer::_on_timer 
+			, this 
+			, 0
+			, 1000  
+			, WT_EXECUTEDEFAULT ))
+		{
+		}
 	}
-}
 
+	~queue_timer(void){
+		DeleteTimerQueueTimer( nullptr , _timer , INVALID_HANDLE_VALUE );
+	}
+
+	void on_timer( void ){
+		tdk::threading::scoped_lock<> gaurd( _lock );
+		for ( auto it : _engines ) {
+			it->on_timer();
+		}
+	}
+
+	void set_timer_handling( tdk::io::engine* e ){
+		tdk::threading::scoped_lock<> gaurd( _lock );
+		_engines.insert( e );
+	}
+
+	void disable_timer_handling( tdk::io::engine* e ) {
+		tdk::threading::scoped_lock<> gaurd( _lock );
+		_engines.erase( e );
+	}
+
+	static void __stdcall _on_timer( void* p , BOOLEAN timer_or_wait_fired ) {
+		queue_timer* qt( static_cast< queue_timer* >( p ));
+		if ( qt ) 
+			qt->on_timer();		
+	}
+
+	static queue_timer& instance( void ) {
+		static queue_timer timer;
+		return timer;
+	}
+private:
+	HANDLE _timer;
+	tdk::threading::spin_lock _lock;
+	std::set< tdk::io::engine* > _engines;
+};
 
 }
 
 engine::engine( void ) 
 	: _timer_in_progress(false)
 {
-	_timer_op = new timer_opeartion( *this );
+	
 }
 
 engine::~engine( void ) {
-	delete _timer_op;
+	
 }
 
 bool engine::open( void ) {
-	if ( !CreateTimerQueueTimer( &_timer_queue 
-		, nullptr 
-		, &detail::TimerRoutine 
-		, this 
-		, 1000
-		, 1000
-		, WT_EXECUTEDEFAULT ))
-	{
-		return false;
-	}
+	_timer_op = new timer_opeartion( *this );
+	detail::queue_timer::instance().set_timer_handling( this );
     return _port.create();
 }
 
-void engine::close( void ) {
-	DeleteTimerQueueTimer( nullptr , _timer_queue , INVALID_HANDLE_VALUE );
+void engine::close( void ) {	
+	detail::queue_timer::instance().disable_timer_handling(this);
     _port.close();
+	delete _timer_op;
 }
 
 bool engine::run( const tdk::time_span& wait ) {
