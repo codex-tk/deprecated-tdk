@@ -13,9 +13,11 @@ class socket;
 
 class connect_operation : public tdk::io::operation {
 public:
-	connect_operation( tdk::io::ip::tcp::socket& fd
+	connect_operation( tdk::io::operation::callback cb 
+		, tdk::io::ip::tcp::socket& fd
 		, const std::vector< tdk::io::ip::address >& addrs
-		, tdk::io::operation::callback cb );
+		 );
+
 	~connect_operation( void );
 
 	bool end_opearation( void );

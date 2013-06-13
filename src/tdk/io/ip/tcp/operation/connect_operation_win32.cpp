@@ -6,13 +6,12 @@ namespace io {
 namespace ip {
 namespace tcp {
 
-connect_operation::connect_operation(
-	tdk::io::ip::tcp::socket& fd
-	, const std::vector< tdk::io::ip::address >& addrs
-	, tdk::io::operation::callback cb  ) 
-	: tdk::io::operation( cb )
-	, _socket( &fd )
-	, _address( addrs )
+connect_operation::connect_operation( tdk::io::operation::callback cb 
+		, tdk::io::ip::tcp::socket& fd
+		, const std::vector< tdk::io::ip::address >& addrs )
+		 : tdk::io::operation( cb )
+		, _socket( &fd )
+		, _address( addrs )
 {
 	_current_end_point = _address.begin();
 }

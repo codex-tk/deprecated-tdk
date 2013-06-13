@@ -5,9 +5,9 @@ namespace tdk {
 namespace io {
 namespace ip {
 namespace tcp {
-accept_operation::accept_operation( tdk::io::ip::tcp::socket& listenfd
-		, tdk::io::ip::tcp::socket& fd
-		, tdk::io::operation::callback cb)
+accept_operation::accept_operation( tdk::io::operation::callback cb
+		, tdk::io::ip::tcp::socket& listenfd
+		, tdk::io::ip::tcp::socket& fd)
 		: tdk::io::operation( cb )
 		, _socket( &fd )
 		, _listen_socket( &listenfd )

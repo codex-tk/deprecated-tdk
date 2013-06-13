@@ -7,9 +7,9 @@ namespace io {
 namespace ip {
 namespace tcp {
 
-recv_operation::recv_operation( tdk::io::ip::tcp::socket& fd
-    , const tdk::io::buffer_adapter& buffer
-    , tdk::io::operation::callback cb )
+recv_operation::recv_operation( tdk::io::operation::callback cb 
+		, tdk::io::ip::tcp::socket& fd
+		, const tdk::io::buffer_adapter& buffer  )
     : tdk::io::operation( cb )
     , _socket( &fd )
     , _buffer_adapter( buffer )

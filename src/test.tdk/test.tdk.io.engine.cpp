@@ -1,10 +1,28 @@
 #include "stdafx.h"
 #include <tdk/io/engine_win32.hpp>
 #include <tdk/io/ip/tcp/socket_win32.hpp>
-/*
+
+class test_executor {
+public:
+	template < typename T_handler >
+	tdk::io::detail::wrapped_handler< T_handler , test_executor > wrap( const T_handler& h ) {
+		return tdk::io::detail::wrapped_handler< T_handler , test_executor >( h , this );
+	}
+	void execute( tdk::io::operation* op
+		, void (__stdcall* do_dispatch )( tdk::io::operation* ) 
+		, void (__stdcall* do_delete )( tdk::io::operation* ) )
+	{
+		do_dispatch( op );
+		do_delete( op );
+	}
+
+};
+
 TEST( tdk_io_engine , e ){
 	tdk::io::engine e;
 	ASSERT_TRUE(e.open());
+
+	test_executor executor;
 
 	tdk::io::ip::tcp::socket fd( e );
 
@@ -13,10 +31,11 @@ TEST( tdk_io_engine , e ){
 	tdk::io::ip::address::resolve( "google.co.kr" , 80 , addres );
 	bool end = false;
 	fd.async_connect( addres 
-		, [&]( const tdk::error_code& e ){
+		, executor.wrap(
+			[&]( const tdk::error_code& e ){
 			OutputDebugStringW( e.message().c_str());
 			end = true;
-		});
+		}));
 
 	while ( !end ) 
 		e.run( tdk::time_span::infinite());
@@ -49,7 +68,8 @@ TEST( tdk_io_engine , e ){
 	}
 	fd.close();
 	e.close();
-}*/
+}
+/*
 
 TEST( tdk_io_ip_tcp_accept , t1 ) {
 	tdk::io::engine e;
@@ -72,4 +92,4 @@ TEST( tdk_io_ip_tcp_accept , t1 ) {
 	while( !end ) {
 		e.run( tdk::time_span::infinite());
 	}
-}
+}*/

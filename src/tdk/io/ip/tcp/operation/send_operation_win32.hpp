@@ -14,9 +14,9 @@ class socket;
 
 class send_operation : public tdk::io::operation {
 public:
-	send_operation( tdk::io::ip::tcp::socket& fd
-		, const tdk::io::buffer_adapter& buffer
-		, tdk::io::operation::callback cb );
+	send_operation(  tdk::io::operation::callback cb 
+		, tdk::io::ip::tcp::socket& fd
+		, const tdk::io::buffer_adapter& buffer	);
 	~send_operation( void );
 
 	bool end_opearation( void );

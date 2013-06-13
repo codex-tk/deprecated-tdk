@@ -59,5 +59,8 @@
     <ClCompile Include="test.tdk.io.engine.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="test.registry.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

@@ -80,6 +80,7 @@
     <ClInclude Include="buffer\buffer_base.hpp" />
     <ClInclude Include="buffer\marker.hpp" />
     <ClInclude Include="buffer\memory_block.hpp" />
+    <ClInclude Include="config\registry_win32.hpp" />
     <ClInclude Include="diag\global_seh_win32.hpp" />
     <ClInclude Include="diag\mini_dump_seh_handler_win32.hpp" />
     <ClInclude Include="diag\mini_dump_win32.hpp" />
@@ -137,6 +138,7 @@
     <ClCompile Include="buffer\buffer_base.cpp" />
     <ClCompile Include="buffer\marker.cpp" />
     <ClCompile Include="buffer\memory_block.cpp" />
+    <ClCompile Include="config\registry_win32.cpp" />
     <ClCompile Include="diag\global_seh_win32.cpp" />
     <ClCompile Include="diag\mini_dump_seh_handler_win32.cpp" />
     <ClCompile Include="diag\mini_dump_win32.cpp" />

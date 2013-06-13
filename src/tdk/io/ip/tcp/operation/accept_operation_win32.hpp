@@ -13,10 +13,10 @@ class socket;
 
 class accept_operation : public tdk::io::operation {
 public:
-	accept_operation( 
-		tdk::io::ip::tcp::socket& listenfd
-		, tdk::io::ip::tcp::socket& fd
-		, tdk::io::operation::callback cb );
+	accept_operation(
+		tdk::io::operation::callback cb
+		, tdk::io::ip::tcp::socket& listenfd
+		, tdk::io::ip::tcp::socket& fd );
 	~accept_operation( void );
 
 	bool end_opearation( void );

@@ -14,9 +14,9 @@ class socket;
 
 class recv_operation : public tdk::io::operation {
 public:
-	recv_operation( tdk::io::ip::tcp::socket& fd
-		, const tdk::io::buffer_adapter& buffer
-		, tdk::io::operation::callback cb );
+	recv_operation( tdk::io::operation::callback cb 
+		, tdk::io::ip::tcp::socket& fd
+		, const tdk::io::buffer_adapter& buffer );
 	~recv_operation( void );
 
 	bool end_opearation( void );
