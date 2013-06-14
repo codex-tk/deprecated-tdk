@@ -80,10 +80,14 @@
     <ClInclude Include="buffer\buffer_base.hpp" />
     <ClInclude Include="buffer\marker.hpp" />
     <ClInclude Include="buffer\memory_block.hpp" />
-    <ClInclude Include="config\registry_win32.hpp" />
-    <ClInclude Include="diag\global_seh_win32.hpp" />
-    <ClInclude Include="diag\mini_dump_seh_handler_win32.hpp" />
-    <ClInclude Include="diag\mini_dump_win32.hpp" />
+    <ClInclude Include="io\engine_detail.hpp" />
+    <ClInclude Include="io\operation_impl.hpp" />
+    <ClInclude Include="task\queue_timer_win32.hpp" />
+    <ClInclude Include="task\timer_scheduler_win32.hpp" />
+    <ClInclude Include="util\win32\registry.hpp" />
+    <ClInclude Include="util\win32\global_seh.hpp" />
+    <ClInclude Include="util\win32\mini_dump_seh_handler.hpp" />
+    <ClInclude Include="util\win32\mini_dump.hpp" />
     <ClInclude Include="error\error_category.hpp" />
     <ClInclude Include="error\error_category_platform.hpp" />
     <ClInclude Include="error\error_code.hpp" />
@@ -113,8 +117,8 @@
     <ClInclude Include="log\writer\writer.hpp" />
     <ClInclude Include="network\address.hpp" />
     <ClInclude Include="network\socket.hpp" />
-    <ClInclude Include="service\service.hpp" />
-    <ClInclude Include="service\service_manager.hpp" />
+    <ClInclude Include="util\win32\service.hpp" />
+    <ClInclude Include="util\win32\service_manager.hpp" />
     <ClInclude Include="task\handler.hpp" />
     <ClInclude Include="tdk.hpp" />
     <ClInclude Include="stdafx.h" />
@@ -138,10 +142,12 @@
     <ClCompile Include="buffer\buffer_base.cpp" />
     <ClCompile Include="buffer\marker.cpp" />
     <ClCompile Include="buffer\memory_block.cpp" />
-    <ClCompile Include="config\registry_win32.cpp" />
-    <ClCompile Include="diag\global_seh_win32.cpp" />
-    <ClCompile Include="diag\mini_dump_seh_handler_win32.cpp" />
-    <ClCompile Include="diag\mini_dump_win32.cpp" />
+    <ClCompile Include="io\engine_impl_tcp_win32.cpp" />
+    <ClCompile Include="task\queue_timer_win32.cpp" />
+    <ClCompile Include="util\win32\registry.cpp" />
+    <ClCompile Include="util\win32\global_seh.cpp" />
+    <ClCompile Include="util\win32\mini_dump_seh_handler.cpp" />
+    <ClCompile Include="util\win32\mini_dump.cpp" />
     <ClCompile Include="error\error_category.cpp" />
     <ClCompile Include="error\error_category_platform_win32.cpp" />
     <ClCompile Include="error\error_code.cpp" />
@@ -171,8 +177,8 @@
     <ClCompile Include="log\writer\writer.cpp" />
     <ClCompile Include="network\address.cpp" />
     <ClCompile Include="network\socket.cpp" />
-    <ClCompile Include="service\service.cpp" />
-    <ClCompile Include="service\service_manager.cpp" />
+    <ClCompile Include="util\win32\service.cpp" />
+    <ClCompile Include="util\win32\service_manager.cpp" />
     <ClCompile Include="tdk.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

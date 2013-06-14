@@ -1,9 +1,9 @@
 #include "stdafx.h"
-#include <tdk/config/registry_win32.hpp>
+#include <tdk/util/win32/registry.hpp>
 
 TEST( reg ,t ) {
 
-	tdk::config::registry reg;
+	tdk::util::registry reg;
 	reg.open( HKEY_CURRENT_USER , _T("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run"));
 
 	reg.set_value( _T("tk_test") , _T("testvalue"));

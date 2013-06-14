@@ -1,8 +1,8 @@
 #include "stdafx.h"
-#include <tdk/config/registry_win32.hpp>
+#include <tdk/util/win32/registry.hpp>
 
 namespace tdk {
-namespace config {
+namespace util {
 
 registry::registry( void ) {
 	

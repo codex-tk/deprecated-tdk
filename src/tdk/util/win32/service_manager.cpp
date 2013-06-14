@@ -1,9 +1,9 @@
 #include "stdafx.h"
-#include <tdk/service/service_manager.hpp>
-#include <tdk/service/service.hpp>
+#include <tdk/util/win32/service_manager.hpp>
+#include <tdk/util/win32/service.hpp>
 
 namespace tdk {
-namespace win32 {
+namespace util {
 	
 service_manager::service_manager( void ) 
 {

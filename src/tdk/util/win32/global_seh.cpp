@@ -1,8 +1,8 @@
 #include "stdafx.h"
-#include <tdk/diag/global_seh_win32.hpp>
+#include <tdk/util/win32/global_seh.hpp>
 
 namespace tdk {
-namespace diag {
+namespace util{
 namespace detail {
 	static global_seh* g_seh = nullptr;
 
@@ -25,7 +25,7 @@ global_seh::~global_seh(void)
 
 bool global_seh::install( void ) {
 	detail::g_seh = this;	
-	SetUnhandledExceptionFilter( &tdk::diag::detail::handle_exception );
+	SetUnhandledExceptionFilter( &tdk::util::detail::handle_exception );
 	return true;
 }
 

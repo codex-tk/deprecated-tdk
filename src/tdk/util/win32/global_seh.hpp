@@ -2,7 +2,7 @@
 #define __tdk_diag_global_seh_h__
 
 namespace tdk {
-namespace diag {
+namespace util {
 
 class seh_handler{
 public:

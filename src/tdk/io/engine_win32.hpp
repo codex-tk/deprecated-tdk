@@ -5,18 +5,11 @@
 #include <tdk/io/operation.hpp>
 #include <tdk/threading/spin_lock.hpp>
 #include <tdk/util/list_node.hpp>
+#include <tdk/io/engine_detail.hpp>
 
 namespace tdk {
 namespace io {
-namespace ip{
-namespace tcp{
 
-class connect_operation;
-class send_operation;
-class recv_operation;
-class accept_operation;
-
-}}
 class engine {
 public:
 	engine( void );
@@ -35,33 +28,20 @@ public:
 
 	bool bind( SOCKET fd );
 
-	void on_timer( void );
-	void drain( void );
+	void req_drain_post_fails( detail::drain_operation* op );
+	void do_drain_post_fails( void );
 
-	template < typename T_op > 
-	void error_handler( T_op* op ) {
-		op->socket().close();
-		post( op , tdk::platform::error() );
-	}
 private:
-	class timer_opeartion : public tdk::io::operation {
-	public:
-		timer_opeartion( engine& e ) ;
-		~timer_opeartion( void );
-		void on_complete( void );
-		static void __stdcall _on_complete( tdk::io::operation* op );
-	private:
-		engine& _engine;
-	};
+	void _set_drain_handling( detail::drain_operation* op );
+private:
+	
 private:
 	completion_port _port;
 	// for post fails
 	tdk::threading::spin_lock _lock;
 	tdk::slist_queue< tdk::io::operation > _op_queue;
 
-	timer_opeartion* _timer_op;
-	HANDLE _timer_queue;
-	bool _timer_in_progress;
+	int _drain_in_progress;
 };
 
 }}

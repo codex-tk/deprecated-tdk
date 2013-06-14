@@ -11,7 +11,6 @@ public:
 	error_category_platform(void);
 	virtual ~error_category_platform(void) ;
 	virtual const TCHAR *name() const;
-	// mbs
 	virtual tdk::tstring message(int _Errval) const ;
 };
 

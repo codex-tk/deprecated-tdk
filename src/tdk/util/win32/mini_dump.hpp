@@ -4,7 +4,7 @@
 #include <DbgHelp.h>
 
 namespace tdk {
-namespace diag {
+namespace util {
 
 class mini_dump{
 public:

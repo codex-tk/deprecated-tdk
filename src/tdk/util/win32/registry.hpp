@@ -4,7 +4,7 @@
 #include <winreg.h>
 
 namespace tdk {
-namespace config {
+namespace util {
 
 class registry{
 public:

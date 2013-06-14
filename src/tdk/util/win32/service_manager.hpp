@@ -2,7 +2,7 @@
 #define __tdk_win32_service_manager_h__
 
 namespace tdk {
-namespace win32 {
+namespace util {
 	
 class service;
 class service_manager {

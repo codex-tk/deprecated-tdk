@@ -5,7 +5,7 @@
 #include <tdk/task/handler.hpp>
 
 namespace tdk {
-namespace win32 {
+namespace util {
 	
 class service {
 public:

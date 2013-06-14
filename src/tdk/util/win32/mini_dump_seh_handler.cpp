@@ -1,10 +1,10 @@
 #include "stdafx.h"
-#include <tdk/diag/mini_dump_seh_handler_win32.hpp>
+#include <tdk/util/win32/mini_dump_seh_handler.hpp>
 #include <tdk/time/date_time.hpp>
 #include <tdk/threading/thread.hpp>
 
 namespace tdk {
-namespace diag {
+namespace util {
 
 mini_dump_seh_handler::mini_dump_seh_handler( MINIDUMP_TYPE type )
 	: _dump( type ) {

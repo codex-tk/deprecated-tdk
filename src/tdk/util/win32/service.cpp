@@ -1,9 +1,9 @@
 #include "stdafx.h"
-#include <tdk/service/service.hpp>
+#include <tdk/util/win32/service.hpp>
 #include <tdk/threading/spin_lock.hpp>
 
 namespace tdk {
-namespace win32 {
+namespace util {
 namespace {
 
 tdk::threading::spin_lock _map_lock;

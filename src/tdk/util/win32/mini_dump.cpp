@@ -1,8 +1,8 @@
 #include "stdafx.h"
-#include <tdk/diag/mini_dump_win32.hpp>
+#include <tdk/util/win32/mini_dump.hpp>
 
 namespace tdk {
-namespace diag {
+namespace util {
 
 	
 mini_dump::mini_dump( MINIDUMP_TYPE type )

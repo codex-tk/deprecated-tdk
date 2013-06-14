@@ -165,22 +165,34 @@
     <ClInclude Include="io\ip\tcp\operation\accept_operation_win32.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="diag\mini_dump_win32.hpp">
+    <ClInclude Include="util\win32\registry.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="diag\global_seh_win32.hpp">
+    <ClInclude Include="util\win32\service.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="diag\mini_dump_seh_handler_win32.hpp">
+    <ClInclude Include="util\win32\service_manager.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="service\service.hpp">
+    <ClInclude Include="util\win32\mini_dump.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="service\service_manager.hpp">
+    <ClInclude Include="util\win32\mini_dump_seh_handler.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="config\registry_win32.hpp">
+    <ClInclude Include="util\win32\global_seh.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="io\operation_impl.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="task\timer_scheduler_win32.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="task\queue_timer_win32.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="io\engine_detail.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -323,22 +335,28 @@
     <ClCompile Include="io\ip\tcp\operation\accept_operation_win32.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="diag\mini_dump_win32.cpp">
+    <ClCompile Include="util\win32\registry.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="diag\global_seh_win32.cpp">
+    <ClCompile Include="util\win32\service.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="diag\mini_dump_seh_handler_win32.cpp">
+    <ClCompile Include="util\win32\service_manager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="service\service.cpp">
+    <ClCompile Include="util\win32\mini_dump.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="service\service_manager.cpp">
+    <ClCompile Include="util\win32\mini_dump_seh_handler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="config\registry_win32.cpp">
+    <ClCompile Include="util\win32\global_seh.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="task\queue_timer_win32.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="io\engine_impl_tcp_win32.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
