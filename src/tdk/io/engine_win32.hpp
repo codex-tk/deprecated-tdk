@@ -6,6 +6,7 @@
 #include <tdk/threading/spin_lock.hpp>
 #include <tdk/util/list_node.hpp>
 #include <tdk/io/engine_detail.hpp>
+#include <tdk/util/rc_ptr.hpp>
 
 namespace tdk {
 namespace io {
@@ -27,21 +28,42 @@ public:
 	void async_accept( tdk::io::ip::tcp::accept_operation* op );
 
 	bool bind( SOCKET fd );
-
-	void req_drain_post_fails( detail::drain_operation* op );
-	void do_drain_post_fails( void );
-
 private:
-	void _set_drain_handling( detail::drain_operation* op );
-private:
-	
+	class scheduler;
+
+	class timer_operation : public operation 
+		, public tdk::rc_ptr_base< timer_operation >
+	{
+	public:
+		timer_operation( operation::callback cb 
+			, const tdk::date_time& expired );
+		virtual ~timer_operation( void );
+
+		bool end_opearation();
+						
+		void expired_at( const tdk::date_time& at );
+		const tdk::date_time& expired_at(void);
+	private:
+		tdk::date_time _expired_at;
+	};
+	typedef tdk::rc_ptr< timer_operation > timer_id;
+public:
+	template < typename T_handler >
+	timer_id schedule( const tdk::date_time& dt 
+		, const T_handler& h )
+	{
+		typedef tdk::io::detail::operation_impl< T_handler 
+		, tdk::io::engine::timer_operation
+		, detail::dispatcher_error_code
+		, detail::release_policy_release
+		> impl;
+		timer_id id( new impl( h , dt ));
+		return schedule(id);
+	}
+	timer_id schedule( timer_id& id );
+	void cancel( timer_id& id );	
 private:
 	completion_port _port;
-	// for post fails
-	tdk::threading::spin_lock _lock;
-	tdk::slist_queue< tdk::io::operation > _op_queue;
-
-	int _drain_in_progress;
 };
 
 }}

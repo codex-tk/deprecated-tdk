@@ -2,27 +2,13 @@
 #define __tdk_task_queue_timer_h__
 
 #include <tdk/threading/spin_lock.hpp>
-#include <tdk/time/date_time.hpp>
-#include <tdk/util/rc_ptr.hpp>
+#include <tdk/task/timer_handler.hpp>
 #include <list>
 
 namespace tdk {
 namespace task {
 
-class queue_timer {
-public:
-	class handler : public tdk::rc_ptr_base< handler >{
-	public:
-		handler( void ){}
-		virtual ~handler( void ){}
-		virtual void operator()( const tdk::error_code& e) = 0;
-
-		void expired_at( const tdk::date_time& at );
-		const tdk::date_time& expired_at(void);
-	private:
-		tdk::date_time _expired_at;;
-	};
-	typedef tdk::rc_ptr< handler > timer_id;
+class queue_timer {	
 public:
 	queue_timer( void );
 	~queue_timer(void);

@@ -9,6 +9,7 @@ namespace tdk {
 enum class errc {
 	tdk_success = 0 ,
 	tdk_tls_not_initialized ,
+	tdk_user_abort ,
 	tdk_network_user_abort = 0x1000 ,
 	tdk_network_remote_closed ,
 };

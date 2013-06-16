@@ -90,7 +90,26 @@ public:
 	}
 };
 
-template < typename T_handler , typename T_base , template < typename base > class T_dispatcher  >
+template < typename T_op >
+class release_policy_delete {
+public:
+	static void release( T_op* op ) {
+		delete op;
+	}
+};
+
+template < typename T_op >
+class release_policy_release {
+	static void release( T_op* op ) {
+		op->release();
+	}
+};
+
+
+
+template < typename T_handler , typename T_base 
+	, template < typename base > class T_dispatcher  
+	, template < typename op > class T_release_policy = release_policy_delete >
 class operation_impl : public T_base {
 public:
 	/*
@@ -152,7 +171,7 @@ public:
 
 	static void __stdcall _do_delete( operation* op ) {
 		operation_impl* impl( static_cast< operation_impl* >(op));
-		delete impl;
+		T_release_policy< operation_impl >::release( impl ); 
 	}
 
 	static void __stdcall _on_complete( operation* op ) {

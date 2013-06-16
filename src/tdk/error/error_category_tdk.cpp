@@ -25,6 +25,8 @@ tdk::tstring error_category_tdk::message(int ec) const  {
 		return L"tdk_success";
 	case errc::tdk_tls_not_initialized:
 		return L"tdk_tls_not_initialized";
+	case errc::tdk_user_abort:
+		return L"tdk_user_abort";
 	case errc::tdk_network_user_abort:
 		return L"tdk_network_user_abort";
 	case errc::tdk_network_remote_closed:

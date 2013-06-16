@@ -14,6 +14,7 @@ tdk::error_code error( tdk::errc ec ){
 
 static tdk::error_code tdk_success( (int)errc::tdk_success , tdk::category() );
 static tdk::error_code tdk_tls_not_initialized( (int)errc::tdk_tls_not_initialized , tdk::category() );
+static tdk::error_code tdk_user_abort( (int)errc::tdk_user_abort , tdk::category() );
 static tdk::error_code tdk_network_user_abort( (int)errc::tdk_network_user_abort , tdk::category() );
 static tdk::error_code tdk_network_remote_closed( (int)errc::tdk_network_remote_closed , tdk::category() );
 

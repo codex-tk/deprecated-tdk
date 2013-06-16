@@ -81,9 +81,10 @@
     <ClInclude Include="buffer\marker.hpp" />
     <ClInclude Include="buffer\memory_block.hpp" />
     <ClInclude Include="io\engine_detail.hpp" />
+    <ClInclude Include="io\engine_scheduler_win32.hpp" />
     <ClInclude Include="io\operation_impl.hpp" />
     <ClInclude Include="task\queue_timer_win32.hpp" />
-    <ClInclude Include="task\timer_scheduler_win32.hpp" />
+    <ClInclude Include="task\timer_handler.hpp" />
     <ClInclude Include="util\win32\registry.hpp" />
     <ClInclude Include="util\win32\global_seh.hpp" />
     <ClInclude Include="util\win32\mini_dump_seh_handler.hpp" />
@@ -143,7 +144,9 @@
     <ClCompile Include="buffer\marker.cpp" />
     <ClCompile Include="buffer\memory_block.cpp" />
     <ClCompile Include="io\engine_impl_tcp_win32.cpp" />
+    <ClCompile Include="io\engine_scheduler_win32.cpp" />
     <ClCompile Include="task\queue_timer_win32.cpp" />
+    <ClCompile Include="task\timer_handler.cpp" />
     <ClCompile Include="util\win32\registry.cpp" />
     <ClCompile Include="util\win32\global_seh.cpp" />
     <ClCompile Include="util\win32\mini_dump_seh_handler.cpp" />

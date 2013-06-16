@@ -186,13 +186,16 @@
     <ClInclude Include="io\operation_impl.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="task\timer_scheduler_win32.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="task\queue_timer_win32.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="io\engine_detail.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="io\engine_scheduler_win32.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="task\timer_handler.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -357,6 +360,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="io\engine_impl_tcp_win32.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="io\engine_scheduler_win32.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="task\timer_handler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
