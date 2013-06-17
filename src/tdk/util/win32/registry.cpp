@@ -9,7 +9,6 @@ registry::registry( void ) {
 }
 
 registry::~registry(void) {
-	RegCloseKey( _key );
 }
 
 bool registry::open(HKEY root , const tdk::tstring& subkey , REGSAM desired){

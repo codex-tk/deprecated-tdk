@@ -100,6 +100,7 @@ public:
 
 template < typename T_op >
 class release_policy_release {
+public:
 	static void release( T_op* op ) {
 		op->release();
 	}

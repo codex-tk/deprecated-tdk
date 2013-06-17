@@ -6,6 +6,7 @@
 #include <tdk/io/ip/tcp/operation/recv_operation_win32.hpp>
 #include <tdk/io/ip/tcp/operation/accept_operation_win32.hpp>
 #include <tdk/task/queue_timer_win32.hpp>
+#include <tdk/io/engine_scheduler_win32.hpp>
 
 namespace tdk {
 namespace io {
@@ -30,20 +31,25 @@ static void on_port_callback (
 
 }
 
-engine::engine( void ) 
-{
-	
+engine::engine( void ){
 }
 
 engine::~engine( void ) {
-	
 }
 
 bool engine::open( void ) {
-    return _port.create();
+    if ( _port.create() ){
+		_scheduler= new engine::scheduler( *this);
+		_scheduler->open();
+		return true;
+	}
+	return false;
 }
 
 void engine::close( void ) {	
+	_scheduler->close();
+	_scheduler->release();
+	_scheduler = nullptr;
     _port.close();
 }
 
@@ -54,10 +60,26 @@ bool engine::run( const tdk::time_span& wait ) {
 void engine::post( tdk::io::operation* op , const tdk::error_code& ec ){
 	op->error( ec );
 	if (!_port.post( detail::k_posted_operation , nullptr , op )){
+		_scheduler->post_fail( op );
 	}
 }
 
 bool engine::bind( SOCKET fd ) {
 	return _port.bind( fd , (void*)fd ); 
 }
+
+bool engine::post0( tdk::io::operation* op , const tdk::error_code& ec ) {
+	op->error( ec );
+	return _port.post( detail::k_posted_operation , nullptr , op );
+}
+
+engine::timer_id engine::schedule( engine::timer_id& id ){
+	_scheduler->schedule( id );
+	return id;
+}
+
+void engine::cancel( engine::timer_id& id ) {
+	_scheduler->cancel( id );
+}
+
 }}

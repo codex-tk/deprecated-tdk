@@ -27,7 +27,7 @@ TEST( tdk_io_engine , e ){
 	tdk::io::ip::tcp::socket fd( e );
 
 	std::vector< tdk::io::ip::address > addres;
-	addres.push_back( tdk::io::ip::address( "127.0.0.1" , 80 )); 
+	//addres.push_back( tdk::io::ip::address( "127.0.0.1" , 80 )); 
 	tdk::io::ip::address::resolve( "google.co.kr" , 80 , addres );
 	bool end = false;
 	fd.async_connect( addres 
@@ -69,6 +69,27 @@ TEST( tdk_io_engine , e ){
 	fd.close();
 	e.close();
 }
+
+TEST( tdk_io_engine_schedule , T1 ) {
+	tdk::io::engine e;
+	ASSERT_TRUE(e.open());
+	std::vector< int > calls;
+	e.schedule( tdk::date_time::local() + tdk::time_span::from_milli_seconds(100)
+		, [&]( const tdk::error_code& c ) {
+			calls.push_back(1);
+	});
+	e.schedule( tdk::date_time::local() 
+		, [&]( const tdk::error_code& c ) {
+			calls.push_back(2);
+	});
+	e.run( tdk::time_span::infinite() );
+
+	ASSERT_TRUE( calls[0] == 2 );
+	ASSERT_TRUE( calls[1] == 1 );
+
+	e.close();
+}
+
 /*
 
 TEST( tdk_io_ip_tcp_accept , t1 ) {

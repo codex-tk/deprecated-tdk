@@ -12,6 +12,7 @@ namespace tdk {
 namespace io {
 
 class engine {
+
 public:
 	engine( void );
 	~engine( void );
@@ -28,6 +29,7 @@ public:
 	void async_accept( tdk::io::ip::tcp::accept_operation* op );
 
 	bool bind( SOCKET fd );
+	bool post0( tdk::io::operation* op , const tdk::error_code& ec );
 private:
 	class scheduler;
 
@@ -46,8 +48,9 @@ private:
 	private:
 		tdk::date_time _expired_at;
 	};
-	typedef tdk::rc_ptr< timer_operation > timer_id;
 public:
+	typedef tdk::rc_ptr< timer_operation > timer_id;
+
 	template < typename T_handler >
 	timer_id schedule( const tdk::date_time& dt 
 		, const T_handler& h )
@@ -64,6 +67,7 @@ public:
 	void cancel( timer_id& id );	
 private:
 	completion_port _port;
+	scheduler* _scheduler;
 };
 
 }}
