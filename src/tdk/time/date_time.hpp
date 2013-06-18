@@ -58,6 +58,9 @@ public:
 public: 
 	static date_time utc();
 	static date_time local();
+
+	std::string to_string(void);
+
 private:
 	uint64_t _time;
 };

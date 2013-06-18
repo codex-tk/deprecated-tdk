@@ -153,7 +153,7 @@ public:
 	}
 
 	void on_complete( void ){
-		if ( end_opearation() ) {
+		if ( end_operation() ) {
 			execution_plan< T_handler >::select( this 
 				, _handler 
 				, &operation_impl::_do_dispatch

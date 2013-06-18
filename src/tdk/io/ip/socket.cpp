@@ -364,4 +364,16 @@ bool socket::option::non_blocking::set_option( SOCKET fd ) {
 #endif
 }
 
+namespace {
+	::linger linger_value( int on_off , int liv ){
+		::linger li;
+		li.l_onoff = on_off;
+		li.l_linger = liv;
+		return li;
+	}
+}
+
+
+socket::option::linger socket::option::linger_remove_time_wait( linger_value(1,0));
+
 }}}

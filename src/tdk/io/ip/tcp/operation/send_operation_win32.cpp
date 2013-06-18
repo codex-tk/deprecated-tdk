@@ -21,7 +21,7 @@ send_operation::~send_operation( void ) {
 
 }
 
-bool send_operation::end_opearation( void ) {
+bool send_operation::end_operation( void ) {
     return true;
 }
 

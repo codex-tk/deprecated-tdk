@@ -41,7 +41,7 @@ private:
 			, const tdk::date_time& expired );
 		virtual ~timer_operation( void );
 
-		bool end_opearation();
+		bool end_operation();
 						
 		void expired_at( const tdk::date_time& at );
 		const tdk::date_time& expired_at(void);

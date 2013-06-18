@@ -19,7 +19,7 @@ public:
 		, tdk::io::ip::tcp::socket& fd );
 	~accept_operation( void );
 
-	bool end_opearation( void );
+	bool end_operation( void );
 
 	void process( void );
 	tdk::io::ip::tcp::socket& socket( void );

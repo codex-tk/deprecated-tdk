@@ -128,4 +128,12 @@ date_time::day_of_the_week date_time::wday( void ) const{
 	return static_cast< date_time::day_of_the_week >( tick::to_tm( _time ).tm_wday );
 }
 
+std::string date_time::to_string(void){
+	time::tick::systemtime st = tick::to_systemtime( _time );
+	char buffer[1024];
+	sprintf_s( buffer , "%04d%02d%02d %02d%02d%02d:%04d"
+		, st.wYear , st.wMonth , st.wDay , st.wHour , st.wMinute , st.wSecond , st.wMilliseconds );
+	return std::string( buffer );
+}
+
 }

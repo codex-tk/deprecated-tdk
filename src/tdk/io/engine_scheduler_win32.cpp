@@ -18,7 +18,7 @@ engine::timer_operation::~timer_operation( void ) {
 
 }
 
-bool engine::timer_operation::end_opearation() {
+bool engine::timer_operation::end_operation() {
 	return true;
 }
 					

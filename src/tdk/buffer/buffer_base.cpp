@@ -53,7 +53,10 @@ buffer_base& buffer_base::operator=( const buffer_base& rhs ) {
 }
 
 int buffer_base::ref_count( void ) {
-	return _counter()->load();
+	tdk::threading::atomic<int>* c = _counter();
+	if (c) 
+		return _counter()->load();
+	return 1;
 }
 
 uint8_t* buffer_base::data_ptr( void ) const {

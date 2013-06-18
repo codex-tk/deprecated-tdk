@@ -19,7 +19,7 @@ accept_operation::~accept_operation( void ) {
 
 }
 
-bool accept_operation::end_opearation( void ) {
+bool accept_operation::end_operation( void ) {
 	tdk::io::ip::tcp::socket::option::update_accept_context ctx( _listen_socket->handle() );
 	_socket->set_option( ctx );
 	if ( _socket->engine().bind( _socket->handle() ) == false ) {

@@ -24,7 +24,7 @@ void connect_operation::process( void ) {
 	_socket->engine().async_connect( this );
 }
 
-bool connect_operation::end_opearation( void ) {
+bool connect_operation::end_operation( void ) {
 	if ( error() ) {
 		++_current_end_point;
 		if ( _current_end_point == _address.end() ){

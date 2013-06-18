@@ -171,6 +171,8 @@ public:
         typedef value_option< int		, SOL_SOCKET	, SO_SNDTIMEO			> send_time;
 		typedef value_option< linger	, SOL_SOCKET	, SO_LINGER				> linger;
 		
+		static linger linger_remove_time_wait;
+
 		typedef value_option< uint8_t	, IPPROTO_IP	, IP_MULTICAST_LOOP		> multi_cast_loop;
 		typedef value_option< uint8_t	, IPPROTO_IP	, IP_MULTICAST_TTL		> multi_cast_ttl;
 		typedef value_option< in_addr	, IPPROTO_IP	, IP_MULTICAST_IF		> multi_cast_if;

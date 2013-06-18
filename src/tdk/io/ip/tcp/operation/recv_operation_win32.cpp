@@ -21,7 +21,7 @@ recv_operation::~recv_operation( void ) {
 
 }
 
-bool recv_operation::end_opearation( void ) {
+bool recv_operation::end_operation( void ) {
 	if ( !error() && io_bytes() == 0 ) {
 		int req_size = _buffer_adapter.size();
 		if ( req_size != 0 ) {
