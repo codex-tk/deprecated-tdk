@@ -140,6 +140,9 @@ void engine::scheduler::drain_expired( void ) {
 }
 
 void engine::scheduler::operator()( const tdk::error_code& e){
+	if ( _closed )
+		return;
+
 	bool post = false;
 	do {
 		tdk::threading::scoped_lock<> gaurd( _lock );

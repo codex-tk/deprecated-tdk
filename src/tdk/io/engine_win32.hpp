@@ -12,7 +12,6 @@ namespace tdk {
 namespace io {
 
 class engine {
-
 public:
 	engine( void );
 	~engine( void );
@@ -30,6 +29,10 @@ public:
 
 	bool bind( SOCKET fd );
 	bool post0( tdk::io::operation* op , const tdk::error_code& ec );
+
+	void process( const tdk::error_code& code , int io_byte  , OVERLAPPED* ov );
+public:
+	static void set_exception_handler( LONG ( __stdcall* exception_handler)( EXCEPTION_POINTERS*  ) );
 private:
 	class scheduler;
 

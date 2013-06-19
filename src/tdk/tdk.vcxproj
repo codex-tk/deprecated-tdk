@@ -139,18 +139,29 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="crypto\base64.hpp" />
     <ClInclude Include="buffer\allocator.hpp" />
     <ClInclude Include="buffer\buffer_base.hpp" />
     <ClInclude Include="buffer\marker.hpp" />
     <ClInclude Include="buffer\memory_block.hpp" />
+    <ClInclude Include="crypto\crc32.hpp" />
+    <ClInclude Include="crypto\sha1.hpp" />
     <ClInclude Include="device\display_win32.hpp" />
     <ClInclude Include="device\monitor_win32.hpp" />
     <ClInclude Include="geo.hpp" />
     <ClInclude Include="io\engine_detail.hpp" />
     <ClInclude Include="io\engine_scheduler_win32.hpp" />
     <ClInclude Include="io\operation_impl.hpp" />
+    <ClInclude Include="memory\alloc.hpp" />
+    <ClInclude Include="memory\allocator.hpp" />
+    <ClInclude Include="memory\fixed_size_allocator.hpp" />
+    <ClInclude Include="memory\memory.hpp" />
+    <ClInclude Include="memory\memory_statistics.hpp" />
+    <ClInclude Include="memory\object_allocator.hpp" />
+    <ClInclude Include="memory\thread_cache.hpp" />
     <ClInclude Include="task\queue_timer_win32.hpp" />
     <ClInclude Include="task\timer_handler.hpp" />
+    <ClInclude Include="util\conf.hpp" />
     <ClInclude Include="util\win32\registry.hpp" />
     <ClInclude Include="util\win32\global_seh.hpp" />
     <ClInclude Include="util\win32\mini_dump_seh_handler.hpp" />
@@ -205,16 +216,25 @@
     <ClInclude Include="util\string.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="crypto\base64.cpp" />
     <ClCompile Include="buffer\allocator.cpp" />
     <ClCompile Include="buffer\buffer_base.cpp" />
     <ClCompile Include="buffer\marker.cpp" />
     <ClCompile Include="buffer\memory_block.cpp" />
+    <ClCompile Include="crypto\crc32.cpp" />
+    <ClCompile Include="crypto\sha1.cpp" />
     <ClCompile Include="device\display_win32.cpp" />
     <ClCompile Include="device\monitor_win32.cpp" />
     <ClCompile Include="io\engine_impl_tcp_win32.cpp" />
     <ClCompile Include="io\engine_scheduler_win32.cpp" />
+    <ClCompile Include="memory\alloc.cpp" />
+    <ClCompile Include="memory\memory.cpp" />
+    <ClCompile Include="memory\memory_statistics.cpp" />
+    <ClCompile Include="memory\object_allocator.cpp" />
+    <ClCompile Include="memory\thread_cache.cpp" />
     <ClCompile Include="task\queue_timer_win32.cpp" />
     <ClCompile Include="task\timer_handler.cpp" />
+    <ClCompile Include="util\conf.cpp" />
     <ClCompile Include="util\win32\registry.cpp" />
     <ClCompile Include="util\win32\global_seh.cpp" />
     <ClCompile Include="util\win32\mini_dump_seh_handler.cpp" />

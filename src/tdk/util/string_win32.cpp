@@ -102,5 +102,44 @@ std::wstring& append_format( std::wstring& msg , const wchar_t* format , ... ) {
 	return msg;
 }
 
+namespace {
+	static wchar_t ChoSungTable[] = L"ぁあいぇえぉけげこさざしじすずせぜそぞ";
+	static wchar_t JungSungTable[] = L"ただちぢっつづてでとどなにぬねのはばぱひび";
+	static wchar_t JongSungTable[] = L" ぁあぃいぅうぇぉおかがきぎくぐけげごさざしじずせぜそぞ";
+	static wchar_t HangulUnicodeStart = 0xAC00;
+	static wchar_t HangulUnicodeEnd   = 0xD79F;
+}
+
+bool string::is_hangul( wchar_t ch ) {
+	if ( ch >= HangulUnicodeStart && ch <= HangulUnicodeEnd ) return true;
+	return false;
+}
+
+string::hangul::hangul( const wchar_t cho , const wchar_t jung , const wchar_t jong ) 
+	: _ChoSung( cho ) , _JungSung( jung ) , _JongSung( jong ) {
+
+}
+
+string::hangul::~hangul( void ) {
+
+}
+
+wchar_t string::hangul::cho_sung() const {
+	return _ChoSung;
+}
+wchar_t string::hangul::jung_sung() const{
+	return _JungSung;
+}
+wchar_t string::hangul::jong_sung() const {
+	return _JongSung;
+}
+
+string::hangul string::extract_hangul( wchar_t ch ) {
+	int unicodeIndex  = ch - HangulUnicodeStart;
+    int jongsungIndex = unicodeIndex % 28;  unicodeIndex /= 28;
+    int jungsungIndex = unicodeIndex % 21;  unicodeIndex /= 21;
+    int chosungIndex  = unicodeIndex;
+	return hangul( ChoSungTable[ chosungIndex ] , JungSungTable[ jungsungIndex ] , JongSungTable[ jongsungIndex ] );
+}
 
 }}

@@ -12,6 +12,13 @@ namespace tdk {
 namespace io {
 namespace detail {
 
+static LONG __stdcall default_engine_exception_handler( EXCEPTION_POINTERS* ) {
+	OutputDebugString(_T("Engine Loop Exception"));
+	return EXCEPTION_EXECUTE_HANDLER;
+}
+
+LONG ( __stdcall* engine_exception_handler)( EXCEPTION_POINTERS* ) = &default_engine_exception_handler;
+
 static int k_posted_operation = -1;
 
 static void on_port_callback ( 
@@ -21,12 +28,12 @@ static void on_port_callback (
         , OVERLAPPED* ov
         , void* ctx )
 {
-    operation* op( static_cast< operation* >(ov));
-    if ( io_byte == k_posted_operation ) {
-        (*op)( op->error() , op->io_bytes() );
-    }else {
-        (*op)( code , io_byte );	
-    }
+	tdk::io::engine* e( static_cast< tdk::io::engine* >( ctx ));
+	__try {
+		e->process( code , io_byte , ov );
+	}__except( engine_exception_handler(GetExceptionInformation())){
+
+	}
 }
 
 }
@@ -80,6 +87,20 @@ engine::timer_id engine::schedule( engine::timer_id& id ){
 
 void engine::cancel( engine::timer_id& id ) {
 	_scheduler->cancel( id );
+}
+
+void engine::process( const tdk::error_code& code , int io_byte  , OVERLAPPED* ov ) {
+	operation* op( static_cast< operation* >(ov));
+	tdk::error_code ec = code;
+	if ( io_byte == detail::k_posted_operation ) {
+		ec = op->error();
+		io_byte = op->io_bytes();
+	}
+	(*op)( ec , io_byte );	
+}
+
+void engine::set_exception_handler( LONG ( __stdcall* exception_handler)( EXCEPTION_POINTERS*  ) ) {
+	detail::engine_exception_handler = exception_handler;
 }
 
 }}
