@@ -10,8 +10,8 @@ class registry{
 public:
 	registry( void );
 	~registry(void);
-	
-	bool open( HKEY root , const tdk::tstring& subkey , REGSAM desired = KEY_ALL_ACCESS );
+	bool open( HKEY root , const tdk::tstring& subkey  );
+	//bool open( HKEY root , const tdk::tstring& subkey , REGSAM desired = KEY_ALL_ACCESS );
 	void close( void );
 
 	bool set_value( const tdk::tstring& key , DWORD value );

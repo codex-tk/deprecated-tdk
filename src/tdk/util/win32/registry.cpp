@@ -11,14 +11,23 @@ registry::registry( void ) {
 registry::~registry(void) {
 }
 
-bool registry::open(HKEY root , const tdk::tstring& subkey , REGSAM desired){
+bool registry::open( HKEY root , const tdk::tstring& subkey  ) {
+//bool registry::open(HKEY root , const tdk::tstring& subkey , REGSAM desired){
 	_root = root;
 	_subkey = subkey;
-	return RegOpenKeyEx( root 
+	/*
+	int ret = RegOpenKeyEx( root 
 		, subkey.c_str() 
 		, 0 
 		, desired 
-		, &_key ) == ERROR_SUCCESS;
+		, &_key );
+		*/
+	int ret = RegOpenKey( root , subkey.c_str() , &_key );
+	if ( ret !=  ERROR_SUCCESS ){
+		tdk::set_last_error( tdk::platform::error( ret ));
+		return false;
+	}
+	return true;
 }
 
 void registry::close(void){

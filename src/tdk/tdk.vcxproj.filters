@@ -198,6 +198,15 @@
     <ClInclude Include="task\timer_handler.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="device\display_win32.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="device\monitor_win32.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="geo.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -366,6 +375,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="task\timer_handler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="device\monitor_win32.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="device\display_win32.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
