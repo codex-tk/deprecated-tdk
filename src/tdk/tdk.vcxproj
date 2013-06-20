@@ -139,12 +139,16 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="buffer\marshal.hpp" />
     <ClInclude Include="crypto\base64.hpp" />
     <ClInclude Include="buffer\allocator.hpp" />
     <ClInclude Include="buffer\buffer_base.hpp" />
     <ClInclude Include="buffer\marker.hpp" />
     <ClInclude Include="buffer\memory_block.hpp" />
     <ClInclude Include="crypto\crc32.hpp" />
+    <ClInclude Include="crypto\md5.hpp" />
+    <ClInclude Include="crypto\seed.hpp" />
+    <ClInclude Include="crypto\seed\SEED_KISA.hpp" />
     <ClInclude Include="crypto\sha1.hpp" />
     <ClInclude Include="device\display_win32.hpp" />
     <ClInclude Include="device\monitor_win32.hpp" />
@@ -152,6 +156,7 @@
     <ClInclude Include="io\engine_detail.hpp" />
     <ClInclude Include="io\engine_scheduler_win32.hpp" />
     <ClInclude Include="io\operation_impl.hpp" />
+    <ClInclude Include="log\writer\udp_writer.hpp" />
     <ClInclude Include="memory\alloc.hpp" />
     <ClInclude Include="memory\allocator.hpp" />
     <ClInclude Include="memory\fixed_size_allocator.hpp" />
@@ -159,9 +164,16 @@
     <ClInclude Include="memory\memory_statistics.hpp" />
     <ClInclude Include="memory\object_allocator.hpp" />
     <ClInclude Include="memory\thread_cache.hpp" />
+    <ClInclude Include="threading\mutex_win32.hpp" />
+    <ClInclude Include="util\rtti.hpp" />
     <ClInclude Include="task\queue_timer_win32.hpp" />
     <ClInclude Include="task\timer_handler.hpp" />
     <ClInclude Include="util\conf.hpp" />
+    <ClInclude Include="util\singleton.hpp" />
+    <ClInclude Include="util\win32\env.hpp" />
+    <ClInclude Include="util\win32\ini_file.hpp" />
+    <ClInclude Include="util\win32\ini_key.hpp" />
+    <ClInclude Include="util\win32\ini_section.hpp" />
     <ClInclude Include="util\win32\registry.hpp" />
     <ClInclude Include="util\win32\global_seh.hpp" />
     <ClInclude Include="util\win32\mini_dump_seh_handler.hpp" />
@@ -216,25 +228,36 @@
     <ClInclude Include="util\string.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="buffer\marshal.cpp" />
     <ClCompile Include="crypto\base64.cpp" />
     <ClCompile Include="buffer\allocator.cpp" />
     <ClCompile Include="buffer\buffer_base.cpp" />
     <ClCompile Include="buffer\marker.cpp" />
     <ClCompile Include="buffer\memory_block.cpp" />
     <ClCompile Include="crypto\crc32.cpp" />
+    <ClCompile Include="crypto\md5.cpp" />
+    <ClCompile Include="crypto\seed.cpp" />
+    <ClCompile Include="crypto\seed\SEED_KISA.cpp" />
     <ClCompile Include="crypto\sha1.cpp" />
     <ClCompile Include="device\display_win32.cpp" />
     <ClCompile Include="device\monitor_win32.cpp" />
     <ClCompile Include="io\engine_impl_tcp_win32.cpp" />
     <ClCompile Include="io\engine_scheduler_win32.cpp" />
+    <ClCompile Include="log\writer\udp_writer.cpp" />
     <ClCompile Include="memory\alloc.cpp" />
     <ClCompile Include="memory\memory.cpp" />
     <ClCompile Include="memory\memory_statistics.cpp" />
     <ClCompile Include="memory\object_allocator.cpp" />
     <ClCompile Include="memory\thread_cache.cpp" />
+    <ClCompile Include="threading\mutex_win32.cpp" />
+    <ClCompile Include="util\rtti.cpp" />
     <ClCompile Include="task\queue_timer_win32.cpp" />
     <ClCompile Include="task\timer_handler.cpp" />
     <ClCompile Include="util\conf.cpp" />
+    <ClCompile Include="util\win32\env.cpp" />
+    <ClCompile Include="util\win32\ini_file.cpp" />
+    <ClCompile Include="util\win32\ini_key.cpp" />
+    <ClCompile Include="util\win32\ini_section.cpp" />
     <ClCompile Include="util\win32\registry.cpp" />
     <ClCompile Include="util\win32\global_seh.cpp" />
     <ClCompile Include="util\win32\mini_dump_seh_handler.cpp" />
@@ -288,6 +311,9 @@
     <ClCompile Include="time\tick.cpp" />
     <ClCompile Include="time\time_span.cpp" />
     <ClCompile Include="util\string_win32.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="crypto\seed\SEED_KISA.tab" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

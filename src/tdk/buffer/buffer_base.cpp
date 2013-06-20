@@ -43,10 +43,16 @@ buffer_base::buffer_base( const buffer_base& rhs )
 	,_size ( rhs._size )
 	,_allocator ( rhs._allocator )
 {
+	if ( rhs._allocator == nullptr ) {
+		throw std::exception( "Not Allowed");
+	}
 	add_ref();
 }
 
 buffer_base& buffer_base::operator=( const buffer_base& rhs ) {
+	if ( rhs._allocator == nullptr ) {
+		throw std::exception( "Not Allowed");
+	}
 	buffer_base _new( rhs );
 	swap( _new );
 	return *this;
@@ -60,10 +66,14 @@ int buffer_base::ref_count( void ) {
 }
 
 uint8_t* buffer_base::data_ptr( void ) const {
+	return static_cast< uint8_t* >( _base )  + 
+		(_allocator ? sizeof( tdk::threading::atomic<int> ) : 0 );
+	/*
 	if ( _allocator ) {
 		return static_cast< uint8_t* >( _base ) + sizeof( tdk::threading::atomic<int> );
 	}
 	return static_cast< uint8_t* >( _base );
+	*/
 }
 
 std::size_t buffer_base::size( void ) const {
@@ -71,10 +81,9 @@ std::size_t buffer_base::size( void ) const {
 }
 
 tdk::threading::atomic<int>* buffer_base::_counter(void) {
-	if ( _allocator ) {
-		return static_cast<tdk::threading::atomic<int>*>(_base);
-	}
-	return nullptr;
+	return _allocator ? 
+		static_cast<tdk::threading::atomic<int>*>(_base)
+		: nullptr;
 }
 
 int buffer_base::add_ref( void ) {

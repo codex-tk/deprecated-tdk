@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include <tdk/io/engine_scheduler_win32.hpp>
 #include <tdk/task/queue_timer_win32.hpp>
+#include <tdk/util/singleton.hpp>
 
 namespace tdk {
 namespace io {
@@ -50,7 +51,8 @@ void engine::scheduler::open( void ) {
 void engine::scheduler::close( void ) {
 	_closed = true;
 	tdk::task::timer_id id( this );
-	tdk::task::queue_timer::instance().cancel( id );
+	tdk::util::singleton< tdk::task::queue_timer>::instance()->cancel( id );
+	//tdk::task::queue_timer::instance().cancel( id );
 }
 
 void engine::scheduler::schedule( tdk::io::engine::timer_id& id ) {
@@ -174,8 +176,8 @@ void engine::scheduler::_enable_schedule( void ) {
 		return;
 
 	tdk::task::timer_id id( this );
-	id->expired_at( tdk::date_time::local() + tdk::time_span::from_seconds(1));
-	tdk::task::queue_timer::instance().schedule( id );
+	id->expired_at( tdk::date_time::local() + tdk::time_span::from_milli_seconds(100));
+	tdk::util::singleton< tdk::task::queue_timer>::instance()->schedule( id );
 }
 
 }}

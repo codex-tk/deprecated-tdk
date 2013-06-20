@@ -37,7 +37,7 @@ void console_writer::write( const record& r ) {
 	static uint16_t colors[] = { 0x0a , 0x02 , 0x0b , 0x0c , 0x0e };
 	SetConsoleTextAttribute( _console , colors[ static_cast<int>(r.level)] );
 	DWORD dwWrite = 0;
-	WriteFile(  GetStdHandle(STD_OUTPUT_HANDLE)
+	WriteFile( GetStdHandle(STD_OUTPUT_HANDLE)
 		, _buffer.rd_ptr()
 		, _buffer.length()
 		, &dwWrite

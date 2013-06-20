@@ -70,14 +70,14 @@ public:
 	std::size_t peek( void* buf , std::size_t peek_size ) ;
 	//! 데이터를 읽어오는 함수
 	std::size_t read( void* buf , std::size_t read_size ) ;
-
+	/*
 	template < typename T >
 	memory_block& operator<<( const T& v ) {
 		write( static_cast< void* >(
 					const_cast< T* >(&v))
 				, sizeof( v ));
 		return *this;
-	}
+	}*/
 
 	std::size_t write( const char* msg );
 private:
@@ -87,7 +87,6 @@ private:
 };
 
 
-	/*
 template < typename T >
 memory_block& operator << ( memory_block& buffer , const T& v ) {
 	buffer.write( static_cast< void* >(
@@ -96,11 +95,11 @@ memory_block& operator << ( memory_block& buffer , const T& v ) {
 	return buffer;
 }
 
-template < typename T1 , typename T2 >
-memory_block_base< T1 >& operator >> ( memory_block_base< T1 >& buffer , T2& v ) {
+template < typename T  >
+memory_block& operator >> ( memory_block& buffer , T& v ) {
 	buffer.read( &v , sizeof( v ));
 	return buffer;
-}*/
+}
 
 }}
 

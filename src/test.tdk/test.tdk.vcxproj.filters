@@ -62,5 +62,8 @@
     <ClCompile Include="test.registry.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="test.env.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

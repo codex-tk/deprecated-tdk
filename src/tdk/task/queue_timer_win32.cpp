@@ -13,7 +13,7 @@ queue_timer::queue_timer( void )
  		, &queue_timer::_on_timer 
  		, this 
  		, 0
- 		, 1000  
+ 		, 100  
  		, WT_EXECUTEDEFAULT ))
  	{
  	}
@@ -87,10 +87,10 @@ void queue_timer::on_timer( void ){
  	if ( qt ) 
  		qt->on_timer();		
  }
-
+ /*
  queue_timer& queue_timer::instance( void ) {
  	static queue_timer timer;
  	return timer;
- }
+ }*/
 
 }}

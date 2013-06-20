@@ -16,7 +16,7 @@ public:
 	void schedule( const timer_id& id );
 	bool cancel( const timer_id& id );
 	
-	static queue_timer& instance( void );
+	//static queue_timer& instance( void );
 
 	void on_timer( void );
 	static void __stdcall _on_timer( void* p , BOOLEAN timer_or_wait_fired ) ;

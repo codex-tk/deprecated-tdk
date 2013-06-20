@@ -15,7 +15,7 @@ public:
 
 	static writer_ptr instance( void );
 private:
-	tdk::buffer::memory_block _buffer;	
+	tdk::buffer::memory_block _buffer;
 	HANDLE _console;
 };
 
