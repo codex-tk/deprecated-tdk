@@ -6,11 +6,16 @@ namespace tdk {
 struct size {
 	int width;
 	int height;
+
+	explicit size( int w = 0 , int h = 0 ) 
+		: width(w) , height(h)
+	{
+	}
 };
 
 struct rect {
 	template < typename A , typename B >
-	void set( A& a , const B& b ){
+	void set( A& a , const B& b ) const {
 		a.left = b.left;	a.top = b.top; a.right = b.right; a.bottom = b.bottom;
 	}
 
@@ -23,17 +28,17 @@ struct rect {
 		left = l; top = t; right = r; bottom = b;
 	}
 
-	RECT to_RECT( void ) {
+	RECT to_RECT( void ) const  {
 		RECT r;
 		set( r , *this );
 		return r;
 	}
 
-	int width( void ) {
+	int width( void ) const {
 		return max( right , left ) - min( right , left );
 	}
 
-	int height( void ) {
+	int height( void ) const {
 		return max( top , bottom ) - min( top , bottom );
 	}
 

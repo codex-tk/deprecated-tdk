@@ -164,6 +164,7 @@
     <ClInclude Include="memory\memory_statistics.hpp" />
     <ClInclude Include="memory\object_allocator.hpp" />
     <ClInclude Include="memory\thread_cache.hpp" />
+    <ClInclude Include="threading\auto_reset_event_win32.hpp" />
     <ClInclude Include="threading\mutex_win32.hpp" />
     <ClInclude Include="util\rtti.hpp" />
     <ClInclude Include="task\queue_timer_win32.hpp" />
@@ -249,6 +250,7 @@
     <ClCompile Include="memory\memory_statistics.cpp" />
     <ClCompile Include="memory\object_allocator.cpp" />
     <ClCompile Include="memory\thread_cache.cpp" />
+    <ClCompile Include="threading\auto_reset_event_win32.cpp" />
     <ClCompile Include="threading\mutex_win32.cpp" />
     <ClCompile Include="util\rtti.cpp" />
     <ClCompile Include="task\queue_timer_win32.cpp" />

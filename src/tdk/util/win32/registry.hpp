@@ -1,5 +1,5 @@
 #ifndef __tdk_config_registry_h__
-#define __tdk_config_registry_h__i
+#define __tdk_config_registry_h__
 
 #include <winreg.h>
 
