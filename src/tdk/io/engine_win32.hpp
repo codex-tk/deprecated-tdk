@@ -3,9 +3,12 @@
 
 #include <tdk/io/completion_port_win32.hpp>
 #include <tdk/io/operation.hpp>
-#include <tdk/threading/spin_lock.hpp>
-#include <tdk/util/list_node.hpp>
 #include <tdk/io/engine_detail.hpp>
+
+#include <tdk/threading/spin_lock.hpp>
+#include <tdk/threading/atomic/atomic.hpp>
+
+#include <tdk/util/list_node.hpp>
 #include <tdk/util/rc_ptr.hpp>
 
 namespace tdk {
@@ -16,10 +19,9 @@ public:
 	engine( void );
 	~engine( void );
 
-	bool open( void );
-	void close( void );
-
-	bool run( const tdk::time_span& wait );
+	bool run_once( const tdk::time_span& wait );
+	
+	void run( void );
 	 
 	void post( tdk::io::operation* op , const tdk::error_code& ec );
 	void async_connect( tdk::io::ip::tcp::connect_operation* op );
@@ -29,13 +31,17 @@ public:
 
 	bool bind( SOCKET fd );
 	bool post0( tdk::io::operation* op , const tdk::error_code& ec );
-
+	
 	void process( const tdk::error_code& code , int io_byte  , OVERLAPPED* ov );
+
+	void inc_posted( void );
+	void dec_posted( void );
+
+	void _post( tdk::io::operation* op );
 public:
 	static void set_exception_handler( LONG ( __stdcall* exception_handler)( EXCEPTION_POINTERS*  ) );
 private:
 	class scheduler;
-
 	class timer_operation : public operation 
 		, public tdk::rc_ptr_base< timer_operation >
 	{
@@ -70,7 +76,8 @@ public:
 	void cancel( timer_id& id );	
 private:
 	completion_port _port;
-	scheduler* _scheduler;
+	tdk::rc_ptr<scheduler> _scheduler;
+	tdk::threading::atomic<int> _posted;
 };
 
 }}

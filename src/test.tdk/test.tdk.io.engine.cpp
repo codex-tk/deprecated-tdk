@@ -20,7 +20,6 @@ public:
 
 TEST( tdk_io_engine , e ){
 	tdk::io::engine e;
-	ASSERT_TRUE(e.open());
 
 	test_executor executor;
 
@@ -38,7 +37,7 @@ TEST( tdk_io_engine , e ){
 		}));
 
 	while ( !end ) 
-		e.run( tdk::time_span::infinite());
+		e.run_once( tdk::time_span::infinite());
 
 	end = false;
 
@@ -50,7 +49,7 @@ TEST( tdk_io_engine , e ){
 	});
 
 	while( !end ) {
-		e.run( tdk::time_span::infinite());
+		e.run_once( tdk::time_span::infinite());
 	}
 
 	end = false;
@@ -64,15 +63,13 @@ TEST( tdk_io_engine , e ){
 	});
 
 	while( !end ) {
-		e.run( tdk::time_span::infinite());
+		e.run_once( tdk::time_span::infinite());
 	}
 	fd.close();
-	e.close();
 }
 
 TEST( tdk_io_engine_schedule , T1 ) {
 	tdk::io::engine e;
-	ASSERT_TRUE(e.open());
 	std::vector< int > calls;
 	e.schedule( tdk::date_time::local() + tdk::time_span::from_milli_seconds(100)
 		, [&]( const tdk::error_code& c ) {
@@ -82,12 +79,11 @@ TEST( tdk_io_engine_schedule , T1 ) {
 		, [&]( const tdk::error_code& c ) {
 			calls.push_back(2);
 	});
-	e.run( tdk::time_span::infinite() );
+	e.run_once( tdk::time_span::infinite() );
 
 	ASSERT_TRUE( calls[0] == 2 );
 	ASSERT_TRUE( calls[1] == 1 );
 
-	e.close();
 }
 
 /*

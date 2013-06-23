@@ -37,7 +37,6 @@ engine::scheduler::scheduler( tdk::io::engine& e  )
 	, _in_progress( false )
 	, _closed( false )
 {
-	retain();	
 }
 
 engine::scheduler::~scheduler( void ) {
@@ -49,13 +48,14 @@ void engine::scheduler::open( void ) {
 }
 
 void engine::scheduler::close( void ) {
+	tdk::threading::scoped_lock<> guard( _lock );	
 	_closed = true;
 	tdk::task::timer_id id( this );
 	tdk::util::singleton< tdk::task::queue_timer>::instance()->cancel( id );
-	//tdk::task::queue_timer::instance().cancel( id );
 }
 
 void engine::scheduler::schedule( tdk::io::engine::timer_id& id ) {
+	_engine.inc_posted();
 	tdk::threading::scoped_lock<> guard( _lock );	
 	std::list< timer_id >::iterator it =
 		std::upper_bound( _timers.begin() , _timers.end() , id , 
@@ -105,6 +105,7 @@ void engine::scheduler::drain_post_fails( void ) {
 			 _op_queue.pop_front();
 		}while(0);
 		(*op)( op->error() , op->io_bytes() );
+		_engine.dec_posted();
 	}
 }
 
@@ -120,6 +121,7 @@ void engine::scheduler::drain_cancels( void ) {
 			_cancels.pop_front();
 		}while(0);
 		(*id)( tdk::tdk_user_abort , 0 );
+		_engine.dec_posted();
 	}
 }
 
@@ -138,19 +140,21 @@ void engine::scheduler::drain_expired( void ) {
 			_timers.pop_front();
 		}while(0);
 		(*id)( tdk::tdk_success , 0 );
+		_engine.dec_posted();
 	}
 }
 
 void engine::scheduler::operator()( const tdk::error_code& e){
+	if ( e == tdk::tdk_user_abort )
+		return;
 	if ( _closed )
 		return;
 
+	tdk::threading::scoped_lock<> gaurd( _lock );
 	bool post = false;
-	do {
-		tdk::threading::scoped_lock<> gaurd( _lock );
+	do {		
 		if ( !_in_progress ) {
-			if ( !_op_queue.is_empty() || !_cancels.empty() )
-			{
+			if ( !_op_queue.is_empty() || !_cancels.empty() ) {
 				post = true;
 			} else {
 				if ( !_timers.empty() ){
@@ -161,10 +165,8 @@ void engine::scheduler::operator()( const tdk::error_code& e){
 			}			
 		}	
 	}while(0);
-
 	if ( post ) {
 		if ( _engine.post0( this , tdk::tdk_success ) ){
-			tdk::threading::scoped_lock<> guard( _lock );
 			_in_progress = true;
 		}
 	}	
@@ -172,9 +174,6 @@ void engine::scheduler::operator()( const tdk::error_code& e){
 }
 
 void engine::scheduler::_enable_schedule( void ) {
-	if ( _closed )
-		return;
-
 	tdk::task::timer_id id( this );
 	id->expired_at( tdk::date_time::local() + tdk::time_span::from_milli_seconds(100));
 	tdk::util::singleton< tdk::task::queue_timer>::instance()->schedule( id );

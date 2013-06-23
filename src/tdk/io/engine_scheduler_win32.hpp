@@ -40,6 +40,7 @@ private:
 	std::list< tdk::io::engine::timer_id > _timers;
 	std::list< tdk::io::engine::timer_id > _cancels;
 	tdk::slist_queue< tdk::io::operation > _op_queue;
+	
 	bool _in_progress;
 	bool _closed;
 };

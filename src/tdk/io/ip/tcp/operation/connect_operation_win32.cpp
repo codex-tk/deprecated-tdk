@@ -30,6 +30,8 @@ bool connect_operation::end_operation( void ) {
 		if ( _current_end_point == _address.end() ){
 			return true;
 		}
+		if ( _socket->handle() == INVALID_SOCKET ) 
+			return true;
 		_socket->close();
 		process();
 		return false;

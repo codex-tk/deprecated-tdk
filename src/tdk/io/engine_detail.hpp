@@ -24,7 +24,8 @@ class drain_operation;
 template < typename T_engine , typename T_op > 
 void error_handler( T_engine* e , T_op* op ) {
 	op->socket().close();
-	e->post( op , tdk::platform::error() );
+	op->error( tdk::platform::error() );
+	e->_post( op );
 }
 
 }}}

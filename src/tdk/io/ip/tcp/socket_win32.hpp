@@ -22,6 +22,16 @@ public:
 
 	template < typename T_handler >
 	void async_connect( 
+		const tdk::io::ip::address& addr 
+		, const T_handler& h )
+	{
+		std::vector< tdk::io::ip::address > addrs;
+		addrs.push_back( addr );
+		async_connect( addrs , h );
+	}
+
+	template < typename T_handler >
+	void async_connect( 
 		const std::vector< tdk::io::ip::address >& addr 
 		, const T_handler& h ); 
 

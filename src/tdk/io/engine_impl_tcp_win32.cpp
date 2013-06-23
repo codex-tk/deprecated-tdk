@@ -11,6 +11,7 @@ namespace tdk {
 namespace io {
 
 void engine::async_connect( tdk::io::ip::tcp::connect_operation* op ){
+	inc_posted();
     if ( !op->socket().open_tcp( op->address().family() )) {
 		return detail::error_handler( this ,  op );
 	}
@@ -58,6 +59,7 @@ void engine::async_connect( tdk::io::ip::tcp::connect_operation* op ){
 }
 
 void engine::async_send( tdk::io::ip::tcp::send_operation* op ){
+	inc_posted();
 	op->reset();
 	DWORD flag	= 0;
     if ( WSASend(	op->socket().handle() 
@@ -75,6 +77,7 @@ void engine::async_send( tdk::io::ip::tcp::send_operation* op ){
 }
 
 void engine::async_recv( tdk::io::ip::tcp::recv_operation* op ){
+	inc_posted();
 	op->reset();
 	DWORD flag = 0;
     if ( WSARecv(	op->socket().handle() 
@@ -92,6 +95,7 @@ void engine::async_recv( tdk::io::ip::tcp::recv_operation* op ){
 }
 
 void engine::async_accept( tdk::io::ip::tcp::accept_operation* op ) {
+	inc_posted();
 	op->reset();
 	if ( !op->socket().open_tcp( op->listen_socket().local_address().family())){
 		return detail::error_handler( this ,  op );;

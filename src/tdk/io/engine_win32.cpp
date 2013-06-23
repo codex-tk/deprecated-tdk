@@ -12,8 +12,7 @@ namespace tdk {
 namespace io {
 namespace detail {
 
-static LONG __stdcall default_engine_exception_handler( EXCEPTION_POINTERS* ) {
-	OutputDebugString(_T("Engine Loop Exception"));
+static LONG __stdcall default_engine_exception_handler( EXCEPTION_POINTERS* exp ) {
 	return EXCEPTION_EXECUTE_HANDLER;
 }
 
@@ -39,36 +38,31 @@ static void on_port_callback (
 }
 
 engine::engine( void ){
+	if ( _port.create() ){
+		_scheduler= new engine::scheduler( *this);
+		_scheduler->open();		
+	}
 }
 
 engine::~engine( void ) {
-}
-
-bool engine::open( void ) {
-    if ( _port.create() ){
-		_scheduler= new engine::scheduler( *this);
-		_scheduler->open();
-		return true;
-	}
-	return false;
-}
-
-void engine::close( void ) {	
 	_scheduler->close();
-	_scheduler->release();
-	_scheduler = nullptr;
     _port.close();
 }
 
-bool engine::run( const tdk::time_span& wait ) {
+void engine::run( void ) {
+	while( _posted.load() > 0 ) {
+		run_once( tdk::time_span::infinite());
+	}
+}
+
+bool engine::run_once( const tdk::time_span& wait ) {
     return _port.wait( wait , &detail::on_port_callback , this ) >= 0;
 }
 
 void engine::post( tdk::io::operation* op , const tdk::error_code& ec ){
+	inc_posted();
 	op->error( ec );
-	if (!_port.post( detail::k_posted_operation , nullptr , op )){
-		_scheduler->post_fail( op );
-	}
+	_post( op );
 }
 
 bool engine::bind( SOCKET fd ) {
@@ -78,6 +72,12 @@ bool engine::bind( SOCKET fd ) {
 bool engine::post0( tdk::io::operation* op , const tdk::error_code& ec ) {
 	op->error( ec );
 	return _port.post( detail::k_posted_operation , nullptr , op );
+}
+
+void engine::_post( tdk::io::operation* op ) {
+	if (!_port.post( detail::k_posted_operation , nullptr , op )){
+		_scheduler->post_fail( op );
+	}
 }
 
 engine::timer_id engine::schedule( engine::timer_id& id ){
@@ -96,7 +96,16 @@ void engine::process( const tdk::error_code& code , int io_byte  , OVERLAPPED* o
 		ec = op->error();
 		io_byte = op->io_bytes();
 	}
-	(*op)( ec , io_byte );	
+	(*op)( ec , io_byte );
+	dec_posted();
+}
+
+void engine::inc_posted( void ) {
+	_posted.increment();
+}
+
+void engine::dec_posted( void ) {
+	_posted.decrement();
 }
 
 void engine::set_exception_handler( LONG ( __stdcall* exception_handler)( EXCEPTION_POINTERS*  ) ) {
