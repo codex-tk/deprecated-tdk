@@ -9,9 +9,7 @@
 namespace tdk {
 namespace io {
 
-class engine::scheduler : public tdk::io::operation 
-	, public tdk::task::timer_handler
-{
+class engine::scheduler : public tdk::io::operation {
 public:
 	scheduler( tdk::io::engine& en );
 	virtual ~scheduler( void );
@@ -31,18 +29,20 @@ public:
 
 	static void __stdcall _on_complete( operation* op );
 
-	virtual void operator()( const tdk::error_code& e);
-private:
-	void _enable_schedule( void );
+	void on_timer( void );
+
+	const tdk::date_time& schedule_time( void ) const ;
+
 private:
 	tdk::io::engine& _engine;
-	tdk::threading::spin_lock _lock;
+	mutable tdk::threading::spin_lock _lock;
 	std::list< tdk::io::engine::timer_id > _timers;
 	std::list< tdk::io::engine::timer_id > _cancels;
 	tdk::slist_queue< tdk::io::operation > _op_queue;
 	
 	bool _in_progress;
-	bool _closed;
+
+	tdk::date_time _schedule_time;
 };
 
 }}

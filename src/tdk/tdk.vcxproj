@@ -154,6 +154,7 @@
     <ClInclude Include="device\monitor_win32.hpp" />
     <ClInclude Include="geo.hpp" />
     <ClInclude Include="io\engine_detail.hpp" />
+    <ClInclude Include="io\engine_scheduler_timer_win32.hpp" />
     <ClInclude Include="io\engine_scheduler_win32.hpp" />
     <ClInclude Include="io\operation_impl.hpp" />
     <ClInclude Include="log\writer\udp_writer.hpp" />
@@ -242,8 +243,9 @@
     <ClCompile Include="crypto\sha1.cpp" />
     <ClCompile Include="device\display_win32.cpp" />
     <ClCompile Include="device\monitor_win32.cpp" />
-    <ClCompile Include="io\engine_impl_tcp_win32.cpp" />
+    <ClCompile Include="io\engine_tcp_win32.cpp" />
     <ClCompile Include="io\engine_scheduler_win32.cpp" />
+    <ClCompile Include="io\engine_scheduler_timer_win32.cpp" />
     <ClCompile Include="log\writer\udp_writer.cpp" />
     <ClCompile Include="memory\alloc.cpp" />
     <ClCompile Include="memory\memory.cpp" />

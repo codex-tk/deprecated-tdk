@@ -279,6 +279,9 @@
     <ClInclude Include="threading\auto_reset_event_win32.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="io\engine_scheduler_timer_win32.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -440,9 +443,6 @@
     <ClCompile Include="task\queue_timer_win32.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="io\engine_impl_tcp_win32.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="io\engine_scheduler_win32.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -516,6 +516,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="threading\auto_reset_event_win32.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="io\engine_scheduler_timer_win32.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="io\engine_tcp_win32.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

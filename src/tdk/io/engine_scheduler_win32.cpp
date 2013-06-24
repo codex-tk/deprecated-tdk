@@ -2,7 +2,7 @@
 #include <tdk/io/engine_scheduler_win32.hpp>
 #include <tdk/task/queue_timer_win32.hpp>
 #include <tdk/util/singleton.hpp>
-
+#include <tdk/io/engine_scheduler_timer_win32.hpp>
 namespace tdk {
 namespace io {
 
@@ -35,27 +35,15 @@ engine::scheduler::scheduler( tdk::io::engine& e  )
 	: operation( &scheduler::_on_complete )
 	, _engine(e)
 	, _in_progress( false )
-	, _closed( false )
 {
+	tdk::util::singleton< tdk::io::engine::scheduler_timer >::instance()->reg( this );
 }
 
 engine::scheduler::~scheduler( void ) {
-
-}
-
-void engine::scheduler::open( void ) {
-	_enable_schedule();
-}
-
-void engine::scheduler::close( void ) {
-	tdk::threading::scoped_lock<> guard( _lock );	
-	_closed = true;
-	tdk::task::timer_id id( this );
-	tdk::util::singleton< tdk::task::queue_timer>::instance()->cancel( id );
+	tdk::util::singleton< tdk::io::engine::scheduler_timer >::instance()->unreg( this );
 }
 
 void engine::scheduler::schedule( tdk::io::engine::timer_id& id ) {
-	_engine.inc_posted();
 	tdk::threading::scoped_lock<> guard( _lock );	
 	std::list< timer_id >::iterator it =
 		std::upper_bound( _timers.begin() , _timers.end() , id , 
@@ -63,6 +51,7 @@ void engine::scheduler::schedule( tdk::io::engine::timer_id& id ) {
 			  return value->expired_at() < compare->expired_at();
 		});
 	_timers.insert( it , id );
+	_schedule_time = (*_timers.begin())->expired_at();
 }
 
 void __stdcall engine::scheduler::_on_complete( operation* op ) {
@@ -76,6 +65,7 @@ bool engine::scheduler::cancel( tdk::io::engine::timer_id& id ) {
 	if( it != _timers.end() ) {
 		_cancels.push_back( *it );
 		_timers.erase( it );
+		_schedule_time = tdk::date_time::local();
 		return true;
 	}
 	return false;
@@ -85,13 +75,24 @@ void engine::scheduler::drain( void ) {
 	drain_post_fails();
 	drain_cancels();
 	drain_expired();
-	tdk::threading::scoped_lock<> guard( _lock );
+
+	tdk::threading::scoped_lock<> gaurd( _lock );
+	if ( !_op_queue.is_empty() || !_cancels.empty() ) {
+		_schedule_time = tdk::date_time::local();
+		return;
+	}
+	if ( _timers.empty() ) {
+		_schedule_time = tdk::date_time::local() + tdk::time_span::from_days(1);
+		return;
+	}
+	_schedule_time = (*_timers.begin())->expired_at();
 	_in_progress = false;
 }
 
 void engine::scheduler::post_fail( operation* op ) {
 	tdk::threading::scoped_lock<> guard( _lock );
 	_op_queue.add_tail( op );
+	_schedule_time = tdk::date_time::local();
 }
 
 void engine::scheduler::drain_post_fails( void ) {
@@ -144,39 +145,21 @@ void engine::scheduler::drain_expired( void ) {
 	}
 }
 
-void engine::scheduler::operator()( const tdk::error_code& e){
-	if ( e == tdk::tdk_user_abort )
-		return;
-	if ( _closed )
+void engine::scheduler::on_timer( void ) {
+	tdk::threading::scoped_lock<> gaurd( _lock );
+	if ( _in_progress )
 		return;
 
-	tdk::threading::scoped_lock<> gaurd( _lock );
-	bool post = false;
-	do {		
-		if ( !_in_progress ) {
-			if ( !_op_queue.is_empty() || !_cancels.empty() ) {
-				post = true;
-			} else {
-				if ( !_timers.empty() ){
-					if ( _timers.front()->expired_at() <= tdk::date_time::local() ) {
-						post = true;
-					}
-				}
-			}			
-		}	
-	}while(0);
-	if ( post ) {
-		if ( _engine.post0( this , tdk::tdk_success ) ){
-			_in_progress = true;
-		}
-	}	
-	_enable_schedule();
+	if ( !_engine.post0( this , tdk::tdk_success ) ){
+		return;
+	}
+	_in_progress = true;
+	_schedule_time = tdk::date_time::local() + tdk::time_span::from_days(1);
 }
 
-void engine::scheduler::_enable_schedule( void ) {
-	tdk::task::timer_id id( this );
-	id->expired_at( tdk::date_time::local() + tdk::time_span::from_milli_seconds(100));
-	tdk::util::singleton< tdk::task::queue_timer>::instance()->schedule( id );
+const tdk::date_time& engine::scheduler::schedule_time( void ) const  {
+	tdk::threading::scoped_lock<> gaurd( _lock );
+	return _schedule_time;
 }
 
 }}

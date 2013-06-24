@@ -37,11 +37,12 @@ public:
 	void inc_posted( void );
 	void dec_posted( void );
 
-	void _post( tdk::io::operation* op );
+	//void _post( tdk::io::operation* op );
 public:
 	static void set_exception_handler( LONG ( __stdcall* exception_handler)( EXCEPTION_POINTERS*  ) );
 private:
 	class scheduler;
+	class scheduler_timer;
 	class timer_operation : public operation 
 		, public tdk::rc_ptr_base< timer_operation >
 	{
@@ -76,7 +77,7 @@ public:
 	void cancel( timer_id& id );	
 private:
 	completion_port _port;
-	tdk::rc_ptr<scheduler> _scheduler;
+	scheduler* _scheduler;
 	tdk::threading::atomic<int> _posted;
 };
 

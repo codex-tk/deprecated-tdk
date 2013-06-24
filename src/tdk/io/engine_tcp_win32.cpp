@@ -9,6 +9,16 @@
 
 namespace tdk {
 namespace io {
+namespace detail {
+
+template < typename T_engine , typename T_op > 
+void error_handler( T_engine* e , T_op* op ) {
+	op->socket().close();
+	e->post( op , tdk::platform::error() );
+	e->dec_posted();
+}
+
+}
 
 void engine::async_connect( tdk::io::ip::tcp::connect_operation* op ){
 	inc_posted();

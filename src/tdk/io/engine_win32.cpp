@@ -40,12 +40,13 @@ static void on_port_callback (
 engine::engine( void ){
 	if ( _port.create() ){
 		_scheduler= new engine::scheduler( *this);
-		_scheduler->open();		
 	}
 }
 
 engine::~engine( void ) {
-	_scheduler->close();
+	if ( _scheduler != nullptr ) {
+		delete _scheduler;
+	}
     _port.close();
 }
 
@@ -62,25 +63,28 @@ bool engine::run_once( const tdk::time_span& wait ) {
 void engine::post( tdk::io::operation* op , const tdk::error_code& ec ){
 	inc_posted();
 	op->error( ec );
-	_post( op );
-}
-
-bool engine::bind( SOCKET fd ) {
-	return _port.bind( fd , (void*)fd ); 
-}
-
-bool engine::post0( tdk::io::operation* op , const tdk::error_code& ec ) {
-	op->error( ec );
-	return _port.post( detail::k_posted_operation , nullptr , op );
-}
-
-void engine::_post( tdk::io::operation* op ) {
 	if (!_port.post( detail::k_posted_operation , nullptr , op )){
 		_scheduler->post_fail( op );
 	}
 }
 
+bool engine::bind( SOCKET fd ) {
+	return _port.bind( fd , (void*)fd ); 
+}
+// scheduler post ¿ëµµ
+bool engine::post0( tdk::io::operation* op , const tdk::error_code& ec ) {
+	op->error( ec );
+	inc_posted();
+	if ( !_port.post( detail::k_posted_operation , nullptr , op ) ){
+		dec_posted();
+		return false;
+	}
+	return true;
+}
+
+
 engine::timer_id engine::schedule( engine::timer_id& id ){
+	inc_posted();
 	_scheduler->schedule( id );
 	return id;
 }
