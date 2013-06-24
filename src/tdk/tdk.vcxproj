@@ -139,6 +139,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="buffer\array.hpp" />
     <ClInclude Include="buffer\marshal.hpp" />
     <ClInclude Include="crypto\base64.hpp" />
     <ClInclude Include="buffer\allocator.hpp" />

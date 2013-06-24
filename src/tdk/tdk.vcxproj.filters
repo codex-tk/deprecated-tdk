@@ -282,6 +282,9 @@
     <ClInclude Include="io\engine_scheduler_timer_win32.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="buffer\array.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
