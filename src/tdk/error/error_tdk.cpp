@@ -17,7 +17,8 @@ tdk::error_code error( tdk::errc ec ){
  tdk::error_code tdk_user_abort( (int)errc::tdk_user_abort , tdk::category() );
  tdk::error_code tdk_network_user_abort( (int)errc::tdk_network_user_abort , tdk::category() );
  tdk::error_code tdk_network_remote_closed( (int)errc::tdk_network_remote_closed , tdk::category() );
-
+ 
+ tdk::error_code tdk_timeout( (int)errc::tdk_timeout , tdk::category() );
 
 }
 

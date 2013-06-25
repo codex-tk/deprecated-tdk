@@ -12,6 +12,7 @@ enum class errc {
 	tdk_user_abort ,
 	tdk_network_user_abort = 0x1000 ,
 	tdk_network_remote_closed ,
+	tdk_timeout,
 };
 class error_category_tdk : public tdk::error_category {
 public:

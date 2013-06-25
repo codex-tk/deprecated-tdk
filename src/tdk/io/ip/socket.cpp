@@ -168,8 +168,13 @@ bool socket::wait_for_recv( const tdk::time_span& wait ) const {
 
     timeval tval = wait.to_timeval();
 #if defined(_WIN32) || defined(_WIN64)
-	if( select( 0 , &fdset , NULL , NULL , &tval ) == SOCKET_ERROR ) {
+	int result = select( 0 , &fdset , NULL , NULL , &tval );
+	if( result == SOCKET_ERROR ) {
 		tdk::set_last_error( tdk::platform::error());
+		return false;
+	}
+	if ( result == 0 ) {
+		tdk::set_last_error( tdk::tdk_timeout );
 		return false;
 	}
 #else
@@ -207,10 +212,15 @@ bool socket::wait_for_send( const tdk::time_span& wait ) const {
 
     timeval tval = wait.to_timeval();
 #if defined(_WIN32) || defined(_WIN64)
-	if( select( 0 , NULL , &fdset ,  NULL , &tval ) == SOCKET_ERROR ) {
+	int result = select( 0 , &fdset , NULL , NULL , &tval );
+	if( result == SOCKET_ERROR ) {
 		tdk::set_last_error( tdk::platform::error());
 		return false;
-	}    
+	}
+	if ( result == 0 ) {
+		tdk::set_last_error( tdk::tdk_timeout );
+		return false;
+	}  
 #else
     while( true ) {
         int ret = select( fd + 1 , NULL , &fdset ,  NULL , &tval );

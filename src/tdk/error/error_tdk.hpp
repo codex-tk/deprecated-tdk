@@ -15,6 +15,9 @@ extern tdk::error_code tdk_user_abort;
 extern tdk::error_code tdk_network_user_abort;
 extern tdk::error_code tdk_network_remote_closed;
 
+// 
+extern tdk::error_code tdk_timeout;
+
 }
 
 #endif

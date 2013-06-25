@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include <tdk/log/writer/console_writer.hpp>
-#include <tdk/log/formatter/string_formatter.hpp>
+#include <tdk/log/formatter/mb_string_formatter.hpp>
 
 namespace tdk {
 namespace log {
@@ -47,7 +47,7 @@ void console_writer::write( const record& r ) {
 }
 
 writer_ptr console_writer::instance( void ) {
-	static writer_ptr ptr( new console_writer( tdk::log::string_formatter::instance()));
+	static writer_ptr ptr( new console_writer( tdk::log::mb_string_formatter::instance()));
 	return ptr;
 }
 

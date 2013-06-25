@@ -65,12 +65,12 @@ void logger::write(
 	if ( msg != nullptr ) {
 		tdk::log::record log_record( level , _impl->category , file , line  , function );
 		do {
-			char fmt_buffer[k_log_buffer_size];
+			char fmt_buffer[k_log_buffer_size] = { 0 , };
 			va_list args;
 			va_start( args , msg );
 			int len = _vsnprintf_s( fmt_buffer , k_log_buffer_size , msg , args );
 			va_end( args );
-			MultiByteToWideChar( CP_ACP , 0 , fmt_buffer , -1 , log_record.message , len );
+			MultiByteToWideChar( CP_ACP , 0 , fmt_buffer , len + 1 , log_record.message , k_log_buffer_size );
 		} while (0);
 		_write( log_record );
 	}	
@@ -126,7 +126,7 @@ void logger::_write( const tdk::log::record& r ) {
 #if defined( _WIN32 )
 	if ( IsDebuggerPresent() ) {
 		tdk::time::tick::systemtime st = tdk::time::tick::to_systemtime( r.time.time());
-		wchar_t msg[k_log_buffer_size];
+		wchar_t msg[k_log_buffer_size] = { 0 , };
 		swprintf_s( msg , L"[%04d%02d%02d %02d%02d%02d][%s][%s]["
 			, st.wYear , st.wMonth , st.wDay , st.wHour , st.wMinute , st.wSecond
 			, r.level_string()

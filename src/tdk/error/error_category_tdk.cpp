@@ -31,6 +31,8 @@ tdk::tstring error_category_tdk::message(int ec) const  {
 		return L"tdk_network_user_abort";
 	case errc::tdk_network_remote_closed:
 		return L"tdk_network_remote_closed";
+	case errc::tdk_timeout:
+		return L"tdk_timeout";
 	}
 	return tdk::tstring(L"undefined");
 }

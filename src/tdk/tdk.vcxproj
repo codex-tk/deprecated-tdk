@@ -157,6 +157,7 @@
     <ClInclude Include="io\engine_scheduler_timer_win32.hpp" />
     <ClInclude Include="io\engine_scheduler_win32.hpp" />
     <ClInclude Include="io\operation_impl.hpp" />
+    <ClInclude Include="log\formatter\mb_string_formatter.hpp" />
     <ClInclude Include="log\writer\udp_writer.hpp" />
     <ClInclude Include="memory\alloc.hpp" />
     <ClInclude Include="memory\allocator.hpp" />
@@ -246,6 +247,7 @@
     <ClCompile Include="io\engine_tcp_win32.cpp" />
     <ClCompile Include="io\engine_scheduler_win32.cpp" />
     <ClCompile Include="io\engine_scheduler_timer_win32.cpp" />
+    <ClCompile Include="log\formatter\mb_string_formatter.cpp" />
     <ClCompile Include="log\writer\udp_writer.cpp" />
     <ClCompile Include="memory\alloc.cpp" />
     <ClCompile Include="memory\memory.cpp" />
