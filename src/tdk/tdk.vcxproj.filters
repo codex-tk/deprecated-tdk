@@ -282,7 +282,11 @@
     <ClInclude Include="io\engine_scheduler_timer_win32.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+<<<<<<< HEAD
     <ClInclude Include="log\formatter\mb_string_formatter.hpp">
+=======
+    <ClInclude Include="buffer\array.hpp">
+>>>>>>> c7c87d69c8a809b834bf215c99af3474c0182f70
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

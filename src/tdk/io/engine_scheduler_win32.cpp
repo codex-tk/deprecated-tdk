@@ -150,9 +150,9 @@ void engine::scheduler::on_timer( void ) {
 	if ( _in_progress )
 		return;
 
-	if ( !_engine.post0( this , tdk::tdk_success ) ){
+	if ( !_engine.post0( this , tdk::tdk_success ))
 		return;
-	}
+	
 	_in_progress = true;
 	_schedule_time = tdk::date_time::local() + tdk::time_span::from_days(1);
 }
