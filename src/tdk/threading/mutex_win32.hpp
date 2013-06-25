@@ -11,7 +11,7 @@ public:
 	mutex( void );
 	~mutex( void );
 
-	bool create( const  wchar_t* name , bool initstate = false );
+	bool create( const tdk::tstring& name , bool initstate = false );
 	bool open( const tdk::tstring& name );
 	void close( void );
 

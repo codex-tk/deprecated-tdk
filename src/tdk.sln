@@ -42,8 +42,8 @@ Global
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{E0493485-14CA-4053-B197-0E05E1B7A17A}.Debug|Any CPU.ActiveCfg = Debug|Win32
-		{E0493485-14CA-4053-B197-0E05E1B7A17A}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
-		{E0493485-14CA-4053-B197-0E05E1B7A17A}.Debug|Mixed Platforms.Build.0 = Debug|Win32
+		{E0493485-14CA-4053-B197-0E05E1B7A17A}.Debug|Mixed Platforms.ActiveCfg = Debug|x64
+		{E0493485-14CA-4053-B197-0E05E1B7A17A}.Debug|Mixed Platforms.Build.0 = Debug|x64
 		{E0493485-14CA-4053-B197-0E05E1B7A17A}.Debug|Win32.ActiveCfg = Debug|Win32
 		{E0493485-14CA-4053-B197-0E05E1B7A17A}.Debug|Win32.Build.0 = Debug|Win32
 		{E0493485-14CA-4053-B197-0E05E1B7A17A}.Release|Any CPU.ActiveCfg = Release|Win32

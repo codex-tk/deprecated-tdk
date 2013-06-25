@@ -47,7 +47,7 @@ void file_writer::write( const record& r ) {
     ++_line_count;
 
 	_formatter->format( r , _buffer );
-	::WriteFile( _file , _buffer.rd_ptr() , _buffer.length() , &sz , nullptr );
+	::WriteFile( _file , _buffer.rd_ptr() , static_cast< DWORD >(_buffer.length()) , &sz , nullptr );
 	_buffer.clear();
 }
 

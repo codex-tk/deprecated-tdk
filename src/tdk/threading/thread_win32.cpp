@@ -43,6 +43,9 @@ bool thread::stop( const tdk::time_span& wait ) {
 			break;
 		case WAIT_FAILED:
 			break;
+		case WAIT_TIMEOUT:
+			tdk::set_last_error( tdk::tdk_timeout );
+			return false;
 		}
 		tdk::set_last_error( tdk::platform::error() );
 	}

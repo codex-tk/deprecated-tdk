@@ -27,6 +27,9 @@ bool auto_reset_event::wait( const tdk::time_span& ts ) {
 	case WAIT_FAILED:
         tdk::set_last_error( tdk::platform::error());
 		return false;
+	case WAIT_TIMEOUT:
+		tdk::set_last_error( tdk::tdk_timeout );
+		return false;
 	}
 	tdk::set_last_error( tdk::platform::error(ret));
 	return false;

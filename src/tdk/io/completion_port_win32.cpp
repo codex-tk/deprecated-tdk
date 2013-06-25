@@ -50,6 +50,7 @@ int completion_port::wait( const tdk::time_span& w
 		ec = tdk::platform::error();
         switch ( ec.value() ) {
         case WAIT_TIMEOUT:
+			tdk::set_last_error( tdk::tdk_timeout );
             return 0;
         case ERROR_ABANDONED_WAIT_0:
             tdk::set_last_error( ec );

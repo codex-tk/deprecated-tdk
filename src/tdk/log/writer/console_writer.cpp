@@ -39,7 +39,7 @@ void console_writer::write( const record& r ) {
 	DWORD dwWrite = 0;
 	WriteFile( GetStdHandle(STD_OUTPUT_HANDLE)
 		, _buffer.rd_ptr()
-		, _buffer.length()
+		, static_cast< DWORD >(_buffer.length())
 		, &dwWrite
 		, nullptr);
 	SetConsoleTextAttribute( _console , info.wAttributes );

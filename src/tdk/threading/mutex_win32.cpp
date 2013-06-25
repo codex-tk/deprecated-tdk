@@ -12,8 +12,8 @@ mutex::~mutex( void ) {
 	close();
 }
 
-bool mutex::create( const  wchar_t* name , bool initstate ) {
-	_mutex = CreateMutex( NULL , initstate ? TRUE : FALSE , name );
+bool mutex::create( const tdk::tstring& name , bool initstate ) {
+	_mutex = CreateMutex( NULL , initstate ? TRUE : FALSE , name.c_str() );
 	if ( _mutex == NULL ) {
 		tdk::set_last_error( tdk::platform::error());
 		return false;
@@ -51,6 +51,9 @@ bool mutex::wait( const tdk::time_span& ts ) {
 		return true;
 	case WAIT_FAILED:
         tdk::set_last_error( tdk::platform::error());
+		return false;
+	case WAIT_TIMEOUT:
+		tdk::set_last_error( tdk::tdk_timeout );
 		return false;
 	}
 	tdk::set_last_error( tdk::platform::error(ret));

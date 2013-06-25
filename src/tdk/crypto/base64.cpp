@@ -27,7 +27,7 @@ std::string base64::encode( const std::string& msg ) {
 	return encode( (void*)msg.c_str() , msg.length() );
 }
 
-std::string base64::encode( void* ptr , uint32_t size) {
+std::string base64::encode( void* ptr , std::size_t size) {
 	using ::std::numeric_limits;
 
 	if ( size  > 1024968 ){
@@ -55,7 +55,7 @@ std::string base64::encode( void* ptr , uint32_t size) {
 	return retval;
 }
 
-int base64::decode( const std::string& src , void* ptr , uint32_t size ) {
+int base64::decode( const std::string& src , void* ptr , std::size_t size ) {
 	int index = 0 ;
 	unsigned char* buffer = static_cast< unsigned char* >(ptr);
 	const std::string::const_iterator last = src.end();

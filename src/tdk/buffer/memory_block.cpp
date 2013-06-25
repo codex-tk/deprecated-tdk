@@ -160,7 +160,7 @@ std::size_t memory_block::write( void* buf , std::size_t write_size ) {
 	reserve( _write_pos + write_size );
 	write_size = min( space() , write_size );
 	memcpy( wr_ptr() , buf , write_size );
-	return wr_ptr( write_size );
+	return wr_ptr( static_cast<int>(write_size));
 }
 
 //! 데이터의 읽음 표시 없이 읽어오는 함수
@@ -173,7 +173,7 @@ std::size_t memory_block::peek( void* buf , std::size_t peek_size ) {
 //! 데이터를 읽어오는 함수
 std::size_t memory_block::read( void* buf , std::size_t read_size ) {
 	read_size = peek( buf , read_size );
-	return rd_ptr( read_size );
+	return rd_ptr( static_cast<int>(read_size));
 }
 
 std::size_t memory_block::write( const char* msg ) {

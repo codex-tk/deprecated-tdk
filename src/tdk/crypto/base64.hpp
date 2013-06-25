@@ -11,8 +11,8 @@ public:
 	base64(void);
 	~base64(void);
 	static std::string encode( const std::string& msg );
-	static std::string encode( void* ptr , uint32_t size);
-	static int decode( const std::string& src , void* ptr , uint32_t size );
+	static std::string encode( void* ptr , std::size_t size);
+	static int decode( const std::string& src , void* ptr , std::size_t size );
 };
 
 }}

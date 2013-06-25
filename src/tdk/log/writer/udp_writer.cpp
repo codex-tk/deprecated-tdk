@@ -22,7 +22,7 @@ void udp_writer::write( const record& r ){
 	}
 	if ( _socket != tdk::io::ip::socket::invalid_socket() ) {
 		_formatter->format( r , _buffer );
-		_socket.sendto( _buffer.rd_ptr() , _buffer.length() , _endpoint );
+		_socket.sendto( _buffer.rd_ptr() , static_cast< int >(_buffer.length()) , _endpoint );
 		_buffer.clear();
 	}
 }

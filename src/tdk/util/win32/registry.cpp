@@ -63,7 +63,7 @@ bool registry::set_value( const tdk::tstring& key , const tdk::tstring& value ) 
 		, key.c_str() 
 		, 0 , REG_SZ
 		, (BYTE*)value.data()
-		, value.length() * sizeof( TCHAR)) == ERROR_SUCCESS;
+		, static_cast<DWORD>(value.length() * sizeof(TCHAR))) == ERROR_SUCCESS;
 }
 
 bool registry::get_value( const tdk::tstring& key , tdk::tstring& value ) {

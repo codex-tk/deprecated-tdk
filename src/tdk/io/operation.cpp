@@ -14,7 +14,7 @@ operation::~operation( void ) {
 }
 
 tdk::error_code operation::error( void ) {
-	return tdk::error_code( Internal , *(error_category*)InternalHigh);
+	return tdk::error_code( static_cast<int>(Internal) , *(error_category*)InternalHigh);
 }
 
 void operation::operator()( const tdk::error_code& e , int io_bytes ) {
