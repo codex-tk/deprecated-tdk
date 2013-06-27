@@ -48,6 +48,15 @@ public:
 		}
 		return size;
 	}
+
+	bool push_back( void* p , int size ) {
+		if ( _count >= k_buffer_size )
+			return false;
+		_buffers[_count].buf = (CHAR*)p;
+		_buffers[_count].len = size;
+		++_count;
+		return true;
+	}
 private:
 	static const int k_buffer_size = 64;
 	WSABUF _buffers[k_buffer_size];

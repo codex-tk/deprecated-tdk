@@ -14,9 +14,6 @@ public:
 		, const tdk::log::formatter_ptr& fmt );
 	virtual ~file_writer( void );
 	virtual void write( const record& r );
-
-	static writer_ptr instance( void );
-
 private:
 	bool _create_log_file();
 	void _delete_old_logs();
