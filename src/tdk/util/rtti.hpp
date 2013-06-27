@@ -1,6 +1,10 @@
 #ifndef __tdk_util_rtti_h__
 #define __tdk_util_rtti_h__
 
+#ifndef __WIN32
+#include <string>
+#endif
+
 namespace tdk {
 namespace util {
 

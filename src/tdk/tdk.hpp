@@ -4,12 +4,24 @@
 // that uses this DLL. This way any other project whose source files include this file see 
 // TDKCORE_API functions as being imported from a DLL, whereas this DLL sees symbols
 // defined with this macro as being exported.
-#ifndef __tck_h__
-#define __tck_h__
+#ifndef __tdk_h__
+#define __tdk_h__
 
+#if defined ( __WIN32 )
 #pragma comment( lib ,"ws2_32.lib" )
 #pragma comment( lib ,"mswsock.lib" )
 #pragma comment( lib ,"tdk.lib" )
+#else
+
+#include <string>
+#include <cstdint>
+
+#ifndef __stdcall
+#define __stdcall
+#endif
+
+#endif
+
 /*
 #if defined( _M_X64 ) 
 	#if defined( _DEBUG )

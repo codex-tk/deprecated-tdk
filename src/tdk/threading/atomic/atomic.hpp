@@ -10,8 +10,10 @@ namespace threading {
 /*
 	acquire / release sementics
 
-	An operation has acquire semantics if other processors will always see its effect before any subsequent operation's effect. 
-	An operation has release semantics if other processors will see every preceding operation's effect before the effect of the operation itself.
+	An operation has acquire semantics if other processors will 
+		always see its effect before any subsequent operation's effect. 
+	An operation has release semantics if other processors will 
+		see every preceding operation's effect before the effect of the operation itself.
 
 	acquire - guarantees that memory reads can't jump over the barrier
 
@@ -174,15 +176,15 @@ public:
 		return atomic_impl< value_type >::add( &_value , a );
 	}
 
-	T_object or( T_object a ) {
+	T_object _or( T_object a ) {
 		T_object old;
 		do {
 			old = load();
 		} while ( compare_and_swap( old | a , old ) != old );
 		return old;
 	}
-
-	T_object and( T_object a ) {
+	
+	T_object _and( T_object a ) {
 		T_object old;
 		do {
 			old = load();
@@ -207,6 +209,10 @@ public:
 	T_object add( T_object a , T_memory_order& ord ) {
 		auto_barrier< T_memory_order > barrier( ord );
 		return add( a );
+	}
+
+	void barrier( void ) {
+		atomic_impl< value_type >::barrier();
 	}
 
 #if defined ( _MSC_VER )
