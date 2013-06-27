@@ -212,7 +212,7 @@ bool socket::wait_for_send( const tdk::time_span& wait ) const {
 
     timeval tval = wait.to_timeval();
 #if defined(_WIN32) || defined(_WIN64)
-	int result = select( 0 , &fdset , NULL , NULL , &tval );
+	int result = select( 0 , NULL , &fdset , NULL , &tval );
 	if( result == SOCKET_ERROR ) {
 		tdk::set_last_error( tdk::platform::error());
 		return false;

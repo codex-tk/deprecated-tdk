@@ -42,6 +42,9 @@ struct rect {
 		return max( top , bottom ) - min( top , bottom );
 	}
 
+	bool operator==( const rect& r ) {
+		return memcpy( this , &r , sizeof(rect)) == 0;
+	}
 
 	int left;
 	int top;

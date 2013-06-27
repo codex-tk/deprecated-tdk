@@ -5,6 +5,7 @@
 #include <tdk/log/record.hpp>
 #include <tdk/log/writer/writer.hpp>
 #include <tdk/log/formatter/formatter.hpp>
+#include <tdk/threading/spin_lock.hpp>
 #include <crtdefs.h>
 #include <vector>
 
@@ -28,7 +29,7 @@ public:
 	struct impl {
 		tdk::log::level level;
 		tdk::log::category category;
-	
+		tdk::threading::spin_lock lock;
 		std::vector< writer_ptr > writers;
 		impl( const tdk::log::category& cate );
 		static logger::impl* get_instance( const tdk::tstring& cate ) ;

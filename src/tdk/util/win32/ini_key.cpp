@@ -28,7 +28,7 @@ tdk::tstring ini_key::to_string() {
                              buffer , 
                              k_ini_buffer_size , 
                              _section.file().name().c_str());
-    return std::wstring( buffer );
+    return tdk::tstring( buffer );
 }
 
 int ini_key::to_int() {

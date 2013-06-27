@@ -123,6 +123,7 @@ void logger::write(
 #endif
 
 void logger::_write( const tdk::log::record& r ) {	
+	tdk::threading::scoped_lock<> guard( _impl->lock );
 #if defined( _WIN32 )
 	if ( IsDebuggerPresent() ) {
 		tdk::time::tick::systemtime st = tdk::time::tick::to_systemtime( r.time.time());
