@@ -9,9 +9,9 @@ public:
 	allocator( void );
 	~allocator( void );
 	// align required
-    void* (*alloc)( std::size_t sz ) ;
-    void (*free)( void* p ) ;
-    void* (*realloc)( void* p , std::size_t sz );
+	tdk::alloc_handler alloc;
+	tdk::realloc_handler realloc;
+	tdk::free_handler free;
 };
 
 }}

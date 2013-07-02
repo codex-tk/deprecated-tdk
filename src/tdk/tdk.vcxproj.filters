@@ -80,6 +80,7 @@
     <ClCompile Include="time\tick.cpp" />
     <ClCompile Include="time\time_span.cpp" />
     <ClCompile Include="util\string_win32.cpp" />
+    <ClCompile Include="alloc.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="buffer\array.hpp" />
@@ -171,6 +172,7 @@
     <ClInclude Include="util\list_node.hpp" />
     <ClInclude Include="util\rc_ptr.hpp" />
     <ClInclude Include="util\string.hpp" />
+    <ClInclude Include="alloc.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="crypto\seed\SEED_KISA.tab" />
