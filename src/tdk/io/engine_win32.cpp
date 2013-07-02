@@ -105,11 +105,11 @@ void engine::process( const tdk::error_code& code , int io_byte  , OVERLAPPED* o
 }
 
 void engine::inc_posted( void ) {
-	_posted.increment();
+	_posted.fetch_add(1);
 }
 
 void engine::dec_posted( void ) {
-	_posted.decrement();
+	_posted.fetch_sub(1);
 }
 
 void engine::set_exception_handler( LONG ( __stdcall* exception_handler)( EXCEPTION_POINTERS*  ) ) {

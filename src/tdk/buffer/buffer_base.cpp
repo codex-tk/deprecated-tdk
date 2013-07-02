@@ -18,8 +18,8 @@ buffer_base::buffer_base( std::size_t sz
 	if ( _allocator == nullptr ) {
 		_allocator = &detail::malloc_allocator;
 	}
-	_base = _allocator->alloc( sizeof( tdk::threading::atomic<int> ) + _size );
-	new (_base) tdk::threading::atomic<int>;
+	_base = _allocator->alloc( sizeof( std::atomic<int> ) + _size );
+	new (_base) std::atomic<int>;
 	_counter()->store(0);
 	add_ref();
 }
@@ -59,7 +59,7 @@ buffer_base& buffer_base::operator=( const buffer_base& rhs ) {
 }
 
 int buffer_base::ref_count( void ) {
-	tdk::threading::atomic<int>* c = _counter();
+	std::atomic<int>* c = _counter();
 	if (c) 
 		return _counter()->load();
 	return 1;
@@ -67,45 +67,29 @@ int buffer_base::ref_count( void ) {
 
 uint8_t* buffer_base::data_ptr( void ) const {
 	return static_cast< uint8_t* >( _base )  + 
-		(_allocator ? sizeof( tdk::threading::atomic<int> ) : 0 );
-	/*
-	if ( _allocator ) {
-		return static_cast< uint8_t* >( _base ) + sizeof( tdk::threading::atomic<int> );
-	}
-	return static_cast< uint8_t* >( _base );
-	*/
+		(_allocator ? sizeof( std::atomic<int>) : 0 );
 }
 
 std::size_t buffer_base::size( void ) const {
 	return _size;
 }
 
-tdk::threading::atomic<int>* buffer_base::_counter(void) {
+std::atomic<int>* buffer_base::_counter(void) {
 	return _allocator ? 
-		static_cast<tdk::threading::atomic<int>*>(_base)
+		static_cast<std::atomic<int>*>(_base)
 		: nullptr;
 }
 
 int buffer_base::add_ref( void ) {
 	if ( _allocator ) {
-		return _counter()->increment();
-		//int old = _counter()->fetch_add(1);
-		//return old + 1;
+		return _counter()->fetch_add(1) + 1;
 	}
 	return 1;
 }
 
 int buffer_base::dec_ref( void ) {
 	if ( _allocator ) {
-		/*
-		int old = _counter()->fetch_sub(1);
-		if ( old == 1 ) {
-			_counter()->~atomic<int>();
-			_allocator->free( _base );
-		}
-		return old - 1;
-		*/
-		if ( _counter()->decrement()  == 0 ) {
+		if ( _counter()->fetch_sub(1) - 1 == 0 ) {
 			_allocator->free( _base );
 			_allocator = nullptr;
 			_base = nullptr;

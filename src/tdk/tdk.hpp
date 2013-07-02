@@ -7,20 +7,18 @@
 #ifndef __tdk_h__
 #define __tdk_h__
 
-#if defined ( __WIN32 )
+#if defined ( _WIN32 )
 #pragma comment( lib ,"ws2_32.lib" )
 #pragma comment( lib ,"mswsock.lib" )
 #pragma comment( lib ,"tdk.lib" )
 #else
-
-#include <string>
-#include <cstdint>
-
 #ifndef __stdcall
 #define __stdcall
 #endif
-
 #endif
+
+#include <string>
+#include <cstdint>
 
 /*
 #if defined( _M_X64 ) 

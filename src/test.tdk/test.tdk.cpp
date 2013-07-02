@@ -34,8 +34,6 @@ int _tmain(int argc, _TCHAR* argv[])
 {
 	testing::InitGoogleTest( &argc , argv );
 
-	tdk::threading::atomic32::value_type v;
-	tdk::threading::atomic32::increment(&v);
 
 	tdk::error_code ec( tdk::platform::error() );
 

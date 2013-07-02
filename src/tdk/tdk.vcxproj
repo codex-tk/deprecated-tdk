@@ -217,8 +217,6 @@
     <ClInclude Include="tdk.hpp" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
-    <ClInclude Include="threading\atomic\atomic.hpp" />
-    <ClInclude Include="threading\atomic\memory_order.hpp" />
     <ClInclude Include="threading\spin_lock.hpp" />
     <ClInclude Include="threading\thread.hpp" />
     <ClInclude Include="threading\thread_data.hpp" />
@@ -307,8 +305,6 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="threading\atomic\atomic_win32.cpp" />
-    <ClCompile Include="threading\atomic\memory_order_win32.cpp" />
     <ClCompile Include="threading\spin_lock_win32.cpp" />
     <ClCompile Include="threading\thread_win32.cpp" />
     <ClCompile Include="threading\thread_data.cpp" />

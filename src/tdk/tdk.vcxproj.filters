@@ -1,539 +1,176 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Source Files">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
-    <Filter Include="Header Files">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
-    </Filter>
-    <Filter Include="Resource Files">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
+    <ClCompile Include="buffer\marshal.cpp" />
+    <ClCompile Include="crypto\base64.cpp" />
+    <ClCompile Include="buffer\allocator.cpp" />
+    <ClCompile Include="buffer\buffer_base.cpp" />
+    <ClCompile Include="buffer\marker.cpp" />
+    <ClCompile Include="buffer\memory_block.cpp" />
+    <ClCompile Include="crypto\crc32.cpp" />
+    <ClCompile Include="crypto\md5.cpp" />
+    <ClCompile Include="crypto\seed.cpp" />
+    <ClCompile Include="crypto\seed\SEED_KISA.cpp" />
+    <ClCompile Include="crypto\sha1.cpp" />
+    <ClCompile Include="device\display_win32.cpp" />
+    <ClCompile Include="device\monitor_win32.cpp" />
+    <ClCompile Include="io\engine_tcp_win32.cpp" />
+    <ClCompile Include="io\engine_scheduler_win32.cpp" />
+    <ClCompile Include="io\engine_scheduler_timer_win32.cpp" />
+    <ClCompile Include="log\formatter\mb_string_formatter.cpp" />
+    <ClCompile Include="log\writer\udp_writer.cpp" />
+    <ClCompile Include="memory\alloc.cpp" />
+    <ClCompile Include="memory\memory.cpp" />
+    <ClCompile Include="memory\memory_statistics.cpp" />
+    <ClCompile Include="memory\object_allocator.cpp" />
+    <ClCompile Include="memory\thread_cache.cpp" />
+    <ClCompile Include="threading\auto_reset_event_win32.cpp" />
+    <ClCompile Include="threading\mutex_win32.cpp" />
+    <ClCompile Include="util\rtti.cpp" />
+    <ClCompile Include="task\queue_timer_win32.cpp" />
+    <ClCompile Include="task\timer_handler.cpp" />
+    <ClCompile Include="util\conf.cpp" />
+    <ClCompile Include="util\win32\env.cpp" />
+    <ClCompile Include="util\win32\ini_file.cpp" />
+    <ClCompile Include="util\win32\ini_key.cpp" />
+    <ClCompile Include="util\win32\ini_section.cpp" />
+    <ClCompile Include="util\win32\registry.cpp" />
+    <ClCompile Include="util\win32\global_seh.cpp" />
+    <ClCompile Include="util\win32\mini_dump_seh_handler.cpp" />
+    <ClCompile Include="util\win32\mini_dump.cpp" />
+    <ClCompile Include="error\error_category.cpp" />
+    <ClCompile Include="error\error_category_platform_win32.cpp" />
+    <ClCompile Include="error\error_code.cpp" />
+    <ClCompile Include="error\error_platform_win32.cpp" />
+    <ClCompile Include="error\error_tdk.cpp" />
+    <ClCompile Include="error\last_error.cpp" />
+    <ClCompile Include="error\error_platform.cpp" />
+    <ClCompile Include="error\error_category_tdk.cpp" />
+    <ClCompile Include="io\completion_port_win32.cpp" />
+    <ClCompile Include="io\engine_win32.cpp" />
+    <ClCompile Include="io\ip\address.cpp" />
+    <ClCompile Include="io\ip\basic_socket.cpp" />
+    <ClCompile Include="io\ip\socket.cpp" />
+    <ClCompile Include="io\ip\tcp\operation\accept_operation_win32.cpp" />
+    <ClCompile Include="io\ip\tcp\operation\connect_operation_win32.cpp" />
+    <ClCompile Include="io\ip\tcp\operation\recv_operation_win32.cpp" />
+    <ClCompile Include="io\ip\tcp\operation\send_operation_win32.cpp" />
+    <ClCompile Include="io\ip\tcp\socket_win32.cpp" />
+    <ClCompile Include="io\operation.cpp" />
+    <ClCompile Include="log\category.cpp" />
+    <ClCompile Include="log\formatter\formatter.cpp" />
+    <ClCompile Include="log\formatter\string_formatter.cpp" />
+    <ClCompile Include="log\logger.cpp" />
+    <ClCompile Include="log\record.cpp" />
+    <ClCompile Include="log\writer\console_writer.cpp" />
+    <ClCompile Include="log\writer\file_writer.cpp" />
+    <ClCompile Include="log\writer\writer.cpp" />
+    <ClCompile Include="network\address.cpp" />
+    <ClCompile Include="network\socket.cpp" />
+    <ClCompile Include="util\win32\service.cpp" />
+    <ClCompile Include="util\win32\service_manager.cpp" />
+    <ClCompile Include="tdk.cpp" />
+    <ClCompile Include="stdafx.cpp" />
+    <ClCompile Include="threading\spin_lock_win32.cpp" />
+    <ClCompile Include="threading\thread_win32.cpp" />
+    <ClCompile Include="threading\thread_data.cpp" />
+    <ClCompile Include="threading\thread_local_win32.cpp" />
+    <ClCompile Include="time\ctime.cpp" />
+    <ClCompile Include="time\date_time.cpp" />
+    <ClCompile Include="time\tick.cpp" />
+    <ClCompile Include="time\time_span.cpp" />
+    <ClCompile Include="util\string_win32.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="stdafx.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="targetver.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="util\string.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="tdk.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="time\ctime.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="time\date_time.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="time\tick.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="time\time_span.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="threading\atomic\atomic.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="threading\atomic\memory_order.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="threading\spin_lock.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="task\handler.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="log\category.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="log\record.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="log\logger.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="buffer\allocator.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="buffer\memory_block.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="buffer\marker.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="buffer\buffer_base.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="log\formatter\formatter.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="log\formatter\string_formatter.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="log\writer\writer.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="log\writer\console_writer.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="network\address.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="network\socket.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="error\last_error.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="threading\thread_local.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="threading\thread_data.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="error\error_code.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="error\error_category.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="threading\thread.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="util\list_node.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="util\rc_ptr.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="log\writer\file_writer.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="error\error_category_tdk.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="error\error_category_platform.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="io\completion_port_win32.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="error\error_tdk.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="error\error_platform.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="io\operation.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="io\engine_win32.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="io\ip\tcp\socket_win32.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="io\ip\address.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="io\ip\basic_socket.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="io\ip\socket.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="io\ip\tcp\operation\connect_operation_win32.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="io\buffer_adapter.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="io\ip\tcp\operation\send_operation_win32.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="io\ip\tcp\operation\recv_operation_win32.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="io\ip\tcp\operation\accept_operation_win32.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="util\win32\registry.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="util\win32\service.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="util\win32\service_manager.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="util\win32\mini_dump.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="util\win32\mini_dump_seh_handler.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="util\win32\global_seh.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="io\operation_impl.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="task\queue_timer_win32.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="io\engine_detail.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="io\engine_scheduler_win32.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="task\timer_handler.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="device\display_win32.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="device\monitor_win32.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="geo.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="util\conf.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="crypto\base64.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="crypto\crc32.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="crypto\sha1.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="memory\alloc.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="memory\allocator.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="memory\fixed_size_allocator.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="memory\memory.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="memory\memory_statistics.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="memory\object_allocator.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="memory\thread_cache.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="buffer\marshal.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="util\win32\env.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="util\rtti.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="threading\mutex_win32.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="util\singleton.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="log\writer\udp_writer.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="crypto\md5.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="crypto\seed\SEED_KISA.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="crypto\seed.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="util\win32\ini_key.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="util\win32\ini_section.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="util\win32\ini_file.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="threading\auto_reset_event_win32.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="io\engine_scheduler_timer_win32.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-<<<<<<< HEAD
-    <ClInclude Include="log\formatter\mb_string_formatter.hpp">
-=======
-    <ClInclude Include="buffer\array.hpp">
->>>>>>> c7c87d69c8a809b834bf215c99af3474c0182f70
-      <Filter>Header Files</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="stdafx.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="time\ctime.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="time\date_time.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="time\tick.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="time\time_span.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="threading\atomic\memory_order_win32.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="util\string_win32.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="log\category.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="log\record.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="log\logger.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="buffer\allocator.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="buffer\marker.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="buffer\memory_block.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="buffer\buffer_base.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="log\formatter\formatter.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="log\formatter\string_formatter.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="log\writer\writer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="log\writer\console_writer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="network\address.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="tdk.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="network\socket.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="error\last_error.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="threading\thread_data.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="error\error_code.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="error\error_category.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="log\writer\file_writer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="error\error_category_tdk.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="error\error_category_platform_win32.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="threading\atomic\atomic_win32.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="threading\spin_lock_win32.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="threading\thread_local_win32.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="threading\thread_win32.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="io\completion_port_win32.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="error\error_tdk.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="error\error_platform.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="error\error_platform_win32.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="io\operation.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="io\engine_win32.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="io\ip\tcp\socket_win32.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="io\ip\address.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="io\ip\basic_socket.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="io\ip\socket.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="io\ip\tcp\operation\connect_operation_win32.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="io\ip\tcp\operation\send_operation_win32.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="io\ip\tcp\operation\recv_operation_win32.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="io\ip\tcp\operation\accept_operation_win32.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="util\win32\registry.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="util\win32\service.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="util\win32\service_manager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="util\win32\mini_dump.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="util\win32\mini_dump_seh_handler.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="util\win32\global_seh.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="task\queue_timer_win32.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="io\engine_scheduler_win32.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="task\timer_handler.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="device\monitor_win32.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="device\display_win32.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="util\conf.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="crypto\base64.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="crypto\crc32.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="crypto\sha1.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="memory\alloc.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="memory\memory.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="memory\memory_statistics.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="memory\object_allocator.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="memory\thread_cache.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="buffer\marshal.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="util\win32\env.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="util\rtti.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="threading\mutex_win32.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="log\writer\udp_writer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="crypto\md5.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="crypto\seed\SEED_KISA.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="crypto\seed.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="util\win32\ini_section.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="util\win32\ini_key.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="util\win32\ini_file.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="threading\auto_reset_event_win32.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="io\engine_scheduler_timer_win32.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="io\engine_tcp_win32.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="log\formatter\mb_string_formatter.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
+    <ClInclude Include="buffer\array.hpp" />
+    <ClInclude Include="buffer\marshal.hpp" />
+    <ClInclude Include="crypto\base64.hpp" />
+    <ClInclude Include="buffer\allocator.hpp" />
+    <ClInclude Include="buffer\buffer_base.hpp" />
+    <ClInclude Include="buffer\marker.hpp" />
+    <ClInclude Include="buffer\memory_block.hpp" />
+    <ClInclude Include="crypto\crc32.hpp" />
+    <ClInclude Include="crypto\md5.hpp" />
+    <ClInclude Include="crypto\seed.hpp" />
+    <ClInclude Include="crypto\seed\SEED_KISA.hpp" />
+    <ClInclude Include="crypto\sha1.hpp" />
+    <ClInclude Include="device\display_win32.hpp" />
+    <ClInclude Include="device\monitor_win32.hpp" />
+    <ClInclude Include="geo.hpp" />
+    <ClInclude Include="io\engine_detail.hpp" />
+    <ClInclude Include="io\engine_scheduler_timer_win32.hpp" />
+    <ClInclude Include="io\engine_scheduler_win32.hpp" />
+    <ClInclude Include="io\operation_impl.hpp" />
+    <ClInclude Include="log\formatter\mb_string_formatter.hpp" />
+    <ClInclude Include="log\writer\udp_writer.hpp" />
+    <ClInclude Include="memory\alloc.hpp" />
+    <ClInclude Include="memory\allocator.hpp" />
+    <ClInclude Include="memory\fixed_size_allocator.hpp" />
+    <ClInclude Include="memory\memory.hpp" />
+    <ClInclude Include="memory\memory_statistics.hpp" />
+    <ClInclude Include="memory\object_allocator.hpp" />
+    <ClInclude Include="memory\thread_cache.hpp" />
+    <ClInclude Include="threading\auto_reset_event_win32.hpp" />
+    <ClInclude Include="threading\mutex_win32.hpp" />
+    <ClInclude Include="util\rtti.hpp" />
+    <ClInclude Include="task\queue_timer_win32.hpp" />
+    <ClInclude Include="task\timer_handler.hpp" />
+    <ClInclude Include="util\conf.hpp" />
+    <ClInclude Include="util\singleton.hpp" />
+    <ClInclude Include="util\win32\env.hpp" />
+    <ClInclude Include="util\win32\ini_file.hpp" />
+    <ClInclude Include="util\win32\ini_key.hpp" />
+    <ClInclude Include="util\win32\ini_section.hpp" />
+    <ClInclude Include="util\win32\registry.hpp" />
+    <ClInclude Include="util\win32\global_seh.hpp" />
+    <ClInclude Include="util\win32\mini_dump_seh_handler.hpp" />
+    <ClInclude Include="util\win32\mini_dump.hpp" />
+    <ClInclude Include="error\error_category.hpp" />
+    <ClInclude Include="error\error_category_platform.hpp" />
+    <ClInclude Include="error\error_code.hpp" />
+    <ClInclude Include="error\last_error.hpp" />
+    <ClInclude Include="error\error_platform.hpp" />
+    <ClInclude Include="error\error_category_tdk.hpp" />
+    <ClInclude Include="error\error_tdk.hpp" />
+    <ClInclude Include="io\buffer_adapter.hpp" />
+    <ClInclude Include="io\completion_port_win32.hpp" />
+    <ClInclude Include="io\engine_win32.hpp" />
+    <ClInclude Include="io\ip\address.hpp" />
+    <ClInclude Include="io\ip\basic_socket.hpp" />
+    <ClInclude Include="io\ip\socket.hpp" />
+    <ClInclude Include="io\ip\tcp\operation\accept_operation_win32.hpp" />
+    <ClInclude Include="io\ip\tcp\operation\connect_operation_win32.hpp" />
+    <ClInclude Include="io\ip\tcp\operation\recv_operation_win32.hpp" />
+    <ClInclude Include="io\ip\tcp\operation\send_operation_win32.hpp" />
+    <ClInclude Include="io\ip\tcp\socket_win32.hpp" />
+    <ClInclude Include="io\operation.hpp" />
+    <ClInclude Include="log\category.hpp" />
+    <ClInclude Include="log\formatter\formatter.hpp" />
+    <ClInclude Include="log\formatter\string_formatter.hpp" />
+    <ClInclude Include="log\logger.hpp" />
+    <ClInclude Include="log\record.hpp" />
+    <ClInclude Include="log\writer\console_writer.hpp" />
+    <ClInclude Include="log\writer\file_writer.hpp" />
+    <ClInclude Include="log\writer\writer.hpp" />
+    <ClInclude Include="network\address.hpp" />
+    <ClInclude Include="network\socket.hpp" />
+    <ClInclude Include="util\win32\service.hpp" />
+    <ClInclude Include="util\win32\service_manager.hpp" />
+    <ClInclude Include="task\handler.hpp" />
+    <ClInclude Include="tdk.hpp" />
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="targetver.h" />
+    <ClInclude Include="threading\spin_lock.hpp" />
+    <ClInclude Include="threading\thread.hpp" />
+    <ClInclude Include="threading\thread_data.hpp" />
+    <ClInclude Include="threading\thread_local.hpp" />
+    <ClInclude Include="time\ctime.hpp" />
+    <ClInclude Include="time\date_time.hpp" />
+    <ClInclude Include="time\tick.hpp" />
+    <ClInclude Include="time\time_span.hpp" />
+    <ClInclude Include="util\list_node.hpp" />
+    <ClInclude Include="util\rc_ptr.hpp" />
+    <ClInclude Include="util\string.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="crypto\seed\SEED_KISA.tab" />

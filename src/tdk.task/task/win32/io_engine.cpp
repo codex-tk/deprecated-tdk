@@ -268,7 +268,8 @@ void io_engine::post( operation* ctx ) {
 }
 
 bool io_engine::run( const tdk::time_span& wait ) {
-    if( _post_failed.compare_and_swap( 0 , 1 ) == 1 ) {
+	int exp = 0;
+	if( _post_failed.compare_exchange_strong( exp , 1 )) {
         tdk::slist_queue< operation > drains;
         do {
             tdk::threading::scoped_lock< > guard( _op_queue_lock );

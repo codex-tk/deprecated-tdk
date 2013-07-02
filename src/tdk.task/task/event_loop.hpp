@@ -34,7 +34,7 @@ public:
 private:
 	io_engine _engine;
 	tdk::task::scheduler _scheduler;
-	tdk::threading::atomic<int> _ref;
+	std::atomic<int> _ref;
 
 public:
 	template < typename T_handler >

@@ -11,8 +11,8 @@
 #include <tdk.task/network/tcp/channel.hpp>
 #include <tdk.task/network/udp/channel.hpp>
 #include <tdk/threading/spin_lock.hpp>
-#include <tdk/threading/atomic/atomic.hpp>
 #include <vector>
+#include <atomic>
 
 namespace tdk{
 namespace task {
@@ -50,7 +50,7 @@ public:
 private:
 	event_loop& _loop;
 	io_completion_port _port;
-	tdk::threading::atomic<int> _post_failed;
+	std::atomic<int> _post_failed;
 	tdk::threading::spin_lock _op_queue_lock;
 	tdk::slist_queue< operation > _op_queue;
 };

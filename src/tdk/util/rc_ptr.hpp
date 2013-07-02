@@ -1,11 +1,11 @@
 #ifndef __tdk_base_rc_ptr_h__
 #define __tdk_base_rc_ptr_h__
 
-#include <tdk/threading/atomic/atomic.hpp>
+#include <atomic>
 
 namespace tdk {
 
-template < typename T_object , typename T_counter  = tdk::threading::atomic< int > >
+template < typename T_object , typename T_counter  = std::atomic< int > >
 class rc_ptr_base {
 protected:
 	rc_ptr_base( void ) {
@@ -13,13 +13,12 @@ protected:
 	~rc_ptr_base( void ){
 	}
 public:
-	typedef typename T_counter::value_type value_type;
-	value_type retain( void ) {
-		return _counter.increment();
+	int retain( void ) {
+		return ++_counter;
 	}
 	
-	value_type release( void ) {
-		value_type val = _counter.decrement();
+	int release( void ) {
+		int val = --_counter;
 		if ( val == 0 ) {
 			T_object* type = static_cast< T_object* >( this );
 			delete type;

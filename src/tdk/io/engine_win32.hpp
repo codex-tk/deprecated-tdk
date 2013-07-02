@@ -1,12 +1,13 @@
 #ifndef __tdk_io_engine_h__
 #define __tdk_io_engine_h__
 
+#include <atomic>
+
 #include <tdk/io/completion_port_win32.hpp>
 #include <tdk/io/operation.hpp>
 #include <tdk/io/engine_detail.hpp>
 
 #include <tdk/threading/spin_lock.hpp>
-#include <tdk/threading/atomic/atomic.hpp>
 
 #include <tdk/util/list_node.hpp>
 #include <tdk/util/rc_ptr.hpp>
@@ -78,7 +79,8 @@ public:
 private:
 	completion_port _port;
 	scheduler* _scheduler;
-	tdk::threading::atomic<int> _posted;
+	std::atomic<int> _posted;
+	//tdk::threading::atomic<int> _posted;
 };
 
 }}

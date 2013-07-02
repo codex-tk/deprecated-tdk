@@ -42,7 +42,7 @@ public:
 #endif
 	) {
 #if defined ( ENABLE_MEMORY_STATISTICS )
-		tdk::threading::atomic64::increment( &statistics.alloc_req_count );
+		++statistics.alloc_req_count;
 #endif
 		assert_msg( _alloc_size != 0 
 			, "[fixed_size_allocator::alloc()] _alloc_size is 0" );
@@ -61,7 +61,7 @@ public:
 			assert_msg( ptr != nullptr 
 				, "[fixed_size_allocator::alloc()] alloc ptr is nullptr" );
 #if defined ( ENABLE_MEMORY_STATISTICS )
-			tdk::threading::atomic64::increment( &statistics.base_alloc_count );
+			++statistics.base_alloc_count;
 #endif
 		}
 		return ptr;
@@ -77,13 +77,14 @@ public:
 			return;
 
 #if defined ( ENABLE_MEMORY_STATISTICS )
-		tdk::threading::atomic64::increment( &statistics.free_req_count );
+		++&statistics.free_req_count;
 #endif
 		tdk::threading::scoped_lock< T_lock > guard( _lock );
 		_pool.push_back( p );
 
 #if defined ( ENABLE_MEMORY_STATISTICS )
-		tdk::threading::atomic64::add( &statistics.pooling_bytes , _alloc_size );
+		statistics.pooling_bytes += _alloc_size
+		//tdk::threading::atomic64::add( &statistics.pooling_bytes , _alloc_size );
 #endif
 		if ( _contain_bytes == 0 )
 			return;
@@ -91,7 +92,7 @@ public:
 		if ( _alloc_size * _pool.size() > _contain_bytes ) {
 #if defined ( ENABLE_MEMORY_STATISTICS )
 			return_memory((int)(_contain_bytes * 0.8) , statistics );
-			tdk::threading::atomic64::increment( &statistics.return_memory_call_count );
+			++statistics.return_memory_call_count;
 #else
 			return_memory((int)(_contain_bytes * 0.8));
 #endif
@@ -110,8 +111,8 @@ public:
 			T_base_allocator::free( p );
 #if defined ( ENABLE_MEMORY_STATISTICS )
 			int add = static_cast<int>(_alloc_size);
-			tdk::threading::atomic64::add( &statistics.pooling_bytes , -add );
-			tdk::threading::atomic64::increment( &statistics.base_free_count );
+			statistics.pooling_bytes -= add;
+			++statistics.base_free_count;
 #endif
 		}
 	}

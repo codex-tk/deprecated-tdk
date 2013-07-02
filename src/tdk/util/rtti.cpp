@@ -1,6 +1,4 @@
-#if defined(__WIN32)
 #include "stdafx.h"
-#endif
 #include <tdk/util/rtti.hpp>
 
 namespace tdk {

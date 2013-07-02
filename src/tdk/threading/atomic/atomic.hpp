@@ -3,6 +3,7 @@
 
 #include <tdk/tdk.hpp>
 #include <tdk/threading/atomic/memory_order.hpp>
+#include <atomic>
 
 namespace tdk {
 namespace threading {
@@ -41,17 +42,100 @@ namespace threading {
 */
 
 
+namespace detail {
+/*
+http://gcc.gnu.org/onlinedocs/gcc/_005f_005fatomic-Builtins.html
+*/
+	/*
+template < int memory_model >
+struct memory_model_impl {
+	enum { value = memory_model_impl };
+};
+
+class atomic {
+public:
+#if defined( _WIN32 )
+	#if defined( _M_X64 )
+		typedef volatile int64_t value_type;
+	#else
+		typedef volatile int32_t value_type;
+	#endif
+#else
+	#if defined(_M_X64) || defined(__x86_64__)
+		typedef volatile int64_t value_type;
+	#else
+		typedef volatile int32_t value_type;
+	#endif
+#endif
+
+	template < typename model >
+	void barrier( void ) {
+
+	}
+
+	void load( void );
+	void store( void );
+	void exchange( void );
+	bool compare_exchange( void );
+	void add_fetch(void);
+	void sub_fetch(void);
+
+	void fetch_add( void );
+	void fetch_sub( void );
+
+/*
+	test_and_set();
+	clear();
+	thread_fence();
+	signal_fence();
+	always_lock_free();
+	is_lock_free();
+*//*
+private:
+
+	value_type _value;
+};
+*/
+}
+
 	
 class atomic32 {
 public:
 	typedef volatile int32_t value_type;
 	static void		  __stdcall barrier( void );
+	
 	static value_type __stdcall increment( value_type* value );
 	static value_type __stdcall decrement( value_type* value );
 	static value_type __stdcall exchange( value_type* value , value_type change );
 	static value_type __stdcall compare_and_swap( value_type* value , value_type change , value_type compare );
 	static bool		  __stdcall compare_and_swap_bool(  value_type* value , value_type change , value_type compare );
 	static value_type __stdcall add( value_type* value , value_type add );
+	/*
+	static value_type __stdcall fetch_and_add (value_type *ptr, value_type value );
+	static value_type __stdcall fetch_and_sub (value_type *ptr, value_type value );
+	static value_type __stdcall add_and_fetch (value_type *ptr, value_type value );
+	static value_type __stdcall sub_and_fetch (value_type *ptr, value_type value );
+	static value_type __stdcall fetch_and_set(value_type *ptr, value_type value);
+
+	
+	static value_type __stdcall fetch_and_add (value_type *ptr, value_type value );
+	static value_type __stdcall fetch_and_sub (value_type *ptr, value_type value );
+	static value_type __stdcall fetch_and_or  (value_type *ptr, value_type value );
+	static value_type __stdcall fetch_and_and (value_type *ptr, value_type value );
+	static value_type __stdcall fetch_and_xor (value_type *ptr, value_type value );
+	static value_type __stdcall fetch_and_nand(value_type *ptr, value_type value );
+																				 
+	static value_type __stdcall add_and_fetch (value_type *ptr, value_type value );
+	static value_type __stdcall sub_and_fetch (value_type *ptr, value_type value );
+	static value_type __stdcall or_and_fetch  (value_type *ptr, value_type value );
+	static value_type __stdcall and_and_fetch (value_type *ptr, value_type value );
+	static value_type __stdcall xor_and_fetch (value_type *ptr, value_type value );
+	static value_type __stdcall nand_and_fetch(value_type *ptr, value_type value );
+
+	static value_type __stdcall compare_and_swap( value_type* value , value_type change , value_type compare );
+	static bool		  __stdcall compare_and_swap_bool(  value_type* value , value_type change , value_type compare );
+	
+	static value_type __stdcall fetch_and_set(value_type *ptr, value_type value); */
 };
 
 /*

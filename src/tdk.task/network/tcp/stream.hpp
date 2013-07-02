@@ -58,7 +58,7 @@ private:
 	bool _sending;
 	std::vector< tdk::buffer::memory_block > _send_buffer;
 	
-	tdk::threading::atomic<int> _ref_count;
+	std::atomic<int> _ref_count;
 
 	enum class post_status {
 		not_post ,

@@ -1,8 +1,8 @@
 #ifndef __tdk_util_singleton_h__
 #define __tdk_util_singleton_h__
 
-#include <tdk/threading/atomic/atomic.hpp>
 #include <tdk/threading/spin_lock.hpp>
+#include <atomic>
 
 namespace tdk {
 namespace util {
@@ -29,42 +29,36 @@ template <
 class singleton{
 public:
 	static type* __stdcall instance( void  ) {
-		volatile type* barrier = instance_;
-		tdk::threading::atomic_impl< 
-			tdk::threading::atomic_trait< sizeof( void* ) >::value_type
-		>::barrier();
+		type* barrier = _instance.load();
 		if( barrier == nullptr ) {
-			tdk::threading::scoped_lock< lock_t > guard( lock_ );
-			barrier = instance_;
+			tdk::threading::scoped_lock< lock_t > guard( _lock );
+			barrier = _instance;
 			if( barrier == nullptr ) {
                 barrier = creator_t<type>::create();
-			    tdk::threading::atomic_impl< 
-					tdk::threading::atomic_trait< sizeof( void* ) >::value_type
-				>::barrier();
-				instance_ = barrier;
+				_instance.store( barrier );
 			}
 		}
 		return const_cast< type* >( barrier );
 	}
     
     static void __stdcall release( void ) {
-        tdk::threading::scoped_lock< lock_t > guard( lock_ );
-		volatile type* barrier = instance_;
+        tdk::threading::scoped_lock< lock_t > guard( _lock );
+		type* barrier = _instance;
 		if( barrier != nullptr ) {
             creator_t<type>::release( const_cast< type* >( barrier ) );
-            instance_ = nullptr;
+            _instance.store( nullptr );
 		}
     }
 private:
-	static	volatile type* instance_;
-	static	lock_t			lock_;
+	static std::atomic< type* > _instance;
+	static lock_t _lock;
 };
 
 template < typename type , typename lock_t , template < typename > class creator_t >
-volatile type* singleton< type , lock_t , creator_t >::instance_ = nullptr;
+std::atomic< type* > singleton< type , lock_t , creator_t >::_instance;
 
 template < typename type , typename lock_t , template < typename > class creator_t >
-lock_t singleton< type , lock_t , creator_t  >::lock_;
+lock_t singleton< type , lock_t , creator_t  >::_lock;
 
 
 }}

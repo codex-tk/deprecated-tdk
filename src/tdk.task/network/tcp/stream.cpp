@@ -72,7 +72,9 @@ void stream::_post_close( void ) {
 	if ( _error_post_status != post_status::end_post ) 
 		return;
 
-	if ( _ref_count.compare_and_swap( 0 , 0 ) == 0 ) {
+	int exp = 0;
+	int change = 0;
+	if ( _ref_count.compare_exchange_strong( exp , change )){
 		_close_post_status = post_status::begin_post;
 		_channel.loop().post( [this](){
 			_close_post_status = post_status::end_post;
@@ -87,7 +89,7 @@ void stream::close() {
 }
 
 void stream::recv( const tdk::buffer::memory_block& mb ) {
-	_ref_count.increment();
+	++_ref_count;
 	_recv_op->buffer( mb );
 	_channel.recv( _recv_op );
 }
@@ -99,7 +101,7 @@ void stream::send( const tdk::buffer::memory_block& mb ) {
 	if ( _sending ) {
 		_send_buffer.push_back( mb );
 	} else {
-		_ref_count.increment();
+		++_ref_count;
 		_sending = true;
 		_send_op->buffer( mb );
 		_channel.send( _send_op );
@@ -125,7 +127,7 @@ bool stream::_is_closed(void) {
 }
 
 void stream::_on_recv( tdk::network::tcp::recv_operation& r ) {
-	_ref_count.decrement();
+	--_ref_count;
 	if ( r.error() ) {
 		_internal_close( r.error());
 		return;
@@ -153,7 +155,7 @@ void stream::reset( void ) {
 }
 
 void stream::_on_send( tdk::network::tcp::send_operation& r ) {
-	_ref_count.decrement();
+	--_ref_count;
 	if ( r.error() ){
 		_internal_close( r.error());
 		return;
@@ -183,7 +185,7 @@ void stream::_on_send( tdk::network::tcp::send_operation& r ) {
 		for ( auto it : remain_buffers ) {
 			remain += it.length();
 		}
-		_ref_count.increment();
+		++_ref_count;
 		_send_op->buffers( remain_buffers );
 		_channel.send( _send_op );
 	}

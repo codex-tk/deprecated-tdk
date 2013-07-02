@@ -34,17 +34,29 @@ io_engine& event_loop::engine( void ){
 
 void event_loop::run( void ) {
 	detail::loop.set( this );
-	while ( _ref.compare_and_swap( 1 , 1 ) != 0 ) {
+	while ( true ) {
+		int exp = 1;
+		int change = 1;
+		_ref.compare_exchange_strong(exp,change);
+		//while ( _ref.compare_and_swap( 1 , 1 ) != 0 ) {
 		_engine.run( _scheduler.next_schedule() );
 		_scheduler.drain();
+		if ( exp == 0 ) 
+			return;
 	}
 	detail::loop.set( nullptr );
+	
 }
 
 bool event_loop::run_once( const tdk::time_span& wait ) {
 	detail::loop.set( this );
-	if ( _ref.compare_and_swap( 1 , 1 ) == 0 )
+	int exp = 1;
+	int change = 1;
+	_ref.compare_exchange_strong(exp,change);
+	if ( exp == 0 ) {
+	//if ( _ref.compare_and_swap( 1 , 1 ) == 0 )
 		return false;
+	}
 	_engine.run( _scheduler.next_schedule() );
 	_scheduler.drain();
 	detail::loop.set( nullptr );
@@ -66,11 +78,11 @@ void event_loop::post( tdk::task::operation* op) {
 }
 
 void event_loop::increment_ref( void ) {
-	_ref.increment();
+	++_ref;
 }
 
 void event_loop::decrement_ref( void ) {
-	_ref.decrement();
+	--_ref;
 }
 
 event_loop* event_loop::current( void ) {
