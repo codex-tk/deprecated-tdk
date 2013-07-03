@@ -14,7 +14,7 @@ public:
 	virtual ~stream_handler ( void ){}
 	virtual void on_recv( stream& s , tdk::buffer::memory_block& mb ) = 0;
 	virtual void on_send( stream& s , int sent_bytes , int remain_bytes ) = 0;
-	virtual void on_error( stream& s , const tdk::error_code& code ) = 0;
+	virtual void on_error( stream& s , const std::error_code& code ) = 0;
 	virtual void on_close( stream& s ) = 0;
 };
 
@@ -42,8 +42,8 @@ public:
 	void tag( void* p );
 private:
 	bool _is_closed(void);
-	void _internal_close( const tdk::error_code& code , bool closed = false );
-	bool _post_error( const tdk::error_code& code );
+	void _internal_close( const std::error_code& code , bool closed = false );
+	bool _post_error( const std::error_code& code );
 	void _post_close( void );
 	void _on_recv( tdk::network::tcp::recv_operation& r );
 	void _on_send( tdk::network::tcp::send_operation& r );

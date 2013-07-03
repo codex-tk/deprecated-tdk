@@ -21,7 +21,7 @@ LONG ( __stdcall* engine_exception_handler)( EXCEPTION_POINTERS* ) = &default_en
 static int k_posted_operation = -1;
 
 static void on_port_callback ( 
-    const tdk::error_code& code 
+    const std::error_code& code 
         , int io_byte 
         , void* 
         , OVERLAPPED* ov
@@ -60,7 +60,7 @@ bool engine::run_once( const tdk::time_span& wait ) {
     return _port.wait( wait , &detail::on_port_callback , this ) >= 0;
 }
 
-void engine::post( tdk::io::operation* op , const tdk::error_code& ec ){
+void engine::post( tdk::io::operation* op , const std::error_code& ec ){
 	inc_posted();
 	op->error( ec );
 	if (!_port.post( detail::k_posted_operation , nullptr , op )){
@@ -72,7 +72,7 @@ bool engine::bind( SOCKET fd ) {
 	return _port.bind( fd , (void*)fd ); 
 }
 // scheduler post ¿ëµµ
-bool engine::post0( tdk::io::operation* op , const tdk::error_code& ec ) {
+bool engine::post0( tdk::io::operation* op , const std::error_code& ec ) {
 	op->error( ec );
 	inc_posted();
 	if ( !_port.post( detail::k_posted_operation , nullptr , op ) ){
@@ -93,9 +93,9 @@ void engine::cancel( engine::timer_id& id ) {
 	_scheduler->cancel( id );
 }
 
-void engine::process( const tdk::error_code& code , int io_byte  , OVERLAPPED* ov ) {
+void engine::process( const std::error_code& code , int io_byte  , OVERLAPPED* ov ) {
 	operation* op( static_cast< operation* >(ov));
-	tdk::error_code ec = code;
+	std::error_code ec = code;
 	if ( io_byte == detail::k_posted_operation ) {
 		ec = op->error();
 		io_byte = op->io_bytes();

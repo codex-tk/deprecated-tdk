@@ -31,7 +31,7 @@ public:
 		LOG_D( logger , "OnSend ");
 	}
 
-	virtual void on_error( tdk::network::tcp::stream* s , const tdk::error_code& code ) {
+	virtual void on_error( tdk::network::tcp::stream* s , const std::error_code& code ) {
 		tdk::log::logger logger( "test.logger" );
 		LOG_D( logger , "on_error %s" , code.message().c_str());
 		s->close();
@@ -102,13 +102,13 @@ public:
 		tdk::task::timer timer(s.channel().loop());
 		timer.expired_at( tdk::date_time::local() + tdk::time_span::from_seconds(2));
 		timer.handler(
-			[&]( tdk::error_code& e) {
+			[&]( std::error_code& e) {
 				s.close();
 			});
 		timer.schedule();*/
 	}
 
-	virtual void on_error( tdk::network::tcp::stream& s , const tdk::error_code& code ) {
+	virtual void on_error( tdk::network::tcp::stream& s , const std::error_code& code ) {
 		tdk::log::logger logger( L"test.logger" );
 		LOG_D( logger , "on_error %s" , code.message().c_str());
 		

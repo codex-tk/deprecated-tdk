@@ -45,7 +45,7 @@ int completion_port::wait( const tdk::time_span& w
         , &overlapped
         , static_cast<DWORD>(w.total_milli_seconds())) == TRUE;
 
-    tdk::error_code ec;
+    std::error_code ec;
     if ( !result ) {
 		ec = tdk::platform::error();
         switch ( ec.value() ) {

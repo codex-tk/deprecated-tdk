@@ -3,7 +3,7 @@
 #include <tdk/error/error_category.hpp>
 #include <tdk/error/error_platform.hpp>
 namespace tdk { 
-
+	/*
 error_code::error_code( void )
 	: _value(0) , _category( &platform::category() ){
 }
@@ -45,6 +45,5 @@ const error_category& error_code::category( void ) const {
 
 error_code::operator unspecfied_bool_type() const  {
 	return _value == 0 ? nullptr : &error_code::value;
-}
-
+}*/
 }

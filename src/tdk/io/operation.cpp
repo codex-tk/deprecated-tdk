@@ -13,11 +13,11 @@ operation::~operation( void ) {
 
 }
 
-tdk::error_code operation::error( void ) {
-	return tdk::error_code( static_cast<int>(Internal) , *(error_category*)InternalHigh);
+std::error_code operation::error( void ) {
+	return std::error_code( static_cast<int>(Internal) , *(std::error_category*)InternalHigh);
 }
 
-void operation::operator()( const tdk::error_code& e , int io_bytes ) {
+void operation::operator()( const std::error_code& e , int io_bytes ) {
 	error( e );
 	Offset = io_bytes;
 	_callback(this);
@@ -35,7 +35,7 @@ void operation::reset( void ) {
 	hEvent = 0;
 }
 
-void operation::error( const tdk::error_code& ec ) {
+void operation::error( const std::error_code& ec ) {
 	Internal = ec.value();
 	InternalHigh = reinterpret_cast< ULONG_PTR >(&ec.category());
 }

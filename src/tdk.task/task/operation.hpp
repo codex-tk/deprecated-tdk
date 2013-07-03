@@ -31,8 +31,8 @@ public:
 	virtual ~operation( void );
 	virtual void operator()(void ) = 0;
 
-	tdk::error_code error( void );
-	void error( const tdk::error_code& code );
+	std::error_code error( void );
+	void error( const std::error_code& code );
 	int  io_byte( void );
 	void io_byte( int );
 	void* object( void );

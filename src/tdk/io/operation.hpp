@@ -18,12 +18,12 @@ public:
 	operation( callback cb );
 	~operation( void );
 
-	void operator()( const tdk::error_code& e , int io_bytes );
+	void operator()( const std::error_code& e , int io_bytes );
 
-	tdk::error_code error( void );
+	std::error_code error( void );
 	int io_bytes( void );
 
-	void error( const tdk::error_code& ec );
+	void error( const std::error_code& ec );
 
 	void reset( void );
 private:

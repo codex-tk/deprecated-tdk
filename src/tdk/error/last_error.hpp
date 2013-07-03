@@ -7,8 +7,8 @@
 
 namespace tdk {
 
-void set_last_error( const tdk::error_code& ec );
-const tdk::error_code& get_last_error( void );
+void set_last_error( const std::error_code& ec );
+const std::error_code& get_last_error( void );
 
 }
 

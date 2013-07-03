@@ -6,13 +6,13 @@
 namespace tdk {
 namespace platform{
 
-const tdk::error_category& category( void ) {
+const std::error_category& category( void ) {
 	static tdk::platform::error_category_platform impl;
 	return impl;
 }
 
-tdk::error_code error( int ec ) {
-	return tdk::error_code( ec , platform::category());
+std::error_code error( int ec ) {
+	return std::error_code( ec , platform::category());
 }
 
 }}

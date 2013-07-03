@@ -8,7 +8,7 @@ namespace clr {
 public ref class error_code {
 public:
 	error_code( void );
-	error_code( const tdk::error_code& code );
+	error_code( const std::error_code& code );
 
 	System::String^ message( void );
 

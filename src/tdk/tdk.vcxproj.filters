@@ -19,11 +19,6 @@
     <ClCompile Include="io\engine_scheduler_timer_win32.cpp" />
     <ClCompile Include="log\formatter\mb_string_formatter.cpp" />
     <ClCompile Include="log\writer\udp_writer.cpp" />
-    <ClCompile Include="memory\alloc.cpp" />
-    <ClCompile Include="memory\memory.cpp" />
-    <ClCompile Include="memory\memory_statistics.cpp" />
-    <ClCompile Include="memory\object_allocator.cpp" />
-    <ClCompile Include="memory\thread_cache.cpp" />
     <ClCompile Include="threading\auto_reset_event_win32.cpp" />
     <ClCompile Include="threading\mutex_win32.cpp" />
     <ClCompile Include="util\rtti.cpp" />
@@ -104,13 +99,6 @@
     <ClInclude Include="io\operation_impl.hpp" />
     <ClInclude Include="log\formatter\mb_string_formatter.hpp" />
     <ClInclude Include="log\writer\udp_writer.hpp" />
-    <ClInclude Include="memory\alloc.hpp" />
-    <ClInclude Include="memory\allocator.hpp" />
-    <ClInclude Include="memory\fixed_size_allocator.hpp" />
-    <ClInclude Include="memory\memory.hpp" />
-    <ClInclude Include="memory\memory_statistics.hpp" />
-    <ClInclude Include="memory\object_allocator.hpp" />
-    <ClInclude Include="memory\thread_cache.hpp" />
     <ClInclude Include="threading\auto_reset_event_win32.hpp" />
     <ClInclude Include="threading\mutex_win32.hpp" />
     <ClInclude Include="util\rtti.hpp" />

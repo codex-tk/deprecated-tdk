@@ -12,7 +12,7 @@ namespace detail{
 static int posted_operation = 0xffffffff;
 
 static void on_complete( 
-    const tdk::error_code& code 
+    const std::error_code& code 
     , int io_byte 
     , void* key
     , OVERLAPPED* ov
@@ -65,7 +65,7 @@ void io_engine::add_accept_io( tdk::network::tcp::accept_operation* op) {
                     &dwBytes , 
                     op ) == FALSE ) 
     {
-        tdk::error_code ec = tdk::platform::error();
+        std::error_code ec = tdk::platform::error();
         if ( ec.value() != WSA_IO_PENDING ){
             op->error( ec );
             post( op );
@@ -88,7 +88,7 @@ void io_engine::add_recv_io( tdk::network::tcp::recv_operation* op ) {
                     , op
                     , nullptr ) == SOCKET_ERROR )
     {
-        tdk::error_code ec = tdk::platform::error();
+        std::error_code ec = tdk::platform::error();
         if ( ec.value() != WSA_IO_PENDING ){
             op->error( ec );
             post( op );
@@ -114,7 +114,7 @@ void io_engine::add_recv_io(
                     , op
                     , nullptr ) == SOCKET_ERROR )
     {
-        tdk::error_code ec = tdk::platform::error();
+        std::error_code ec = tdk::platform::error();
         if ( ec.value() != WSA_IO_PENDING ){
             op->error( ec );
             post( op );
@@ -153,7 +153,7 @@ void io_engine::add_send_io( tdk::network::tcp::send_operation* op ) {
                     , op
                     , nullptr ) == SOCKET_ERROR )
     {
-        tdk::error_code ec = tdk::platform::error();
+        std::error_code ec = tdk::platform::error();
         if ( ec.value() != WSA_IO_PENDING ){
             op->error( ec );
             post( op );
@@ -223,7 +223,7 @@ void io_engine::add_connect_io( tdk::network::tcp::connect_operation* op ) {
                         &dwbytes ,
                         op ) == FALSE ) 
     {
-        tdk::error_code ec = tdk::platform::error();
+        std::error_code ec = tdk::platform::error();
         if ( ec.value() != WSA_IO_PENDING ){
             fd.close();
             op->error( platform::error());
@@ -251,7 +251,7 @@ void io_engine::add_recvfrom_io( tdk::network::udp::recvfrom_operation* op ) {
                     , op
                     , nullptr ) == SOCKET_ERROR )
     {
-        tdk::error_code ec = tdk::platform::error();
+        std::error_code ec = tdk::platform::error();
         if ( ec.value() != WSA_IO_PENDING ){
             op->error( ec );
             post( op );
@@ -288,7 +288,7 @@ bool io_engine::run( const tdk::time_span& wait ) {
 }
 
 void io_engine::on_complete(
-    const tdk::error_code& code 
+    const std::error_code& code 
     , int io_byte 
     , void* key
     , OVERLAPPED* ov )

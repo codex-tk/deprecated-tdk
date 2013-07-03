@@ -12,12 +12,12 @@ operation::~operation( void ) {
 
 }
 
-tdk::error_code operation::error( void ) {	
-	return tdk::error_code( Internal
+std::error_code operation::error( void ) {	
+	return std::error_code( Internal
 				, *reinterpret_cast< tdk::error_category* >( InternalHigh ));
 }
 
-void operation::error( const tdk::error_code& code ) {
+void operation::error( const std::error_code& code ) {
 	Internal = code.value();
 	InternalHigh = reinterpret_cast< ULONG_PTR >(&code.category());
 }

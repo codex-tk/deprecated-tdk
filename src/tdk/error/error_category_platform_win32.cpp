@@ -7,6 +7,44 @@
 
 namespace tdk {
 namespace platform {
+
+error_category_platform::error_category_platform(void) {
+
+}
+
+error_category_platform::~error_category_platform(void) {
+
+}
+
+const char *error_category_platform::name() const _NOEXCEPT {
+	return "win32_platform_error";
+}
+
+std::string error_category_platform::message(int _Errval) const  {
+	const size_t buffer_size = 4096;
+    DWORD dwFlags = FORMAT_MESSAGE_FROM_SYSTEM;
+    LPCVOID lpSource = NULL;
+	char buffer[buffer_size] = {0,};
+	unsigned long result;
+    result = ::FormatMessageA(
+        dwFlags,
+        lpSource,
+        _Errval,
+        0,
+        buffer,
+        buffer_size,
+        NULL);
+
+    if (result == 0) {
+        std::ostringstream os;
+        os << "Unable to get an error message for error code: " << _Errval << ".";
+        return os.str();
+    }
+	return std::string( buffer );
+}
+
+
+	/*
 error_category_platform::error_category_platform(void) {
 
 }
@@ -22,7 +60,7 @@ const TCHAR* error_category_platform::name() const {
 tdk::tstring error_category_platform::message(int ec) const  {
 	const size_t buffer_size = 4096;
     DWORD dwFlags = FORMAT_MESSAGE_FROM_SYSTEM;
-    LPCVOID lpSource = NULL;
+    LPCVOID lpSource = NULL;*/
 	/*
 #if !defined(__cplusplus_winrt)
     if (ec >= 12000) {
@@ -30,7 +68,7 @@ tdk::tstring error_category_platform::message(int ec) const  {
         lpSource = GetModuleHandleA("winhttp.dll"); // this handle DOES NOT need to be freed
     }
 #endif*/
-
+	/*
 	TCHAR buffer[buffer_size] = {0,};
 	unsigned long result;
     result = ::FormatMessage(
@@ -48,7 +86,7 @@ tdk::tstring error_category_platform::message(int ec) const  {
         os << L"Unable to get an error message for error code: " << ec << L".";
         return os.str();
     }
-	return tdk::tstring(buffer);
+	return tdk::tstring(buffer);*/
 	/*
 	char buffer[buffer_size] = {0,};
 	unsigned long result;
@@ -67,6 +105,6 @@ tdk::tstring error_category_platform::message(int ec) const  {
         return os.str();
     }
 	return std::string( buffer );*/
-}
+//}
 
 }}

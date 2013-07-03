@@ -24,16 +24,16 @@ public:
 	
 	void run( void );
 	 
-	void post( tdk::io::operation* op , const tdk::error_code& ec );
+	void post( tdk::io::operation* op , const std::error_code& ec );
 	void async_connect( tdk::io::ip::tcp::connect_operation* op );
 	void async_send( tdk::io::ip::tcp::send_operation* op );
 	void async_recv( tdk::io::ip::tcp::recv_operation* op );
 	void async_accept( tdk::io::ip::tcp::accept_operation* op );
 
 	bool bind( SOCKET fd );
-	bool post0( tdk::io::operation* op , const tdk::error_code& ec );
+	bool post0( tdk::io::operation* op , const std::error_code& ec );
 	
-	void process( const tdk::error_code& code , int io_byte  , OVERLAPPED* ov );
+	void process( const std::error_code& code , int io_byte  , OVERLAPPED* ov );
 
 	void inc_posted( void );
 	void dec_posted( void );

@@ -35,7 +35,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	testing::InitGoogleTest( &argc , argv );
 
 
-	tdk::error_code ec( tdk::platform::error() );
+	std::error_code ec( tdk::platform::error() );
 
 	tdk::tstring msg = ec.message();
 

@@ -32,7 +32,7 @@ public:
 		type* barrier = _instance.load();
 		if( barrier == nullptr ) {
 			tdk::threading::scoped_lock< lock_t > guard( _lock );
-			barrier = _instance;
+			barrier = _instance.load();
 			if( barrier == nullptr ) {
                 barrier = creator_t<type>::create();
 				_instance.store( barrier );

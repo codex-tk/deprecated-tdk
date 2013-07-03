@@ -14,6 +14,16 @@ enum class errc {
 	tdk_network_remote_closed ,
 	tdk_timeout,
 };
+
+class error_category_tdk : public std::error_category {
+public:
+	error_category_tdk(void);
+	virtual ~error_category_tdk(void) ;
+
+	virtual const char *name() const _NOEXCEPT;
+	virtual std::string message(int _Errval) const ;
+};
+/*
 class error_category_tdk : public tdk::error_category {
 public:
 	error_category_tdk (void);
@@ -21,7 +31,7 @@ public:
 	virtual const TCHAR *name() const;
 	virtual tdk::tstring message(int _Errval) const ;
 };
-
+*/
 }
 
 #endif

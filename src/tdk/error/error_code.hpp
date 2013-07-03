@@ -3,6 +3,7 @@
 
 #include <tdk/tdk.hpp>
 #include <tdk/error/error_category.hpp>
+#include <system_error>
 
 namespace tdk {
 /*
@@ -10,6 +11,7 @@ namespace tdk {
 	기존에 사용하던 diagnostics::error 에서 
 	std::error_code 와 동일한 형태로 쓸수 잇게 수정한것
 */
+	/*
 class error_code {
 public:
 	error_code( void );
@@ -39,7 +41,7 @@ static bool operator!=( const error_code& lhs , const error_code& rhs ) {
 	return (lhs.value() != rhs.value()) 
 		|| ( &lhs.category() != &rhs.category() );
 }
-
+*/
 }
 
 #include <tdk/error/last_error.hpp>

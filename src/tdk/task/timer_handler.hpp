@@ -12,7 +12,7 @@ class timer_handler : public tdk::rc_ptr_base< timer_handler >{
 public:
 	timer_handler( void );
 	virtual ~timer_handler( void );
-	virtual void operator()( const tdk::error_code& e) = 0;
+	virtual void operator()( const std::error_code& e) = 0;
 	void expired_at( const tdk::date_time& at );
 	const tdk::date_time& expired_at(void);
 private:

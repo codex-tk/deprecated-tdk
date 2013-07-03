@@ -104,7 +104,7 @@ int io_completion_port::wait( const tdk::time_span& t ){
 						, FALSE ) == TRUE;
 
 	if ( !result ) {
-		tdk::error_code code = tdk::platform::error();
+		std::error_code code = tdk::platform::error();
 		switch ( code.value() ) {
 		case WAIT_TIMEOUT:
 			break;
@@ -116,7 +116,7 @@ int io_completion_port::wait( const tdk::time_span& t ){
 	}
 
 	for ( ULONG i = 0 ; i < entry_count ; ++i ) {
-		tdk::error_code code = tdk::platform::error( static_cast<int>(entry[i].Internal));
+		std::error_code code = tdk::platform::error( static_cast<int>(entry[i].Internal));
 		_callback( code 
 			, entry[i].dwNumberOfBytesTransferred
 			, reinterpret_cast< void* >(entry[i].lpCompletionKey)
@@ -135,7 +135,7 @@ int io_completion_port::wait( const tdk::time_span& t ){
 		, &overlapped
 		, static_cast<DWORD>(t.total_milli_seconds())) == TRUE;
 
-	tdk::error_code code;
+	std::error_code code;
 	if ( !result ) {
 		code = tdk::platform::error();
 		switch ( code.value() ) {

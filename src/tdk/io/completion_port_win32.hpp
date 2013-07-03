@@ -9,7 +9,7 @@ namespace io {
 class completion_port {
 public:
 	typedef void (*callback)( 
-		const tdk::error_code& code 
+		const std::error_code& code 
 		, int io_byte 
 		, void* key
 		, OVERLAPPED* ov

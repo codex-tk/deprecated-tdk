@@ -120,7 +120,7 @@ void engine::async_accept( tdk::io::ip::tcp::accept_operation* op ) {
                     &dwBytes , 
                     op ) == FALSE ) 
     {
-		tdk::error_code ec = tdk::platform::error();
+		std::error_code ec = tdk::platform::error();
         if ( WSAGetLastError() != WSA_IO_PENDING ){
 			return detail::error_handler( this ,  op );
 		}

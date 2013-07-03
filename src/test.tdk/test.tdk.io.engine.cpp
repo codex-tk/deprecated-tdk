@@ -31,7 +31,7 @@ TEST( tdk_io_engine , e ){
 	bool end = false;
 	fd.async_connect( addres 
 		, executor.wrap(
-			[&]( const tdk::error_code& e ){
+			[&]( const std::error_code& e ){
 			OutputDebugStringW( e.message().c_str());
 			end = true;
 		}));
@@ -43,7 +43,7 @@ TEST( tdk_io_engine , e ){
 
 	char* get = "GET / HTTP/1.1\r\n\r\n";
 	tdk::io::buffer_adapter buffer( get , strlen(get));
-	fd.async_send( buffer , [&] ( const tdk::error_code& e , int io_byte ) {
+	fd.async_send( buffer , [&] ( const std::error_code& e , int io_byte ) {
 		OutputDebugStringW( e.message().c_str());
 		end = true;
 	});
@@ -57,7 +57,7 @@ TEST( tdk_io_engine , e ){
 	char recv_buffer[4096];
 	tdk::io::buffer_adapter recv_adapter( recv_buffer , 4096 );
 
-	fd.async_recv(recv_adapter , [&]( const tdk::error_code& e , int io_byte ) {
+	fd.async_recv(recv_adapter , [&]( const std::error_code& e , int io_byte ) {
 		OutputDebugStringW( e.message().c_str());
 		end = true;
 	});
@@ -72,11 +72,11 @@ TEST( tdk_io_engine_schedule , T1 ) {
 	tdk::io::engine e;
 	std::vector< int > calls;
 	e.schedule( tdk::date_time::local() + tdk::time_span::from_milli_seconds(100)
-		, [&]( const tdk::error_code& c ) {
+		, [&]( const std::error_code& c ) {
 			calls.push_back(1);
 	});
 	e.schedule( tdk::date_time::local() 
-		, [&]( const tdk::error_code& c ) {
+		, [&]( const std::error_code& c ) {
 			calls.push_back(2);
 	});
 	e.run_once( tdk::time_span::infinite() );
@@ -101,7 +101,7 @@ TEST( tdk_io_ip_tcp_accept , t1 ) {
 
 	ASSERT_TRUE( e.bind( acceptor.handle() ));
 	bool end = false;
-	acceptor.async_accept( session , [&]( const tdk::error_code& e ) {
+	acceptor.async_accept( session , [&]( const std::error_code& e ) {
 			OutputDebugString( _T("Accept Complete : "));
 			OutputDebugString( e.message().c_str ());
 			end = true;

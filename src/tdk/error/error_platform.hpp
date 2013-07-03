@@ -7,12 +7,12 @@
 namespace tdk {
 namespace platform {
 
-const tdk::error_category& category( void );
+const std::error_category& category( void );
 
-tdk::error_code error( int ec );
-tdk::error_code error( void );
+std::error_code error( int ec );
+std::error_code error( void );
 
-extern tdk::error_code timeout;
+extern std::error_code timeout;
 
 }}
 

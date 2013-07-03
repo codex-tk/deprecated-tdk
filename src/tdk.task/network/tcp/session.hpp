@@ -15,7 +15,7 @@ public:
 	virtual void on_open( session* s );
 	virtual void on_recv( session* s , tdk::buffer::memory_block& mb ) = 0;
 	virtual void on_send( session* s , int sent_bytes , int remain_bytes ) = 0;
-	virtual void on_error( session* s , const tdk::error_code& code ) = 0;
+	virtual void on_error( session* s , const std::error_code& code ) = 0;
 	virtual void on_close( session* s ) = 0;
 };
 

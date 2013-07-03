@@ -2,6 +2,13 @@
 #define __tdk_memory_alloc_h__
 
 /*
+	현재는 미사용
+
+	개념은 파악했으니
+
+	tc_malloc 이나 je malloc 쓰고 다른것에 집중하자
+	
+
 	todo 
 	1. statisics 관련 처리 
 	 - 전처리기로 처리 할것

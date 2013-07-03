@@ -9,7 +9,7 @@ namespace task {
 class io_engine;
 class io_completion_port {
 public:
-	typedef void (*complete_callback)( const tdk::error_code& code 
+	typedef void (*complete_callback)( const std::error_code& code 
 		, int io_byte 
 		, void* key
 		, OVERLAPPED* ov

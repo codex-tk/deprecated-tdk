@@ -15,7 +15,7 @@ error_code::error_code( void )
 
 }
 
-error_code::error_code( const tdk::error_code& code ) 
+error_code::error_code( const std::error_code& code ) 
 	: _value( code.value() ) , _category( &code.category() ){
 
 }

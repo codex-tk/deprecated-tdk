@@ -5,10 +5,10 @@
 namespace tdk {
 namespace platform{
 
-tdk::error_code error( void ){
-	return tdk::error_code( GetLastError() , platform::category());
+std::error_code error( void ){
+	return std::error_code( GetLastError() , platform::category());
 }
 
-static tdk::error_code timeout( WAIT_TIMEOUT , platform::category() );
+static std::error_code timeout( WAIT_TIMEOUT , platform::category() );
 
 }}

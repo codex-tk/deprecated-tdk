@@ -45,7 +45,7 @@ bool stream::open( stream_handler* handler ) {
 	return true;
 }
 
-bool stream::_post_error( const tdk::error_code& code ) {
+bool stream::_post_error( const std::error_code& code ) {
 	if ( _error_post_status == post_status::not_post ) {
 		_error_post_status  = post_status::begin_post;
 		_channel.loop().post( [this , code](){
@@ -108,7 +108,7 @@ void stream::send( const tdk::buffer::memory_block& mb ) {
 	}
 }
 
-void stream::_internal_close( const tdk::error_code& code , bool closed  ) {
+void stream::_internal_close( const std::error_code& code , bool closed  ) {
 	tdk::threading::scoped_lock<> gaurd(_lock);
 	if ( !_closed )
 		_closed = closed;

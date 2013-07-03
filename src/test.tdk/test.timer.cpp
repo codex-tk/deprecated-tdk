@@ -12,7 +12,7 @@ TEST( timer , t1 ) {
 
 	timer.expired_at( tdk::date_time::local() + tdk::time_span::from_seconds(1) );
 	timer.handler( 
-		[&execute,&canceled] ( tdk::error_code& ec ){
+		[&execute,&canceled] ( std::error_code& ec ){
 			if ( ec ) {
 				canceled = true;
 			}
