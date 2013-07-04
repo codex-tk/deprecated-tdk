@@ -10,7 +10,7 @@ endian host_endian( void ) {
 		uint16_t tester = 0x01;
 		uint8_t* ptester = reinterpret_cast<uint8_t*>( &tester );
 		if ( ptester[0] == 1 ) 
-			host = static_cast< int >(endian::littne);
+			host = static_cast< int >(endian::little);
 		else 
 			host = static_cast< int >(endian::big);
 	}

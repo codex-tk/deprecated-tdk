@@ -6,6 +6,7 @@
 #include <tdk/io/ip/tcp/operation/recv_operation_win32.hpp>
 #include <tdk/io/ip/tcp/operation/accept_operation_win32.hpp>
 #include <tdk/task/queue_timer_win32.hpp>
+#include <tdk/error/error_platform.hpp>
 
 namespace tdk {
 namespace io {

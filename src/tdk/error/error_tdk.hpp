@@ -1,7 +1,6 @@
 #ifndef __tdk_error_error_tdk_h__
 #define __tdk_error_error_tdk_h__
 
-#include <tdk/error/error_code.hpp>
 #include <tdk/error/error_category_tdk.hpp>
 
 namespace tdk {
@@ -16,7 +15,7 @@ extern std::error_code tdk_network_user_abort;
 extern std::error_code tdk_network_remote_closed;
 
 // 
-extern std::error_code tdk_timeout;
+//extern std::error_code tdk_timeout;
 
 }
 

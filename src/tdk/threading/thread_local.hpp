@@ -11,7 +11,15 @@ namespace tdk { namespace threading {
 */
 class thread_local_impl {
 public:
-	typedef int key_type;
+#if defined ( _WIN32 ) 
+	typedef DWORD key_type;
+#elif defined( linux ) || defined ( __linux )
+	typedef pthread_key_t key_type;
+#elif defined ( __MACOSX__ ) || defined ( __APPLE__ ) 
+
+#else
+	
+#endif
 	typedef void* value_type;
 public:
 	thread_local_impl( void );

@@ -28,6 +28,6 @@
 #include <ctime>
 #include <process.h>
 #include <tdk/tdk.hpp>
-#include <tdk/error/error_code.hpp>
+#include <tdk/error/last_error.hpp>
 
 // TODO: reference additional headers your program requires here

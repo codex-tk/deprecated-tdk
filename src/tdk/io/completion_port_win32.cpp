@@ -1,5 +1,7 @@
 #include "stdafx.h"
 #include <tdk/io/completion_port_win32.hpp>
+#include <tdk/error/last_error.hpp>
+#include <tdk/error/error_tdk.hpp>
 
 namespace tdk {
 namespace io {
@@ -50,7 +52,7 @@ int completion_port::wait( const tdk::time_span& w
 		ec = tdk::platform::error();
         switch ( ec.value() ) {
         case WAIT_TIMEOUT:
-			tdk::set_last_error( tdk::tdk_timeout );
+			tdk::set_last_error( tdk::platform::timeout );
             return 0;
         case ERROR_ABANDONED_WAIT_0:
             tdk::set_last_error( ec );

@@ -14,15 +14,17 @@ public:
 	void lock( void );
 	void unlock( void );
 	bool trylock( void );
-#if defined(_WIN32) || defined(_WIN64)
-#else 
-    pthread_mutex_t& handle( void );
-#endif
+#if defined ( _WIN32 ) 
 private:
-#if defined(_WIN32) || defined(_WIN64)
-    CRITICAL_SECTION _lock;
-#else 
-    pthread_mutex_t _lock;
+	CRITICAL_SECTION _lock;
+#elif defined( linux ) || defined ( __linux )
+	pthread_mutex_t& handle( void );
+private:
+	pthread_mutex_t _lock;
+#elif defined ( __MACOSX__ ) || defined ( __APPLE__ ) 
+
+#else
+	
 #endif
 };
 

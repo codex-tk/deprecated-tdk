@@ -20,6 +20,28 @@
 #include <string>
 #include <cstdint>
 
+#if defined ( _WIN32 ) 
+
+#elif defined( linux ) || defined ( __linux )
+
+#elif defined ( __MACOSX__ ) || defined ( __APPLE__ ) 
+
+#else
+	
+#endif
+
+
+/*
+Darwin	 DARWIN						Darwin is not necessarily OS X, see below
+FreeBSD	 __FreeBSD__				Consider using the BSD macro
+Linux	 linux or __linux			I also found LINUX
+MacOS X	 __MACOSX__ or __APPLE__	
+NetBSD	 __NetBSD__					Consider using the BSD macro
+OpenBSD	 __OpenBSD__				Consider using the BSD macro
+Solaris	 sun or __sun				SunOS versions < 5 will not have __SVR4 or __svr4__ defined
+Windows	 _WIN32 or __WIN32__	
+*/
+
 /*
 #if defined( _M_X64 ) 
 	#if defined( _DEBUG )
@@ -73,15 +95,16 @@ public:
 	} 
 };
 
-#if defined(_WIN32) || defined(_WIN64)
+#if defined ( _WIN32 ) 
 typedef std::wstring tstring;
 #else
-typedef std::string tstring;
+typedef std::string tstring;	
 #endif
 
 #if defined( _WIN32 )
 #if ( _MSC_VER < 1600 ) 
 	#define nullptr NULL
+#endif
 #endif
 
 template < typename T >
@@ -90,16 +113,13 @@ struct dword_align {
 	typedef __declspec(align( 4 )) T type;
 #endif
 };
-
 template < typename T >
 struct qword_align {
 #if defined ( _MSC_VER )
 	typedef __declspec(align( 8 )) T type;
-#else
 #endif
 };
 
-#endif
 }
 
 #ifndef STATIC_INITIALIZE

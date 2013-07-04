@@ -2,7 +2,7 @@
 #define __tdk_last_error_h__
 
 //#include <system_error>
-#include <tdk/error/error_code.hpp>
+
 #include <tdk/error/error_platform.hpp>
 
 namespace tdk {

@@ -37,7 +37,7 @@ int _tmain(int argc, _TCHAR* argv[])
 
 	std::error_code ec( tdk::platform::error() );
 
-	tdk::tstring msg = ec.message();
+	std::string msg = ec.message();
 
 	tdk::init();
 

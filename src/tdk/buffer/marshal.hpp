@@ -6,7 +6,7 @@ namespace buffer {
 
 enum class endian {
 		big
-	,	littne
+	,	little
 };
 
 endian host_endian( void );

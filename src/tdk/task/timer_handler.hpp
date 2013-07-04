@@ -1,7 +1,6 @@
 #ifndef __tdk_task__timer_handler_h__
 #define __tdk_task__timer_handler_h__
 
-#include <tdk/error/error_code.hpp>
 #include <tdk/time/date_time.hpp>
 #include <tdk/util/rc_ptr.hpp>
 

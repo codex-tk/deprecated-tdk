@@ -53,7 +53,7 @@ bool mutex::wait( const tdk::time_span& ts ) {
         tdk::set_last_error( tdk::platform::error());
 		return false;
 	case WAIT_TIMEOUT:
-		tdk::set_last_error( tdk::tdk_timeout );
+		tdk::set_last_error( tdk::platform::timeout );
 		return false;
 	}
 	tdk::set_last_error( tdk::platform::error(ret));

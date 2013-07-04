@@ -2,7 +2,6 @@
 #define __tdk_error_category_tdk_h__
 
 #include <system_error>
-#include <tdk/error/error_category.hpp>
 
 namespace tdk {
 

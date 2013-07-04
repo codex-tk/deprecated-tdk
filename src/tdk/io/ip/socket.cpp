@@ -174,7 +174,7 @@ bool socket::wait_for_recv( const tdk::time_span& wait ) const {
 		return false;
 	}
 	if ( result == 0 ) {
-		tdk::set_last_error( tdk::tdk_timeout );
+		tdk::set_last_error( tdk::platform::timeout );
 		return false;
 	}
 #else
@@ -218,7 +218,7 @@ bool socket::wait_for_send( const tdk::time_span& wait ) const {
 		return false;
 	}
 	if ( result == 0 ) {
-		tdk::set_last_error( tdk::tdk_timeout );
+		tdk::set_last_error( tdk::platform::timeout );
 		return false;
 	}  
 #else

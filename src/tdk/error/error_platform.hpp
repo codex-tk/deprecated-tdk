@@ -1,7 +1,6 @@
 #ifndef __tdk_platform_error_castgory_h__
 #define __tdk_platform_error_castgory_h__
 
-#include <tdk/error/error_code.hpp>
 #include <tdk/error/error_category_tdk.hpp>
 
 namespace tdk {

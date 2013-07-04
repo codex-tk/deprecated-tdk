@@ -3,6 +3,8 @@
 #include <tdk/task/queue_timer_win32.hpp>
 #include <tdk/util/singleton.hpp>
 #include <tdk/io/engine_scheduler_timer_win32.hpp>
+#include <tdk/error/error_tdk.hpp>
+
 namespace tdk {
 namespace io {
 

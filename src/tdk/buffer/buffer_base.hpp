@@ -28,8 +28,8 @@ public:
 	uint8_t* data_ptr( void ) const;
 	std::size_t size( void ) const;
 
-	int add_ref( void );
-	int dec_ref( void );
+	void add_ref( void );
+	void dec_ref( void );
 
 	void swap( buffer_base& rhs );
 

@@ -1,7 +1,6 @@
 #ifndef __caffe_win32_service_h__
 #define __caffe_win32_service_h__
 
-#include <tdk/error/error_code.hpp>
 #include <tdk/task/handler.hpp>
 
 namespace tdk {

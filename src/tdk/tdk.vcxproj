@@ -176,9 +176,7 @@
     <ClInclude Include="util\win32\global_seh.hpp" />
     <ClInclude Include="util\win32\mini_dump_seh_handler.hpp" />
     <ClInclude Include="util\win32\mini_dump.hpp" />
-    <ClInclude Include="error\error_category.hpp" />
     <ClInclude Include="error\error_category_platform.hpp" />
-    <ClInclude Include="error\error_code.hpp" />
     <ClInclude Include="error\last_error.hpp" />
     <ClInclude Include="error\error_platform.hpp" />
     <ClInclude Include="error\error_category_tdk.hpp" />
@@ -212,7 +210,6 @@
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="threading\spin_lock.hpp" />
-    <ClInclude Include="threading\thread.hpp" />
     <ClInclude Include="threading\thread_data.hpp" />
     <ClInclude Include="threading\thread_local.hpp" />
     <ClInclude Include="time\ctime.hpp" />
@@ -257,10 +254,7 @@
     <ClCompile Include="util\win32\global_seh.cpp" />
     <ClCompile Include="util\win32\mini_dump_seh_handler.cpp" />
     <ClCompile Include="util\win32\mini_dump.cpp" />
-    <ClCompile Include="error\error_category.cpp" />
-    <ClCompile Include="error\error_category_platform_win32.cpp" />
-    <ClCompile Include="error\error_code.cpp" />
-    <ClCompile Include="error\error_platform_win32.cpp" />
+    <ClCompile Include="error\error_category_platform.cpp" />
     <ClCompile Include="error\error_tdk.cpp" />
     <ClCompile Include="error\last_error.cpp" />
     <ClCompile Include="error\error_platform.cpp" />
@@ -295,10 +289,9 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="threading\spin_lock_win32.cpp" />
-    <ClCompile Include="threading\thread_win32.cpp" />
+    <ClCompile Include="threading\spin_lock.cpp" />
     <ClCompile Include="threading\thread_data.cpp" />
-    <ClCompile Include="threading\thread_local_win32.cpp" />
+    <ClCompile Include="threading\thread_local.cpp" />
     <ClCompile Include="time\ctime.cpp" />
     <ClCompile Include="time\date_time.cpp" />
     <ClCompile Include="time\tick.cpp" />

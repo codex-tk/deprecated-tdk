@@ -1,7 +1,8 @@
 #include "stdafx.h"
 #include <tdk/util/win32/mini_dump_seh_handler.hpp>
 #include <tdk/time/date_time.hpp>
-#include <tdk/threading/thread.hpp>
+#include <thread>
+//#include <tdk/threading/thread.hpp>
 
 namespace tdk {
 namespace util {
@@ -17,12 +18,10 @@ mini_dump_seh_handler::~mini_dump_seh_handler(void) {
 
 void mini_dump_seh_handler::handle_exception( EXCEPTION_POINTERS *pExp ) {
 	if ( pExp->ExceptionRecord->ExceptionCode == EXCEPTION_STACK_OVERFLOW ) {
-		tdk::threading::thread thread( [ this,pExp](){
+		std::thread thr([ this,pExp](){
 			_write_dump(pExp);
-			return 0;
 		});
-		thread.start();
-		thread.stop( tdk::time_span::infinite() );
+		thr.join();//( tdk::time_span::infinite() );
 	} else {
 		_write_dump( pExp );
 	}

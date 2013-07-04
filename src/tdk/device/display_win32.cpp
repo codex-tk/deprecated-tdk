@@ -5,15 +5,11 @@
 namespace tdk {
 namespace device {
 namespace detail {
-
 std::vector< HMONITOR > monitors;
 BOOL CALLBACK MONITORENUMPROC_IMPL(HMONITOR hm, HDC dc  , LPRECT r, LPARAM p ) {
 	monitors.push_back( hm );
 	return TRUE;
-}
-
-}
-
+}}
 
 display::display( void ) {
 	update();

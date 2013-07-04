@@ -17,10 +17,19 @@ error_category_platform::~error_category_platform(void) {
 }
 
 const char *error_category_platform::name() const _NOEXCEPT {
+#if defined( _WIN32 )
 	return "win32_platform_error";
+#elif defined( linux ) || defined ( __linux )
+	return "linux_platform_error";
+#elif defined ( __MACOSX__ ) || defined ( __APPLE__ ) 
+	return "maxosx_platform_error";
+#else
+
+#endif
 }
 
 std::string error_category_platform::message(int _Errval) const  {
+#if defined ( _WIN32 ) 
 	const size_t buffer_size = 4096;
     DWORD dwFlags = FORMAT_MESSAGE_FROM_SYSTEM;
     LPCVOID lpSource = NULL;
@@ -41,10 +50,18 @@ std::string error_category_platform::message(int _Errval) const  {
         return os.str();
     }
 	return std::string( buffer );
+
+#elif defined( linux ) || defined ( __linux )
+	const size_t buffer_size = 4096;
+	char buffer[buffer_size] = {0,};
+	strerror_r( _Errval , buffer , buffer_size);
+	return std::string( buffer );
+#elif defined ( __MACOSX__ ) || defined ( __APPLE__ ) 
+#else
+#endif
 }
 
-
-	/*
+/*
 error_category_platform::error_category_platform(void) {
 
 }

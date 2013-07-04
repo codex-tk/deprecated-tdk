@@ -5,21 +5,22 @@ namespace tdk {
 namespace task {
 	
 event_loop_thread::event_loop_thread ( void ) {
+	/*
 	_thread = new tdk::threading::thread( [this]()->int{
 		handler();
 		return 0;
-	});
+	});*/
 	_loop = new tdk::task::event_loop();
 }
 
 event_loop_thread::~event_loop_thread ( void ) {
 	delete _loop;
-	delete _thread;
+	//delete _thread;
 }
 
 bool event_loop_thread::open( void ) {
 	if ( _loop->open() ) {
-		return _thread->start();
+		_thread = std::thread([this](){ handler(); }); 
 	}
 	return false;
 }
@@ -27,7 +28,7 @@ bool event_loop_thread::open( void ) {
 void event_loop_thread::close( void ) {
 	_loop->decrement_ref();
 	_loop->post([]{});
-	_thread->stop( tdk::time_span::infinite());
+	_thread.join();
 }
 
 void event_loop_thread::handler( void ){

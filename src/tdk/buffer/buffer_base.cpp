@@ -5,7 +5,7 @@ namespace tdk {
 namespace buffer {
 namespace detail {
 
-tdk::buffer::allocator malloc_allocator;
+tdk::buffer::allocator lib_allocator;
 
 }
 
@@ -16,7 +16,7 @@ buffer_base::buffer_base( std::size_t sz
 	, _base( nullptr )
 {
 	if ( _allocator == nullptr ) {
-		_allocator = &detail::malloc_allocator;
+		_allocator = &detail::lib_allocator;
 	}
 	_base = _allocator->alloc( sizeof( std::atomic<int> ) + _size );
 	new (_base) std::atomic<int>;
@@ -31,7 +31,9 @@ buffer_base::buffer_base( void* base
 	, _size( sz )
 	, _base( base )
 {
-
+	/*
+	allocator == nullptr 인 경우에는 buffer_base 에서 관리하지 않음
+	*/
 }
 
 buffer_base::~buffer_base( void ) {
@@ -80,22 +82,20 @@ std::atomic<int>* buffer_base::_counter(void) {
 		: nullptr;
 }
 
-int buffer_base::add_ref( void ) {
+void buffer_base::add_ref( void ) {
 	if ( _allocator ) {
-		return _counter()->fetch_add(1) + 1;
+		_counter()->fetch_add(1);
 	}
-	return 1;
 }
 
-int buffer_base::dec_ref( void ) {
+void buffer_base::dec_ref( void ) {
 	if ( _allocator ) {
-		if ( _counter()->fetch_sub(1) - 1 == 0 ) {
+		if ( _counter()->fetch_sub(1) == 1 ) {
 			_allocator->free( _base );
 			_allocator = nullptr;
 			_base = nullptr;
 		}
 	}
-	return 1;
 }
 
 void buffer_base::swap( buffer_base& rhs ) {
