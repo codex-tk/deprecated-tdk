@@ -1,5 +1,4 @@
 #include "stdafx.h"
-
 #include <tdk/error/error_category_platform.hpp>
 #include <tdk/util/string.hpp>
 

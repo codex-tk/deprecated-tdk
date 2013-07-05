@@ -1,6 +1,8 @@
 #ifndef __tdk_buffer_allocator_h__
 #define __tdk_buffer_allocator_h__
+
 #include <tdk/alloc.hpp>
+
 namespace tdk {
 namespace buffer {
 

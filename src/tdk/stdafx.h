@@ -3,6 +3,7 @@
 // are changed infrequently
 //
 
+#if defined( _WIN32 )
 #pragma once
 
 #include "targetver.h"
@@ -15,8 +16,11 @@
 #include <windows.h>
 #include <winbase.h>
 #include <tchar.h>
-#include <stdint.h>
 #include <dbghelp.h>
+#include <process.h>
+#endif
+
+#include <stdint.h>
 #include <iostream>
 #include <cassert>
 #include <functional>
@@ -26,7 +30,7 @@
 #include <string>
 #include <iterator>
 #include <ctime>
-#include <process.h>
+#include <system_error>
 #include <tdk/tdk.hpp>
 #include <tdk/error/last_error.hpp>
 
