@@ -131,8 +131,13 @@ date_time::day_of_the_week date_time::wday( void ) const{
 std::string date_time::to_string(void){
 	time::tick::systemtime st = tick::to_systemtime( _time );
 	char buffer[1024];
+#if defined( _WIN32 )
 	sprintf_s( buffer , "%04d%02d%02d %02d%02d%02d:%04d"
 		, st.wYear , st.wMonth , st.wDay , st.wHour , st.wMinute , st.wSecond , st.wMilliseconds );
+#else
+	sprintf( buffer , "%04d%02d%02d %02d%02d%02d:%04d"
+		, st.wYear , st.wMonth , st.wDay , st.wHour , st.wMinute , st.wSecond , st.wMilliseconds );
+#endif
 	return std::string( buffer );
 }
 

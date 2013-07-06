@@ -32,7 +32,7 @@ TEST( tdk_io_engine , e ){
 	fd.async_connect( addres 
 		, executor.wrap(
 			[&]( const std::error_code& e ){
-			OutputDebugStringW( e.message().c_str());
+			OutputDebugStringA( e.message().c_str());
 			end = true;
 		}));
 
@@ -44,7 +44,7 @@ TEST( tdk_io_engine , e ){
 	char* get = "GET / HTTP/1.1\r\n\r\n";
 	tdk::io::buffer_adapter buffer( get , strlen(get));
 	fd.async_send( buffer , [&] ( const std::error_code& e , int io_byte ) {
-		OutputDebugStringW( e.message().c_str());
+		OutputDebugStringA( e.message().c_str());
 		end = true;
 	});
 
@@ -58,7 +58,7 @@ TEST( tdk_io_engine , e ){
 	tdk::io::buffer_adapter recv_adapter( recv_buffer , 4096 );
 
 	fd.async_recv(recv_adapter , [&]( const std::error_code& e , int io_byte ) {
-		OutputDebugStringW( e.message().c_str());
+		OutputDebugStringA( e.message().c_str());
 		end = true;
 	});
 

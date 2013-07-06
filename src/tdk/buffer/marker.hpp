@@ -7,7 +7,7 @@ namespace tdk { namespace buffer {
 	
 class marker {
 public:
-	static const uint32_t INVALID_MARK;
+	static const std::size_t INVALID_MARK;
 public:
 	explicit marker( std::size_t read_mark = INVALID_MARK , std::size_t write_mark = INVALID_MARK ) ;
 	marker( const marker& rhs ) ;

@@ -1,7 +1,6 @@
 #ifndef __tdk_task_operation_h__
 #define __tdk_task_operation_h__
 
-#include <tdk/error/error_code.hpp>
 #include <tdk/util/list_node.hpp>
 namespace tdk {
 namespace task {

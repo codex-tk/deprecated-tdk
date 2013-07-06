@@ -1,7 +1,6 @@
 #ifndef __tdk_task_win32_io_engine_h__
 #define __tdk_task_win32_io_engine_h__
 
-#include <tdk/error/error_code.hpp>
 
 #include <tdk.task/task/win32/io_completion_port.hpp>
 #include <tdk.task/task/operation.hpp>

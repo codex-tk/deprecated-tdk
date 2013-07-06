@@ -34,7 +34,7 @@ uint64_t tick::local( void ) {
 }
 
 uint64_t tick::from( const struct tm& t ){
-	time_t v = ctime::mktime( t );
+	time_t v = ctime::convert( t );
 	return tick::from( v );
 }
 
@@ -82,9 +82,7 @@ uint64_t tick::from( const tick::filetime& ft ){
 
 struct tm   tick::to_tm( const uint64_t v ){
 	time_t t = v / tick::SECOND_TO_MICRO_SECONDS;
-	struct tm ret;
-	ctime::gmtime( t , ret );
-	return ret;
+	return ctime::convert( t );
 }
 
 time_t		tick::to_time_t( const uint64_t v ){

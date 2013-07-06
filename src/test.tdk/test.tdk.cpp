@@ -3,6 +3,7 @@
 
 #include "stdafx.h"
 
+#include <tdk/tdk.hpp>
 #include <tdk/error/error_platform.hpp>
 #include <tdk/util/string.hpp>
 #include <tdk/log/logger.hpp>
@@ -39,7 +40,7 @@ int _tmain(int argc, _TCHAR* argv[])
 
 	std::string msg = ec.message();
 
-	tdk::init();
+	//tdk::init();
 
 	//CoInitialize( nullptr );
 

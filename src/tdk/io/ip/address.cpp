@@ -85,7 +85,11 @@ bool inet_pton( int af
 	struct addrinfo* res = nullptr;
 	hints.ai_family = af;
 	char port_string[12];
+#if defined( _WIN32 )
 	sprintf_s( port_string , "%d" , port );
+#else
+	sprintf( port_string , "%d" , port );
+#endif
 	int err = getaddrinfo( addr , port_string , &hints, &res);
     if ( err != 0) {
 		return false;
@@ -224,8 +228,11 @@ bool address::resolve(
 	hint.ai_socktype	= SOCK_STREAM;
 	hint.ai_flags		= AI_PASSIVE;
 	char port_string[12];
+#if defined( _WIN32 )
 	sprintf_s( port_string , "%d" , port );
-
+#else
+	sprintf( port_string , "%d" , port );
+#endif
 	int err = getaddrinfo( ip_address.c_str() , port_string , &hint, &res);
     if ( err != 0) {
 		//tdk::diagnostics::set_last_error( err );

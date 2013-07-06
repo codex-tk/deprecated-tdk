@@ -14,7 +14,7 @@ operation::~operation( void ) {
 
 std::error_code operation::error( void ) {	
 	return std::error_code( Internal
-				, *reinterpret_cast< tdk::error_category* >( InternalHigh ));
+				, *reinterpret_cast< std::error_category* >( InternalHigh ));
 }
 
 void operation::error( const std::error_code& code ) {

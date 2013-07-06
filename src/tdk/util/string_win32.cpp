@@ -5,6 +5,8 @@
 namespace tdk{
 namespace string {
 
+
+
 std::string  wcs_to_mbs( const std::wstring& in ) {
 	std::string out;
     std::size_t length = in.length();

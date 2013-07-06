@@ -154,6 +154,8 @@
     <ClInclude Include="util\rc_ptr.hpp" />
     <ClInclude Include="util\string.hpp" />
     <ClInclude Include="alloc.hpp" />
+    <ClInclude Include="tmp\compile_time_error.hpp" />
+    <ClInclude Include="util\initializer.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="crypto\seed\SEED_KISA.tab" />

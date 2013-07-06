@@ -7,29 +7,48 @@
 #ifndef __tdk_h__
 #define __tdk_h__
 
+// 윈도우와 그 이외의 플랫폼에 대한 설정
 #if defined ( _WIN32 )
-#pragma comment( lib ,"ws2_32.lib" )
-#pragma comment( lib ,"mswsock.lib" )
-#pragma comment( lib ,"tdk.lib" )
+
+#pragma comment( lib ,"ws2_32" )
+#pragma comment( lib ,"mswsock" )
+#pragma comment( lib ,"tdk" )
+
+template < typename T >
+struct dword_align {
+	typedef __declspec(align( 4 )) T type;
+};
+template < typename T >
+struct qword_align {
+	typedef __declspec(align( 8 )) T type;
+};
+
+#if ( _MSC_VER < 1600 ) 
+	#define nullptr NULL
+#endif
+
+#ifndef COMPLETION_PORT_SEH
+#define COMPLETION_PORT_SEH
+#endif
+
+#ifndef OPERATION_SEH
+#define OPERATION_SEH
+#endif
+
 #else
+
 #ifndef __stdcall
 #define __stdcall
 #endif
+#ifndef TCHAR
+#define TCHAR char
 #endif
 
 #include <string>
 #include <cstdint>
 
-#if defined ( _WIN32 ) 
 
-#elif defined( linux ) || defined ( __linux )
-
-#elif defined ( __MACOSX__ ) || defined ( __APPLE__ ) 
-
-#else
-	
 #endif
-
 
 /*
 Darwin	 DARWIN						Darwin is not necessarily OS X, see below
@@ -42,40 +61,17 @@ Solaris	 sun or __sun				SunOS versions < 5 will not have __SVR4 or __svr4__ def
 Windows	 _WIN32 or __WIN32__	
 */
 
-/*
-#if defined( _M_X64 ) 
-	#if defined( _DEBUG )
-		#pragma comment( lib ,"tdk.Debug.x64.lib" )
-	#else
-		#pragma comment( lib ,"tdk.Release.x64.lib" )
-	#endif
+
+// 개별 플랫폼 상세 설정
+#if defined ( _WIN32 ) 
+
+#elif defined( linux ) || defined ( __linux )
+
+#elif defined ( __MACOSX__ ) || defined ( __APPLE__ ) 
+
 #else
-	#if defined( _DEBUG )
-		#pragma comment( lib ,"tdk.Debug.Win32.lib" )
-	#else
-		#pragma comment( lib ,"tdk.Release.Win32.lib" )
-	#endif
+
 #endif
-*/
-/*
-#include <WinSock2.h>
-#include <MSWSOCK.h>
-#include <WS2tcpip.h>
-#include <Windows.h>
-#include <process.h>
-#include <stdint.h>
-*/
-
-namespace tdk {
-namespace option {
-
-extern bool enable_assert;
-
-}
-
-bool init( void );
-void cleanup( void );
-}
 
 #ifndef assert_msg
 #define assert_msg( expr , msg ) assert( expr && msg )
@@ -83,50 +79,6 @@ void cleanup( void );
 
 #ifndef TDK_ASSERT
 #define TDK_ASSERT( expr ) do{ if ( tdk::option::enable_assert ) assert( expr ); }while(0)
-#endif
-
-namespace tdk {
-
-class initializer {
-public:
-	template < typename function >
-	initializer( function func ) {
-		func();
-	} 
-};
-
-#if defined ( _WIN32 ) 
-typedef std::wstring tstring;
-#else
-typedef std::string tstring;	
-#endif
-
-#if defined( _WIN32 )
-#if ( _MSC_VER < 1600 ) 
-	#define nullptr NULL
-#endif
-#endif
-
-template < typename T >
-struct dword_align {
-#if defined ( _MSC_VER )
-	typedef __declspec(align( 4 )) T type;
-#endif
-};
-template < typename T >
-struct qword_align {
-#if defined ( _MSC_VER )
-	typedef __declspec(align( 8 )) T type;
-#endif
-};
-
-}
-
-#ifndef STATIC_INITIALIZE
-#define STATIC_INITIALIZE( name , func ) \
-namespace {\
-	static tdk::initializer _initializer##name( func );\
-}
 #endif
 
 
@@ -148,22 +100,6 @@ namespace {\
 	DISALLOW_COPY( className );
 #endif
 
-template < bool > class compile_time_error;
-template <> class compile_time_error< true >{};
-
-#define STATIC_CHECK( expr , msg ) { compile_time_error< (expr) != 0 > ERROR_##msg;(void)ERROR_##msg;}
-
-#ifndef COMPLETION_PORT_SEH
-#define COMPLETION_PORT_SEH
-#endif
-/*
-#ifndef COMPLETION_PORT_USE_GQCS_EX
-#define COMPLETION_PORT_USE_GQCS_EX
-#endif
-*/
-#ifndef OPERATION_SEH
-#define OPERATION_SEH
-#endif
 
 #ifndef TDK_DELETE
 #define TDK_DELETE( obj ) \
@@ -173,6 +109,33 @@ template <> class compile_time_error< true >{};
 	}
 
 #endif
+
+namespace tdk {
+namespace option {  extern bool enable_assert;  }
+
+bool init( void );
+void cleanup( void );
+
+typedef std::basic_string<TCHAR
+	, std::char_traits<TCHAR>
+	, std::allocator<TCHAR> > tstring;
+
+}
+
+#include <tdk/tmp/compile_time_error.hpp>
+
+#define STATIC_CHECK( expr , msg ) { tdk::tmp::compile_time_error< (expr) != 0 > ERROR_##msg;(void)ERROR_##msg;}
+
+#include <tdk/util/initializer.hpp>
+
+#ifndef STATIC_INITIALIZE
+#define STATIC_INITIALIZE( name , func ) \
+namespace {\
+	tdk::util::initializer _initializer_##name( func );\
+}
+#endif
+
+//STATIC_INITIALIZE( tdk_auto_init , tdk::init );
 
 #endif
 

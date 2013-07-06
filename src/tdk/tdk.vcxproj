@@ -163,6 +163,8 @@
     <ClInclude Include="log\writer\udp_writer.hpp" />
     <ClInclude Include="threading\auto_reset_event_win32.hpp" />
     <ClInclude Include="threading\mutex_win32.hpp" />
+    <ClInclude Include="tmp\compile_time_error.hpp" />
+    <ClInclude Include="util\initializer.hpp" />
     <ClInclude Include="util\rtti.hpp" />
     <ClInclude Include="task\queue_timer_win32.hpp" />
     <ClInclude Include="task\timer_handler.hpp" />

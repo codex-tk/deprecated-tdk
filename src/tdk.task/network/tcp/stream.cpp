@@ -3,6 +3,7 @@
 #include <tdk.task/task/event_loop.hpp>
 #include <tdk/error/error_category_tdk.hpp>
 #include <tdk/error/error_platform.hpp>
+#include <tdk/error/error_tdk.hpp>
 namespace tdk {
 namespace network {
 namespace tcp {
