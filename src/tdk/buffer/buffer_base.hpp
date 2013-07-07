@@ -23,6 +23,9 @@ public:
 	buffer_base( const buffer_base& rhs );
 	buffer_base& operator=( const buffer_base& rhs );
 
+	buffer_base( buffer_base&& rhs );
+	buffer_base& operator=( buffer_base&& rhs );
+
 	int ref_count( void );
 
 	uint8_t* data_ptr( void ) const;

@@ -20,7 +20,6 @@
 #endif
 
 #pragma comment( lib , "tdk.lib")
-#pragma comment( lib , "tdk.task.lib")
 //#pragma comment( lib , "tdk.adodb.lib")
 #pragma comment( lib , "ws2_32")
 #pragma comment( lib , "mswsock")
@@ -34,13 +33,12 @@
 int _tmain(int argc, _TCHAR* argv[])
 {
 	testing::InitGoogleTest( &argc , argv );
-
-
+	
 	std::error_code ec( tdk::platform::error() );
 
 	std::string msg = ec.message();
 
-	//tdk::init();
+	tdk::init();
 
 	//CoInitialize( nullptr );
 
@@ -52,8 +50,6 @@ int _tmain(int argc, _TCHAR* argv[])
 	tdk::network::address addr("google.co.kr" , 80 );
 	LOG_D( log , "%s"  , addr.ip_address().c_str());
 	
-	tdk::task::event_loop::default_loop().open();
-
 	return RUN_ALL_TESTS();
 	/*
 	// default C

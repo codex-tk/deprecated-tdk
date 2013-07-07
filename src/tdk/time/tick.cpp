@@ -17,7 +17,7 @@ uint64_t tick::utc( void ) {
     return tick::from( now );
 #endif
 }
-
+/*
 uint64_t tick::local( void ) {	
 #if defined(_WIN32) || defined(_WIN64)
 	systemtime st;
@@ -31,7 +31,7 @@ uint64_t tick::local( void ) {
 	now.tv_sec -= ( ctime::bias() * 60 );
     return tick::from( now );
 #endif
-}
+}*/
 
 uint64_t tick::from( const struct tm& t ){
 	time_t v = ctime::convert( t );
@@ -66,7 +66,7 @@ uint64_t tick::from( const tick::systemtime& st ){
     tm_date.tm_sec     = st.second;
     tm_date.tm_year    = st.year - 1900;
 
-    time_t t = ctime::mktime( tm_date );
+    time_t t = ctime::convert( tm_date );
     return from(t); ;
 #endif
 }

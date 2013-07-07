@@ -27,6 +27,11 @@ public:
 	memory_block( const memory_block& rhs ) ;
 	//! 대입 연산자/
 	memory_block& operator=( const memory_block& rhs );
+
+	//! 복사 생성자
+	memory_block( memory_block&& rhs ) ;
+	//! 대입 연산자/
+	memory_block& operator=( memory_block&& rhs );
 	//! 소멸자 
 	~memory_block( void );
 

@@ -4,7 +4,7 @@
 #include <thread>
 
 namespace tdk {
-namespace platform{
+namespace platform {
 
 const std::error_category& category( void ) {
 	static tdk::platform::error_category_platform impl;

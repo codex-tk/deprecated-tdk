@@ -40,6 +40,23 @@ memory_block& memory_block::operator=( const memory_block& rhs ) {
 	return *this;
 }
 
+//! 복사 생성자
+memory_block::memory_block( memory_block&& rhs ) 
+	: _base( std::move( rhs._base ))
+	, _read_pos( rhs._read_pos )
+	, _write_pos( rhs._write_pos ){
+	rhs._read_pos = 0;
+	rhs._write_pos = 0;
+}
+
+//! 대입 연산자/
+memory_block& memory_block::operator=( memory_block&& rhs ) {
+	_base = std::move( rhs._base );
+	_read_pos = rhs._read_pos;
+	_write_pos = rhs._write_pos;
+	return *this;
+}
+
 memory_block::~memory_block( void ) {
 
 }

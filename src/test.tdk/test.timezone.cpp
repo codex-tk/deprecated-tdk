@@ -3,6 +3,7 @@
 #include <tdk/time/date_time.hpp>
 
 TEST( timezone , t1 ) {
+	/*
 	TIME_ZONE_INFORMATION tz;
 	GetTimeZoneInformation( &tz );
 	
@@ -15,7 +16,7 @@ TEST( timezone , t1 ) {
 
 	tdk::time::tick::systemtime st = tdk::time::tick::to_systemtime( tdk::time::tick::from( tt ));
 
-	return;
+	return;*/
 	//int bias = tdk::time::ctime::bias();
 
 }

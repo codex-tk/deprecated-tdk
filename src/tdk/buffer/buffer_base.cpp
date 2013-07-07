@@ -60,6 +60,27 @@ buffer_base& buffer_base::operator=( const buffer_base& rhs ) {
 	return *this;
 }
 
+buffer_base::buffer_base( buffer_base&& rhs )	
+	:_base ( rhs._base )
+	,_size ( rhs._size )
+	,_allocator ( rhs._allocator )
+{
+	rhs._base = nullptr;
+	rhs._size = 0;
+	rhs._allocator = nullptr;
+}
+
+buffer_base& buffer_base::operator=( buffer_base&& rhs ) {
+	dec_ref();
+	_base = rhs._base;
+	_size = rhs._size;
+	_allocator = rhs._allocator;
+	rhs._base = nullptr;
+	rhs._size = 0;
+	rhs._allocator = nullptr;
+	return *this;
+}
+
 int buffer_base::ref_count( void ) {
 	std::atomic<int>* c = _counter();
 	if (c) 

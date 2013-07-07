@@ -45,9 +45,17 @@ date_time date_time::utc() {
 }
 
 date_time date_time::local() {
-	return date_time( tick::local() ); 
-}
+	date_time utc_time = utc();
+	struct timeval val = tick::to_timeval( utc_time.time() );
+#if defined(_WIN32)
+	time_t sec = val.tv_sec;
+	struct tm local;
+	localtime_s( &local , &sec );
+	return date_time( tick::from( local ) + val.tv_usec );
+#else
 
+#endif
+}
 
 uint64_t date_time::time( void ) const {
     return _time;

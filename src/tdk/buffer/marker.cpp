@@ -3,7 +3,7 @@
 
 namespace tdk { namespace buffer {
 
-const uint32_t marker::INVALID_MARK = 0xffffffff;
+const std::size_t marker::INVALID_MARK = 0xffffffff;
 
 marker::marker( std::size_t read_mark , std::size_t write_mark  ) 
 	: _read_mark( read_mark ) , _write_mark( write_mark ) 

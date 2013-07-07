@@ -63,7 +63,7 @@ public:
 	};
 #endif
 public:
-	static uint64_t local( void );
+	//static uint64_t local( void );
 	static uint64_t utc( void );
 	static uint64_t from( const tm& t );
 	static uint64_t from( const time_t& t );
