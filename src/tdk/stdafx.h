@@ -18,7 +18,6 @@
 #include <tchar.h>
 #include <dbghelp.h>
 #include <process.h>
-#endif
 
 #include <stdint.h>
 #include <iostream>
@@ -33,5 +32,6 @@
 #include <system_error>
 #include <tdk/tdk.hpp>
 #include <tdk/error/last_error.hpp>
+#endif
 
 // TODO: reference additional headers your program requires here

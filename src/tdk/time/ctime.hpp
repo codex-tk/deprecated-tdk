@@ -1,6 +1,8 @@
 #ifndef __tdk_time_ctime_h__
 #define __tdk_time_ctime_h__
 
+#include <tdk/tdk.hpp>
+
 namespace tdk {
 namespace time {
 

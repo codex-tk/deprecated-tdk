@@ -1,17 +1,33 @@
-CXX=g++ 
-INC=-I/home/tk/develop/tdk/src
+CXX=g++
+SRCS=time/ctime.cpp time/time_span.cpp time/tick.cpp time/date_time.cpp
+OBJS=$(SRCS:%.cpp=%.o)
+INC=-I./../ -I./
+AR=ar
+RANLIB=ranlib
+
 CPPFLAGS=-std=c++11 $(INC)
-OBJECTS=util/rtti.o threading/atomic/atomic_linux.o
-OBJS_DIR=obj
 
 TARGET=libtdk.a
 
-#.SUFFIXES: .cpp .o
+.SUFFIXES: .cpp .o
 
 all: $(TARGET)
 
-$(TARGET): $(OBJECTS)
-	ar rvs $@ $(OBJECTS)
+$(TARGET): $(OBJS)
+	$(AR) rvs $@ $(OBJS)
+	$(RANLIB) $@
 
 clean:
-	rm -rf $(OBJECTS)
+	rm -rf $(OBJS) $(TARGET)
+
+depend:
+	$(CXX) -M $(CPPFLAGS) $(SRCS) > depend_file
+
+
+ifneq ($(MAKECMDGOALS), clean)
+ifneq ($(MAKECMDGOALS), depend)
+ifneq ($(SRCS),)
+-include depend_file
+endif
+endif
+endif

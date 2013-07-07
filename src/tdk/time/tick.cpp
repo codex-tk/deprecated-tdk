@@ -59,12 +59,12 @@ uint64_t tick::from( const tick::systemtime& st ){
 	return from( ft );
 #else
     struct tm tm_date;
-    tm_date.tm_hour    = st.hour;
-    tm_date.tm_min     = st.minute;
-    tm_date.tm_mday    = st.day;
-    tm_date.tm_mon     = st.month - 1;
-    tm_date.tm_sec     = st.second;
-    tm_date.tm_year    = st.year - 1900;
+    tm_date.tm_hour    = st.wHour;
+    tm_date.tm_min     = st.wMinute;
+    tm_date.tm_mday    = st.wDay;
+    tm_date.tm_mon     = st.wMonth - 1;
+    tm_date.tm_sec     = st.wSecond;
+    tm_date.tm_year    = st.wYear - 1900;
 
     time_t t = ctime::convert( tm_date );
     return from(t); ;

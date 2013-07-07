@@ -46,7 +46,7 @@ struct qword_align {
 
 #include <string>
 #include <cstdint>
-
+#include <sys/time.h>
 
 #endif
 
