@@ -47,7 +47,11 @@ struct qword_align {
 #include <string>
 #include <cstdint>
 #include <sys/time.h>
+#include <system_error>
 
+#ifndef _NOEXCEPT
+#define _NOEXCEPT noexcept 
+#endif
 #endif
 
 /*

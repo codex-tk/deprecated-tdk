@@ -1,7 +1,7 @@
 #ifndef __tdk_error_category_tdk_h__
 #define __tdk_error_category_tdk_h__
 
-#include <system_error>
+#include <tdk/tdk.hpp>
 
 namespace tdk {
 
@@ -17,9 +17,9 @@ enum class errc {
 class error_category_tdk : public std::error_category {
 public:
 	error_category_tdk(void);
-	virtual ~error_category_tdk(void) ;
+	virtual ~error_category_tdk(void) _NOEXCEPT ;
 
-	virtual const char *name() const _NOEXCEPT;
+	virtual const char *name() const _NOEXCEPT ;
 	virtual std::string message(int _Errval) const ;
 };
 /*

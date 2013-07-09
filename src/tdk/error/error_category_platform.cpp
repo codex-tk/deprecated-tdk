@@ -11,11 +11,11 @@ error_category_platform::error_category_platform(void) {
 
 }
 
-error_category_platform::~error_category_platform(void) {
+error_category_platform::~error_category_platform(void) _NOEXCEPT {
 
 }
 
-const char *error_category_platform::name() const _NOEXCEPT {
+const char *error_category_platform::name() const _NOEXCEPT  {
 #if defined( _WIN32 )
 	return "win32_platform_error";
 #elif defined( linux ) || defined ( __linux )

@@ -2,6 +2,7 @@
 #define __tdk_string_h__
 
 #include <string>
+#include <cstring>
 
 namespace tdk {
 namespace string {
@@ -163,7 +164,7 @@ static string_type to_lower( const string_type& msg ) {
 }
 
 template < typename T_char >
-static T_char* ltrim( T_char* msg , T_char ch =' ' ){
+static T_char* ltrim( T_char* message , T_char ch =' ' ){
 	if ( message != nullptr ) {
         T_char* start      = message;
         T_char* ltrimStart = message;
@@ -183,7 +184,7 @@ static T_char* ltrim( T_char* msg , T_char ch =' ' ){
 }
 
 template < typename T_char >
-static T_char* rtrim( T_char* msg , T_char ch = ' ' ){
+static T_char* rtrim( T_char* message , T_char ch = ' ' ){
 	if ( message != nullptr ) {
 		size_t len = detail::length<T_char>::value( message );
         T_char* rtrimEnd = message + len;

@@ -1,6 +1,9 @@
 CXX=g++
 SRCS=time/ctime.cpp time/time_span.cpp time/tick.cpp time/date_time.cpp tdk.cpp \
-    threading/thread_local.cpp threading/thread_data.cpp
+    threading/thread_local.cpp threading/thread_data.cpp \
+    error/error_category_platform.cpp error/error_category_tdk.cpp \
+    error/error_platform.cpp error/error_tdk.cpp error/last_error.cpp \
+
 OBJS=$(SRCS:%.cpp=%.o)
 INC=-I./../ -I./
 AR=ar

@@ -29,7 +29,7 @@ error_category_tdk::error_category_tdk(void) {
 
 }
 
-error_category_tdk::~error_category_tdk(void) {
+error_category_tdk::~error_category_tdk(void) _NOEXCEPT {
 
 }
 

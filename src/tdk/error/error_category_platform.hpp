@@ -2,6 +2,7 @@
 #define __tdk_error_category_win32_h__
 
 #include <system_error>
+#include <tdk/tdk.hpp>
 //#include <tdk/error/error_category.hpp>
 
 namespace tdk {
@@ -10,9 +11,10 @@ namespace platform {
 class error_category_platform : public std::error_category {
 public:
 	error_category_platform(void);
-	virtual ~error_category_platform(void) ;
+	virtual ~error_category_platform(void) _NOEXCEPT  ;
+    
 
-	virtual const char *name() const _NOEXCEPT;
+	virtual const char *name(void) const _NOEXCEPT ;
 	virtual std::string message(int _Errval) const ;
 	/*
 	virtual std::error_condition

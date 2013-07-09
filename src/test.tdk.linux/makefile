@@ -1,9 +1,9 @@
 CXX=g++
-SRCS=main.cpp test_tdk_date_time.cpp
+SRCS=main.cpp test_tdk_date_time.cpp test_tdk_error.cpp
 OBJS=$(SRCS:%.cpp=%.o)
 INCLUDES=-I./../ -I./ -I/home/tk/develop/gtest-1.6.0/include
 LDFLAGS=-lpthread -L./../gtest -lgtest -L./../tdk -ltdk -lrt
-CPPFLAGS=-std=c++11 $(INCLUDES)
+CPPFLAGS=-std=c++11 $(INCLUDES) -g
 TARGET=test.tdk.linux
 
 .SUFFIXES: .cpp .o
@@ -11,7 +11,7 @@ TARGET=test.tdk.linux
 all: $(TARGET)
 
 $(TARGET): $(OBJS)
-	$(CXX) -o $@ $(OBJS) $(LDFLAGS)
+	$(CXX) -g -o $@ $(OBJS) $(LDFLAGS)
 
 clean:
 	rm -rf $(OBJS) $(TARGET) depend_file
