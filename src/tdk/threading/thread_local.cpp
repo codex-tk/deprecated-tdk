@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include <tdk/threading/thread_local.hpp>
-
+#include <cassert>
 namespace tdk { namespace threading {
 
 #if defined ( _WIN32 ) 

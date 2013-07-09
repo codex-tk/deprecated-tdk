@@ -2,6 +2,7 @@
 #define __tdk_thread_data_h__
 
 #include <system_error>
+#include <tdk/tdk.hpp>
 
 namespace tdk { namespace threading {
 

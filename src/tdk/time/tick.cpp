@@ -2,6 +2,7 @@
 
 #include <tdk/time/ctime.hpp>
 #include <tdk/time/tick.hpp>
+#include <ctime>
 
 namespace tdk {
 namespace time {
@@ -12,9 +13,15 @@ uint64_t tick::utc( void ) {
     GetSystemTimeAsFileTime( &ft );
 	return tick::from( ft );
 #else
-    timeval now;
+    struct timespec ts;
+    if( clock_gettime( CLOCK_REALTIME , &ts ) == -1 ) {
+        time_t v = std::time(nullptr);
+        return tick::from(v);
+    }
+    return tick::from(ts);
+/*  timeval now;
     gettimeofday(&now, NULL);
-    return tick::from( now );
+    return tick::from( now );*/
 #endif
 }
 /*
@@ -71,6 +78,13 @@ uint64_t tick::from( const tick::systemtime& st ){
 #endif
 }
 
+uint64_t tick::from( const timespec& ts ){
+    uint64_t v = ts.tv_sec;
+	v *= tick::SECOND_TO_MICRO_SECONDS;
+	v += ts.tv_nsec / 1000;
+	return v;
+}
+
 uint64_t tick::from( const tick::filetime& ft ){
 	uint64_t v = ft.dwHighDateTime;
 	v <<= 32;
@@ -111,6 +125,7 @@ tick::systemtime	tick::to_systemtime( const uint64_t v ){
     st.wMonth    = tm_date.tm_mon + 1;
     st.wSecond   = tm_date.tm_sec ;
     st.wYear     = tm_date.tm_year + 1900;
+    st.wMilliseconds = ( v % tick::SECOND_TO_MICRO_SECONDS) / 1000 ;
     return st;
 #endif
 }

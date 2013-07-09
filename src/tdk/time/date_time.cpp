@@ -45,16 +45,24 @@ date_time date_time::utc() {
 }
 
 date_time date_time::local() {
-	date_time utc_time = utc();
-	struct timeval val = tick::to_timeval( utc_time.time() );
-#if defined(_WIN32)
+    return local( date_time::utc() );
+}
+
+date_time date_time::utc( const date_time& local ) {
+   time_span diff = date_time::utc() - date_time::local();
+   return local + diff;
+}
+
+date_time date_time::local( const date_time& utc ) {
+	struct timeval val = tick::to_timeval( utc.time() );
 	time_t sec = val.tv_sec;
 	struct tm local;
-	localtime_s( &local , &sec );
-	return date_time( tick::from( local ) + val.tv_usec );
+#if defined( __WIN32 )
+    localtime_s( &local , &sec );
 #else
-
+    localtime_r( &sec , &local );
 #endif
+	return date_time( tick::from( local ) + val.tv_usec );
 }
 
 uint64_t date_time::time( void ) const {

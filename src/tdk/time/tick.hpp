@@ -70,6 +70,15 @@ public:
 	static uint64_t from( const timeval& tv );
 	static uint64_t from( const systemtime& st );
 	static uint64_t from( const filetime& ft );
+#if defined ( _WIN32 ) 
+
+#elif defined( linux ) || defined ( __linux )
+    static uint64_t from( const timespec& ts );
+#elif defined ( __MACOSX__ ) || defined ( __APPLE__ ) 
+
+#else
+
+#endif
 
 	static tm			to_tm( const uint64_t v );
 	static time_t		to_time_t( const uint64_t v );

@@ -1,22 +1,17 @@
 CXX=g++
-SRCS=time/ctime.cpp time/time_span.cpp time/tick.cpp time/date_time.cpp tdk.cpp \
-    threading/thread_local.cpp threading/thread_data.cpp
+SRCS=main.cpp test_tdk_date_time.cpp
 OBJS=$(SRCS:%.cpp=%.o)
-INC=-I./../ -I./
-AR=ar
-RANLIB=ranlib
-
-CPPFLAGS=-std=c++11 $(INC)
-
-TARGET=libtdk.a
+INCLUDES=-I./../ -I./ -I/home/tk/develop/gtest-1.6.0/include
+LDFLAGS=-lpthread -L./../gtest -lgtest -L./../tdk -ltdk -lrt
+CPPFLAGS=-std=c++11 $(INCLUDES)
+TARGET=test.tdk.linux
 
 .SUFFIXES: .cpp .o
 
 all: $(TARGET)
 
 $(TARGET): $(OBJS)
-	$(AR) rvs $@ $(OBJS)
-	$(RANLIB) $@
+	$(CXX) -o $@ $(OBJS) $(LDFLAGS)
 
 clean:
 	rm -rf $(OBJS) $(TARGET) depend_file
