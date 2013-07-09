@@ -57,7 +57,7 @@ date_time date_time::local( const date_time& utc ) {
 	struct timeval val = tick::to_timeval( utc.time() );
 	time_t sec = val.tv_sec;
 	struct tm local;
-#if defined( __WIN32 )
+#if defined( _WIN32 )
     localtime_s( &local , &sec );
 #else
     localtime_r( &sec , &local );
