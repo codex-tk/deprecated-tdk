@@ -13,7 +13,7 @@ seed::~seed( void ){
 }
 
 int seed::open( void* userKey , int size ){
-    int keySize = min( size , 16 );
+    int keySize = std::min( size , 16 );
     unsigned char key[16];
     memset( key , 0x00 , sizeof( unsigned char ) * 16 );
     memcpy( key , userKey , keySize );

@@ -35,11 +35,11 @@ struct rect {
 	}
 
 	int width( void ) const {
-		return max( right , left ) - min( right , left );
+		return std::max( right , left ) - std::min( right , left );
 	}
 
 	int height( void ) const {
-		return max( top , bottom ) - min( top , bottom );
+		return std::max( top , bottom ) - std::min( top , bottom );
 	}
 
 	bool operator==( const rect& r ) {
