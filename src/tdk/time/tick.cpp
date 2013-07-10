@@ -78,12 +78,21 @@ uint64_t tick::from( const tick::systemtime& st ){
 #endif
 }
 
+#if defined ( _WIN32 ) 
+
+#elif defined( linux ) || defined ( __linux )
 uint64_t tick::from( const timespec& ts ){
     uint64_t v = ts.tv_sec;
 	v *= tick::SECOND_TO_MICRO_SECONDS;
 	v += ts.tv_nsec / 1000;
 	return v;
 }
+#elif defined ( __MACOSX__ ) || defined ( __APPLE__ ) 
+
+#else
+
+#endif
+
 
 uint64_t tick::from( const tick::filetime& ft ){
 	uint64_t v = ft.dwHighDateTime;
