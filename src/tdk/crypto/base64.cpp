@@ -1,4 +1,4 @@
-#include "StdAfx.h"
+#include "stdafx.h"
 #include "base64.hpp"
 #include <limits>
 namespace tdk {

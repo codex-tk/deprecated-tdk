@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include <tdk/crypto/md5.hpp>
+#include <tdk/tdk.hpp>
 
 namespace tdk {
 namespace crypto {

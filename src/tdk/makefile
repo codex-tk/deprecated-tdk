@@ -43,6 +43,14 @@ TARGET_SRCS=tdk.cpp \
     buffer/buffer_base.cpp \
     buffer/marker.cpp \
     buffer/memory_block.cpp \
+    \
+    crypto/sha1.cpp\
+    crypto/base64.cpp\
+    crypto/md5.cpp\
+    crypto/crc32.cpp\
+    crypto/seed.cpp\
+    crypto/seed/SEED_KISA.cpp\
+
 
 TARGET_OBJS=$(TARGET_SRCS:%.cpp=$(OBJS_DIR)/%.o)
 CPPFLAGS=-std=c++11 -I./../ -I./

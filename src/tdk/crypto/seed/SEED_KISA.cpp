@@ -57,7 +57,7 @@ void SeedEncrypt (
     
 // Reorder for big endian 
 // Because SEED use little endian order in default
-#ifndef BIG_ENDIAN
+#ifndef MY_BIG_ENDIAN
     L0 = EndianChange(L0);
     L1 = EndianChange(L1);
     R0 = EndianChange(R0);
@@ -81,7 +81,7 @@ void SeedEncrypt (
     SeedRound(L0, L1, R0, R1, K+28); 	// Round 15
     SeedRound(R0, R1, L0, L1, K+30); 	// Round 16
 
-#ifndef BIG_ENDIAN
+#ifndef MY_BIG_ENDIAN
     L0 = EndianChange(L0);
     L1 = EndianChange(L1);
     R0 = EndianChange(R0);
@@ -114,7 +114,7 @@ void SeedDecrypt (
     R1 = ((DWORD *)pbData)[3];
 
 // Reorder for big endian 
-#ifndef BIG_ENDIAN
+#ifndef MY_BIG_ENDIAN
     L0 = EndianChange(L0);
     L1 = EndianChange(L1);
     R0 = EndianChange(R0);
@@ -138,7 +138,7 @@ void SeedDecrypt (
     SeedRound(L0, L1, R0, R1, K+ 2); 	// Round 15
     SeedRound(R0, R1, L0, L1, K+ 0); 	// Round 16
 
-#ifndef BIG_ENDIAN
+#ifndef MY_BIG_ENDIAN
     L0 = EndianChange(L0);
     L1 = EndianChange(L1);
     R0 = EndianChange(R0);
@@ -218,7 +218,7 @@ void SeedRoundKey(
 	D = ((DWORD *)pbUserKey)[3];
 	 
 // Reorder for big endian 
-#ifndef BIG_ENDIAN
+#ifndef MY_BIG_ENDIAN
 	A = EndianChange(A);
 	B = EndianChange(B);
 	C = EndianChange(C);

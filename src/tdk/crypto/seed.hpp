@@ -1,6 +1,8 @@
 #ifndef __tdk_CryptoSeed128_h__
 #define __tdk_CryptoSeed128_h__
 
+#include <tdk/crypto/seed/SEED_KISA.hpp>
+
 namespace tdk {
 namespace crypto {
 

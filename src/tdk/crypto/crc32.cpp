@@ -1,4 +1,4 @@
-#include "StdAfx.h"
+#include "stdafx.h"
 #include "crc32.hpp"
 
 namespace tdk {

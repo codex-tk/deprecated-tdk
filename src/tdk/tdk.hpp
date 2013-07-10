@@ -55,6 +55,7 @@ struct qword_align {
 #include <system_error>
 #include <unistd.h>
 #include <string.h>
+#include <arpa/inet.h>
 
 #ifndef _NOEXCEPT
 #define _NOEXCEPT noexcept 

@@ -10,7 +10,7 @@
 #define SEED_H
 
 /******************************* Include files ********************************/
-
+#include <sys/types.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -35,12 +35,26 @@
 /***************************** Endianness Define ******************************/
 // If endianness is not defined correctly, you must modify here.
 // SEED uses the Little endian as a defalut order
-
-#if __alpha__	||	__alpha	||	__i386__	||	i386	||	_M_I86	||	_M_IX86	||	\
-	__OS2__		||	sun386	||	__TURBOC__	||	vax		||	vms		||	VMS		||	__VMS 
-#define LITTLE_ENDIAN
+#ifndef i386
+#define i386
+#endif
+ 
+#if defined(__alpha__)	    \
+    ||	defined(__alpha)	\
+    ||	defined(__i386__)   \
+    ||	defined(i386)	    \
+    ||	defined(_M_I86)	    \
+    ||	defined(_M_IX86)    \
+    ||	defined(__OS2__)	\
+    ||	defined(sun386)	    \
+    ||	defined(__TURBOC__)	\
+    ||	defined(vax)		\
+    ||	defined(vms)		\
+    ||	defined(VMS)		\
+    ||	defined(__VMS)      
+#define MY_LITTLE_ENDIAN
 #else
-#define BIG_ENDIAN
+#define MY_BIG_ENDIAN
 #endif
 
 

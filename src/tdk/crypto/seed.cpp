@@ -1,4 +1,5 @@
 #include "stdafx.h"
+#include <tdk/tdk.hpp>
 #include <tdk/crypto/seed.hpp>
 #include <tdk/crypto/seed/SEED_KISA.hpp>
 
