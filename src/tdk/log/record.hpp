@@ -21,6 +21,17 @@ enum class level {
 };
 
 struct record {
+#if defined ( _WIN32 ) 
+    typedef int pid_type;
+    typedef int tid_type;
+#elif defined( linux ) || defined ( __linux )
+    typedef pid_t     pid_type;
+    typedef pthread_t tid_type;
+#elif defined ( __MACOSX__ ) || defined ( __APPLE__ ) 
+
+#else
+
+#endif
 	tdk::log::level				level;
 	const tdk::log::category&	category;
 	TCHAR						message[k_log_buffer_size];
@@ -28,9 +39,8 @@ struct record {
 	int							line_number;
 	const TCHAR*				function_name;
 	tdk::date_time				time;
-	int							process_id;
-	int							thread_id;
-
+    pid_type					process_id;
+	tid_type					thread_id;
 	record( tdk::log::level l 
 	, const tdk::log::category& cate
 	, const TCHAR* file

@@ -40,14 +40,21 @@ struct qword_align {
 #ifndef __stdcall
 #define __stdcall
 #endif
+
 #ifndef TCHAR
 #define TCHAR char
+#endif
+
+#ifndef _T
+#define _T( x ) x
 #endif
 
 #include <string>
 #include <cstdint>
 #include <sys/time.h>
 #include <system_error>
+#include <unistd.h>
+#include <string.h>
 
 #ifndef _NOEXCEPT
 #define _NOEXCEPT noexcept 

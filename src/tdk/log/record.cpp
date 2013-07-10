@@ -15,11 +15,12 @@ record::record( tdk::log::level l
 	, line_number( line )
 	, function_name( function )
 	, time(tdk::date_time::local())
-#if defined(_WIN32) || defined(_WIN64)
-	, process_id( GetCurrentProcessId() ) 
+#if defined(_WIN32) 
+    , process_id( GetCurrentProcessId() ) 
 	, thread_id(GetCurrentThreadId())
 #else
-
+    , process_id( getpid())
+    , thread_id( pthread_self())
 #endif	
 {
 }

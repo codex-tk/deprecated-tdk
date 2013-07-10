@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include <tdk/buffer/buffer_base.hpp>
+#include <math.h>
 
 namespace tdk {
 namespace buffer {
@@ -46,14 +47,14 @@ buffer_base::buffer_base( const buffer_base& rhs )
 	,_allocator ( rhs._allocator )
 {
 	if ( rhs._allocator == nullptr ) {
-		throw std::exception( "Not Allowed");
+		throw std::invalid_argument( "Not Allowed");
 	}
 	add_ref();
 }
 
 buffer_base& buffer_base::operator=( const buffer_base& rhs ) {
 	if ( rhs._allocator == nullptr ) {
-		throw std::exception( "Not Allowed");
+		throw std::invalid_argument( "Not Allowed");
 	}
 	buffer_base _new( rhs );
 	swap( _new );
@@ -130,7 +131,7 @@ void buffer_base::reserve( std::size_t sz ) {
 		return;
 	}
 	buffer_base new_buffer( sz , _allocator );
-	memcpy( new_buffer.data_ptr() , data_ptr() , min( _size , sz ));
+	memcpy( new_buffer.data_ptr() , data_ptr() , std::min( _size , sz ));
 	swap( new_buffer );
 	_size = sz;
 }

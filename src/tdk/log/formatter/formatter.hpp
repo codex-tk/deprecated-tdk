@@ -15,7 +15,16 @@ public:
 	virtual void format( const record& r , tdk::buffer::memory_block& m ) = 0;
 };
 
+#if defined ( _WIN32 ) 
 typedef std::tr1::shared_ptr< formatter > formatter_ptr;
+#elif defined( linux ) || defined ( __linux )
+typedef std::shared_ptr< formatter > formatter_ptr;
+#elif defined ( __MACOSX__ ) || defined ( __APPLE__ ) 
+
+#else
+
+#endif
+
 
 }}
 
