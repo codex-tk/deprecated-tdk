@@ -77,9 +77,9 @@ uint8_t* memory_block::wr_ptr( void ) {
 //! 쓰기 가능한 포인터를 앞/뒤로 옮김
 int32_t memory_block::wr_ptr( int32_t move ) {
 	if ( move >= 0 ) {
-		move = min( move , static_cast<int32_t>(space()));
+		move = std::min( move , static_cast<int32_t>(space()));
 	} else {
-		move = min( abs( move ) , static_cast<int32_t>(length()));
+		move = std::min( abs( move ) , static_cast<int32_t>(length()));
 		move = -move;
 	}
 	_write_pos += move;
@@ -106,9 +106,9 @@ uint8_t* memory_block::rd_ptr( void  ) const {
 //! 읽기 가능한 포인터를 앞/뒤로 옮김
 int32_t memory_block::rd_ptr( int32_t move ) {
 	if ( move >= 0 ) {
-		move = min( move , static_cast<int32_t>(length()));
+		move = std::min( move , static_cast<int32_t>(length()));
 	} else {
-		move = min( abs( move ) , static_cast< int32_t >(_read_pos));
+		move = std::min( abs( move ) , static_cast< int32_t >(_read_pos));
 		move = -move;
 	}
 	_read_pos += move;
@@ -134,8 +134,8 @@ void memory_block::align( void ) {
 //! 버퍼를 늘리거나 독립버퍼로 만드는 함수
 void memory_block::reserve( std::size_t sz ) {
 	_base.reserve( sz );
-	_read_pos = min( size() , _read_pos );
-	_write_pos = min( size() , _write_pos );
+	_read_pos = std::min( size() , _read_pos );
+	_write_pos = std::min( size() , _write_pos );
 }
 
 //! 데이터 초기화 
@@ -175,14 +175,14 @@ std::size_t memory_block::copy( void* p , std::size_t wr_size) {
 //! 버퍼에 데이터 기록
 std::size_t memory_block::write( void* buf , std::size_t write_size ) {
 	reserve( _write_pos + write_size );
-	write_size = min( space() , write_size );
+	write_size = std::min( space() , write_size );
 	memcpy( wr_ptr() , buf , write_size );
 	return wr_ptr( static_cast<int>(write_size));
 }
 
 //! 데이터의 읽음 표시 없이 읽어오는 함수
 std::size_t memory_block::peek( void* buf , std::size_t peek_size ) {
-	peek_size = min( length() , peek_size );
+	peek_size = std::min( length() , peek_size );
 	memcpy( buf , rd_ptr() , peek_size );
 	return peek_size;
 }

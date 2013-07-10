@@ -20,7 +20,7 @@ TARGET_SRCS=time/ctime.cpp time/time_span.cpp time/tick.cpp time/date_time.cpp t
     error/error_platform.cpp error/error_tdk.cpp error/last_error.cpp \
     log/category.cpp log/record.cpp log/formatter/formatter.cpp \
     alloc.cpp \
-    buffer/allocator.cpp buffer/buffer_base.cpp
+    buffer/allocator.cpp buffer/buffer_base.cpp buffer/marker.cpp buffer/memory_block.cpp
 
 TARGET_OBJS=$(TARGET_SRCS:%.cpp=$(OBJS_DIR)/%.o)
 CPPFLAGS=-std=c++11 -I./../ -I./
