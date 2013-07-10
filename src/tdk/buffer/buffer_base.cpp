@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include <tdk/buffer/buffer_base.hpp>
-#include <math.h>
+#include <algorithm>
 
 namespace tdk {
 namespace buffer {
@@ -131,7 +131,16 @@ void buffer_base::reserve( std::size_t sz ) {
 		return;
 	}
 	buffer_base new_buffer( sz , _allocator );
+
+#if defined ( _WIN32 ) 
+	memcpy( new_buffer.data_ptr() , data_ptr() , min( _size , sz ));
+#elif defined( linux ) || defined ( __linux )
 	memcpy( new_buffer.data_ptr() , data_ptr() , std::min( _size , sz ));
+#elif defined ( __MACOSX__ ) || defined ( __APPLE__ ) 
+
+#else
+
+#endif
 	swap( new_buffer );
 	_size = sz;
 }
