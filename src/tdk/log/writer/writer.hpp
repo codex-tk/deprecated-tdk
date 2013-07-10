@@ -17,8 +17,17 @@ public:
 protected:
 	formatter_ptr _formatter;
 };
-
+#if defined ( _WIN32 ) 
 typedef std::tr1::shared_ptr<writer> writer_ptr;
+#elif defined( linux ) || defined ( __linux )
+typedef std::shared_ptr<writer> writer_ptr;
+#elif defined ( __MACOSX__ ) || defined ( __APPLE__ ) 
+
+#else
+
+#endif
+
+
 
 }}
 

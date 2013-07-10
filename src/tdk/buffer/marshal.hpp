@@ -1,6 +1,8 @@
 #ifndef __tdk_buffer_marshal_h__
 #define __tdk_buffer_marshal_h__
 
+#include <tdk/tdk.hpp>
+
 namespace tdk {
 namespace buffer {
 
@@ -17,35 +19,35 @@ struct host_to_host {
 	template < typename R , typename T >
 	static R value( T t );
 
-	template<> static uint64_t value( uint64_t value ) {
+	template<uint64_t,uint64_t> static uint64_t value( uint64_t value ) {
 		return value;
 	}
 
-	template<> static uint32_t value( uint32_t value ) {
+	template<uint32_t,uint32_t> static uint32_t value( uint32_t value ) {
 		return value;
 	}
 
-	template<> static uint16_t value( uint16_t value ) {
+	template<uint16_t,uint16_t> static uint16_t value( uint16_t value ) {
 		return value;
 	}
 
-	template<> static uint64_t value( double value ) {
+	template<uint64_t> static uint64_t value( double value ) {
 		uint64_t val;
 		memcpy(&val,&value,sizeof(val));
 		return val;
 	}
 
-	template<> static uint32_t value( float value ) {
+	template<uint32_t,uint32_t> static uint32_t value( float value ) {
 		uint32_t val;
 		memcpy(&val,&value,sizeof(val));
 		return val;
 	}
-	template <> static double value( uint64_t value ) {
+	template <> static double value<double,uint64_t>( uint64_t value ) {
 		double val;
 		memcpy(&val,&value,sizeof(val));
 		return val;
 	}
-	template <> static float value( uint32_t value ) {
+	template <float> static float value( uint32_t value ) {
 		float val;
 		memcpy(&val,&value,sizeof(val));
 		return val;

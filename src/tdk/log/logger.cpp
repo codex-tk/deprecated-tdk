@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include <tdk/log/logger.hpp>
 #include <tdk/util/string.hpp>
+#include <map>
+#include <stdarg.h>
 
 namespace tdk{
 namespace log{
@@ -76,7 +78,6 @@ void logger::write(
 	}	
 }
 
-#if defined(_WIN32) || defined(_WIN64)
 void logger::write( 
 		tdk::log::level level
 		, const wchar_t* file 
@@ -96,8 +97,6 @@ void logger::write(
 		_write( log_record );
 	}	
 }
-#endif
-
 
 #else
 void logger::write( 
@@ -140,6 +139,8 @@ void logger::_write( const tdk::log::record& r ) {
 			, r.line_number );
 		OutputDebugString( msg );
 	}	
+#else
+    
 #endif
 	for ( writer_ptr& ptr : _impl->writers ) {
 		ptr->write( r );

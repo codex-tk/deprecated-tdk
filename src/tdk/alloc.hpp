@@ -1,7 +1,7 @@
 #ifndef __tdk_alloc_h__
 #define __tdk_alloc_h__
 
-#include <tdk.hpp>
+#include <tdk/tdk.hpp>
 
 namespace tdk {
 

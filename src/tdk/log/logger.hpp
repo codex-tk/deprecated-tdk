@@ -6,7 +6,9 @@
 #include <tdk/log/writer/writer.hpp>
 #include <tdk/log/formatter/formatter.hpp>
 #include <tdk/threading/spin_lock.hpp>
+#if defined( _WIN32)
 #include <crtdefs.h>
+#endif
 #include <vector>
 
 #define LOG_D( logger_instance , msg , ... ) do { logger_instance.write( tdk::log::level::log_debug , _T(__FILE__) , __LINE__, _T(__FUNCTION__) , msg , __VA_ARGS__ ); } while(0)
