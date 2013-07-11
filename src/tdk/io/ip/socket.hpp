@@ -3,11 +3,27 @@
 
 #include <tdk/io/ip/address.hpp>
 #include <tdk/time/time_span.hpp>
+#if defined ( _WIN32 ) 
+
+#elif defined( linux ) || defined ( __linux )
+typedef int SOCKET;
+static const int INVALID_SOCKET = -1;
+static const int SOCKET_ERROR = -1;
+
+#include <netinet/tcp.h>
+#elif defined ( __MACOSX__ ) || defined ( __APPLE__ ) 
+
+#else
+
+#endif
+
 
 namespace tdk {
 namespace io {
 namespace ip {
-	
+
+
+
 class socket {
 public:
 	template < int V_family , int V_type , int V_protocol >
@@ -163,13 +179,13 @@ public:
 		    unsigned long _option;
 	    };
 	
-        typedef value_option< BOOL		, SOL_SOCKET	, SO_REUSEADDR			> reuse_address;
-        typedef value_option< BOOL		, SOL_SOCKET	, SO_BROADCAST			> broad_cast;
+        typedef value_option< int       , SOL_SOCKET	, SO_REUSEADDR			> reuse_address;
+        typedef value_option< int       , SOL_SOCKET	, SO_BROADCAST			> broad_cast;
         typedef value_option< int		, SOL_SOCKET	, SO_RCVBUF				> recv_buffer;
         typedef value_option< int		, SOL_SOCKET	, SO_RCVTIMEO			> recv_time;
         typedef value_option< int		, SOL_SOCKET	, SO_SNDBUF				> send_buffer;
         typedef value_option< int		, SOL_SOCKET	, SO_SNDTIMEO			> send_time;
-		typedef value_option< linger	, SOL_SOCKET	, SO_LINGER				> linger;
+		typedef value_option< struct linger	, SOL_SOCKET	, SO_LINGER				> linger;
 		
 		static linger linger_remove_time_wait;
 
@@ -182,11 +198,11 @@ public:
 
 		typedef value_option< uint8_t	, IPPROTO_IPV6	, IPV6_MULTICAST_LOOP	> multi_cast_loop_ipv6;
 		typedef value_option< uint8_t	, IPPROTO_IPV6	, IPV6_MULTICAST_HOPS	> multi_cast_ttl_ipv6;
-		typedef value_option< in_addr6	, IPPROTO_IPV6	, IPV6_MULTICAST_IF		> multi_cast_if_ipv6;
+		typedef value_option< in6_addr	, IPPROTO_IPV6	, IPV6_MULTICAST_IF		> multi_cast_if_ipv6;
 		typedef value_option< ipv6_mreq	, IPPROTO_IPV6	, IPV6_ADD_MEMBERSHIP	> multi_cast_join_ipv6;
 		typedef value_option< ipv6_mreq	, IPPROTO_IPV6	, IPV6_DROP_MEMBERSHIP	> multi_cast_drop_ipv6;
 		
-		typedef value_option< BOOL		, IPPROTO_TCP	, TCP_NODELAY		> tcp_no_delay;
+		typedef value_option< int       , IPPROTO_TCP	, TCP_NODELAY		> tcp_no_delay;
 
 #if defined(_WIN32) || defined(_WIN64)	
         typedef value_option< BOOL		, SOL_SOCKET	, SO_CONDITIONAL_ACCEPT		> conditional_accept;

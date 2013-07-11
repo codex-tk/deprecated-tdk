@@ -2,7 +2,7 @@
 #include <gtest/gtest.h>
 #include <tdk/tdk.hpp>
 #include <tdk/log/logger.hpp>
-#include <tdk/log/writer/printf_writer.hpp>
+#include <tdk/log/writer/stderr_writer.hpp>
 
 int main( int argc , char* argv[] ) {
 
@@ -12,7 +12,7 @@ int main( int argc , char* argv[] ) {
 
     tdk::log::logger logger = tdk::log::logger::get_instance( "main");
 
-    tdk::log::writer_ptr ptr = tdk::log::printf_writer::instance();
+    tdk::log::writer_ptr ptr = tdk::log::stderr_writer::instance();
     logger.add_writer( ptr );
 
     LOG_D( logger , "test %s" , "test1" );

@@ -1,7 +1,10 @@
 #include "stdafx.h"
 #include <tdk/io/ip/address.hpp>
 #include <tdk/tdk.hpp>
-
+#if defined( _WIN32 )
+#else
+#include <netdb.h>
+#endif
 
 namespace tdk {
 namespace io {
@@ -63,14 +66,19 @@ const char* inet_ntop(int af, const void *src, char *dst, socklen_t cnt) {
 	default:
 		return dst;
 	}
-	if ( GetNameInfoA(  reinterpret_cast< struct sockaddr*>(&storage) , 
+#if defined( _WIN32 )
+    if ( GetNameInfoA(  
+#else
+    if ( getnameinfo(
+#endif                
+                        reinterpret_cast< struct sockaddr*>(&storage) , 
                         size , 
                         dst , 
                         cnt , 
                         nullptr , 
                         0 , 
                         NI_NUMERICHOST ) != 0 ) {
-        TDK_ASSERT( "[tdk::io::network::impl::inet_ntop] getnameinfo fail" );
+        //TDK_ASSERT( "[tdk::io::network::impl::inet_ntop] getnameinfo fail" );
     }
     return dst;
 }
@@ -127,13 +135,13 @@ address::address( const struct sockaddr* addr ,
 	set( addr , address_size );
 }
 
-address::address( const unsigned long ip_v4_addr 
+address::address( const unsigned long ipv4_addr 
 	, const int port )
 	: _length( sizeof( sockaddr_in ) )
 {
 	struct sockaddr_in addr;
 	memset( &addr , 0x00 , sizeof( addr ));
-    addr.sin_addr.s_addr = ip_v4_addr;
+    addr.sin_addr.s_addr = ipv4_addr;
 	addr.sin_port = htons(port);
 	addr.sin_family = AF_INET;
 	memcpy( sockaddr() , &addr , sizeof( addr ));
@@ -142,13 +150,13 @@ address::address( const unsigned long ip_v4_addr
 #endif
 }
 
-address::address( const in6_addr& ip_v6_addr 
+address::address( const in6_addr& ipv6_addr 
 	, const int port ) 
 	: _length( sizeof( sockaddr_in6 ) )
 {
 	struct sockaddr_in6 addr;
 	memset( &addr , 0x00 , sizeof( addr ));
-    addr.sin6_addr = ip_v6_addr;
+    addr.sin6_addr = ipv6_addr;
 	addr.sin6_port = htons(port);
 	addr.sin6_family = AF_INET6;
 	memcpy( sockaddr() , &addr , sizeof( addr ));
@@ -212,7 +220,7 @@ struct sockaddr* address::sockaddr( void ) const {
 const int address::sockaddr_length( void ) const {
 	return _length;
 }
-int*		address::sockaddr_length_ptr( void ) {
+socklen_t*		address::sockaddr_length_ptr( void ) {
 	return &_length;
 }
 
@@ -285,7 +293,7 @@ address address::any( int port , int family ) {
 	case AF_INET6:
 		return address( in6addr_any , port );
 	default:
-		return address( INADDR_ANY , port );
+		return address( ( const unsigned long ) INADDR_ANY , port );
 	}
 }
 

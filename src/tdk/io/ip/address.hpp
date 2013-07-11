@@ -1,6 +1,18 @@
 #ifndef __tdk_io_net_address_h__
 #define __tdk_io_net_address_h__
 
+#include <tdk/tdk.hpp>
+#include <vector>
+#if defined ( _WIN32 ) 
+
+#elif defined( linux ) || defined ( __linux )
+#include <netinet/in.h>
+#elif defined ( __MACOSX__ ) || defined ( __APPLE__ ) 
+
+#else
+
+#endif
+
 namespace tdk {
 namespace io {
 namespace ip {
@@ -12,8 +24,8 @@ public:
     
 	address( const struct sockaddr* address , const int addressSize );
 
-    address( const unsigned long ip_v4_addr , const int port  );
-	address( const in6_addr& ip_v6_addr , const int port );
+    address( const unsigned long ipv4_addr , const int port  );
+	address( const in6_addr& ipv6_addr , const int port );
 
     address( const std::string& addr , const int port, const int af = AF_INET );
 	
@@ -29,7 +41,7 @@ public:
 
 	struct sockaddr*	sockaddr( void ) const;
 	const int		sockaddr_length( void ) const;
-	int*			sockaddr_length_ptr( void );
+	socklen_t*		sockaddr_length_ptr( void );
 
 public:
 	static bool resolve( const std::string& ipAddress , int port , std::vector< address >& address );
@@ -40,7 +52,7 @@ public:
 	static address from( const std::string& addr , int port , int family = AF_INET );
 public:
 	struct sockaddr_storage _address;
-	int	_length;
+	socklen_t _length;
 
 #if defined (_DEBUG)
 	std::string _ip_address;

@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "sha1.hpp"
 #include <tdk/tdk.hpp>
+#include <arpa/inet.h>
 namespace tdk {
 namespace crypto {
 		

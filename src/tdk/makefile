@@ -37,7 +37,7 @@ TARGET_SRCS=tdk.cpp \
     log/formatter/formatter.cpp \
     log/formatter/string_formatter.cpp \
     log/writer/writer.cpp \
-    log/writer/printf_writer.cpp  \
+    log/writer/stderr_writer.cpp  \
     \
     buffer/allocator.cpp \
     buffer/buffer_base.cpp \
@@ -50,6 +50,9 @@ TARGET_SRCS=tdk.cpp \
     crypto/crc32.cpp\
     crypto/seed.cpp\
     crypto/seed/SEED_KISA.cpp\
+    \
+    io/ip/address.cpp\
+    io/ip/socket.cpp\
 
 
 TARGET_OBJS=$(TARGET_SRCS:%.cpp=$(OBJS_DIR)/%.o)

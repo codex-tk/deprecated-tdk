@@ -1,5 +1,9 @@
 CXX=g++
-SRCS=main.cpp test_tdk_date_time.cpp test_tdk_error.cpp
+SRCS=   main.cpp test_tdk_date_time.cpp \
+        test_tdk_error.cpp \
+        test_tdk_io_ip_address.cpp \
+        test_tdk_io_socket.cpp
+
 OBJS=$(SRCS:%.cpp=%.o)
 INCLUDES=-I./../ -I./ -I/home/tk/develop/gtest-1.6.0/include
 LDFLAGS=-lpthread -L./../gtest -lgtest -L./../tdk/build/debug -ltdk -lrt

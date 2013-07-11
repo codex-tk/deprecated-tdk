@@ -1,6 +1,9 @@
 #include "stdafx.h"
-#include <tdk/io/ip/socket.hpp>
 #include <tdk/tdk.hpp>
+#include <tdk/io/ip/socket.hpp>
+#include <tdk/error/last_error.hpp>
+#include <cassert>
+#include <fcntl.h>
 
 
 namespace tdk {
@@ -179,7 +182,7 @@ bool socket::wait_for_recv( const tdk::time_span& wait ) const {
 	}
 #else
     while( true ) {
-        int ret = select( fd + 1 ,&fdset , NULL ,  NULL , &tval );
+        int ret = select( handle() + 1 ,&fdset , NULL ,  NULL , &tval );
         if ( ret > 0 )  break;
         if ( ret == -1 && errno == EINTR ) continue;
         if ( ret == 0 ) {
@@ -223,7 +226,7 @@ bool socket::wait_for_send( const tdk::time_span& wait ) const {
 	}  
 #else
     while( true ) {
-        int ret = select( fd + 1 , NULL , &fdset ,  NULL , &tval );
+        int ret = select( handle() + 1 , NULL , &fdset ,  NULL , &tval );
         if ( ret > 0 )  break;
         if ( ret == -1 && errno == EINTR ) continue;
         if ( ret == 0 ) {
@@ -247,9 +250,15 @@ bool socket::connect_time_out( const tdk::io::ip::address& address ,  const tdk:
 	if ( connect( address )) {
 		return true;
 	}
-	if ( WSAGetLastError() != WSAEWOULDBLOCK ) {
+#if defined ( _WIN32 )
+    if ( WSAGetLastError() != WSAEWOULDBLOCK ) {
 		return false;
 	}
+#else
+    if ( errno != EINPROGRESS ){
+        return false;
+    }
+#endif
 	/*
 	if ( tdk::diagnostics::get_last_error() != tdk::errors::in_progress ) {
 		return false;
