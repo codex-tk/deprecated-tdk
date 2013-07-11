@@ -47,7 +47,7 @@ struct host_to_host {
 		memcpy(&val,&value,sizeof(val));
 		return val;
 	}
-	template <float> static float value( uint32_t value ) {
+	template <> static float value( uint32_t value ) {
 		float val;
 		memcpy(&val,&value,sizeof(val));
 		return val;

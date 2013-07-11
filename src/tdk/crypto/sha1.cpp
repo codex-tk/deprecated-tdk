@@ -1,7 +1,18 @@
 #include "stdafx.h"
 #include "sha1.hpp"
 #include <tdk/tdk.hpp>
+
+#if defined ( _WIN32 ) 
+
+#elif defined( linux ) || defined ( __linux )
 #include <arpa/inet.h>
+#elif defined ( __MACOSX__ ) || defined ( __APPLE__ ) 
+
+#else
+
+#endif
+
+
 namespace tdk {
 namespace crypto {
 		
