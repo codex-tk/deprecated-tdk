@@ -54,7 +54,11 @@ TARGET_SRCS=tdk.cpp \
     io/ip/address.cpp\
     io/ip/socket.cpp\
     \
-    io/engine_epoll.cpp
+    io/eventfd.cpp \
+    io/engine_epoll.cpp \
+    io/operation.cpp \
+    io/ip/tcp/socket_epoll.cpp \
+    io/ip/tcp/operation/connect_operation_epoll.cpp
 
 
 TARGET_OBJS=$(TARGET_SRCS:%.cpp=$(OBJS_DIR)/%.o)

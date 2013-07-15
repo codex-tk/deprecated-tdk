@@ -3,7 +3,8 @@ SRCS=   main.cpp test_tdk_date_time.cpp \
         test_tdk_error.cpp \
         test_tdk_io_ip_address.cpp \
         test_tdk_io_socket.cpp \
-        test_tdk_io_engine_epoll.cpp
+        test_tdk_io_engine_epoll.cpp \
+        test_epoll_multithread.cpp 
 
 OBJS=$(SRCS:%.cpp=%.o)
 INCLUDES=-I./../ -I./ -I/home/tk/develop/gtest-1.6.0/include
@@ -15,7 +16,7 @@ TARGET=test.tdk.linux
 
 all: $(TARGET)
 
-$(TARGET): $(OBJS)
+$(TARGET): $(OBJS) ./../tdk/build/debug/libtdk.a
 	$(CXX) -g -o $@ $(OBJS) $(LDFLAGS)
 
 clean:

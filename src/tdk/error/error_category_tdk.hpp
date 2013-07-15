@@ -11,6 +11,8 @@ enum class errc {
 	tdk_user_abort ,
 	tdk_network_user_abort = 0x1000 ,
 	tdk_network_remote_closed ,
+    tdk_epoll_error , 
+    tdk_epoll_hang_up ,
 	tdk_errc_end ,
 };
 

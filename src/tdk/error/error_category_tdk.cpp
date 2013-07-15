@@ -20,6 +20,8 @@ namespace detail {
 		,{ errc::tdk_user_abort				, "tdk_user_abort" } 
 		,{ errc::tdk_network_user_abort		, "tdk_network_user_abort" } 
 		,{ errc::tdk_network_remote_closed	, "tdk_network_remote_closed" } 
+        ,{ errc::tdk_epoll_error            , "tdk_epoll_error" }
+        ,{ errc::tdk_epoll_hang_up          , "tdk_epoll_hang_up" }
 		,{ errc::tdk_errc_end				, nullptr }
 	};
 

@@ -185,7 +185,8 @@ public:
         typedef value_option< int		, SOL_SOCKET	, SO_RCVTIMEO			> recv_time;
         typedef value_option< int		, SOL_SOCKET	, SO_SNDBUF				> send_buffer;
         typedef value_option< int		, SOL_SOCKET	, SO_SNDTIMEO			> send_time;
-		typedef value_option< struct linger	, SOL_SOCKET	, SO_LINGER				> linger;
+		typedef value_option< int		, SOL_SOCKET	, SO_ERROR 			    > error; 
+        typedef value_option< struct linger	, SOL_SOCKET	, SO_LINGER				> linger;
 		
 		static linger linger_remove_time_wait;
 

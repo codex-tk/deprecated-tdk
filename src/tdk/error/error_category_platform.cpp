@@ -53,8 +53,8 @@ std::string error_category_platform::message(int _Errval) const  {
 #elif defined( linux ) || defined ( __linux )
 	const size_t buffer_size = 4096;
 	char buffer[buffer_size] = {0,};
-	strerror_r( _Errval , buffer , buffer_size);
-	return std::string( buffer );
+	char* msg = strerror_r( _Errval , buffer , buffer_size);
+	return std::string( msg );
 #elif defined ( __MACOSX__ ) || defined ( __APPLE__ ) 
 #else
 #endif

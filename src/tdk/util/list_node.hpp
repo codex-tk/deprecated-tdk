@@ -75,8 +75,6 @@ public:
 		} 
 	}
 
-	
-
     void add_tail( slist_queue<type>& list ) {
 		if ( !list.is_empty() ) {
 			this->add_tail( list.front() );
@@ -90,7 +88,14 @@ public:
 	}
 
     int count( void ) const {
-        return slist_op< type >::count( _head );
+        int cnt = 0;
+        type* p = _head;
+        while( p ) {
+            ++cnt;
+            p = p->next();
+        }
+        return cnt;
+        //return slist_op< type >::count( _head );
     }
 public:
     class iterator {

@@ -1,6 +1,7 @@
 #ifndef __tdk_io_operation_h__
 #define __tdk_io_operation_h__
 
+#include <tdk/tdk.hpp>
 #include <tdk/util/list_node.hpp>
 
 namespace tdk {
@@ -9,7 +10,9 @@ namespace io {
 class operation 
 #if defined (_WIN32)
 	: public OVERLAPPED 
-	, public tdk::slist_node< operation >
+    , public tdk::slist_node< operation >
+#else
+    : public tdk::slist_node< operation >
 #endif
 {
 public:
@@ -28,7 +31,15 @@ public:
 	void reset( void );
 private:
 	callback _callback;
+#if defined( _WIN32 )
+
+#else
+    std::error_code _error;
+    int _io_bytes;
+#endif    
 };
+
+
 }}
 
 #include <tdk/io/operation_impl.hpp>

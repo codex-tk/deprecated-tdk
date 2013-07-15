@@ -72,6 +72,15 @@ public:
 };
 
 template < typename T_base >
+class dispatcher_none_param{
+public:
+    template < typename T_handler >
+    static void dispatch( const T_handler& h , T_base* op ){
+        h();
+    }
+};
+
+template < typename T_base >
 class dispatcher_error_code {
 public:
 	template < typename T_handler >
@@ -153,7 +162,7 @@ public:
 	}
 
 	void on_complete( void ){
-		if ( end_operation() ) {
+		if ( T_base::end_operation() ) {
 			execution_plan< T_handler >::select( this 
 				, _handler 
 				, &operation_impl::_do_dispatch
