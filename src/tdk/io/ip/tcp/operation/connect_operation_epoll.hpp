@@ -23,11 +23,10 @@ public:
 
 	bool end_operation( void );
 
-	void process( void );
 	tdk::io::ip::tcp::socket& socket( void );
 	const tdk::io::ip::address& address( void );
 
-    void handle_event( int evt );
+//    void handle_event( int evt );
 
     tdk::io::engine::context* context( void ) {
         return &_context;

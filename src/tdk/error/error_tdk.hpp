@@ -17,6 +17,7 @@ extern std::error_code tdk_network_remote_closed;
 extern std::error_code tdk_epoll_error;
 extern std::error_code tdk_epoll_hang_up;
 
+extern std::error_code tdk_invalid_call;
 // 
 //extern std::error_code tdk_timeout;
 

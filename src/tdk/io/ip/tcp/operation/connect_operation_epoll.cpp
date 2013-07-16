@@ -8,6 +8,7 @@ namespace tdk {
 namespace io {
 namespace ip {
 namespace tcp {
+    /*
 namespace detail {
 
 static void connect_callback( void* obj , int evt ) {
@@ -16,7 +17,7 @@ static void connect_callback( void* obj , int evt ) {
 }
 
 }
-
+*/
 
 connect_operation::connect_operation( tdk::io::operation::callback cb 
     , tdk::io::ip::tcp::socket& fd
@@ -29,15 +30,12 @@ connect_operation::connect_operation( tdk::io::operation::callback cb
         printf( "ADDR %s:%d\r\n" , it.ip_address().c_str() , it.port());
     }
     _current_end_point = _address.begin();
-    _context.object = this;
-    _context.callback = &detail::connect_callback;
 }
 
 connect_operation::~connect_operation( void )
 {
 
 }
-
 
 bool connect_operation::end_operation( void ) {
     if ( error() ) {
@@ -49,14 +47,10 @@ bool connect_operation::end_operation( void ) {
             return true;
         }
         socket().close();
-        process();
+        socket().async_connect( this );
         return false;
     }
     return true;
-}
-
-void connect_operation::process( void ) {
-    _socket->engine().async_connect( this );
 }
 
 tdk::io::ip::tcp::socket& connect_operation::socket( void ) {
@@ -67,7 +61,7 @@ const tdk::io::ip::address& connect_operation::address( void ){
     return *_current_end_point;
 }
 
-
+/*
 void connect_operation::handle_event( int evt ) {
     std::error_code ec;
     if ( evt & EPOLLERR ) {
@@ -93,7 +87,7 @@ void connect_operation::handle_event( int evt ) {
         ec = tdk::tdk_epoll_error;
     }
     (*this)( ec , 0 );
-}
+}*/
 
 }}}}
 

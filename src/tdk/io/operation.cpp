@@ -39,6 +39,15 @@ int operation::io_bytes( void ) {
 #endif    
 }
 
+int operation::io_bytes( int i ) {
+#if defined( _WIN32 )    
+	std::swap( i , Offset );
+#else
+    std::swap( i , _io_bytes );
+#endif    
+    return i;
+}
+
 void operation::reset( void ) {
 #if defined( _WIN32 )    
 	Internal = 0;

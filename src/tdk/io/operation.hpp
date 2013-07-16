@@ -25,10 +25,11 @@ public:
 
 	std::error_code error( void );
 	int io_bytes( void );
-
-	void error( const std::error_code& ec );
-
-	void reset( void );
+       
+    void error( const std::error_code& ec );
+    int io_bytes( int i );
+    
+    void reset( void );
 private:
 	callback _callback;
 #if defined( _WIN32 )

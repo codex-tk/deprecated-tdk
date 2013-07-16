@@ -18,6 +18,7 @@ namespace detail {
 		 { errc::tdk_success				, "tdk_success" } 
 		,{ errc::tdk_tls_not_initialized	, "tdk_tls_not_initialized" } 
 		,{ errc::tdk_user_abort				, "tdk_user_abort" } 
+        ,{ errc::tdk_invalid_call           , "tdk_invalid_call" }
 		,{ errc::tdk_network_user_abort		, "tdk_network_user_abort" } 
 		,{ errc::tdk_network_remote_closed	, "tdk_network_remote_closed" } 
         ,{ errc::tdk_epoll_error            , "tdk_epoll_error" }

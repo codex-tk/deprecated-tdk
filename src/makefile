@@ -13,7 +13,7 @@ DBG_FLAGS =-DDEBUG
 endif
 
 LIB_TDK_OBJS_DIR=$(OBJS_DIR)/tdk
-LIB_TDK_CPPFLAGS=-std=c++11 -I./tdk/ -I./
+LIB_TDK_CPPFLAGS=-std=c++11 -I./tdk/ -I./ -g
 LIB_TDK_DEPEND_FILE = $(LIB_TDK_OBJS_DIR)/depend_file
 LIB_TDK_SRCS=tdk/tdk.cpp \
 tdk/alloc.cpp \
@@ -56,14 +56,19 @@ tdk/io/ip/address.cpp\
 tdk/io/ip/socket.cpp\
 \
 tdk/io/eventfd.cpp \
+tdk/io/buffer_adapter.cpp \
 tdk/io/engine_epoll.cpp \
 tdk/io/operation.cpp \
 tdk/io/ip/tcp/socket_epoll.cpp \
-tdk/io/ip/tcp/operation/connect_operation_epoll.cpp
+tdk/io/ip/tcp/operation/connect_operation_epoll.cpp \
+tdk/io/ip/tcp/operation/send_operation_epoll.cpp \
+tdk/io/ip/tcp/operation/recv_operation_epoll.cpp
+
+
 
 
 LIB_TDK_OBJS=$(LIB_TDK_SRCS:%.cpp=$(LIB_TDK_OBJS_DIR)/%.o)
-LIB_TDK=$(LIB_TDK_OBJS_DIR)/libtdk.a
+LIB_TDK_TARGET=$(LIB_TDK_OBJS_DIR)/libtdk.a
 
 $(LIB_TDK_OBJS_DIR)/%.o : %.cpp
 	@echo "=====Compile=$(dir $@)"
@@ -73,7 +78,7 @@ $(LIB_TDK_OBJS_DIR)/%.o : %.cpp
 
 
 TEST_TDK_LINUX_OBJS_DIR = $(OBJS_DIR)/test.tdk.linux
-TEST_TDK_LINUX_CPPFLAGS = -std=c++11 -I./test.tdk.linux/ -I./ -I/home/tk/develop/gtest-1.6.0/include
+TEST_TDK_LINUX_CPPFLAGS = -std=c++11 -I./test.tdk.linux/ -I./ -I/home/tk/develop/gtest-1.6.0/include -g
 TEST_TDK_LINUX_LDFLAGS  = -lpthread -L./gtest -lgtest -L$(LIB_TDK_OBJS_DIR) -ltdk -lrt
 TEST_TDK_LINUX_DEPEND_FILE    = $(TEST_TDK_LINUX_OBJS_DIR)/depend_file
 TEST_TDK_LINUX_SRCS = test.tdk.linux/main.cpp \
@@ -98,20 +103,20 @@ $(TEST_TDK_LINUX_OBJS_DIR)/%.o : %.cpp
 
 all: tdk test
 
-tdk: $(LIB_TDK)
+tdk: $(LIB_TDK_TARGET)
 
 test: $(TEST_TDK_LINUX)
 
-$(TEST_TDK_LINUX): tdk  $(TEST_TDK_LINUX_OBJS)
+$(TEST_TDK_LINUX): tdk  $(TEST_TDK_LINUX_OBJS) $(LIB_TDK_TARGET)
 	$(CXX) -g -o $@ $(TEST_TDK_LINUX_OBJS) $(TEST_TDK_LINUX_LDFLAGS)
    
 
-$(LIB_TDK): $(LIB_TDK_OBJS)
+$(LIB_TDK_TARGET): $(LIB_TDK_OBJS)
 	$(AR) rvs $@ $(LIB_TDK_OBJS)
 	$(RANLIB) $@
 
 clean:
-	rm -rf $(LIB_TDK_OBJS) $(LIB_TDK) $(TEST_TDK_LINUX_OBJS) $(TEST_TDK_LINUX)
+	rm -rf $(LIB_TDK_OBJS) $(LIB_TDK_TARGET) $(TEST_TDK_LINUX_OBJS) $(TEST_TDK_LINUX)
    
 
 depend:

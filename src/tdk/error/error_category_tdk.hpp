@@ -9,6 +9,7 @@ enum class errc {
 	tdk_success = 0 ,
 	tdk_tls_not_initialized ,
 	tdk_user_abort ,
+    tdk_invalid_call ,
 	tdk_network_user_abort = 0x1000 ,
 	tdk_network_remote_closed ,
     tdk_epoll_error , 

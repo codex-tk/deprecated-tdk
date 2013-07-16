@@ -1,65 +1,39 @@
 #ifndef __tdk_io_buffer_adapter_h__
 #define __tdk_io_buffer_adapter_h__
 
+#if defined( _WIN32 )
+#else
+#include <sys/uio.h>
+#endif
+
 namespace tdk {
 namespace io {
 
 class buffer_adapter {
 public:
+#if defined( _WIN32 )
+    typedef WSABUF buffer_type;
+#else
+    typedef iovec  buffer_type;
+#endif
 	// TODO : 변환할 생성자 추가할것
-	buffer_adapter( void )
-		: _count(0){
-	}
+	buffer_adapter( void );
 
-	buffer_adapter( const buffer_adapter& rhs ) 
-		: _count( rhs._count )
-	{
-		memcpy( _buffers , rhs._buffers , k_buffer_size * sizeof( WSABUF ));
-	}
+	buffer_adapter( const buffer_adapter& rhs ) ;
+	buffer_adapter( void* p , int size ) ;
+    buffer_adapter& operator=( const buffer_adapter& rhs ) ;
+    ~buffer_adapter( void ) ;
 
-	buffer_adapter( void* p , int size ) 
-		: _count(1) 
-	{
-		_buffers[0].buf = (CHAR*)p;
-		_buffers[0].len = size;
-	}
+	const buffer_type* buffers( void ) const ;
 
-	buffer_adapter& operator=( const buffer_adapter& rhs ) {
-		_count = rhs._count;
-		memcpy( _buffers , rhs._buffers , k_buffer_size * sizeof( WSABUF ));
-		return *this;
-	}
+	int count( void ) const ;
 
-	~buffer_adapter( void ) {
-	}
+	int size( void ) const ;
 
-	const WSABUF* buffers( void ) const {
-		return _buffers;
-	}
-
-	int count( void ) const {
-		return _count;
-	}
-
-	int size( void ) const {
-		int size = 0;
-		for ( int i = 0 ; i < _count ; ++i ) {
-			size += _buffers[i].len;
-		}
-		return size;
-	}
-
-	bool push_back( void* p , int size ) {
-		if ( _count >= k_buffer_size )
-			return false;
-		_buffers[_count].buf = (CHAR*)p;
-		_buffers[_count].len = size;
-		++_count;
-		return true;
-	}
+	bool push_back( void* p , int size ) ;
 private:
 	static const int k_buffer_size = 64;
-	WSABUF _buffers[k_buffer_size];
+    buffer_type _buffers[k_buffer_size];
 	int _count;
 };
 

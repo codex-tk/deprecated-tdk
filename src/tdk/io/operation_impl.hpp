@@ -176,7 +176,7 @@ public:
 
 	static void __stdcall _do_dispatch( operation* op ) {
 		operation_impl* impl( static_cast< operation_impl* >(op));
-		impl->do_dispatch();
+        impl->do_dispatch();
 	}
 
 	static void __stdcall _do_delete( operation* op ) {

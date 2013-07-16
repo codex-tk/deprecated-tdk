@@ -105,7 +105,7 @@ int engine::wait( const tdk::time_span& ts ){
     }
     return nev;
 }
-
+/*
 void engine::async_connect( tdk::io::ip::tcp::connect_operation* op ){
     if ( !op->socket().open_tcp( op->address().family())){
         post( op , tdk::platform::error());
@@ -131,7 +131,7 @@ void engine::async_connect( tdk::io::ip::tcp::connect_operation* op ){
         return;
     }
 }
-
+*/
 }}
 
 

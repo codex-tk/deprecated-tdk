@@ -19,6 +19,7 @@ std::error_code tdk_network_user_abort( (int)errc::tdk_network_user_abort , tdk:
 std::error_code tdk_network_remote_closed( (int)errc::tdk_network_remote_closed , tdk::category() );
 std::error_code tdk_epoll_error((int)errc::tdk_epoll_error , tdk::category());
 std::error_code tdk_epoll_hang_up((int)errc::tdk_epoll_hang_up , tdk::category());
+std::error_code tdk_invalid_call((int)errc::tdk_invalid_call , tdk::category());
 
  //std::error_code tdk_timeout( (int)errc::tdk_timeout , tdk::category() );
 

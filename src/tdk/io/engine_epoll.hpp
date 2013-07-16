@@ -24,15 +24,12 @@ public:
     ~engine( void );
 
     void wake_up( void );
-    void async_connect( void );
 
     bool ctl( int op ,  int fd , int ev , void* ptr );
 
     void post( tdk::io::operation* op , const std::error_code& ec );   
     void drain(void);
 
-
-    void async_connect( tdk::io::ip::tcp::connect_operation* op );
 
 private:
     tdk::io::operation* fetch( void );

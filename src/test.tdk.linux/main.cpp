@@ -20,7 +20,7 @@ int main( int argc , char* argv[] ) {
     logger.add_writer( ptr );
 
     LOG_D( logger , "test %s" , "test1" );
-    printf( "test\r\n");
+    return RUN_ALL_TESTS();
 /*
     int fd = epoll_create(1);
 
@@ -90,5 +90,5 @@ int main( int argc , char* argv[] ) {
     close( epoll_fd );
 
 */
-    return RUN_ALL_TESTS();
+//    return RUN_ALL_TESTS();
 }
