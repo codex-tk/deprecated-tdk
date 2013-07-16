@@ -25,9 +25,10 @@ enum socket_bits {
     SOCKET_READABLE_BIT  = 0x01,
     SOCKET_WRITEABLE_BIT = 0x02,    
     SOCKET_ERROR_BIT     = 0x04,
-    SOCKET_IN_USE_BIT    = 0x08,
 };
+
 typedef void (socket::*handler)( socket::op_queue& );
+
 static handler handler_map[] = {
     &tcp::socket::handle_epollhup
     , &tcp::socket::handle_epollerr
@@ -36,7 +37,7 @@ static handler handler_map[] = {
 };
 
 static int event_mask[] = {
-    EPOLLHUP
+      EPOLLHUP
     , EPOLLERR
     , EPOLLIN
     , EPOLLOUT
@@ -80,32 +81,30 @@ void socket::async_connect( tdk::io::ip::tcp::connect_operation* op ) {
     }
     op->context()->object = op;
     op->context()->callback = &detail::connect_callback;
-    if ( !engine().ctl( EPOLL_CTL_ADD 
+    if ( !engine().ctl(
+              EPOLL_CTL_ADD 
             , op->socket().handle() 
             , EPOLLOUT | EPOLLET | EPOLLONESHOT 
             , static_cast<void*>(op->context())))
     {
-        engine().post( op , tdk::platform::error());
+        engine().post( op , tdk::epoll_error( errno ));
     }
 }
 
-void socket::handle_connect( tdk::io::ip::tcp::connect_operation* op 
+void socket::handle_connect(
+        tdk::io::ip::tcp::connect_operation* op 
         , int evt )
 {
     std::error_code ec;
     if ( evt & EPOLLERR ) {
+        ec = tdk::tdk_epoll_error;
         tdk::io::ip::tcp::socket::option::error sock_error;
-        if ( this->get_option( sock_error ) ) {
+        if ( this->get_option( sock_error ) && sock_error.value() != 0 ) {
             ec = tdk::platform::error( sock_error.value());
-        } else {
-            ec = tdk::platform::error();
-        }
-        if ( ec.value() == 0 ){
-            ec = tdk::tdk_epoll_error;
         }
     } else if ( evt & EPOLLHUP ) {
         ec = tdk::tdk_epoll_hang_up; 
-    } else if ( evt & EPOLLOUT) {
+    } else if ( evt & EPOLLOUT ) {
         tdk::io::ip::tcp::socket::option::error sock_error;
         if ( this->get_option( sock_error ) ) {
             ec = tdk::platform::error( sock_error.value());
@@ -114,6 +113,9 @@ void socket::handle_connect( tdk::io::ip::tcp::connect_operation* op
         }
     } else {
         ec = tdk::tdk_epoll_error;
+    }
+    if ( ec ) {
+        _state |= detail::SOCKET_ERROR_BIT;
     }
     (*op)( ec , 0 );
 }
@@ -141,7 +143,7 @@ void socket::async_send( tdk::io::ip::tcp::send_operation* op ) {
         engine().post( op , std::error_code());
     } else {
         if ( errno != EAGAIN ) {
-            engine().post( op , tdk::platform::error(errno));
+            engine().post( op , tdk::platform::error());
         } else {
             int evt = EPOLLET | EPOLLONESHOT | EPOLLOUT ;
             if ( _state & detail::SOCKET_READABLE_BIT == 0 ) {
@@ -152,7 +154,7 @@ void socket::async_send( tdk::io::ip::tcp::send_operation* op ) {
                     , evt
                     , &_context ))
             {
-                engine().post( op , tdk::platform::error());
+                engine().post( op , tdk::epoll_error(errno));
                 return;
             }
             _send_op_queue.add_tail( op );
@@ -193,7 +195,7 @@ void socket::async_recv( tdk::io::ip::tcp::recv_operation* op ) {
                     , evt
                     , &_context ))
     {
-        engine().post( op , tdk::platform::error());
+        engine().post( op , tdk::epoll_error(errno));
         return;
     }
     _recv_op_queue.add_tail( op );
@@ -314,7 +316,7 @@ void socket::handle_event( int event ) {
                     , &_context ))
             {
                 _state |= detail::SOCKET_ERROR_BIT;
-                handle_error( drains , tdk::platform::error());
+                handle_error( drains , tdk::epoll_error(errno));
             }
         }
 

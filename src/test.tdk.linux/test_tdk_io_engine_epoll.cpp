@@ -96,16 +96,37 @@ TEST( tdk_io_engine , async_connect ) {
     tdk::buffer::memory_block mb( 4096 );
 
     
-    tdk::io::buffer_adapter recvbuf( mb.wr_ptr() , mb.space());
-    fd.async_recv( recvbuf , [] ( const std::error_code& err , int iobyte ){
+    tdk::io::buffer_adapter recvbuf( mb.wr_ptr() , 100 ); 
+    fd.async_recv( recvbuf , [&] ( const std::error_code& err , int iobyte ){
                  if ( err ) {
                     printf( "RecvError %s\r\n" , err.message().c_str());
                 } else {
                     printf( "REcv %d!!\r\n", iobyte );
+                    mb.wr_ptr( iobyte );
                 }
             });
 
-    printf( "1");
+    e.wait( tdk::time_span::infinite());
+    recvbuf = tdk::io::buffer_adapter( mb.wr_ptr() , mb.space());
+
+    fd.async_recv( recvbuf , [] ( const std::error_code& err , int iobyte){
+                if ( err ) {
+                    printf( "second recv fail\r\n" );
+                } else {
+                    printf( "second recv %d\r\n", iobyte );
+                }
+
+            });
+    e.wait( tdk::time_span::infinite());
+    recvbuf = tdk::io::buffer_adapter( mb.wr_ptr() , mb.space());
+
+    fd.async_recv( recvbuf , [] ( const std::error_code& err , int iobyte){
+                if ( err ) {
+                    printf( "third recv fail %s\r\n", err.message().c_str() );
+                } else {
+                    printf( "third recv %d\r\n" , iobyte );
+                }
+            });
     e.wait( tdk::time_span::infinite());
 }
 

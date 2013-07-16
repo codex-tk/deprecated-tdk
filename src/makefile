@@ -26,6 +26,7 @@ tdk/threading/thread_local.cpp \
 tdk/threading/thread_data.cpp  \
 tdk/threading/spin_lock.cpp \
 \
+tdk/error/error_category_epoll.cpp \
 tdk/error/error_category_platform.cpp \
 tdk/error/error_category_tdk.cpp \
 tdk/error/error_platform.cpp \

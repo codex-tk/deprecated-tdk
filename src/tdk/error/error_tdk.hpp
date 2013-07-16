@@ -8,6 +8,9 @@ namespace tdk {
 const std::error_category& category( void );
 std::error_code error( tdk::errc ec );
 
+const std::error_category& epoll_category( void );
+std::error_code epoll_error( int err );
+
 extern std::error_code tdk_success;
 extern std::error_code tdk_tls_not_initialized;
 extern std::error_code tdk_user_abort;

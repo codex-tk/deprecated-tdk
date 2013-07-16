@@ -1,6 +1,7 @@
 #include <tdk/io/ip/tcp/operation/recv_operation_epoll.hpp>
 #include <tdk/io/ip/tcp/socket_epoll.hpp>
 #include <tdk/error/error_platform.hpp>
+#include <tdk/error/error_tdk.hpp>
 
 namespace tdk {
 namespace io {
@@ -25,7 +26,7 @@ bool recv_operation::end_operation( void ) {
 	if ( !error() && io_bytes() == 0 ) {
 		int req_size = _buffer_adapter.size();
 		if ( req_size != 0 ) {
-			error( tdk::platform::error());
+			error( tdk::tdk_network_remote_closed);
 		}
 	}
     return true;
