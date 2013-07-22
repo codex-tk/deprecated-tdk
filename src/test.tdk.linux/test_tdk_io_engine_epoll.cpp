@@ -78,7 +78,7 @@ void handle_send( tdk::io::ip::tcp::socket* s ,
 {
    if ( e ) {
        printf( "send error %s\r\n" , e.message().c_str());
-       s->close([]{});
+       s->async_close([]{});
    } else {
        printf( "send %d\r\n" , i );
    }
@@ -90,7 +90,7 @@ void handle_recv( tdk::io::ip::tcp::socket* s ,
         int i ) {
     if ( e ) {
         printf( "recv error %s\r\n" , e.message().c_str());
-        s->close([]{});
+        s->async_close([]{});
         return;
     } else {
         printf( "recv %d\r\n" , i );
@@ -108,7 +108,7 @@ void handle_conn( tdk::io::ip::tcp::socket* s ,
         const std::error_code& e  ) {
     if ( e) {
         printf( "Connect Error %s\r\n" , e.message().c_str());
-        s->close([]{});
+        s->async_close([]{});
         return;
     } else {
         printf( "Connect Success\r\n");

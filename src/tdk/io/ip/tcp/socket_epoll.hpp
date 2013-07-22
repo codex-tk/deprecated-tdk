@@ -23,10 +23,10 @@ public:
 	~socket( void );
 	tdk::io::engine& engine( void );
 
-    void close( tdk::io::operation* op );
+    void async_close( tdk::io::operation* op );
 
     template < typename T_handler >
-    void close( const T_handler& h ){
+    void async_close( const T_handler& h ){
         class op_base : public tdk::io::operation {
         public:
             op_base( tdk::io::operation::callback cb )
@@ -37,7 +37,7 @@ public:
             T_handler , op_base , tdk::io::detail::dispatcher_none_param 
             > handler_op;
         handler_op* op = new handler_op( h );
-        close( (tdk::io::operation*)op );          
+        async_close( (tdk::io::operation*)op );          
     }
 
     void handle_event( int event );

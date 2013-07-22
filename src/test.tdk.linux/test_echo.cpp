@@ -15,7 +15,7 @@ void on_recv( tdk::io::ip::tcp::socket* fd ,
 {
     if ( ec ){
         printf( "Closed %s\r\n" , ec.message().c_str());
-        fd->close( [fd]{
+        fd->async_close( [fd]{
                     do {
                     
                         tdk::threading::scoped_lock<> gaurd( _lock );
@@ -74,7 +74,7 @@ void on_close_all( tdk::io::engine* e  ){
     do {
         tdk::threading::scoped_lock<> gaurd( _lock );
         for ( auto it : _sockets ){
-            (*it).close([]{});
+            (*it).async_close([]{});
         }
     }while(0);
     e->schedule( tdk::date_time::utc() + tdk::time_span::from_minutes(1)

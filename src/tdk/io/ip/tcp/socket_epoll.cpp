@@ -97,7 +97,7 @@ void socket::handle_close( tdk::io::operation* op ){
     }
 }
 
-void socket::close(tdk::io::operation* op ){
+void socket::async_close(tdk::io::operation* op ){
     tdk::threading::scoped_lock<> gaurd( _lock);
     if ( handle() != -1 ) {
         engine().ctl( EPOLL_CTL_DEL 
