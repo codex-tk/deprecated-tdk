@@ -41,6 +41,7 @@ public:
 	explicit logger( const tdk::tstring& cate );
 	explicit logger( const tdk::log::category& cate );
 	explicit logger( logger::impl* impl );
+    logger( const tdk::tstring& cate , writer_ptr ptr );
 	~logger( void );
 
 	void write( 

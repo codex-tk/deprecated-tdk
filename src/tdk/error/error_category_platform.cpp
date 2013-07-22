@@ -51,7 +51,7 @@ std::string error_category_platform::message(int _Errval) const  {
 	return std::string( buffer );
 
 #elif defined( linux ) || defined ( __linux )
-	const size_t buffer_size = 4096;
+    const size_t buffer_size = 4096;
 	char buffer[buffer_size] = {0,};
 	char* msg = strerror_r( _Errval , buffer , buffer_size);
 	return std::string( msg );

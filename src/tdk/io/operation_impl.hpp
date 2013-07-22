@@ -85,7 +85,7 @@ class dispatcher_error_code {
 public:
 	template < typename T_handler >
 	static void dispatch( const T_handler& h , T_base* op ) {
-		h( op->error());
+		h(op->error());
 	}
 };
 

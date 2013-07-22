@@ -7,30 +7,14 @@
 
 namespace tdk {
 namespace io{
-namespace detail{
-
-static void drain_callback( void* obj , int event ) {
-    tdk::io::engine* e = static_cast< tdk::io::engine* >(obj);
-    e->drain();
-}
-
-}
-
-engine::engine( void ){
+    
+engine::engine( void )
+{
+    _posted.store(0);
     _epoll_fd = epoll_create( 1 );
     if ( _epoll_fd == -1 ) 
         throw std::system_error( tdk::platform::error());
-
-    _drain_context.object = this;
-    _drain_context.callback = &detail::drain_callback;
-
-    if ( !ctl( EPOLL_CTL_ADD 
-        , _op_event.handle() 
-        , EPOLLIN | EPOLLET | EPOLLONESHOT 
-        , &_drain_context ))
-    {
-        throw std::system_error( tdk::platform::error());
-    }
+    _scheduler = new scheduler( *this ); 
 }
 
 engine::~engine( void ) {
@@ -43,44 +27,11 @@ bool engine::ctl( int op ,  int fd , int ev , void* ptr ) {
     evt.data.ptr = ptr;
     return epoll_ctl( _epoll_fd , op  , fd , &evt )==0;
 }
-
-void engine::wake_up( void ) {
-    ctl( EPOLL_CTL_MOD 
-        , _op_event.handle() 
-        , EPOLLIN | EPOLLET | EPOLLONESHOT 
-        , &_drain_context );
-    _op_event.set();
-}
-
 void engine::post( tdk::io::operation* op 
         , const std::error_code& ec  ) 
 {
-    tdk::threading::scoped_lock<> guard( _op_queue_lock );
-    op->error( ec );
-    _op_queue.add_tail( op );
-    wake_up();
-}
-
-tdk::io::operation* engine::fetch( void ) {
-    tdk::threading::scoped_lock<> guard( _op_queue_lock);
-    if ( _op_queue.is_empty() ) {
-        return nullptr;
-    }
-    tdk::io::operation* op = _op_queue.front();
-    _op_queue.pop_front();
-    return op;
-}
-
-void engine::drain( void ) {
-    while( true ){
-        tdk::io::operation* op = fetch();
-        if ( op ) {
-            (*op)( op->error() , op->io_bytes()  );
-        } else {
-            break;
-        }
-    }
-    _op_event.reset();
+    op->error(ec);
+    _scheduler->post( op );
 }
 
 int engine::wait( const tdk::time_span& ts ){
@@ -105,33 +56,29 @@ int engine::wait( const tdk::time_span& ts ){
     }
     return nev;
 }
-/*
-void engine::async_connect( tdk::io::ip::tcp::connect_operation* op ){
-    if ( !op->socket().open_tcp( op->address().family())){
-        post( op , tdk::platform::error());
-        return;
-    }
-    tdk::io::ip::socket::option::non_blocking nb;
-    if ( !op->socket().set_option( nb )){
-        post( op , tdk::platform::error());
-        return;
-    }    
-    if ( !op->socket().connect( op->address())){
-        if ( errno != EINPROGRESS ) {
-            post( op , tdk::platform::error( errno ));    
-            return;
-        }
-    }
-    if ( !ctl( EPOLL_CTL_ADD 
-            , op->socket().handle() 
-            , EPOLLOUT | EPOLLET | EPOLLONESHOT 
-            , static_cast<void*>(op->context())))
-    {
-        post( op , tdk::platform::error());
-        return;
+void engine::inc_posted( void ) {
+    _posted.fetch_add(1);
+}
+void engine::dec_posted( void ) {
+    _posted.fetch_sub(1);
+}
+
+void engine::run( void ) {
+    while ( _posted.load() > 0 ) {
+        printf( "posted %d\r\n" , _posted.load());
+        wait( tdk::time_span::infinite());
     }
 }
-*/
+
+engine::timer_id engine::schedule( engine::timer_id& id ){
+    _scheduler->schedule( id );
+    return id;
+}
+
+void engine::cancel( engine::timer_id& id ){
+    _scheduler->cancel( id );
+}
+
 }}
 
 

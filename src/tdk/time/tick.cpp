@@ -87,6 +87,13 @@ uint64_t tick::from( const timespec& ts ){
 	v += ts.tv_nsec / 1000;
 	return v;
 }
+
+timespec tick::to_timespec( const uint64_t v ) {
+    timespec ts;
+	ts.tv_sec  = static_cast< long >( v / tick::SECOND_TO_MICRO_SECONDS );
+	ts.tv_nsec =( v % tick::SECOND_TO_MICRO_SECONDS ) * 1000;
+	return ts;
+}
 #elif defined ( __MACOSX__ ) || defined ( __APPLE__ ) 
 
 #else

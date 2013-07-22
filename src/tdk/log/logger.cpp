@@ -47,9 +47,14 @@ logger::logger( logger::impl* impl )
 	: _impl( impl )
 {
 }
+logger::logger( const tdk::tstring& cate , writer_ptr ptr ) 
+    : _impl( impl::get_instance(cate))
+{
+    add_writer( ptr );
+}
 
 logger::~logger( void ) {
-
+    
 }
 
 #if defined(_WIN32) || defined(_WIN64)

@@ -35,7 +35,7 @@ void string_formatter::format(  const record& r , tdk::buffer::memory_block& m )
 	tdk::time::tick::systemtime st = tdk::time::tick::to_systemtime( r.time.time());	
 	int len = snprintf(reinterpret_cast<char*>( m.wr_ptr())
 		, m.space()	
-        , "[%04d%02d%02d %02d%02d%02d][%s][%s][%s][%s][%s:%d]\r\n"
+        , "[%04d%02d%02d %02d%02d%02d][%s][%s][%s][%s][%s:%d][%d][%d]\r\n"
 		, st.wYear , st.wMonth , st.wDay , st.wHour , st.wMinute , st.wSecond
 		, r.level_string()
 		, r.category.name().c_str()
@@ -43,6 +43,8 @@ void string_formatter::format(  const record& r , tdk::buffer::memory_block& m )
 		, r.function_name
 		, r.file_name
 		, r.line_number
+        , r.process_id
+        , r.thread_id
 		);
 	m.wr_ptr( len );
 }

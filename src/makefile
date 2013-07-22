@@ -17,6 +17,7 @@ LIB_TDK_CPPFLAGS=-std=c++11 -I./tdk/ -I./ -g
 LIB_TDK_DEPEND_FILE = $(LIB_TDK_OBJS_DIR)/depend_file
 LIB_TDK_SRCS=tdk/tdk.cpp \
 tdk/alloc.cpp \
+tdk/task/thread_timer.cpp \
 tdk/time/ctime.cpp \
 tdk/time/time_span.cpp \
 tdk/time/tick.cpp \
@@ -57,13 +58,16 @@ tdk/io/ip/address.cpp\
 tdk/io/ip/socket.cpp\
 \
 tdk/io/eventfd.cpp \
+tdk/io/timerfd.cpp \
 tdk/io/buffer_adapter.cpp \
 tdk/io/engine_epoll.cpp \
+tdk/io/engine_scheduler_linux.cpp \
 tdk/io/operation.cpp \
 tdk/io/ip/tcp/socket_epoll.cpp \
 tdk/io/ip/tcp/operation/connect_operation_epoll.cpp \
 tdk/io/ip/tcp/operation/send_operation_epoll.cpp \
-tdk/io/ip/tcp/operation/recv_operation_epoll.cpp
+tdk/io/ip/tcp/operation/recv_operation_epoll.cpp \
+tdk/io/ip/tcp/operation/accept_operation_epoll.cpp
 
 
 
@@ -88,7 +92,8 @@ test.tdk.linux/test_tdk_error.cpp \
 test.tdk.linux/test_tdk_io_ip_address.cpp \
 test.tdk.linux/test_tdk_io_socket.cpp \
 test.tdk.linux/test_tdk_io_engine_epoll.cpp \
-test.tdk.linux/test_epoll_multithread.cpp 
+test.tdk.linux/test_epoll.cpp \
+test.tdk.linux/test_echo.cpp
                       
 TEST_TDK_LINUX_OBJS = $(TEST_TDK_LINUX_SRCS:%.cpp=$(TEST_TDK_LINUX_OBJS_DIR)/%.o)                      
 TEST_TDK_LINUX      = $(TEST_TDK_LINUX_OBJS_DIR)/test.tdk.linux.app

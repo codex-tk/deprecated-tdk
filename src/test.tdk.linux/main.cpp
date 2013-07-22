@@ -7,7 +7,8 @@
 #include <tdk/error/error_platform.hpp>
 #include <tdk/io/eventfd.hpp>
 #include <tdk/io/ip/socket.hpp>
-
+#include <tdk/io/timerfd.hpp>
+#include <thread>
 int main( int argc , char* argv[] ) {
 
     testing::InitGoogleTest( &argc , argv );
@@ -19,6 +20,37 @@ int main( int argc , char* argv[] ) {
     tdk::log::writer_ptr ptr = tdk::log::stderr_writer::instance();
     logger.add_writer( ptr );
 
+/*    int fd = epoll_create(1);
+
+    tdk::io::timerfd tfd;
+   
+    epoll_event evt;
+    evt.events = EPOLLIN;
+
+    int ret = epoll_ctl( fd , EPOLL_CTL_ADD , tfd.handle() , &evt );
+    printf( "%d %d %d %s\r\n" , ret , errno , tdk::platform::error().value() ,  tdk::platform::error().message().c_str());
+
+
+
+    tfd.set( tdk::date_time::utc() + tdk::time_span::from_seconds(100));
+    std::thread t( [&] {
+        LOG_D( logger , "Begin %s" , tdk::date_time::local().to_string().c_str());
+        ret =  epoll_wait( fd ,  &evt , 1 , -1 );
+        uint64_t val = 0;
+
+        int ret = read( tfd.handle() , &val , sizeof(val));
+        LOG_D( logger , "end %d %d %s" , ret , val ,  tdk::date_time::local().to_string().c_str());
+        });
+
+    getchar();
+
+    tfd.set( tdk::date_time::utc() - tdk::time_span::from_seconds(101));
+
+    printf( "Set!!\r\n");
+
+    getchar();
+    return 0;
+  */  
     LOG_D( logger , "test %s" , "test1" );
     return RUN_ALL_TESTS();
 /*

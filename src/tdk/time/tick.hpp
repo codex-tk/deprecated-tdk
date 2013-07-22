@@ -74,6 +74,7 @@ public:
 
 #elif defined( linux ) || defined ( __linux )
     static uint64_t from( const timespec& ts );
+    static timespec to_timespec( const uint64_t v );
 #elif defined ( __MACOSX__ ) || defined ( __APPLE__ ) 
 
 #else

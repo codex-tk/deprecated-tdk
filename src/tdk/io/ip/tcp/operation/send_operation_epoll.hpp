@@ -24,6 +24,7 @@ public:
 	tdk::io::ip::tcp::socket& socket( void );
 
 	const tdk::io::buffer_adapter& buffer_adapter( void );
+    tdk::io::buffer_adapter write_buffer( void );
 private:
 	tdk::io::ip::tcp::socket* _socket;
 	tdk::io::buffer_adapter _buffer_adapter;
