@@ -41,7 +41,10 @@ int operation::io_bytes( void ) {
 
 int operation::io_bytes( int i ) {
 #if defined( _WIN32 )    
-	std::swap( i , Offset );
+	DWORD val = Offset;
+	Offset = i;
+	i = val;
+	//std::swap( i , Offset );
 #else
     std::swap( i , _io_bytes );
 #endif    

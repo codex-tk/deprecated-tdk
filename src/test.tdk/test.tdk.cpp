@@ -9,7 +9,9 @@
 #include <tdk/log/logger.hpp>
 #include <tdk/log/writer/console_writer.hpp>
 #include <tdk/network/address.hpp>
+#include <tdk/network/socket.hpp>
 #include <tdk.task/task/event_loop.hpp>
+#include <thread>
 
 #if defined ( _DEBUG )
 	#pragma comment( lib , "gtest_x86_debug_mtdd")
@@ -27,7 +29,6 @@
 #include <iostream>
 #include <string>
 #include <atomic>
-
 #include <gtest/gtest.h>
 
 int _tmain(int argc, _TCHAR* argv[])
@@ -40,10 +41,46 @@ int _tmain(int argc, _TCHAR* argv[])
 
 	tdk::init();
 
-	//CoInitialize( nullptr );
-
 	tdk::log::logger log(L"test.logger");
 	log.add_writer( tdk::log::console_writer::instance() );
+
+	std::vector< std::thread* > thread;
+	for ( int i = 0 ; i < 10 ; ++i ) {
+		std::thread* t = new std::thread(
+			[&]{
+				tdk::network::socket fd;
+				if ( fd.open_tcp( AF_INET )) {
+					LOG_D( log , "Open TCP" );
+					if ( fd.connect_time_out( tdk::network::address( "192.168.0.3" , 10012 )
+						, 1000 ))
+					{
+						LOG_D( log , "Connect" );
+						char msg[] = "aaa";
+						while( fd.send_time_out( msg , 3 , 2000 )){
+							//LOG_D( log , "Send" );
+							char buf[1024];
+							if ( !fd.recv_time_out( buf , 3 , 2000 )){
+								LOG_D( log , "Recv Fail" );
+								break;
+							}
+							Sleep(1000);
+							//LOG_D( log , "Recv" );
+						}
+					}
+				}
+				LOG_E( log , "End" );
+		});
+	}
+	getchar();
+	
+
+	//CoInitialize( nullptr );
+
+	
+
+
+	//tdk::log::logger log(L"test.logger");
+	//log.add_writer( tdk::log::console_writer::instance() );
 	LOG_D( log , _T("ÇÑ±Û %d") , 1 );	
 	LOG_D( log , "%s" , tdk::platform::error(0).message().c_str());
 	LOG_D( log , _T("%s") , tdk::platform::error(0).message().c_str() );
