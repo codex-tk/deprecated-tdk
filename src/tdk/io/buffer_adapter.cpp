@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include <tdk/io/buffer_adapter.hpp>
 #include <string.h>
 

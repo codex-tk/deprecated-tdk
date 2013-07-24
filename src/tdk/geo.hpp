@@ -1,6 +1,8 @@
 #ifndef __tdk_geo_h__
 #define __tdk_geo_h__
-
+#if defined ( _WIN32 )
+#include <algorithm>
+#endif
 namespace tdk {
 
 struct size {

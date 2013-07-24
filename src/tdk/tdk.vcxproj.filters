@@ -72,6 +72,7 @@
     <ClCompile Include="error\error_category_platform.cpp" />
     <ClCompile Include="threading\spin_lock.cpp" />
     <ClCompile Include="threading\thread_local.cpp" />
+    <ClCompile Include="io\buffer_adapter.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="buffer\array.hpp" />

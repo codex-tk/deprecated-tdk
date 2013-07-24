@@ -237,6 +237,7 @@
     <ClCompile Include="crypto\sha1.cpp" />
     <ClCompile Include="device\display_win32.cpp" />
     <ClCompile Include="device\monitor_win32.cpp" />
+    <ClCompile Include="io\buffer_adapter.cpp" />
     <ClCompile Include="io\engine_tcp_win32.cpp" />
     <ClCompile Include="io\engine_scheduler_win32.cpp" />
     <ClCompile Include="io\engine_scheduler_timer_win32.cpp" />

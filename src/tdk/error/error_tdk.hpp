@@ -8,8 +8,17 @@ namespace tdk {
 const std::error_category& category( void );
 std::error_code error( tdk::errc ec );
 
+#if defined ( _WIN32 ) 
+
+#elif defined( linux ) || defined ( __linux )
 const std::error_category& epoll_category( void );
 std::error_code epoll_error( int err );
+#elif defined ( __MACOSX__ ) || defined ( __APPLE__ ) 
+
+#else
+
+#endif
+
 
 extern std::error_code tdk_success;
 extern std::error_code tdk_tls_not_initialized;
