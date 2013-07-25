@@ -3,6 +3,7 @@
 #include <tdk/util/string.hpp>
 #include <map>
 #include <stdarg.h>
+#include <tdk/buffer/memory_block.hpp>
 
 namespace tdk{
 namespace log{
@@ -103,7 +104,75 @@ void logger::write(
 	}	
 }
 
-#else
+#endif
+void logger::write_dump( 
+		tdk::log::level level
+		, const char* file 
+		, const int line 
+		, const char* function 
+        , uint8_t* buffer 
+        , int sz
+		, const char* msg
+		, ... )
+{
+    if ( level < _impl->level ) {
+        return;
+    }
+    if ( msg != nullptr ) {
+        /*tdk::log::record log_record( level , _impl->category,file,line,function );
+		va_list args;
+		va_start( args , msg );
+		int len = vsnprintf( log_record.message , k_log_buffer_size , msg , args );
+		va_end( args );
+		_write( log_record );
+        */
+        tdk::buffer::memory_block hex_msg( sz * 4 );
+        struct i_to_hex {
+            static void convert( uint8_t ch , char* out ) {
+                static std::string map("0123456789ABCDEF");
+                uint8_t lower_idx = ch % 0x0f;
+                uint8_t upper_idx = ch / 0x0f % 0x0f;
+                out[0] = map[upper_idx];
+                out[1] = map[lower_idx];
+            }
+        };
+        hex_msg.write(":");
+        for ( int i = 0; i < sz ; ++i ) {
+            char out_buf[2];
+            i_to_hex::convert( buffer[i] , out_buf ); 
+            hex_msg.write( out_buf , 2 );
+            switch( i % 16 ){
+                case 15:
+                    hex_msg.write("\r\n");
+                case 7:
+                    hex_msg.write(" ");
+                case 3:
+                case 11:
+                    hex_msg.write(" ");
+                default:
+                    hex_msg.write(" ");
+            }
+        }
+        char end = '\0';
+        hex_msg.write( &end , 1 );
+        bool first = true;
+        while ( hex_msg.length() > 0 ) {
+            tdk::log::record log_record( level , _impl->category,file,line,function );
+            int len = 0;
+            if ( first ) {
+                first = false;
+                va_list args;
+                va_start( args , msg );
+                len = vsnprintf( log_record.message , k_log_buffer_size , msg , args );
+                va_end( args );
+            }
+            len += hex_msg.read( log_record.message + len , k_log_buffer_size - len - 1 );
+            log_record.message[len] = '\0';
+            _write( log_record );
+        }
+    }
+}
+
 void logger::write( 
 		tdk::log::level level
 		, const char* file 
@@ -124,7 +193,6 @@ void logger::write(
 		_write( log_record );
 	}	
 }
-#endif
 
 void logger::_write( const tdk::log::record& r ) {	
 	tdk::threading::scoped_lock<> guard( _impl->lock );

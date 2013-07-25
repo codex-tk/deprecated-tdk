@@ -20,6 +20,24 @@ int main( int argc , char* argv[] ) {
     tdk::log::writer_ptr ptr = tdk::log::stderr_writer::instance();
     logger.add_writer( ptr );
 
+    char msg[] = "12345";
+
+    char buf[65535];
+    for ( int i = 0 ; i < 65535 ; ++i ) {
+        buf[i]=i;
+    }
+    
+    LOG_DUMP_D
+        ( logger 
+          , (uint8_t*)buf
+          , 65535
+          , "test" 
+          , "" );
+
+
+
+    
+    return 0;
 /*    int fd = epoll_create(1);
 
     tdk::io::timerfd tfd;
