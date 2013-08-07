@@ -119,15 +119,35 @@ void logger::write_dump(
         return;
     }
     if ( msg != nullptr ) {
+<<<<<<< HEAD
+=======
+        /*tdk::log::record log_record( level , _impl->category,file,line,function );
+		va_list args;
+		va_start( args , msg );
+		int len = vsnprintf( log_record.message , k_log_buffer_size , msg , args );
+		va_end( args );
+		_write( log_record );
+        */
+>>>>>>> fdaab56abf5a115cd96df3c1b80da6fde47f8d7a
         tdk::buffer::memory_block hex_msg( sz * 4 );
         struct i_to_hex {
             static void convert( uint8_t ch , char* out ) {
                 static std::string map("0123456789ABCDEF");
+<<<<<<< HEAD
                 out[0] = map[ch/16];
                 out[1] = map[ch%16];
             }
         };
         hex_msg.write("\r\n");
+=======
+                uint8_t lower_idx = ch % 0x0f;
+                uint8_t upper_idx = ch / 0x0f % 0x0f;
+                out[0] = map[upper_idx];
+                out[1] = map[lower_idx];
+            }
+        };
+        hex_msg.write(":");
+>>>>>>> fdaab56abf5a115cd96df3c1b80da6fde47f8d7a
         for ( int i = 0; i < sz ; ++i ) {
             char out_buf[2];
             i_to_hex::convert( buffer[i] , out_buf ); 
@@ -135,7 +155,10 @@ void logger::write_dump(
             switch( i % 16 ){
                 case 15:
                     hex_msg.write("\r\n");
+<<<<<<< HEAD
                     break;
+=======
+>>>>>>> fdaab56abf5a115cd96df3c1b80da6fde47f8d7a
                 case 7:
                     hex_msg.write(" ");
                 case 3:
@@ -145,8 +168,13 @@ void logger::write_dump(
                     hex_msg.write(" ");
             }
         }
+<<<<<<< HEAD
         hex_msg.write( "\r\n");
         hex_msg << '\0';
+=======
+        char end = '\0';
+        hex_msg.write( &end , 1 );
+>>>>>>> fdaab56abf5a115cd96df3c1b80da6fde47f8d7a
         bool first = true;
         while ( hex_msg.length() > 0 ) {
             tdk::log::record log_record( level , _impl->category,file,line,function );
