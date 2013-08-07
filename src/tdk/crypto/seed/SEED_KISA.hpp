@@ -19,16 +19,12 @@
 /******************************* Type Definitions *****************************/
 
 // If your machine uses different data types, you must change them to proper ones.
+
 #ifndef TYPE_DEFINITION
-    #define TYPE_DEFINITION
-    #if defined(__alpha)
-        typedef unsigned int        DWORD;		// unsigned 4-byte data type
-        typedef unsigned short      WORD;		// unsigned 2-byte data type
-    #else
-        typedef unsigned long int   DWORD;		// unsigned 4-byte data type
-        typedef unsigned short int  WORD;		// unsigned 2-byte data type
-    #endif
-    typedef unsigned char           BYTE;		// unsigned 1-byte data type
+#define TYPE_DEFINITION
+typedef unsigned int        DWORD;		// unsigned 4-byte data type
+typedef unsigned short      WORD;		// unsigned 2-byte data type
+typedef unsigned char       BYTE;		// unsigned 1-byte data type
 #endif
 
 

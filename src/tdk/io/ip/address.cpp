@@ -205,6 +205,7 @@ std::string address::ip_address( void ) const {
 	return ip;
 }
 
+
 int address::port( void ) const {
 	return ntohs(((struct sockaddr_in*)sockaddr())->sin_port );
 }

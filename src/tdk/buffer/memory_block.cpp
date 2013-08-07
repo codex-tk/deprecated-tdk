@@ -197,5 +197,20 @@ std::size_t memory_block::write( const char* msg ) {
 	return write( const_cast<char*>(msg) , strlen(msg));
 }
 
+int memory_block::padding( int align , uint8_t val ) {
+    int mod = length() %  align;
+    if ( mod == 0 )
+        return 0;
+
+    int append = align - mod;
+    while ( append > 0 ) {
+        *this << val;    
+        --append;
+    }
+    return align-mod;
+}
+
+
+
 }}
 

@@ -217,6 +217,10 @@ void SeedRoundKey(
 	C = ((DWORD *)pbUserKey)[2];
 	D = ((DWORD *)pbUserKey)[3];
 	 
+#ifdef MY_LITTLE_ENDIAN
+//    printf( "little %d %dr\n" , sizeof( DWORD ), sizeof( WORD));
+#endif    
+
 // Reorder for big endian 
 #ifndef MY_BIG_ENDIAN
 	A = EndianChange(A);

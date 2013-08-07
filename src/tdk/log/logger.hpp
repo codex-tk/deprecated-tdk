@@ -17,11 +17,11 @@
 #define LOG_E( logger_instance , msg , ... ) do { logger_instance.write( tdk::log::level::log_error , _T(__FILE__) , __LINE__, _T(__FUNCTION__) , msg , __VA_ARGS__ ); } while(0)
 #define LOG_F( logger_instance , msg , ... ) do { logger_instance.write( tdk::log::level::log_fatal , _T(__FILE__) , __LINE__, _T(__FUNCTION__) , msg , __VA_ARGS__ ); } while(0)
 
-#define LOG_DUMP_D( logger_instance , buffer , sz , msg , ... ) do { logger_instance.write( tdk::log::level::log_debug ,  _T(__FILE__) ,__LINE__ ,_T( __FUNCTION__ ), buffer , sz , msg , __VA_ARGS__ ); } while(0)
-#define LOG_DUMP_I( logger_instance , buffer , sz , msg , ... ) do { logger_instance.write( tdk::log::level::log_info  ,  _T(__FILE__) ,__LINE__ ,_T( __FUNCTION__ ), buffer , sz , msg , __VA_ARGS__ ); } while(0)
-#define LOG_DUMP_W( logger_instance , buffer , sz , msg , ... ) do { logger_instance.write( tdk::log::level::log_warn  ,  _T(__FILE__) ,__LINE__ ,_T( __FUNCTION__ ), buffer , sz , msg , __VA_ARGS__ ); } while(0)
-#define LOG_DUMP_E( logger_instance , buffer , sz , msg , ... ) do { logger_instance.write( tdk::log::level::log_error ,  _T(__FILE__) ,__LINE__ ,_T( __FUNCTION__ ), buffer , sz , msg , __VA_ARGS__ ); } while(0)
-#define LOG_DUMP_F( logger_instance , bzuffer , sz , msg , ... ) do { logger_instance.write( tdk::log::level::log_fatal ,  _T(__FILE__) ,__LINE__ ,_T( __FUNCTION__ ), buffer , sz , msg , __VA_ARGS__ ); } while(0)
+#define LOG_DUMP_D( logger_instance , buffer , sz , msg , ... ) do { logger_instance.write_dump( tdk::log::level::log_debug ,  _T(__FILE__) ,__LINE__ ,_T( __FUNCTION__ ), buffer , sz , msg , __VA_ARGS__ ); } while(0)
+#define LOG_DUMP_I( logger_instance , buffer , sz , msg , ... ) do { logger_instance.write_dump( tdk::log::level::log_info  ,  _T(__FILE__) ,__LINE__ ,_T( __FUNCTION__ ), buffer , sz , msg , __VA_ARGS__ ); } while(0)
+#define LOG_DUMP_W( logger_instance , buffer , sz , msg , ... ) do { logger_instance.write_dump( tdk::log::level::log_warn  ,  _T(__FILE__) ,__LINE__ ,_T( __FUNCTION__ ), buffer , sz , msg , __VA_ARGS__ ); } while(0)
+#define LOG_DUMP_E( logger_instance , buffer , sz , msg , ... ) do { logger_instance.write_dump( tdk::log::level::log_error ,  _T(__FILE__) ,__LINE__ ,_T( __FUNCTION__ ), buffer , sz , msg , __VA_ARGS__ ); } while(0)
+#define LOG_DUMP_F( logger_instance , bzuffer , sz , msg , ... ) do { logger_instance.write_dump( tdk::log::level::log_fatal ,  _T(__FILE__) ,__LINE__ ,_T( __FUNCTION__ ), buffer , sz , msg , __VA_ARGS__ ); } while(0)
 
 namespace tdk{
 namespace log{
@@ -49,6 +49,16 @@ public:
 		, const char* file 
 		, const int line 
 		, const char* function 
+		, const char* msg
+		, ... );
+
+	void write_dump( 
+		tdk::log::level level
+		, const char* file 
+		, const int line 
+		, const char* function 
+        , uint8_t* buffer 
+        , int sz
 		, const char* msg
 		, ... );
 

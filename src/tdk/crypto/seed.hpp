@@ -8,19 +8,35 @@ namespace crypto {
 
 class seed{
 public: 
+    struct block{
+        uint8_t data[16];
+    };
+    struct block_ref{
+        uint8_t* data; // 16 byte
+    };
+
     seed( void );
     ~seed( void );
 
-    // userKey 는 128 bit 만 사용 한다.
-    // 성공시 0 실패시 -1
-    int open( void* userkey , int size );
+    void open( const block& key );
     void close( void );
     
-    // 128 bit 단위
-    bool encrypt( void* data , int size );
-    // 128 bit 단위
-    bool decrypt( void* data , int size );
+    void encrypt( block& b );
+    void decrypt( block& b );
 
+    void encrypt( block_ref& b );
+    void decrypt( block_ref& b );
+
+    int encrypt_size( int plain_sz );
+    bool encrypt_cbc( uint8_t* plain 
+            , int plain_sz
+            , uint8_t* cipher
+            , int* cipher_sz );
+
+    bool decrypt_cbc( uint8_t* cipher
+            , int cipher_sz
+            , uint8_t* plain
+            , int* plain_sz );
 private:
     DWORD roundKey_[32];
 };

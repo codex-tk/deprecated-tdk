@@ -2,9 +2,13 @@
 #include <tdk/tdk.hpp>
 #include <tdk/crypto/seed.hpp>
 #include <tdk/crypto/seed/SEED_KISA.hpp>
-
 namespace tdk {
 namespace crypto {
+namespace detail {
+
+static const int SEED_BLOCK_SIZE = 16;
+
+}
 
 seed::seed( void ){
     memset( roundKey_ , 0x00 , sizeof( DWORD ) * 32 );
@@ -13,50 +17,92 @@ seed::seed( void ){
 seed::~seed( void ){
 }
 
-int seed::open( void* userKey , int size ){
-    int keySize = std::min( size , 16 );
-    unsigned char key[16];
-    memset( key , 0x00 , sizeof( unsigned char ) * 16 );
-    memcpy( key , userKey , keySize );
-
-    SeedRoundKey( roundKey_ , key );
-    return 0;
+void seed::open( const seed::block& key_block  ){
+    close();
+    SeedRoundKey( roundKey_ ,const_cast<uint8_t*>( key_block.data ) );
 }
 
 void seed::close( void ){
     memset( roundKey_ , 0x00 , sizeof( DWORD ) * 32 );
 }
 
-bool seed::encrypt( void* data , int size ){
-    if ( size % 16 != 0 )  
+void seed::encrypt( seed::block& b ){
+    SeedEncrypt( b.data , roundKey_ );
+}
+
+void seed::decrypt( seed::block& b ){
+    SeedDecrypt( b.data , roundKey_ );
+}
+
+void seed::encrypt( seed::block_ref& b ) {
+    SeedEncrypt( b.data , roundKey_ );
+}
+
+void seed::decrypt( seed::block_ref& b ){
+    SeedDecrypt( b.data , roundKey_ );
+}
+
+int seed::encrypt_size( int plain_sz ) {
+    return plain_sz + ( detail::SEED_BLOCK_SIZE - ( plain_sz % detail::SEED_BLOCK_SIZE ));
+}
+
+bool seed::encrypt_cbc( uint8_t* plain 
+            , int plain_sz
+            , uint8_t* cipher
+            , int* cipher_sz )
+{
+    if ( cipher_sz == nullptr ) {
+        return false;
+    }
+    int encrypted_size = encrypt_size(plain_sz);
+    
+    if ( *cipher_sz < encrypted_size ) 
         return false;
     
-    int dataSize = size;
-    unsigned char* dataPtr = static_cast< unsigned char* >( data );
-    int writeSize = 0;
-    while ( dataSize >= 16 ) {
-        SeedEncrypt( dataPtr + writeSize , roundKey_ );
-        dataSize -= 16;
-        writeSize += 16;
-    }   
+    uint8_t padding = encrypted_size - plain_sz;
+    *cipher_sz = encrypted_size;
+    
+    if ( cipher != plain ) 
+        memcpy( cipher , plain , plain_sz );
+
+    for ( int i = plain_sz  
+            ; i < encrypted_size
+            ; ++i )
+    {
+        cipher[i]=padding;
+    }
+
+    int encrypted = 0;
+    while ( encrypted < encrypted_size ) {
+        SeedEncrypt( cipher + encrypted , roundKey_);
+        encrypted += detail::SEED_BLOCK_SIZE;
+    }
     return true;
 }
 
-bool seed::decrypt( void* data , int size ){
-    if ( size % 16 != 0 )  
-        return false;
-
-    int dataSize = size;
-    unsigned char* dataPtr = static_cast< unsigned char* >( data );
-    int writeSize = 0;
-    while ( dataSize >= 16 ) {
-        SeedDecrypt( dataPtr + writeSize , roundKey_ );
-        dataSize -= 16;
-        writeSize += 16;
-    }   
-    return true;
+bool seed::decrypt_cbc( uint8_t* cipher
+            , int cipher_sz
+            , uint8_t* plain
+            , int* plain_sz )
+{
+    int decrypted = 0;
+    uint8_t dec_buffer[detail::SEED_BLOCK_SIZE];
+    while (true){    
+        memcpy( dec_buffer , cipher + decrypted , detail::SEED_BLOCK_SIZE );
+        SeedDecrypt( dec_buffer , roundKey_ );
+        if ( decrypted + detail::SEED_BLOCK_SIZE < cipher_sz ) {
+            memcpy( plain + decrypted , dec_buffer , detail::SEED_BLOCK_SIZE );
+        } else {
+            uint8_t padding = dec_buffer[ detail::SEED_BLOCK_SIZE - 1 ];
+            int data_size = detail::SEED_BLOCK_SIZE - padding;
+            memcpy( plain + decrypted , dec_buffer , data_size );
+            *plain_sz = decrypted + data_size;
+            break;
+        }
+        decrypted += detail::SEED_BLOCK_SIZE;
+    }
+    return true;        
 }
-
 
 }
 }
