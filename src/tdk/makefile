@@ -43,6 +43,7 @@ log/formatter/formatter.cpp \
 log/formatter/string_formatter.cpp \
 log/writer/writer.cpp \
 log/writer/stderr_writer.cpp  \
+log/writer/file_writer.cpp \
 \
 buffer/allocator.cpp \
 buffer/buffer_base.cpp \
@@ -55,6 +56,7 @@ crypto/md5.cpp\
 crypto/crc32.cpp\
 crypto/seed.cpp\
 crypto/seed/SEED_KISA.cpp\
+crypto/padding.cpp\
 \
 io/ip/address.cpp\
 io/ip/socket.cpp\
@@ -69,7 +71,10 @@ io/ip/tcp/socket_epoll.cpp \
 io/ip/tcp/operation/connect_operation_epoll.cpp \
 io/ip/tcp/operation/send_operation_epoll.cpp \
 io/ip/tcp/operation/recv_operation_epoll.cpp \
-io/ip/tcp/operation/accept_operation_epoll.cpp
+io/ip/tcp/operation/accept_operation_epoll.cpp\
+\
+util/zlib.cpp\
+util/string.cpp    
 
 TARGET_OBJS=$(TARGET_SRCS:%.cpp=$(TARGET_OBJS_DIR)/%.o)
 

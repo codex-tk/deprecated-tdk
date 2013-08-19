@@ -62,8 +62,8 @@ engine::scheduler::~scheduler( void ) {
 void engine::scheduler::post( tdk::io::operation* op ) {
     tdk::threading::scoped_lock<> gaurd( _lock );
     _op_queue.add_tail( op );
-    _timerfd.set( tdk::date_time::utc());
     _engine.inc_posted();
+    _timerfd.set( tdk::date_time::utc());
 }
 
 tdk::io::operation* engine::scheduler::fetch( void ) {
@@ -131,14 +131,13 @@ void engine::scheduler::handle_event( int evt ) {
         drain_expired();
         drain_op_queue();
     }
+    set_wakeup_time();
     _engine.ctl( EPOLL_CTL_MOD
             , _timerfd.handle()
             , EPOLLIN | EPOLLET | EPOLLONESHOT 
             , &_context );
    
-    set_wakeup_time();
 }
-
 
 void engine::scheduler::set_wakeup_time(void){
     tdk::threading::scoped_lock<> gaurd( _lock );

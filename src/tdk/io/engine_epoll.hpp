@@ -30,11 +30,8 @@ public:
     bool ctl( int op ,  int fd , int ev , void* ptr );
 
     void post( tdk::io::operation* op , const std::error_code& ec );   
-//    void drain(void);
 
     void run( void );
-private:
-//    tdk::io::operation* fetch( void );
 public:
     template < typename T_handler >
     void post( const T_handler& h ) {
@@ -55,7 +52,6 @@ public:
     void inc_posted( void );
     void dec_posted( void );
 public:
-
 	class timer_operation : public operation 
 		, public tdk::rc_ptr_base< timer_operation >
 	{

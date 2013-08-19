@@ -1,16 +1,27 @@
 #include "stdafx.h"
 #include <tdk/log/writer/file_writer.hpp>
+#include <tdk/log/formatter/string_formatter.hpp>
+#include <tdk/util/string.hpp>
 #include <string>
-/*
-#include <caffe/config/env.hpp>
-#include <caffe/time/date_time.hpp>
-#include <caffe/threading/scoped_lock.hpp>
-#include <caffe/diag/caffe_error.hpp>
-#include <caffe/tools/string_op.hpp>
-*/
+
+#if defined ( _WIN32 )
+#else
+#include <errno.h>
+#include <unistd.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <dirent.h>
+#include <sys/param.h>
+#include <pwd.h>
+extern char* program_invocation_name;
+extern char* program_invocation_short_name;
+
+#endif
+
 namespace tdk {
 namespace log {
 
+#if defined ( _WIN32 )    
 file_writer::file_writer( const std::wstring name 
 		, const tdk::log::formatter_ptr& fmt ) 
 	: writer( fmt ) ,
@@ -139,5 +150,129 @@ void file_writer::_delete_old_logs( void ) {
 		FindClose( h );
 	}
 }
+
+#else
+file_writer::file_writer( void ) 
+	: writer( tdk::log::string_formatter::instance() ) ,
+	_file(nullptr) ,
+	_poxt_fix("") ,
+	_current_day(0) , 
+	_line_count(0) , 
+	_day_file_count(0){
+}
+
+file_writer::file_writer( const std::string name )
+	: writer( tdk::log::string_formatter::instance() ) ,
+	_file(nullptr) ,
+	_poxt_fix(name) ,
+	_current_day(0) , 
+	_line_count(0) , 
+	_day_file_count(0){
+}
+
+file_writer::file_writer( const std::string name 
+		, const tdk::log::formatter_ptr& fmt ) 
+	: writer( fmt ) ,
+	_file(nullptr) ,
+	_poxt_fix(name) ,
+	_current_day(0) , 
+	_line_count(0) , 
+	_day_file_count(0){
+}
+
+file_writer::~file_writer( void ) {
+
+}
+
+void file_writer::write( const record& r ) {
+	tdk::threading::scoped_lock<> guard(_lock);
+	tdk::time::tick::systemtime st 
+        = tdk::time::tick::to_systemtime( tdk::date_time::local().time() );
+	if( _file == nullptr || _current_day  != st.wDay || _line_count > 65535 ) {
+		if( _current_day != st.wDay ) {
+			_delete_old_logs();
+			_day_file_count = 0;
+		}
+		if( !_create_log_file() )
+			return ;
+
+		++_day_file_count;
+		_line_count = 0;
+        _current_day = st.wDay;
+	}
+    ++_line_count;
+	_formatter->format( r , _buffer );
+	fwrite( _buffer.rd_ptr() , 1 , _buffer.length() , _file  );
+	_buffer.clear();
+}
+
+bool file_writer::_create_log_file( void ) {
+    if ( _file != nullptr ) {
+        fclose( _file );
+    }
+    struct passwd* pw = getpwuid( getuid());
+    std::string path( pw->pw_dir );
+    path.append( "/logs/" );
+    mkdir( path.c_str() , 0755 );
+    path.append( program_invocation_short_name );
+    mkdir( path.c_str() , 0755 );
+
+	tdk::time::tick::systemtime st 
+        = tdk::time::tick::to_systemtime( tdk::date_time::local().time() );
+
+    tdk::string::append_format( path 
+            ,"/%04d%02d%02d_%02d%02d%02d_%04d_%s.log" 
+            , st.wYear , st.wMonth , st.wDay , st.wHour , st.wMinute , st.wSecond 
+            , _day_file_count 
+            , _poxt_fix.c_str() );
+    _file = fopen( path.c_str() , "wb" );
+	if( _file == nullptr )	
+        return false;
+    return true;
+}
+
+
+void file_writer::_delete_old_logs( void ) {
+    struct passwd* pw = getpwuid( getuid());
+    std::string path( pw->pw_dir );
+    path.append( "/logs/" );
+    path.append( program_invocation_short_name );
+
+    tdk::date_time sep_date( tdk::date_time::local() - tdk::time_span::from_days( 30 ) );
+	tdk::time::tick::systemtime st = tdk::time::tick::to_systemtime( sep_date.time() );
+    std::string delete_before;
+    tdk::string::append_format( delete_before 
+            ,"%04d%02d%02d" 
+            , st.wYear , st.wMonth , st.wDay );
+    struct stat statinfo;
+    if ( stat( path.c_str() , &statinfo ) != 0 ) {
+        return;
+    } 
+
+    if ( !S_ISDIR( statinfo.st_mode ) ) {
+        return;
+    }
+
+    DIR* dir = opendir( path.c_str()); 
+    if ( dir == nullptr )
+        return;
+
+    char full_path [4096];
+    struct dirent* ent = nullptr;
+    while ( ( ent = readdir( dir )) != nullptr ) {
+        sprintf( full_path , "%s/%s" , path.c_str() , ent->d_name );
+        if ( stat( full_path , &statinfo ) == 0 ) {
+            if ( !S_ISDIR( statinfo.st_mode )){
+                if ( std::string( ent->d_name ) < delete_before ) {
+                    remove( full_path );
+                }
+            }
+        }
+    }
+    closedir( dir );
+}
+
+
+#endif
 
 }}

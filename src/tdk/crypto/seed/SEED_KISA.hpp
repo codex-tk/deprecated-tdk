@@ -22,7 +22,9 @@
 
 #ifndef TYPE_DEFINITION
 #define TYPE_DEFINITION
+#if !defined( _WIN32)
 typedef unsigned int        DWORD;		// unsigned 4-byte data type
+#endif
 typedef unsigned short      WORD;		// unsigned 2-byte data type
 typedef unsigned char       BYTE;		// unsigned 1-byte data type
 #endif

@@ -104,7 +104,69 @@ void logger::write(
 	}	
 }
 
-#endif
+
+void logger::write_dump( 
+		tdk::log::level level
+		, const wchar_t* file 
+		, const int line 
+		, const wchar_t* function 
+        , uint8_t* buffer 
+        , int sz
+		, const wchar_t* msg
+		, ... )
+{
+    if ( level < _impl->level ) {
+        return;
+    }
+    if ( msg != nullptr ) {
+        tdk::buffer::memory_block hex_msg( sz * 4 );
+        struct i_to_hex {
+            static void convert( uint8_t ch , wchar_t* out ) {
+                static std::wstring map(L"0123456789ABCDEF");
+                out[0] = map[ch/16];
+                out[1] = map[ch%16];
+            }
+        };
+        hex_msg.write(L"\r\n");
+        for ( int i = 0; i < sz ; ++i ) {
+            wchar_t out_buf[2];
+            i_to_hex::convert( buffer[i] , out_buf ); 
+            hex_msg.write( out_buf , 2 );
+            switch( i % 16 ){
+                case 15:
+                    hex_msg.write(L"\r\n");
+                    break;
+                case 7:
+                    hex_msg.write(L" ");
+                case 3:
+                case 11:
+                    hex_msg.write(L" ");
+                default:
+                    hex_msg.write(L" ");
+            }
+        }
+        hex_msg.write( "L\r\n");
+        hex_msg << (wchar_t)'\0';
+        bool first = true;
+        while ( hex_msg.length() > 0 ) {
+			char fmt_buffer[k_log_buffer_size] = { 0 , };
+            tdk::log::record log_record( level , _impl->category,file,line,function );
+            int len = 0;
+            if ( first ) {
+                first = false;
+                va_list args;
+                va_start( args , msg );
+				_vsnwprintf_s( log_record.message , k_log_buffer_size , _TRUNCATE , msg , args );
+                va_end( args );
+            }
+            len += hex_msg.read( log_record.message + len , k_log_buffer_size - len - 1 );
+            log_record.message[len] = '\0';
+            _write( log_record );
+        }
+    }
+}
+#else 
+
 void logger::write_dump( 
 		tdk::log::level level
 		, const char* file 
@@ -185,7 +247,7 @@ void logger::write(
 		_write( log_record );
 	}	
 }
-
+#endif
 void logger::_write( const tdk::log::record& r ) {	
 	tdk::threading::scoped_lock<> guard( _impl->lock );
 #if defined( _WIN32 )
@@ -216,7 +278,7 @@ void logger::level( tdk::log::level l ) {
 	_impl->level = l;
 }
 
-void logger::add_writer( writer_ptr& writer ) {
+void logger::add_writer( const writer_ptr& writer ) {
 	_impl->writers.push_back( writer );
 }
 

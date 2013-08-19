@@ -85,7 +85,7 @@ public:
 	}*/
 
 	std::size_t write( const char* msg );
-
+	std::size_t write( const wchar_t* msg );
     int padding( int align , uint8_t val = 0 );
 private:
 	tdk::buffer::buffer_base _base;

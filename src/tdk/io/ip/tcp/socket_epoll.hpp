@@ -10,6 +10,9 @@
 #include <tdk/io/ip/tcp/operation/send_operation_epoll.hpp>
 #include <tdk/io/ip/tcp/operation/recv_operation_epoll.hpp>
 #include <tdk/io/ip/tcp/operation/accept_operation_epoll.hpp>
+#include <bitset>
+#include <limits>
+
 namespace tdk {
 namespace io {
 namespace ip {
@@ -17,28 +20,16 @@ namespace tcp {
 
 class socket : public tdk::io::ip::socket {
 public:
+    static class _init {
+    public:
+        _init( void );
+    } _initializer;
+public:
     typedef tdk::slist_queue< tdk::io::operation > op_queue;
-
+    
 	socket( tdk::io::engine& engine );
 	~socket( void );
 	tdk::io::engine& engine( void );
-
-    void async_close( tdk::io::operation* op );
-
-    template < typename T_handler >
-    void async_close( const T_handler& h ){
-        class op_base : public tdk::io::operation {
-        public:
-            op_base( tdk::io::operation::callback cb )
-                : operation( cb ){}
-            bool end_operation( void ){ return true; }
-        };
-        typedef tdk::io::detail::operation_impl<
-            T_handler , op_base , tdk::io::detail::dispatcher_none_param 
-            > handler_op;
-        handler_op* op = new handler_op( h );
-        async_close( (tdk::io::operation*)op );          
-    }
 
     void handle_event( int event );
     
@@ -69,19 +60,12 @@ public:
 
     void handle_connect( tdk::io::ip::tcp::connect_operation* op , int evt );
     void handle_accept( int evt );
-    void handle_error( op_queue& drain , const std::error_code& ec );
-    void handle_send( op_queue& drain );
-    void handle_recv( op_queue& drain );
+    void handle_error( const std::error_code& ec );
+    void handle_send( void );
+    void handle_recv( void );
     void handle_close( tdk::io::operation* op );
-    void handle_epollhup( op_queue& drain );
-    void handle_epollerr( op_queue& drain );
-    bool is_error_state( void );
-
-    bool register_handle_event( void );
-
-    void state_set( int s );
-    void state_clear( int s );
-    bool state_get( int s );
+    
+    void ctl_remain_events( void );
 
     bool open_accept( const  tdk::io::ip::address& addr );
 
@@ -90,6 +74,9 @@ private:
     bool _write( tdk::io::ip::tcp::send_operation* op );
     bool _read( tdk::io::ip::tcp::recv_operation* op);
     int  _accept( tdk::io::ip::address& addr );
+    void _drain( void );
+    bool _ctl( int type , int evt ); 
+    bool _ctl( int type , int evt , void* ctx );
 private:
     tdk::io::engine* _engine;
     tdk::io::engine::context _context;
@@ -98,7 +85,8 @@ private:
     op_queue _send_op_queue;
     op_queue _recv_op_queue;
     op_queue _accept_op_queue;
-    int _state;
+    op_queue _drain_op_queue;
+    std::bitset< std::numeric_limits< uint32_t >::digits > _state;
 };
 
 template < typename T_handler >

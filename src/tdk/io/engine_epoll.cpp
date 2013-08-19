@@ -65,7 +65,6 @@ void engine::dec_posted( void ) {
 
 void engine::run( void ) {
     while ( _posted.load() > 0 ) {
-        printf( "posted %d\r\n" , _posted.load());
         wait( tdk::time_span::infinite());
     }
 }

@@ -14,7 +14,23 @@ seed::seed( void ){
     memset( roundKey_ , 0x00 , sizeof( DWORD ) * 32 );
 }
 
+seed::seed( const block& key ){
+    memset( roundKey_ , 0x00 , sizeof( DWORD ) * 32 );
+    SeedRoundKey( roundKey_ ,const_cast<uint8_t*>( key.data ) );
+}
+
 seed::~seed( void ){
+}
+
+void seed::open( const char* key_msg ) {
+    block b;
+    memset( b.data , 0x00 , 16 );
+#if defined( _WIN32 )
+    strncpy_s((char*) b.data , 16 , key_msg , 16 );
+#else
+	strncpy((char*) b.data , key_msg , 16 );
+#endif
+    open( b );
 }
 
 void seed::open( const seed::block& key_block  ){
@@ -42,6 +58,33 @@ void seed::decrypt( seed::block_ref& b ){
     SeedDecrypt( b.data , roundKey_ );
 }
 
+void seed::encrypt( uint8_t* in , std::size_t insz 
+            , uint8_t* out ) 
+{
+    if ( in != out ) {
+        memcpy( out , in , insz );
+    }
+    std::size_t offset = 0;
+    while ( offset < insz ) {
+        SeedEncrypt( out + offset , roundKey_);
+        offset += detail::SEED_BLOCK_SIZE;
+    }
+}
+
+void seed::decrypt( uint8_t* in , std::size_t insz 
+            , uint8_t* out )
+{
+    if ( in != out ) {
+        memcpy( out , in , insz );
+    }
+    std::size_t offset = 0;
+    while ( offset < insz ) {
+        SeedDecrypt( out + offset , roundKey_);
+        offset += detail::SEED_BLOCK_SIZE;
+    }
+
+}
+/*
 int seed::encrypt_size( int plain_sz ) {
     return plain_sz + ( detail::SEED_BLOCK_SIZE - ( plain_sz % detail::SEED_BLOCK_SIZE ));
 }
@@ -72,6 +115,8 @@ bool seed::encrypt_cbc( uint8_t* plain
         cipher[i]=padding;
     }
 
+    printf( "enc padding %d\r\n" , padding );
+
     int encrypted = 0;
     while ( encrypted < encrypted_size ) {
         SeedEncrypt( cipher + encrypted , roundKey_);
@@ -94,6 +139,7 @@ bool seed::decrypt_cbc( uint8_t* cipher
             memcpy( plain + decrypted , dec_buffer , detail::SEED_BLOCK_SIZE );
         } else {
             uint8_t padding = dec_buffer[ detail::SEED_BLOCK_SIZE - 1 ];
+            printf( "dec padding %d \r\n" , padding );
             int data_size = detail::SEED_BLOCK_SIZE - padding;
             memcpy( plain + decrypted , dec_buffer , data_size );
             *plain_sz = decrypted + data_size;
@@ -103,6 +149,6 @@ bool seed::decrypt_cbc( uint8_t* cipher
     }
     return true;        
 }
-
+*/
 }
 }
