@@ -14,6 +14,7 @@ enum class errc {
 	tdk_network_remote_closed ,
     tdk_epoll_error , 
     tdk_epoll_hang_up ,
+    tdk_invalid_event ,
 	tdk_errc_end ,
 };
 

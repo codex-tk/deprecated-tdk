@@ -20,10 +20,8 @@ TARGET_LDFLAGS= -lpthread -L./../gtest -lgtest -L$(OBJS_DIR)/tdk -ltdk -lrt
 TARGET_DEPEND_FILE = $(TARGET_OBJS_DIR)/$(DEPEND_FILE)
 TARGET_SRCS= main.cpp test_tdk_date_time.cpp \
         test_tdk_error.cpp \
-        test_tdk_io_ip_address.cpp \
-        test_tdk_io_socket.cpp \
-        test_tdk_io_engine_epoll.cpp \
-        test_epoll_multithread.cpp 
+        test_tdk_loop.cpp
+
 TARGET_OBJS=$(TARGET_SRCS:%.cpp=$(TARGET_OBJS_DIR)/%.o)
 
 TARGET=$(TARGET_OBJS_DIR)/$(TARGET_NAME).out
@@ -34,7 +32,7 @@ $(TARGET_OBJS_DIR)/%.o : %.cpp
 	$(CXX) $(TARGET_CPPFLAGS) -c $< -o $@
 
 
-all: $(TARGET)
+all: $(TARGET) $(OBJS_DIR)/tdk/libtdk.a
 
 $(TARGET): $(TARGET_OBJS)
 	@echo "=====Link=$(TARGET)"

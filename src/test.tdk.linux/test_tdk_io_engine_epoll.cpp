@@ -30,8 +30,6 @@ TEST( tdk_io_engine , t1 ) {
     engine.post( [&] {
                 testval3 = 1;
             });
-
-
     engine.run();
 //    engine.wait( tdk::time_span::infinite());
 
@@ -78,7 +76,8 @@ void handle_send( tdk::io::ip::tcp::socket* s ,
 {
    if ( e ) {
        printf( "send error %s\r\n" , e.message().c_str());
-       s->async_close([]{});
+       s->close();
+      // s->async_close([]{});
    } else {
        printf( "send %d\r\n" , i );
    }
@@ -90,7 +89,8 @@ void handle_recv( tdk::io::ip::tcp::socket* s ,
         int i ) {
     if ( e ) {
         printf( "recv error %s\r\n" , e.message().c_str());
-        s->async_close([]{});
+        s->close();
+      //  s->async_close([]{});
         return;
     } else {
         printf( "recv %d\r\n" , i );
@@ -102,13 +102,15 @@ void handle_recv( tdk::io::ip::tcp::socket* s ,
                     handle_recv( s ,mb, e , i );
         });
     }
+
 }
 
 void handle_conn( tdk::io::ip::tcp::socket* s , 
         const std::error_code& e  ) {
     if ( e) {
         printf( "Connect Error %s\r\n" , e.message().c_str());
-        s->async_close([]{});
+        s->close();
+    //    s->async_close([]{});
         return;
     } else {
         printf( "Connect Success\r\n");

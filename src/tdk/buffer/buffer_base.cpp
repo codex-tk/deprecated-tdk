@@ -6,7 +6,11 @@ namespace tdk {
 namespace buffer {
 namespace detail {
 
-tdk::buffer::allocator lib_allocator;
+tdk::buffer::allocator* lib_allocator( void ) {
+    static tdk::buffer::allocator _allocator;
+    return &_allocator;
+}
+
 
 }
 
@@ -17,7 +21,7 @@ buffer_base::buffer_base( std::size_t sz
 	, _base( nullptr )
 {
 	if ( _allocator == nullptr ) {
-		_allocator = &detail::lib_allocator;
+		_allocator = detail::lib_allocator();
 	}
 	_base = _allocator->alloc( sizeof( std::atomic<int> ) + _size );
 	new (_base) std::atomic<int>;

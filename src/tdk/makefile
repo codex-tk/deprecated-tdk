@@ -74,7 +74,18 @@ io/ip/tcp/operation/recv_operation_epoll.cpp \
 io/ip/tcp/operation/accept_operation_epoll.cpp\
 \
 util/zlib.cpp\
-util/string.cpp    
+util/string.cpp\
+\
+loop/loop.cpp\
+loop/epoll.cpp\
+loop/req_base.cpp\
+io/ip/tcp/channel_linux.cpp\
+io/ip/tcp/req/connect_req.cpp\
+io/ip/tcp/req/read_req.cpp\
+io/ip/tcp/req/write_req.cpp\
+io/ip/tcp/req/close_req.cpp
+
+
 
 TARGET_OBJS=$(TARGET_SRCS:%.cpp=$(TARGET_OBJS_DIR)/%.o)
 

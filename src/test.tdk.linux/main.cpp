@@ -9,17 +9,22 @@
 #include <tdk/io/ip/socket.hpp>
 #include <tdk/io/timerfd.hpp>
 #include <thread>
+
 int main( int argc , char* argv[] ) {
 
     testing::InitGoogleTest( &argc , argv );
 
     tdk::init();
 
-    tdk::log::logger logger = tdk::log::logger::get_instance( "main");
+    tdk::log::logger logger = tdk::log::logger::get_instance("app");
 
     tdk::log::writer_ptr ptr = tdk::log::stderr_writer::instance();
     logger.add_writer( ptr );
 
+
+    LOG_D( "app", "test %s" , "test1" );
+    return RUN_ALL_TESTS();
+/*
     char msg[] = "12345";
 
     char buf[65535];
@@ -34,10 +39,7 @@ int main( int argc , char* argv[] ) {
           , "test" 
           , "" );
 
-
-
-    
-    return 0;
+*/
 /*    int fd = epoll_create(1);
 
     tdk::io::timerfd tfd;
@@ -69,8 +71,6 @@ int main( int argc , char* argv[] ) {
     getchar();
     return 0;
   */  
-    LOG_D( logger , "test %s" , "test1" );
-    return RUN_ALL_TESTS();
 /*
     int fd = epoll_create(1);
 

@@ -1,7 +1,36 @@
 #ifndef __list_node_h__
 #define __list_node_h__
 
+#include <iostream>
+
 namespace tdk {
+/*
+template < typename type >
+class list_node {
+public:
+    list_node( void ) 
+        : _next( nullptr )
+          , _prev( nullptr )
+    {
+    }
+
+    type* next( void ) {
+        return _next;
+    }
+    type* prev( void ){
+        return _prev;
+    }
+    void next( type* p ) {
+        std::swap( _next , p );                    
+    }
+    void prev( type* p ) {
+        std::swap( _prev , p );
+    }
+private:
+    type* _next;
+    type* _prev;
+};
+*/
 
 template < typename type >
 class slist_node {
