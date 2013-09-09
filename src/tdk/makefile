@@ -83,7 +83,9 @@ io/ip/tcp/channel_linux.cpp\
 io/ip/tcp/req/connect_req.cpp\
 io/ip/tcp/req/read_req.cpp\
 io/ip/tcp/req/write_req.cpp\
-io/ip/tcp/req/close_req.cpp
+io/ip/tcp/req/close_req.cpp\
+io/ip/tcp/req/accept_req.cpp\
+io/ip/tcp/acceptor_linux.cpp
 
 
 

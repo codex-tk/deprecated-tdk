@@ -205,3 +205,32 @@ TEST( loop , get ) {
     channel.async_connect( &req ,  addr );
     loop.run();
 }
+
+
+#include <tdk/io/ip/tcp/acceptor_linux.hpp>
+
+
+void on_accept( tdk::req_handle* r ) {
+    tdk::io::ip::tcp::accept_req* req = 
+        static_cast< tdk::io::ip::tcp::accept_req* >( r );
+    if ( req->error() ) {
+        printf( "OnAccept Error %s\r\n" , req->error().message().c_str());
+    } else {
+        printf( "OnAccept %s\r\n" , req->address().ip_address().c_str());
+    }
+    close( req->accepted_fd());
+    tdk::io::ip::tcp::acceptor* a = 
+        static_cast< tdk::io::ip::tcp::acceptor* >( r->data());
+    a->close();
+}
+
+
+TEST( loop , accept ) {
+    tdk::loop loop;
+    tdk::io::ip::tcp::acceptor acceptor( loop );
+    EXPECT_TRUE(acceptor.open( tdk::io::ip::address::any( 9999 ) 
+                , &on_accept
+                , &acceptor ));
+
+    loop.run();
+}
