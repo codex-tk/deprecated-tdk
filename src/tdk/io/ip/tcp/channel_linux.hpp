@@ -36,6 +36,16 @@ public:
     void async_close( close_req* req );
 
     socket_layer_type& socket_layer( void );
+
+    void open( int fd );
+    
+    template < typename T_handler >
+    void async_read( const tdk::io::buffer_adapter& buffer 
+            , const T_handler& handler  );
+
+    template < typename T_handler >
+    void async_write( const tdk::io::buffer_adapter& buffer 
+            , const T_handler& handler  );
 public:
     void do_connect( connect_req* req );
     void do_write( write_req* req );
@@ -62,7 +72,71 @@ private:
     tdk::slist_queue< tdk::req_handle > _read_reqs;
     tdk::slist_queue< tdk::req_handle > _write_reqs;
     tdk::slist_queue< tdk::req_handle > _complete_queue;
-};
+};  
+
+template < typename T_handler >
+void channel::async_read( const tdk::io::buffer_adapter& buffer 
+        , const T_handler& handler )
+{
+    class read_req_impl : public read_req {
+    public:
+        read_req_impl( const T_handler& handler )
+            : _handler( handler )
+        {
+            set( _on_read , nullptr );          
+        }
+
+        ~read_req_impl( void ) {
+
+        }
+
+        void on_read( void ) {
+            _handler( *this );
+            delete this;
+        }
+
+        static void _on_read( tdk::req_handle* h ) {
+            static_cast< read_req_impl* >(h)->on_read();
+        }
+    private:
+        T_handler _handler;
+    };
+    read_req_impl* impl = new read_req_impl( handler );
+    async_read( impl , buffer );
+}
+
+
+template < typename T_handler >
+void channel::async_write( const tdk::io::buffer_adapter& buffer 
+        , const T_handler& handler )
+{
+    class write_req_impl : public write_req {
+    public:
+        write_req_impl( const T_handler& handler )
+            : _handler( handler )
+        {
+            set( _on_write , nullptr );          
+        }
+
+        ~write_req_impl( void ) {
+
+        }
+
+        void on_write( void ) {
+            _handler( *this );
+            delete this;
+        }
+
+        static void _on_write( tdk::req_handle* h ) {
+            static_cast< write_req_impl* >(h)->on_write();
+        }
+    private:
+        T_handler _handler;
+    };
+    write_req_impl* impl = new write_req_impl( handler );
+    async_write( impl , buffer );
+}
+
 
 }}}}
 

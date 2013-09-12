@@ -289,6 +289,8 @@ bool channel::handle_read( void ){
         } else {
             _read_reqs.pop_front();
             req->io_bytes( readsize );
+            if ( readsize == 0 )
+                req->error( tdk::tdk_network_remote_closed );
             _complete_queue.add_tail( req );
         }
     }
@@ -355,6 +357,10 @@ bool channel::is_closed( void ) {
     return _socket.handle() == INVALID_SOCKET;
 }
    
+void channel::open( int fd ) {
+    _socket.handle( fd );
+}
+
 }}}}
 
 
