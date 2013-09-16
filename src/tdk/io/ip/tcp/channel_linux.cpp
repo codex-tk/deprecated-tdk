@@ -204,13 +204,20 @@ void channel::handle_error( const std::error_code& err ) {
     if ( _socket.handle() != INVALID_SOCKET ) 
         _loop->implementation().unreg( _socket.handle());
     _socket.close(); 
-    while ( !_read_reqs.is_empty()){
-        tdk::io::ip::tcp::read_req* req = static_cast< 
-                tdk::io::ip::tcp::read_req* >(_read_reqs.front());
-        _read_reqs.pop_front();
+    while ( !_write_reqs.is_empty()){
+        tdk::io::ip::tcp::write_req* req = static_cast< 
+            tdk::io::ip::tcp::write_req* >(_write_reqs.front());
+        _write_reqs.pop_front();
         req->error( err );
         _complete_queue.add_tail( req );
     }
+    while ( !_read_reqs.is_empty()){
+        tdk::io::ip::tcp::read_req* req = static_cast< 
+            tdk::io::ip::tcp::read_req* >(_read_reqs.front());
+        _read_reqs.pop_front();
+        req->error( err );
+        _complete_queue.add_tail( req );
+    }   
 }
 
 bool channel::reg( void ) {
