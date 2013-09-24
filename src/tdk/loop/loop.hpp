@@ -23,6 +23,8 @@ public:
     ~loop( void );
 
     impl_type& implementation( void );
+    tdk::timer_scheduler& scheduler( void );
+
 
     void add_active( void );
     void remove_active( void );

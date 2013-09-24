@@ -1,6 +1,5 @@
 #include <tdk/loop/timer_scheduler.hpp>
 #include <tdk/error/error_platform.hpp>
-
 #include <algorithm>
 
 namespace tdk {
@@ -46,14 +45,18 @@ void timer_scheduler::drain( void ) {
     }
 }
 
-tdk::date_time timer_scheduler::wakeup_at( void ) {
+tdk::time_span timer_scheduler::wake_up_after( void ) {
     if (!_cancels.empty()){
-        return tdk::date_time::utc();
+        return tdk::time_span::from_seconds(0);
     }
     if (!_reqs.empty()){
-        return _reqs.front()->expired_at();
+        tdk::date_time now = tdk::date_time::utc();
+        if ( now > _reqs.front()->expired_at()){
+            return tdk::time_span::from_seconds(0); 
+        }
+        return _reqs.front()->expired_at() - now;
     }
-    return tdk::date_time::utc() + tdk::time_span::from_seconds(100);
+    return tdk::time_span::from_seconds(100);
 }
 
 }

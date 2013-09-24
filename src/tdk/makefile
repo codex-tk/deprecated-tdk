@@ -76,11 +76,11 @@ io/ip/tcp/operation/accept_operation_epoll.cpp\
 util/zlib.cpp\
 util/string.cpp\
 \
-loop/loop.cpp\
-loop/epoll.cpp\
 loop/req_base.cpp\
 loop/timer_req.cpp\
 loop/timer_scheduler.cpp\
+loop/epoll.cpp\
+loop/loop.cpp\
 \
 io/ip/tcp/channel_linux.cpp\
 io/ip/tcp/req/connect_req.cpp\

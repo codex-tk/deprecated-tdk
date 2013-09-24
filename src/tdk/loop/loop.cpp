@@ -34,6 +34,10 @@ loop::impl_type& loop::implementation( void ) {
     return _impl;
 }
 
+tdk::timer_scheduler& loop::scheduler( void ) {
+    return _scheduler;
+}
+
 void loop::add_active( void ) {
     _active_handles.fetch_add(1);
 }
@@ -45,8 +49,7 @@ void loop::remove_active( void ) {
 void loop::run( void ) {
     detail::current_loop().set( this );
     while ( _active_handles.load()){
-        printf( "Active %d\r\n" , _active_handles.load());
-        _impl.wait( tdk::time_span::infinite());
+        _impl.wait( _scheduler.wake_up_after());
         _run_reqs();
     }
     detail::current_loop().set( nullptr );

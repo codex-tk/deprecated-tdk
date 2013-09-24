@@ -1,8 +1,7 @@
 #ifndef __loop_epoll_h__
 #define __loop_epoll_h__
 
-#include <tdk/time/time_span.hpp>
-#include <tdk/loop/req_base.hpp>
+#include <tdk/loop/timer_req.hpp>
 
 namespace tdk {
 
