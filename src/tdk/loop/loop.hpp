@@ -8,6 +8,9 @@
 #if defined ( linux ) || defined( __linux )
 #include <tdk/loop/epoll.hpp>
 #endif
+
+#include <tdk/loop/timer_scheduler.hpp>
+
 namespace tdk {
 
 class loop {
@@ -40,6 +43,7 @@ private:
     std::atomic<int> _active_handles;    
     tdk::threading::spin_lock _lock;
     tdk::slist_queue< tdk::req_handle > _req_queue;
+    tdk::timer_scheduler _scheduler;
 };
 
 template < typename T_handler >

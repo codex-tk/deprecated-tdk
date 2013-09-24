@@ -79,6 +79,9 @@ util/string.cpp\
 loop/loop.cpp\
 loop/epoll.cpp\
 loop/req_base.cpp\
+loop/timer_req.cpp\
+loop/timer_scheduler.cpp\
+\
 io/ip/tcp/channel_linux.cpp\
 io/ip/tcp/req/connect_req.cpp\
 io/ip/tcp/req/read_req.cpp\
