@@ -145,7 +145,7 @@ void logger::write_dump(
                     hex_msg.write(L" ");
             }
         }
-        hex_msg.write( "L\r\n");
+        hex_msg.write( L"\r\n");
         hex_msg << (wchar_t)'\0';
         bool first = true;
         while ( hex_msg.length() > 0 ) {
@@ -159,7 +159,7 @@ void logger::write_dump(
 				_vsnwprintf_s( log_record.message , k_log_buffer_size , _TRUNCATE , msg , args );
                 va_end( args );
             }
-            len += hex_msg.read( log_record.message + len , k_log_buffer_size - len - 1 );
+            len += (int)hex_msg.read( log_record.message + len , k_log_buffer_size - len - 1 );
             log_record.message[len] = '\0';
             _write( log_record );
         }
