@@ -11,7 +11,7 @@ namespace ip {
 namespace tcp {
 
 class channel;    
-class close_req : public tdk::req_handle {
+class close_req : public tdk::io_req_handle{
 public:
     close_req( void );
     ~close_req( void );

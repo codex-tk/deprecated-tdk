@@ -14,9 +14,9 @@ public:
     void cancel( tdk::timer_req* req );
     void drain( void );
     tdk::time_span wake_up_after( void );
+    bool is_empty(void);
 private:
     std::list< tdk::timer_req* > _reqs;
-    std::list< tdk::timer_req* > _cancels;
 };
 
 }

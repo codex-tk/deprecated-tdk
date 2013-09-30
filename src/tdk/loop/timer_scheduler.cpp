@@ -13,6 +13,10 @@ timer_scheduler::~timer_scheduler( void ) {
 }
 
 void timer_scheduler::schedule( tdk::timer_req* req ) {
+    if ( _reqs.empty() ) {
+        _reqs.push_back( req );
+        return;
+    }
     std::list<tdk::timer_req*>::iterator it = 
         std::upper_bound( _reqs.begin() , _reqs.end() , req ,
             []( tdk::timer_req* v , tdk::timer_req* cmp )->bool{
@@ -24,31 +28,23 @@ void timer_scheduler::schedule( tdk::timer_req* req ) {
 void timer_scheduler::cancel( tdk::timer_req* req ) {
     auto it = std::find( _reqs.begin() , _reqs.end() , req );
     if ( it != _reqs.end() ) {
-        _cancels.push_back( *it );
         _reqs.erase( it );
     }
 }
 
 void timer_scheduler::drain( void ) {
-    while ( !_cancels.empty()){
-        tdk::timer_req* r = _cancels.front();
-        _cancels.pop_front();
-        r->error( tdk::platform::error( ECANCELED ));
-        r->invoke();
-    }
     while( !_reqs.empty()){
         tdk::timer_req* r = _reqs.front();
-        if ( r->expired_at() >= tdk::date_time::utc()){
+        if ( r->expired_at() <= tdk::date_time::utc()){
             _reqs.pop_front();
             r->invoke();
+        } else {
+            return;
         }
     }
 }
 
 tdk::time_span timer_scheduler::wake_up_after( void ) {
-    if (!_cancels.empty()){
-        return tdk::time_span::from_seconds(0);
-    }
     if (!_reqs.empty()){
         tdk::date_time now = tdk::date_time::utc();
         if ( now > _reqs.front()->expired_at()){
@@ -56,7 +52,11 @@ tdk::time_span timer_scheduler::wake_up_after( void ) {
         }
         return _reqs.front()->expired_at() - now;
     }
-    return tdk::time_span::from_seconds(100);
+    return tdk::time_span::from_seconds(1);
+}
+
+bool timer_scheduler::is_empty( void ) {
+    return _reqs.empty();
 }
 
 }

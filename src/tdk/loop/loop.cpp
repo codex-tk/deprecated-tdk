@@ -48,9 +48,18 @@ void loop::remove_active( void ) {
 
 void loop::run( void ) {
     detail::current_loop().set( this );
-    while ( _active_handles.load()){
-        _impl.wait( _scheduler.wake_up_after());
+    while ( _active_handles.load()
+            || !_scheduler.is_empty()){
+        tdk::time_span wait_time = _scheduler.wake_up_after();
+        do {
+            tdk::threading::scoped_lock<> guard( _lock );
+            if ( !_req_queue.is_empty()) {
+                wait_time = tdk::time_span::from_seconds(0);
+            }
+        }while(0);
+        _impl.wait( wait_time );
         _run_reqs();
+        _scheduler.drain();
     }
     detail::current_loop().set( nullptr );
 }

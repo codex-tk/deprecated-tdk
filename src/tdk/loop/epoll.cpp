@@ -42,7 +42,6 @@ void epoll::reg_req( tdk::req_handle* req ) {
 }
 
 void epoll::wait( const tdk::time_span& ts ) {
-    printf( "Cnt %d\r\n" , _reg_reqs.count());
     while ( !_reg_reqs.is_empty()){
         tdk::req_handle* req = _reg_reqs.front();
         _reg_reqs.pop_front();

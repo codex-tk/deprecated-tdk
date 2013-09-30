@@ -51,20 +51,20 @@ int _tmain(int argc, _TCHAR* argv[])
 				tdk::network::socket fd;
 				if ( fd.open_tcp( AF_INET )) {
 					LOG_D( log , "Open TCP" );
-					if ( fd.connect_time_out( tdk::network::address( "192.168.0.3" , 10012 )
+					if ( fd.connect_time_out( tdk::network::address( "192.168.0.3" , 9999 )
 						, 1000 ))
 					{
 						LOG_D( log , "Connect" );
 						char msg[] = "aaa";
 						while( fd.send_time_out( msg , 3 , 2000 )){
-							//LOG_D( log , "Send" );
+							LOG_D( log , "Send" );
 							char buf[1024];
 							if ( !fd.recv_time_out( buf , 3 , 2000 )){
 								LOG_D( log , "Recv Fail" );
 								break;
 							}
+							LOG_D( log , "Recv" );
 							Sleep(1000);
-							//LOG_D( log , "Recv" );
 						}
 					}
 				}

@@ -38,7 +38,15 @@ public:
     socket_layer_type& socket_layer( void );
 
     void open( int fd );
-    
+
+    template < typename T_handler >
+    void async_connect( const tdk::io::ip::address& addr
+            , const T_handler& handler );
+
+    template < typename T_handler >
+    void async_close( const std::error_code& ec 
+            , const T_handler& handler );
+
     template < typename T_handler >
     void async_read( const tdk::io::buffer_adapter& buffer 
             , const T_handler& handler  );
@@ -74,34 +82,39 @@ private:
     tdk::slist_queue< tdk::req_handle > _complete_queue;
 };  
 
+namespace detail {
+
+template < typename T_handler , typename T_base >
+class req_impl : public T_base {
+public:
+    req_impl( const T_handler& handler )
+        : _handler( handler )
+    {
+        this->set( _on_req , nullptr );
+    }
+    ~req_impl( void ) {
+    }
+
+    void on_req( void ) {
+        _handler( *this );
+        delete this;
+    }
+
+    static void _on_req( tdk::req_handle* h ) {
+        static_cast< req_impl* >(h)->on_req();
+    }
+private:
+    T_handler _handler;
+};
+
+}
+
 template < typename T_handler >
 void channel::async_read( const tdk::io::buffer_adapter& buffer 
         , const T_handler& handler )
 {
-    class read_req_impl : public read_req {
-    public:
-        read_req_impl( const T_handler& handler )
-            : _handler( handler )
-        {
-            set( _on_read , nullptr );          
-        }
-
-        ~read_req_impl( void ) {
-
-        }
-
-        void on_read( void ) {
-            _handler( *this );
-            delete this;
-        }
-
-        static void _on_read( tdk::req_handle* h ) {
-            static_cast< read_req_impl* >(h)->on_read();
-        }
-    private:
-        T_handler _handler;
-    };
-    read_req_impl* impl = new read_req_impl( handler );
+    detail::req_impl< T_handler , read_req >* impl =
+        new detail::req_impl< T_handler , read_req >( handler );
     async_read( impl , buffer );
 }
 
@@ -110,31 +123,27 @@ template < typename T_handler >
 void channel::async_write( const tdk::io::buffer_adapter& buffer 
         , const T_handler& handler )
 {
-    class write_req_impl : public write_req {
-    public:
-        write_req_impl( const T_handler& handler )
-            : _handler( handler )
-        {
-            set( _on_write , nullptr );          
-        }
-
-        ~write_req_impl( void ) {
-
-        }
-
-        void on_write( void ) {
-            _handler( *this );
-            delete this;
-        }
-
-        static void _on_write( tdk::req_handle* h ) {
-            static_cast< write_req_impl* >(h)->on_write();
-        }
-    private:
-        T_handler _handler;
-    };
-    write_req_impl* impl = new write_req_impl( handler );
+    detail::req_impl< T_handler , write_req >* impl =
+        new detail::req_impl< T_handler , write_req >( handler );
     async_write( impl , buffer );
+}
+
+template < typename T_handler >
+void channel::async_connect( const tdk::io::ip::address& addr
+            , const T_handler& handler )
+{
+    detail::req_impl< T_handler , connect_req >* impl =
+        new detail::req_impl< T_handler , connect_req >( handler );
+    async_connect( impl , addr );
+}
+
+template < typename T_handler >
+void channel::async_close( const std::error_code& ec
+        , const T_handler& handler ) {
+    detail::req_impl< T_handler , close_req >* impl =
+        new detail::req_impl< T_handler , close_req >( handler );
+    impl->error( ec );
+    async_close( impl );
 }
 
 
