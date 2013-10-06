@@ -25,6 +25,11 @@ int _tmain(int argc, _TCHAR* argv[])
 
 	tdk::date_time dt = tdk::date_time::local();
 
+	tdk::date_time old( 2013 , 7 , 1 , 0 , 0 , 0 );
+	tdk::date_time now( 2013 , 10 , 6 , 0 , 0 , 0 );
+
+	int days = (now-old).total_days();
+
 	std::string data = dt.to_string();
 
 

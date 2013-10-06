@@ -73,6 +73,8 @@
     <ClCompile Include="threading\spin_lock.cpp" />
     <ClCompile Include="threading\thread_local.cpp" />
     <ClCompile Include="io\buffer_adapter.cpp" />
+    <ClCompile Include="event_loop\task.cpp" />
+    <ClCompile Include="event_loop\io_task.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="buffer\array.hpp" />
@@ -157,6 +159,13 @@
     <ClInclude Include="alloc.hpp" />
     <ClInclude Include="tmp\compile_time_error.hpp" />
     <ClInclude Include="util\initializer.hpp" />
+    <ClInclude Include="event_loop\event_loop.hpp" />
+    <ClInclude Include="event_loop\task.hpp" />
+    <ClInclude Include="event_loop\io_task.hpp" />
+    <ClInclude Include="event_loop\io\epoll.hpp" />
+    <ClInclude Include="event_loop\io\iocp.hpp" />
+    <ClInclude Include="event_loop\io\select.hpp" />
+    <ClInclude Include="event_loop\scheduler.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="crypto\seed\SEED_KISA.tab" />

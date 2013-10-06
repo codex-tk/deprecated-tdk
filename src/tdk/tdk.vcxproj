@@ -406,6 +406,13 @@
     <ClInclude Include="crypto\sha1.hpp" />
     <ClInclude Include="device\display_win32.hpp" />
     <ClInclude Include="device\monitor_win32.hpp" />
+    <ClInclude Include="event_loop\event_loop.hpp" />
+    <ClInclude Include="event_loop\io\epoll.hpp" />
+    <ClInclude Include="event_loop\io\iocp.hpp" />
+    <ClInclude Include="event_loop\io\select.hpp" />
+    <ClInclude Include="event_loop\io_task.hpp" />
+    <ClInclude Include="event_loop\scheduler.hpp" />
+    <ClInclude Include="event_loop\task.hpp" />
     <ClInclude Include="geo.hpp" />
     <ClInclude Include="io\engine_detail.hpp" />
     <ClInclude Include="io\engine_scheduler_timer_win32.hpp" />
@@ -489,6 +496,8 @@
     <ClCompile Include="crypto\sha1.cpp" />
     <ClCompile Include="device\display_win32.cpp" />
     <ClCompile Include="device\monitor_win32.cpp" />
+    <ClCompile Include="event_loop\io_task.cpp" />
+    <ClCompile Include="event_loop\task.cpp" />
     <ClCompile Include="io\buffer_adapter.cpp" />
     <ClCompile Include="io\engine_tcp_win32.cpp" />
     <ClCompile Include="io\engine_scheduler_win32.cpp" />
