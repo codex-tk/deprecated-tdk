@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include <tdk/error/error_category_epoll.hpp>
 #include <tdk/util/string.hpp>
 
