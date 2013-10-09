@@ -10,6 +10,7 @@
 
 #include <tdk/io/ip/socket.hpp>
 #include <tdk/event_loop/event_loop.hpp>
+#include <tdk/event_loop/io/ip/tcp/connect_task.hpp>
 
 #include <vector>
 
@@ -23,8 +24,10 @@ public:
 	channel( tdk::event_loop& loop );
 	~channel();
 
-	void connect( std::vector<tdk::io::ip::address>& addrs );
+	void connect( std::vector<tdk::io::ip::address>& addrs
+			, tdk::io::ip::tcp::connect_task* ct );
 
+	void connect_impl( void );
 
 	void handle_io_event( void );
 	void handle_connect_event( void );
@@ -35,7 +38,6 @@ private:
 
 	tdk::slist_queue< tdk::task > _read_tasks;
 	tdk::slist_queue< tdk::task > _write_tasks;
-	tdk::slist_queue< tdk::task > _complete_tasks;
 };
 
 }}}}

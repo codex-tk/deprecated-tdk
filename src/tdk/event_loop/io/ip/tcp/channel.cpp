@@ -15,8 +15,6 @@ namespace tcp {
 static void channel_connect_handler( tdk::task* t);
 static void channel_io_handler( tdk::task* t);
 
-
-
 channel::channel( tdk::event_loop& loop )
 	: _loop( &loop )
 	, _channel_task( &channel_io_handler , this )
@@ -28,7 +26,16 @@ channel::~channel() {
 
 }
 
-void channel::connect(std::vector<tdk::io::ip::address>& addrs ) {
+void channel::connect(std::vector<tdk::io::ip::address>& addrs
+		, tdk::io::ip::tcp::connect_task* ct )
+{
+	_channel_task.set_handler( &channel_connect_handler , this );
+	ct->bind(addrs);
+	_write_tasks.add_tail(static_cast< tdk::task* >(ct));
+	connect_impl();
+}
+
+void channel::connect_impl( void ) {
 
 }
 

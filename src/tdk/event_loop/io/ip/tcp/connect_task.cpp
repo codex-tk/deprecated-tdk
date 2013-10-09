@@ -16,8 +16,18 @@ connect_task::connect_task() {
 
 }
 
+connect_task::connect_task( tdk::task::handler h , void* ctx )
+	: io_task( h , ctx )
+{
+
+}
+
 connect_task::~connect_task() {
 
+}
+
+void connect_task::bind( std::vector< tdk::io::ip::address>& addr ) {
+	_addrs = addr;
 }
 
 } /* namespace tcp */
