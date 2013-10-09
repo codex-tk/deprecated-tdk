@@ -43,8 +43,8 @@ void string_formatter::format(  const record& r , tdk::buffer::memory_block& m )
 		, r.function_name
 		, r.file_name
 		, r.line_number
-        , r.process_id
-        , r.thread_id
+       , r.process_id
+       , (int)r.thread_id
 		);
 	m.wr_ptr( len );
 }

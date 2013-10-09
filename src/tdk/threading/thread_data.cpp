@@ -6,7 +6,7 @@ namespace tdk {
 namespace threading {
 namespace detail {
 
-tdk::threading::thread_local< tdk::threading::data* > thread_data;
+tdk::threading::thread_local_storage< tdk::threading::data* > thread_data;
 
 }
 

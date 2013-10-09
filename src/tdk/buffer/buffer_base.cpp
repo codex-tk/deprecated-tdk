@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include <tdk/buffer/buffer_base.hpp>
 #include <algorithm>
+#include <stdexcept>
 
 namespace tdk {
 namespace buffer {
@@ -16,9 +17,9 @@ tdk::buffer::allocator* lib_allocator( void ) {
 
 buffer_base::buffer_base( std::size_t sz 
 	, tdk::buffer::allocator* alloc ) 
-	: _allocator( alloc )
+	: _base( nullptr )
 	, _size( sz )
-	, _base( nullptr )
+	, _allocator( alloc )
 {
 	if ( _allocator == nullptr ) {
 		_allocator = detail::lib_allocator();
@@ -32,12 +33,12 @@ buffer_base::buffer_base( std::size_t sz
 buffer_base::buffer_base( void* base 
 	, std::size_t sz 
 	, tdk::buffer::allocator* alloc )
-	: _allocator( alloc )
+	: _base( base )
 	, _size( sz )
-	, _base( base )
+	, _allocator( alloc )
 {
 	/*
-	allocator == nullptr ÀÎ °æ¿ì¿¡´Â buffer_base ¿¡¼­ °ü¸®ÇÏÁö ¾ÊÀ½
+	allocator == nullptr ï¿½ï¿½ ï¿½ï¿½ì¿¡ï¿½ï¿½ buffer_base ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	*/
 }
 

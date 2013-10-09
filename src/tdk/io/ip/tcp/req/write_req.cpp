@@ -6,7 +6,9 @@ namespace io {
 namespace ip {
 namespace tcp {
 
-write_req::write_req( void ){
+write_req::write_req( void )
+	: _channel(nullptr)
+{
 
 }
 
@@ -29,12 +31,13 @@ tdk::io::buffer_adapter write_req::write_buffer( void ) {
     tdk::io::buffer_adapter buffer;
     const tdk::io::buffer_adapter::buffer_type* impl = _buffer.buffers();
     int count = _buffer.count();
-    int writed = io_bytes();
+    std::size_t writed = io_bytes();
     for ( int i = 0 ; i < count ; ++i ) {
         if ( impl[i].iov_len <= writed ) {
             writed -= impl->iov_len;
         } else {
-            buffer.push_back( impl[i].iov_base + writed , impl[i].iov_len - writed );
+            buffer.push_back( static_cast< uint8_t*>(impl[i].iov_base) + writed
+            		, impl[i].iov_len - writed );
             writed = 0;
         }
     }

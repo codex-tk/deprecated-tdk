@@ -18,6 +18,8 @@ public:
 	int schedule( void );
 
 	void schedule( tdk::slist_queue< tdk::timer_task >& expireds );
+
+	tdk::time_span schedule_after( void );
 private:
     std::list< tdk::timer_task* > _timer_tasks;
 };

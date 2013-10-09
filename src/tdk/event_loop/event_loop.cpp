@@ -4,7 +4,8 @@
 namespace tdk {
 
 event_loop::event_loop( void ) 
-	: _thread_id( std::this_thread::get_id())
+	: _active_handles(0)
+	, _thread_id( std::this_thread::get_id())
 {
 
 }
@@ -19,8 +20,9 @@ void event_loop::execute( tdk::task* t ) {
 	} else {
 		tdk::threading::scoped_lock<> guard( _lock );
 		_tasks_thread.add_tail( t );
-		// impl.wake_up;
 	}
+	_active_handles.fetch_add(1);
+	_io_impl.wake_up();
 }
 
 bool event_loop::in_loop( void ) {
@@ -43,7 +45,7 @@ bool event_loop::cancel( tdk::timer_task* tt ) {
 void event_loop::run( void ) {
 	_thread_id = std::this_thread::get_id();
 	while ( _active_handles.load() ) {
-		//_impl.wait();
+		_io_impl.wait(_scheduler.schedule_after());
 		int cnt = _scheduler.schedule();
 		cnt += _run_tasks();
 		_active_handles.fetch_sub( cnt );

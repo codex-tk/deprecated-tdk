@@ -2,6 +2,9 @@
 #define __tdk_buffer_marshal_h__
 
 #include <tdk/tdk.hpp>
+#if defined( linux ) || defined( __linux__ )
+#include <endian.h>
+#endif
 
 namespace tdk {
 namespace buffer {
@@ -60,7 +63,11 @@ struct host_to_network {
 	static R value( T t );
 
 	template<> static uint64_t value( uint64_t value ) {
+#if defined( _WIN32 )
 		return htonll( value );
+#else
+		return htobe64( value );
+#endif
 	}
 
 	template<> static uint32_t value( uint32_t value ) {
@@ -72,11 +79,19 @@ struct host_to_network {
 	}
 
 	template<> static uint64_t value( double value ) {
+#if defined( _WIN32 )
 		return htond( value );
+#else
+		return htobe64( (uint64_t)value );
+#endif
 	}
 
 	template<> static uint32_t value( float value ) {
+#if defined( _WIN32 )
 		return htonf( value );
+#else
+		return htonl( (uint32_t) value );
+#endif
 	}
 };
 
@@ -85,7 +100,12 @@ struct network_to_host {
 	static R value( T t );
 
 	template <> static uint64_t value( uint64_t value ) {
+
+#if defined( _WIN32 )
 		return ntohll( value );
+#else
+		return be64toh( value );
+#endif
 	}
 
 	template <> static uint32_t value( uint32_t value ) {
@@ -95,10 +115,19 @@ struct network_to_host {
 		return ntohs( value );
 	}
 	template <> static double value( uint64_t value ) {
+#if defined( _WIN32 )
 		return ntohd( value );
+#else
+		return (double)be64toh( value );
+#endif
+
 	}
 	template <> static float value( uint32_t value ) {
+#if defined( _WIN32 )
 		return ntohf( value );
+#else
+		return (float)ntohl(  value );
+#endif
 	}
 };
 }

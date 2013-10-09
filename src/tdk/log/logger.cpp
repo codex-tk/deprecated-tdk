@@ -190,40 +190,48 @@ void logger::write_dump(
             }
         };
         hex_msg.write("\r\n");
-        for ( int i = 0; i < sz ; ++i ) {
-            char out_buf[2];
-            i_to_hex::convert( buffer[i] , out_buf ); 
-            hex_msg.write( out_buf , 2 );
-            switch( i % 16 ){
-                case 15:
-                    hex_msg.write("\r\n");
-                    break;
-                case 7:
-                    hex_msg.write(" ");
-                case 3:
-                case 11:
-                    hex_msg.write(" ");
-                default:
-                    hex_msg.write(" ");
-            }
-        }
-        hex_msg.write( "\r\n");
-        hex_msg << '\0';
-        bool first = true;
-        while ( hex_msg.length() > 0 ) {
-            tdk::log::record log_record( level , _impl->category,file,line,function );
-            int len = 0;
-            if ( first ) {
-                first = false;
-                va_list args;
-                va_start( args , msg );
-                len = vsnprintf( log_record.message , k_log_buffer_size , msg , args );
-                va_end( args );
-            }
-            len += hex_msg.read( log_record.message + len , k_log_buffer_size - len - 1 );
-            log_record.message[len] = '\0';
-            _write( log_record );
-        }
+		for (int i = 0; i < sz; ++i) {
+			char out_buf[2];
+			i_to_hex::convert(buffer[i], out_buf);
+			hex_msg.write(out_buf, 2);
+			int iii = i % 16;
+			if (iii == 15) {
+				hex_msg.write("\r\n");
+			} else {
+				hex_msg.write(" ");
+				switch( iii ) {
+				case 3:
+					hex_msg.write("   ");
+					break;
+				case 7:
+					hex_msg.write("    ");
+					break;
+				case 11:
+					hex_msg.write("   ");
+					break;
+				}
+			}
+		}
+		hex_msg.write("\r\n");
+		hex_msg << '\0';
+		bool first = true;
+		while (hex_msg.length() > 0) {
+			tdk::log::record log_record(level, _impl->category, file, line,
+					function);
+			int len = 0;
+			if (first) {
+				first = false;
+				va_list args;
+				va_start(args, msg);
+				len = vsnprintf(log_record.message, k_log_buffer_size, msg,
+						args);
+				va_end(args);
+			}
+			len += hex_msg.read(log_record.message + len,
+					k_log_buffer_size - len - 1);
+			log_record.message[len] = '\0';
+			_write(log_record);
+		}
     }
 }
 
@@ -242,7 +250,7 @@ void logger::write(
 		tdk::log::record log_record( level , _impl->category , file , line  , function );
 		va_list args;
 		va_start( args , msg );
-		int len = vsnprintf( log_record.message , k_log_buffer_size , msg , args );
+		vsnprintf( log_record.message , k_log_buffer_size , msg , args );
 		va_end( args );
 		_write( log_record );
 	}	

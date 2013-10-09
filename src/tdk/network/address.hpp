@@ -3,7 +3,7 @@
 
 namespace tdk{
 namespace network{
-		
+#if defined ( __WIN32 )
 class address {
 public:
 	address( void );
@@ -64,7 +64,7 @@ public:
 
 bool operator==( const address& lhs , const address& rhs ) ;
 bool operator!=( const address& lhs , const address& rhs ) ;
-
+#endif
 }}
 
 

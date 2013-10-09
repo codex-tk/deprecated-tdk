@@ -3,13 +3,17 @@
 
 namespace tdk {
 
-io_task::io_task( void ) 
+io_task::io_task( void )
+	:_error( std::error_code())
+	, _io_bytes(0)
 {
 
 }
 
 io_task::io_task( task::handler h , void* ctx )
-	: task( h , ctx ) {
+	: task( h , ctx )
+	, _error( std::error_code())
+	, _io_bytes(0){
 
 }
 

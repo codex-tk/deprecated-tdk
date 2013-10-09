@@ -29,7 +29,7 @@ void timer_task::error( const std::error_code& ec ) {
 	_error = ec;
 }
 
-void timer_task::expried_at( const tdk::date_time& dt ) {
+void timer_task::expired_at( const tdk::date_time& dt ) {
 	_expired_at = dt;
 }
 

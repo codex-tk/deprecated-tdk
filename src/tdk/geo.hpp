@@ -20,20 +20,28 @@ struct rect {
 	void set( A& a , const B& b ) const {
 		a.left = b.left;	a.top = b.top; a.right = b.right; a.bottom = b.bottom;
 	}
-
+#if defined( __WIN32 )
 	rect( const RECT& r ) { set( *this , r); }
-	rect( const rect& r ) { set( *this , r); }
 	rect& operator=( const RECT& r ) { set( *this , r); return *this; }
+	RECT to_RECT( void ) const  {
+			RECT r;
+			set( r , *this );
+			return r;
+		}
+#endif
+
+	rect( const rect& r )
+		: left( r.left )
+		, top( r.top )
+		, right( r.right )
+		, bottom( r.bottom )
+	{
+
+	}
 	rect& operator=( const rect& r ) { set( *this , r); return *this; }
 
 	explicit rect( const int l = 0 , const int t = 0 , const int r = 0 , const int b = 0 ) {
 		left = l; top = t; right = r; bottom = b;
-	}
-
-	RECT to_RECT( void ) const  {
-		RECT r;
-		set( r , *this );
-		return r;
 	}
 
 	int width( void ) const {

@@ -1,6 +1,9 @@
 #ifndef __tdk_util_conf_h__
 #define __tdk_util_conf_h__
 
+#include <tdk.hpp>
+#include <map>
+
 namespace tdk { 
 namespace util {
 

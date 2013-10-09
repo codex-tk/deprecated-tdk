@@ -193,7 +193,7 @@ static T_char* rtrim( T_char* message , T_char ch = ' ' ){
     }
     return message;
 }
-
+#if defined ( _WIN32 )
 static bool is_hangul( wchar_t ch );
 
 class hangul {
@@ -211,7 +211,7 @@ private:
 };
 
 static hangul extract_hangul( wchar_t ch );
-
+#endif
 }}
 
 #endif

@@ -10,8 +10,8 @@ accept_operation::accept_operation( tdk::io::operation::callback cb
 		, tdk::io::ip::tcp::socket& listenfd
 		, tdk::io::ip::tcp::socket& fd)
 		: tdk::io::operation( cb )
-		, _socket( &fd )
 		, _listen_socket( &listenfd )
+		, _socket( &fd )
 {
 
 }

@@ -6,9 +6,9 @@
 namespace tdk {
 namespace detail {
 
-static tdk::threading::thread_local< tdk::loop* >& 
+static tdk::threading::thread_local_storage< tdk::loop* >&
     current_loop( void ) {
-    static tdk::threading::thread_local< tdk::loop* > _instance;
+    static tdk::threading::thread_local_storage< tdk::loop* > _instance;
     return _instance;
 }
    

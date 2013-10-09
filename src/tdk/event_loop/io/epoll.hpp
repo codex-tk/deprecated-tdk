@@ -3,6 +3,7 @@
 
 #include <tdk/event_loop/io_task.hpp>
 #include <tdk/time/time_span.hpp>
+#include <sys/epoll.h>
 
 namespace tdk {
 namespace io {
@@ -10,15 +11,17 @@ namespace io {
 class epoll{
 public:
 	class task : public io_task {
-	protected:
-		~task( void );
 	public:
 		task( void );
+		task( tdk::task::handler h , void* ctx = nullptr );
+		~task( void );
 
 		int evt( void );
 		void evt( int e );
+
+		epoll_event* impl( void );
 	private:
-		//epoll_event _evt;
+		epoll_event _evt;
 	};
 
 	class event_fd_task : public epoll::task {

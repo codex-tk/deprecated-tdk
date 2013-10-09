@@ -41,8 +41,8 @@ static void on_reg( tdk::req_handle* req ){
     chan->handle_reg();
 }
 
-static tdk::threading::thread_local<channel*>& current_channel() {   
-    static tdk::threading::thread_local< channel* > chan;
+static tdk::threading::thread_local_storage<channel*>& current_channel() {
+    static tdk::threading::thread_local_storage< channel* > chan;
     return chan;
 }
 

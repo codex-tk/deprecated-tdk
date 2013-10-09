@@ -43,7 +43,7 @@ int engine::wait( const tdk::time_span& ts ){
             , ts.total_milli_seconds());
 
     if ( nev == -1 ) {
-        std::error_code ec = tdk::platform::error();
+        //std::error_code ec = tdk::platform::error();
     } else {
         for ( int i = 0 ; i < nev; ++i ){
             epoll_event* ev = events + i;

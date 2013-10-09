@@ -5,9 +5,9 @@
 
 namespace tdk { namespace threading {
 /*
-	thread local storage ÀÇ ±¸Çö
-	window ÀÇ ±¸ÇöÀº TlsAlloc , TlsFree , TlsSetValue , TlsGetValue À¸·Î ±¸Çö ¿Ï·á
-	ÀÌ¿ÜÀÇ ÇÃ·§ÆûÀº pthread ¸¦ ÀÌ¿ëÇØ ±¸ÇöÇÒ ¿¹Á¤
+	thread local storage ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+	window ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ TlsAlloc , TlsFree , TlsSetValue , TlsGetValue ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ï·ï¿½
+	ï¿½Ì¿ï¿½ï¿½ï¿½ ï¿½Ã·ï¿½ï¿½ï¿½ï¿½ï¿½ pthread ï¿½ï¿½ ï¿½Ì¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 */
 class thread_local_impl {
 public:
@@ -32,15 +32,15 @@ private:
 };
 
 /*
-	object type À» °¡Áö´Â thread local storage 
+	object type ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ thread local storage 
 */
 template < typename object_type >
-class thread_local {
+class thread_local_storage {
 public:
-	thread_local( void ) {
+	thread_local_storage( void ) {
 		STATIC_CHECK( sizeof( object_type ) <= sizeof( void* ) , object_type_too_big );
 	}
-	~thread_local( void ) {}
+	~thread_local_storage( void ) {}
 	
 	object_type get( void ) {	
 		return reinterpret_cast< object_type >( _impl.get() );

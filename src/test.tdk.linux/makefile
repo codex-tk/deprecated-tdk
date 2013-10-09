@@ -18,9 +18,7 @@ TARGET_OBJS_DIR=$(OBJS_DIR)/$(TARGET_NAME)
 TARGET_CPPFLAGS=-std=c++11 -I./ -I./../ -I./../gtest/include $(DBG_FLAGS) 
 TARGET_LDFLAGS= -lpthread -L./../gtest -lgtest -L$(OBJS_DIR)/tdk -ltdk -lrt
 TARGET_DEPEND_FILE = $(TARGET_OBJS_DIR)/$(DEPEND_FILE)
-TARGET_SRCS= main.cpp test_tdk_date_time.cpp \
-        test_tdk_error.cpp \
-        test_tdk_loop.cpp
+TARGET_SRCS= main.cpp 
 
 TARGET_OBJS=$(TARGET_SRCS:%.cpp=$(TARGET_OBJS_DIR)/%.o)
 

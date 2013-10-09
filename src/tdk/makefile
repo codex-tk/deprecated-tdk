@@ -64,33 +64,11 @@ io/ip/socket.cpp\
 io/eventfd.cpp \
 io/timerfd.cpp \
 io/buffer_adapter.cpp \
-io/engine_epoll.cpp \
-io/engine_scheduler_linux.cpp \
-io/operation.cpp \
-io/ip/tcp/socket_epoll.cpp \
-io/ip/tcp/operation/connect_operation_epoll.cpp \
-io/ip/tcp/operation/send_operation_epoll.cpp \
-io/ip/tcp/operation/recv_operation_epoll.cpp \
-io/ip/tcp/operation/accept_operation_epoll.cpp\
 \
-util/zlib.cpp\
-util/string.cpp\
-\
-loop/req_base.cpp\
-loop/timer_req.cpp\
-loop/timer_scheduler.cpp\
-loop/epoll.cpp\
-loop/loop.cpp\
-\
-io/ip/tcp/channel_linux.cpp\
-io/ip/tcp/req/connect_req.cpp\
-io/ip/tcp/req/read_req.cpp\
-io/ip/tcp/req/write_req.cpp\
-io/ip/tcp/req/close_req.cpp\
-io/ip/tcp/req/accept_req.cpp\
-io/ip/tcp/acceptor_linux.cpp
-
-
+event_loop/task.cpp\
+event_loop/io_task.cpp\
+event_loop/timer_task.cpp\
+event_loop/scheduler.cpp\
 
 TARGET_OBJS=$(TARGET_SRCS:%.cpp=$(TARGET_OBJS_DIR)/%.o)
 
@@ -122,7 +100,6 @@ depend:
 
 echo:
 	echo $(OBJS)
-
 
 
 ifneq ($(MAKECMDGOALS), clean)

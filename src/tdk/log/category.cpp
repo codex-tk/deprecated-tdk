@@ -5,8 +5,8 @@ namespace tdk {
 namespace log {
 
 category::category( const tdk::tstring& name )
-	: _name( name ) 
-	, _hash(0)
+	: _hash(0)
+	, _name( name )
 {
 	for ( std::size_t i = 0 ; i < name.length() ; ++i ) {
 		_hash += name[i];

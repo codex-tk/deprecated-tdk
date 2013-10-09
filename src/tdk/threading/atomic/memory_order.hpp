@@ -29,12 +29,14 @@ class memory_order
 {
 
 };
-
+/*
+ *
+ * eclipse cdt build modify
 static memory_order< acquire	, no_release	> memory_order_acquire;
 static memory_order< no_acquire , no_release	> memory_order_no_barrier;
 static memory_order< no_acquire	, release		> memory_order_release;
 static memory_order< acquire	, release		> memory_order_barrier;
-
+*/
 template < typename T_order >
 struct auto_barrier {
 public:

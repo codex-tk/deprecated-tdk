@@ -22,14 +22,14 @@ public:
 	event_loop( void );
 	~event_loop( void );
 	
-	// thread 처리
+	// thread safe
 	void execute( tdk::task* t );
 
 	void run( void );
 	
 	bool in_loop( void );
 
-	// loop 쓰레드 내에서만 호출
+	// inner loop call only
 	void schedule( tdk::timer_task* tt );
 	bool cancel( tdk::timer_task* tt );
 private:
@@ -41,6 +41,10 @@ private:
 	tdk::slist_queue< tdk::task > _tasks;
 	tdk::slist_queue< tdk::task > _tasks_thread;
 	std::thread::id _thread_id;
+#if defined( linux ) || defined( __linux__ )
+	tdk::io::epoll _io_impl;
+#endif
+
 };
 
 }

@@ -6,7 +6,7 @@
 
 namespace tdk {
 namespace network {
-	
+#if defined ( __WIN32 )
 class socket {
 public:
 	template < int V_family , int V_type , int V_protocol >
@@ -195,7 +195,7 @@ public:
 
 bool operator==( const socket& rhs , const socket& lhs );
 bool operator!=( const socket& rhs , const socket& lhs ) ;
-
+#endif
 }}
 
 

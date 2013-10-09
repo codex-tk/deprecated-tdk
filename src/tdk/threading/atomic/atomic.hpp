@@ -36,9 +36,9 @@ namespace threading {
 
 /*
 	atomic operation
-	À©µµ¿ì´Â assembly ³ª Interlocked ÇÔ¼ö·Î ±¸Çö
-	linux ´Â gcc ÇÔ¼ö·Î Ã³¸® ¿¹Á¤
-	ios ´Â OSAtomic À¸·Î Ã³¸® ¿¹Á¤ <- cas °¡ ¾÷°í tas ÀÌ ÀÖÀ½.
+	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ assembly ï¿½ï¿½ Interlocked ï¿½Ô¼ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+	linux ï¿½ï¿½ gcc ï¿½Ô¼ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+	ios ï¿½ï¿½ OSAtomic ï¿½ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ <- cas ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ tas ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.
 */
 
 
@@ -83,14 +83,13 @@ public:
 	void fetch_add( void );
 	void fetch_sub( void );
 
-/*
+
 	test_and_set();
 	clear();
 	thread_fence();
 	signal_fence();
 	always_lock_free();
 	is_lock_free();
-*//*
 private:
 
 	value_type _value;
@@ -139,11 +138,11 @@ public:
 };
 
 /*
-	lock free container ¿ëµµ·Î ÀÛ¼º.
-	ÇöÀç´Â À©µµ¿ì Àü¿ë
-	assembly ·Î ±¸Çö
-	cmpxchg8b ·Î ±¸ÇöÇÑ cas ÇÔ¼ö º£ÀÌ½º·Î ÀÛµ¿µÊ
-	ÀÌ¿ÜÀÇ ÇÃ·§ÆûÀº Â÷ÈÄ »ý°¢
+	lock free container ï¿½ëµµï¿½ï¿½ ï¿½Û¼ï¿½.
+	ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
+	assembly ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+	cmpxchg8b ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ cas ï¿½Ô¼ï¿½ ï¿½ï¿½ï¿½Ì½ï¿½ï¿½ï¿½ ï¿½Ûµï¿½ï¿½ï¿½
+	ï¿½Ì¿ï¿½ï¿½ï¿½ ï¿½Ã·ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
 */
 
 class atomic64 {

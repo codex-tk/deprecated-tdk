@@ -17,7 +17,7 @@ public:
 	const std::error_code& error( void ) const;
 	void error( const std::error_code& ec ) ;
 
-	void expried_at( const tdk::date_time& dt );
+	void expired_at( const tdk::date_time& dt );
 	const tdk::date_time& expired_at( void ) const;
 private:
 	std::error_code _error;
