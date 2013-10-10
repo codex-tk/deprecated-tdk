@@ -32,6 +32,16 @@ public:
 	// inner loop call only
 	void schedule( tdk::timer_task* tt );
 	bool cancel( tdk::timer_task* tt );
+
+	void add_active( void );
+	void remove_active( void );
+
+	tdk::io::epoll& io_impl( void );
+
+	//
+	static event_loop& default_loop( void );
+
+
 private:
 	int _run_tasks( void );
 private:

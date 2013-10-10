@@ -9,7 +9,7 @@
 #define CONNECT_TASK_HPP_
 
 #include <tdk/io/ip/address.hpp>
-#include <tdk/event_loop/io_task.hpp>
+#include <tdk/event_loop/io/ip/tcp/channel_task.hpp>
 #include <vector>
 
 namespace tdk {
@@ -17,15 +17,21 @@ namespace io {
 namespace ip {
 namespace tcp {
 
-class connect_task : public tdk::io_task {
+class channel;
+class connect_task : public channel_task {
 public:
 	connect_task();
 	connect_task( tdk::task::handler h , void* ctx );
 	~connect_task();
 
-	void bind( std::vector< tdk::io::ip::address>& addr );
+	void address( std::vector< tdk::io::ip::address>& addr );
+
+	bool address_is_eof( void );
+	bool address_next( void );
+	tdk::io::ip::address& address_value( void );
 private:
 	std::vector< tdk::io::ip::address> _addrs;
+	std::vector< tdk::io::ip::address>::iterator _addrs_it;
 };
 
 } /* namespace tcp */

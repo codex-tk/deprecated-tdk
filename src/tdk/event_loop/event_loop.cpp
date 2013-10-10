@@ -67,4 +67,21 @@ int event_loop::_run_tasks( void ) {
 	return cnt;
 }
 
+void event_loop::add_active( void ) {
+	_active_handles.fetch_add(1);
+}
+
+void event_loop::remove_active( void ) {
+	_active_handles.fetch_sub( 1 );
+}
+
+tdk::io::epoll& event_loop::io_impl( void ) {
+	return _io_impl;
+}
+
+event_loop& event_loop::default_loop( void ) {
+	static event_loop l;
+	return l;
+}
+
 }

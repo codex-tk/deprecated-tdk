@@ -12,12 +12,13 @@ namespace io {
 namespace ip {
 namespace tcp {
 
-connect_task::connect_task() {
+connect_task::connect_task()
+{
 
 }
 
 connect_task::connect_task( tdk::task::handler h , void* ctx )
-	: io_task( h , ctx )
+	: channel_task( h , ctx )
 {
 
 }
@@ -26,9 +27,26 @@ connect_task::~connect_task() {
 
 }
 
-void connect_task::bind( std::vector< tdk::io::ip::address>& addr ) {
+void connect_task::address( std::vector< tdk::io::ip::address>& addr ) {
 	_addrs = addr;
+	_addrs_it = _addrs.begin();
 }
+
+bool connect_task::address_is_eof( void ) {
+	return _addrs_it == _addrs.end();
+}
+
+bool connect_task::address_next( void ) {
+	if ( address_is_eof())
+		return false;
+	++_addrs_it;
+	return address_is_eof();
+}
+
+tdk::io::ip::address& connect_task::address_value( void ) {
+	return *_addrs_it;
+}
+
 
 } /* namespace tcp */
 } /* namespace ip */
