@@ -18,7 +18,7 @@ namespace ip {
 namespace tcp {
 
 class channel;
-class connect_task : public channel_task {
+class connect_task : public channel_task<connect_task> {
 public:
 	connect_task();
 	connect_task( tdk::task::handler h , void* ctx );

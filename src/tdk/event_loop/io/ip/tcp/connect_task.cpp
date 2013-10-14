@@ -13,12 +13,12 @@ namespace ip {
 namespace tcp {
 
 connect_task::connect_task()
-{
+: channel_task(this){
 
 }
 
 connect_task::connect_task( tdk::task::handler h , void* ctx )
-	: channel_task( h , ctx )
+	: channel_task( this , h , ctx )
 {
 
 }

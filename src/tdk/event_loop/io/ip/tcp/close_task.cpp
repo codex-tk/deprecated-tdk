@@ -12,18 +12,17 @@ namespace io {
 namespace ip {
 namespace tcp {
 
-close_task::close_task() {
-	// TODO Auto-generated constructor stub
+close_task::close_task(void)
+	: channel_task(this){
 
 }
 
 close_task::close_task( tdk::task::handler h , void * ctx )
-	: channel_task( h , ctx ){
+	: channel_task( this , h , ctx ){
 
 }
 
 close_task::~close_task() {
-	// TODO Auto-generated destructor stub
 }
 
 } /* namespace tcp */

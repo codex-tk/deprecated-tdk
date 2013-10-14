@@ -13,11 +13,11 @@ namespace ip {
 namespace tcp {
 
 read_task::read_task( void )
-{
+: channel_task(this){
 }
 
 read_task::read_task( tdk::task::handler h , void* ctx )
-	: channel_task( h , ctx )
+	: channel_task( this , h , ctx )
 {
 
 }

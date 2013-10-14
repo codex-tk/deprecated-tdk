@@ -18,12 +18,8 @@ namespace tcp {
 
 int channel::write_try_count = 4;
 
-static void channel_connect_handler( tdk::task* t);
 static void channel_io_handler( tdk::task* t);
-static void channel_connect_cross_thread_handler( tdk::task* t );
-static void channel_read_cross_thread_handler( tdk::task* t );
-static void channel_write_cross_thread_handler( tdk::task* t );
-static void channel_close_handler( tdk::task* t );
+static void channel_connect_handler( tdk::task* t);
 
 channel::channel( tdk::event_loop& loop )
 	: _loop( &loop )
@@ -45,8 +41,7 @@ void channel::connect(std::vector<tdk::io::ip::address>& addrs
 	if ( _loop->in_loop() ) {
 		connect_impl(ct);
 	} else {
-		ct->thread_task()->set_handler( &channel_connect_cross_thread_handler , ct );
-		_loop->execute(ct->thread_task());
+		ct->execute_thread_task(&channel::connect_impl);
 	}
 }
 
@@ -178,10 +173,11 @@ void channel::read( const tdk::io::buffer_adapter& buf
 	if ( _loop->in_loop() ) {
 		read_impl(rt);
 	} else {
-		rt->thread_task()->set_handler(
-								&channel_read_cross_thread_handler
-								, rt );
+		/*
+		rt->thread_task()->set_channel_handler( &channel::read_impl );
 				_loop->execute(rt->thread_task());
+				*/
+		rt->execute_thread_task(&channel::read_impl);
 	}
 }
 
@@ -257,10 +253,11 @@ void channel::write( const tdk::io::buffer_adapter& buf
 	if ( _loop->in_loop() ) {
 		write_impl(wt);
 	} else {
-		wt->thread_task()->set_handler(
-								&channel_write_cross_thread_handler
-								, wt );
+		/*
+		wt->thread_task()->set_channel_handler( &channel::write_impl );
 		_loop->execute(wt->thread_task());
+		*/
+		wt->execute_thread_task(&channel::write_impl);
 	}
 }
 
@@ -384,16 +381,16 @@ void channel::handle_error( const std::error_code& ec
 		, tdk::slist_queue<tdk::task>& queue ) {
 	_socket.close();
 	while ( !_read_tasks.is_empty() ) {
-		tdk::io::ip::tcp::channel_task* rt =
-				static_cast< tdk::io::ip::tcp::channel_task* >(
+		tdk::io_task* rt =
+				static_cast< tdk::io_task* >(
 						_read_tasks.front());
 		_read_tasks.pop_front();
 		rt->error( ec );
 		queue.add_tail( rt );
 	}
 	while( !_write_tasks.is_empty()) {
-		tdk::io::ip::tcp::channel_task* ct =
-				static_cast< tdk::io::ip::tcp::channel_task* >(
+		tdk::io_task* ct =
+				static_cast< tdk::io_task* >(
 						_write_tasks.front());
 		_write_tasks.pop_front();
 		ct->error( ec );
@@ -403,8 +400,7 @@ void channel::handle_error( const std::error_code& ec
 
 void channel::close( tdk::io::ip::tcp::close_task* ct ) {
 	ct->channel(this);
-	ct->thread_task()->set_handler( &channel_close_handler , ct );
-	_loop->execute(ct->thread_task());
+	ct->execute_thread_task( &channel::close_impl );
 }
 
 void channel::close_impl( tdk::io::ip::tcp::close_task* ct ) {
@@ -427,6 +423,10 @@ void channel::_execute_task( tdk::task* t ) {
 	}
 }
 
+tdk::event_loop& channel::loop( void ) {
+	return *_loop;
+}
+
 static void channel_connect_handler( tdk::task* t ) {
 	channel* ch = static_cast< channel* >( t->context());
 	ch->handle_connect_event();
@@ -435,30 +435,6 @@ static void channel_connect_handler( tdk::task* t ) {
 static void channel_io_handler( tdk::task* t ) {
 	channel* ch = static_cast< channel* >( t->context());
 	ch->handle_io_event();
-}
-
-static void channel_connect_cross_thread_handler( tdk::task* t ) {
-	tdk::io::ip::tcp::connect_task* ct = static_cast<
-			tdk::io::ip::tcp::connect_task* >(t->context());
-	ct->channel()->connect_impl(ct);
-}
-
-static void channel_read_cross_thread_handler( tdk::task* t ) {
-	tdk::io::ip::tcp::read_task* rt = static_cast<
-				tdk::io::ip::tcp::read_task* >(t->context());
-	rt->channel()->read_impl( rt );
-}
-
-static void channel_write_cross_thread_handler( tdk::task* t ) {
-	tdk::io::ip::tcp::write_task* wt = static_cast<
-					tdk::io::ip::tcp::write_task* >(t->context());
-	wt->channel()->write_impl( wt );
-}
-
-static void channel_close_handler( tdk::task* t ){
-	tdk::io::ip::tcp::close_task* ct = static_cast<
-					tdk::io::ip::tcp::close_task* >(t->context());
-	ct->channel()->close_impl( ct );
 }
 
 }}}}

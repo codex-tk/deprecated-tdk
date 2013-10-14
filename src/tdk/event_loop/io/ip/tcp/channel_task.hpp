@@ -15,16 +15,84 @@ namespace io {
 namespace ip {
 namespace tcp {
 class channel;
+
+template < typename Arg >
+class channel_task;
+
+template < typename Arg >
+class channel_thread_task : public tdk::task {
+public:
+	typedef void (channel::*handler)( Arg* );
+
+	channel_thread_task( Arg* task )
+		: tdk::task( channel_thread_task::on_task , task )
+		, _handler( nullptr )
+	{
+	}
+
+	~channel_thread_task( void ) {
+
+	}
+
+	void set_channel_handler(  handler h ) {
+		_handler = h;
+	}
+
+	void forward(void) {
+		Arg* a = static_cast< Arg* >(context());
+		if ( _handler ) {
+			((*(a->channel())).*_handler)( a );
+		}
+	}
+
+	static void on_task( tdk::task* t ) {
+		channel_thread_task* ctt = static_cast< channel_thread_task* >(t);
+		ctt->forward();
+	}
+private:
+	handler _handler;
+};
+
+
+void execute_impl( tdk::io::ip::tcp::channel* chan , tdk::task*);
+
+
+template < typename Arg >
 class channel_task: public tdk::io_task {
 public:
-	channel_task();
-	channel_task( tdk::task::handler h , void* ctx );
-	~channel_task();
-	tdk::task* thread_task( void );
-	tdk::io::ip::tcp::channel* channel( void );
-	void channel( tdk::io::ip::tcp::channel* chan );
+	channel_task( Arg* a )
+		: _thread_task(a)
+		,_channel(nullptr){
+	}
+
+	channel_task( Arg* a , tdk::task::handler h , void* ctx )
+	: io_task( h , ctx )
+		, _thread_task(a)
+		, _channel( nullptr )
+	{
+	}
+
+	~channel_task() {
+	}
+/*
+	channel_thread_task<Arg>* thread_task( void ) {
+		return &_thread_task;
+	}
+*/
+	tdk::io::ip::tcp::channel* channel( void ) {
+		return _channel;
+	}
+
+	void channel( tdk::io::ip::tcp::channel* chan ) {
+		_channel = chan;
+	}
+
+	void execute_thread_task( typename channel_thread_task<Arg>::handler h ) {
+		_thread_task.set_channel_handler(h);
+		execute_impl( _channel , &_thread_task );
+	}
 private:
-	tdk::task _thread_task;
+	channel_thread_task<Arg> _thread_task;
 	tdk::io::ip::tcp::channel* _channel;
 };
 

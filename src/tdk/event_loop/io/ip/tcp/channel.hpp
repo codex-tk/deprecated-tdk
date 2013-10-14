@@ -57,6 +57,8 @@ public:
 
 	void close( tdk::io::ip::tcp::close_task* ct );
 	void close_impl( tdk::io::ip::tcp::close_task* ct );
+
+	tdk::event_loop& loop( void );
 private:
 	void _execute_task( tdk::task* t );
 private:

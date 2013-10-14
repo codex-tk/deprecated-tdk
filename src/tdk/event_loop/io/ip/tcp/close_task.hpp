@@ -16,9 +16,9 @@ namespace ip {
 namespace tcp {
 
 class channel;
-class close_task : public tdk::io::ip::tcp::channel_task {
+class close_task : public channel_task<close_task> {
 public:
-	close_task();
+	close_task(void);
 	close_task( tdk::task::handler h , void * ctx );
 	~close_task();
 };

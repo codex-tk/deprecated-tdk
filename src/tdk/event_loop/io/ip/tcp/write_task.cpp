@@ -12,7 +12,9 @@ namespace io {
 namespace ip {
 namespace tcp {
 
-write_task::write_task() {
+write_task::write_task()
+	: channel_task(this){
+
 	// TODO Auto-generated constructor stub
 
 }
@@ -22,7 +24,7 @@ write_task::~write_task() {
 }
 
 write_task::write_task( tdk::task::handler h , void* ctx )
- 	 :channel_task( h , ctx )
+ 	 :channel_task( this , h , ctx )
 {
 
 }
