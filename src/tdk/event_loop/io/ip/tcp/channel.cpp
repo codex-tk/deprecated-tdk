@@ -16,6 +16,35 @@ namespace io{
 namespace ip{
 namespace tcp {
 
+template < typename T_task >
+class channel_forward_task : public tdk::task {
+public:
+	typedef void (channel::*handler)( T_task* t );
+
+	channel_forward_task( channel* chan , handler h , T_task* t )
+		: tdk::task( &channel_forward_task::on_task , t )
+		, _channel( chan )
+		, _handler( h ) {
+	}
+
+	~channel_forward_task( void ) {
+	}
+
+	void forward( void ) {
+		(_channel->*_handler)( static_cast<T_task*>(context()));
+	}
+
+	static void on_task( tdk::task* t ) {
+		channel_forward_task< T_task >* task_impl =
+				static_cast<channel_forward_task< T_task >* >(t);
+		task_impl->forward();
+		delete task_impl;
+	}
+private:
+	channel* _channel;
+	handler _handler;
+};
+
 int channel::write_try_count = 4;
 
 static void channel_io_handler( tdk::task* t);
@@ -33,7 +62,7 @@ channel::~channel( void ) {
 
 }
 
-void channel::connect(std::vector<tdk::io::ip::address>& addrs
+void channel::connect( const std::vector<tdk::io::ip::address>& addrs
 		, tdk::io::ip::tcp::connect_task* ct )
 {
 	ct->channel(this);
@@ -41,7 +70,9 @@ void channel::connect(std::vector<tdk::io::ip::address>& addrs
 	if ( _loop->in_loop() ) {
 		connect_impl(ct);
 	} else {
-		ct->execute_thread_task(&channel::connect_impl);
+		tdk::task* ftask( new channel_forward_task< tdk::io::ip::tcp::connect_task>(
+					this , &channel::connect_impl , ct));
+		_loop->execute(ftask);
 	}
 }
 
@@ -93,18 +124,19 @@ void channel::handle_io_event( void ) {
 			ec = tdk::platform::error( sock_error.value());
 		}
 		handle_error( ec , queue );
-		event = 0;
+	} else {
+		if ( event & EPOLLHUP ) {
+			handle_error( tdk::tdk_epoll_hang_up , queue );
+		} else {
+			if ( event & EPOLLIN ) {
+				handle_readable();
+			}
+			if ( event & EPOLLOUT ) {
+				handle_writeable();
+			}
+		}
 	}
-	if ( event & EPOLLHUP ) {
-		handle_error( tdk::tdk_epoll_hang_up , queue );
-		event = 0;
-	}
-	if ( event & EPOLLIN ) {
-		handle_readable();
-	}
-	if ( event & EPOLLOUT ) {
-		handle_writeable();
-	}
+
 	while ( !_complete_tasks ->is_empty() ) {
 		tdk::task* t = _complete_tasks->front();
 		_complete_tasks->pop_front();
@@ -173,7 +205,9 @@ void channel::read( const tdk::io::buffer_adapter& buf
 	if ( _loop->in_loop() ) {
 		read_impl(rt);
 	} else {
-		rt->execute_thread_task(&channel::read_impl);
+		tdk::task* ftask( new channel_forward_task< tdk::io::ip::tcp::read_task>(
+							this , &channel::read_impl , rt));
+		_loop->execute(ftask);
 	}
 }
 
@@ -249,11 +283,10 @@ void channel::write( const tdk::io::buffer_adapter& buf
 	if ( _loop->in_loop() ) {
 		write_impl(wt);
 	} else {
-		/*
-		wt->thread_task()->set_channel_handler( &channel::write_impl );
-		_loop->execute(wt->thread_task());
-		*/
-		wt->execute_thread_task(&channel::write_impl);
+		tdk::task* ftask(
+				new channel_forward_task< tdk::io::ip::tcp::write_task>(
+									this , &channel::write_impl , wt));
+		_loop->execute(ftask);
 	}
 }
 
@@ -271,11 +304,11 @@ void channel::write_impl( tdk::io::ip::tcp::write_task* wt ) {
 
 	for ( int i = 0 ; i < channel::write_try_count ; ++i ) {
 		int writesize = 0;
-		tdk::io::buffer_adapter write_buffer = wt->remain_buffers();
+		tdk::io::buffer_adapter remain_buffer = wt->remain_buffers();
 		do {
 			writesize = writev( _socket.handle()
-				, write_buffer.buffers()
-				, write_buffer.count());
+				, remain_buffer.buffers()
+				, remain_buffer.count());
 		} while (( writesize < 0)  && ( errno == EINTR ));
 		if ( writesize < 0 ) {
 			if ( errno == EAGAIN || errno == EWOULDBLOCK ) {
@@ -396,7 +429,7 @@ void channel::handle_error( const std::error_code& ec
 
 void channel::close( tdk::io::ip::tcp::close_task* ct ) {
 	ct->channel(this);
-	ct->execute_thread_task( &channel::close_impl );
+	_loop->execute(ct->internal_task());
 }
 
 void channel::close_impl( tdk::io::ip::tcp::close_task* ct ) {

@@ -13,10 +13,33 @@ namespace io {
 namespace ip {
 namespace tcp {
 
+
+channel_task::channel_task( void )
+	: _channel(nullptr){
+}
+
+channel_task::channel_task( tdk::task::handler h , void* ctx )
+	: tdk::io::task( h , ctx )
+	, _channel( nullptr )
+{
+}
+
+channel_task::~channel_task() {
+}
+
+tdk::io::ip::tcp::channel* channel_task::channel( void ) {
+	return _channel;
+}
+
+void channel_task::channel( tdk::io::ip::tcp::channel* chan ) {
+	_channel = chan;
+}
+
+/*
 void execute_impl( tdk::io::ip::tcp::channel* chan , tdk::task* t) {
 	chan->loop().execute(t);
 }
-
+*/
 /*
 static void on_channel_thread_task( tdk::task* t ) {
 	channel_thread_task* ctt = static_cast< channel_thread_task* >(t);

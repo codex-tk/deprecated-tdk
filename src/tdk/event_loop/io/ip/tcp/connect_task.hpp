@@ -18,13 +18,13 @@ namespace ip {
 namespace tcp {
 
 class channel;
-class connect_task : public channel_task<connect_task> {
+class connect_task : public channel_task {
 public:
 	connect_task();
 	connect_task( tdk::task::handler h , void* ctx );
 	~connect_task();
 
-	void address( std::vector< tdk::io::ip::address>& addr );
+	void address( const std::vector< tdk::io::ip::address>& addr );
 
 	bool address_is_eof( void );
 	bool address_next( void );

@@ -16,6 +16,19 @@ namespace ip {
 namespace tcp {
 class channel;
 
+class channel_task: public tdk::io::task {
+public:
+	channel_task( void );
+	channel_task( tdk::task::handler h , void* ctx );
+	~channel_task();
+
+	tdk::io::ip::tcp::channel* channel( void );
+	void channel( tdk::io::ip::tcp::channel* chan );
+private:
+	tdk::io::ip::tcp::channel* _channel;
+};
+
+/*
 template < typename Arg >
 class channel_task;
 
@@ -74,11 +87,11 @@ public:
 
 	~channel_task() {
 	}
-/*
+
 	channel_thread_task<Arg>* thread_task( void ) {
 		return &_thread_task;
 	}
-*/
+
 	tdk::io::ip::tcp::channel* channel( void ) {
 		return _channel;
 	}
@@ -94,7 +107,7 @@ public:
 private:
 	channel_thread_task<Arg> _thread_task;
 	tdk::io::ip::tcp::channel* _channel;
-};
+};*/
 
 } /* namespace tcp */
 } /* namespace ip */

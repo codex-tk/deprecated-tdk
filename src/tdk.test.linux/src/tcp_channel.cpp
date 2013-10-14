@@ -64,7 +64,7 @@ static void test_connect_handler ( tdk::task* ct ) {
 	}
 
 }
-
+/*
 TEST( tcp__channel , init ) {
 	tdk::io::ip::tcp::channel chan(tdk::event_loop::default_loop());
 	std::vector<tdk::io::ip::address> addrs;
@@ -82,5 +82,7 @@ TEST( tcp__channel , init ) {
 	chan.connect(ipv4_addrs , &ct );
 	tdk::event_loop::default_loop().run();
 }
+
+*/
 
 

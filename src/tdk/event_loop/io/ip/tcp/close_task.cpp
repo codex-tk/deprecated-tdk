@@ -6,23 +6,35 @@
  */
 
 #include <tdk/event_loop/io/ip/tcp/close_task.hpp>
+#include <tdk/event_loop/io/ip/tcp/channel.hpp>
 
 namespace tdk {
 namespace io {
 namespace ip {
 namespace tcp {
 
+void on_close_handler( tdk::task* t ) {
+	close_task* ct = static_cast< close_task* >( t->context());
+	ct->channel()->close_impl( ct );
+}
+
 close_task::close_task(void)
-	: channel_task(this){
+	: _internal_task( &on_close_handler , this ) 	{
 
 }
 
 close_task::close_task( tdk::task::handler h , void * ctx )
-	: channel_task( this , h , ctx ){
+	: channel_task( h , ctx )
+	, _internal_task( &on_close_handler , this )
+{
 
 }
 
 close_task::~close_task() {
+}
+
+tdk::task* close_task::internal_task( void ) {
+	return &_internal_task;
 }
 
 } /* namespace tcp */

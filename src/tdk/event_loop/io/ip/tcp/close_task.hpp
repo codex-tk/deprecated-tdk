@@ -16,11 +16,15 @@ namespace ip {
 namespace tcp {
 
 class channel;
-class close_task : public channel_task<close_task> {
+class close_task : public channel_task {
 public:
 	close_task(void);
 	close_task( tdk::task::handler h , void * ctx );
 	~close_task();
+
+	tdk::task* internal_task( void );
+private:
+	tdk::task _internal_task;
 };
 
 } /* namespace tcp */

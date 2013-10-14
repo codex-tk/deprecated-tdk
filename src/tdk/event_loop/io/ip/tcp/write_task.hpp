@@ -16,7 +16,7 @@ namespace io {
 namespace ip {
 namespace tcp {
 
-class write_task: public channel_task<write_task> {
+class write_task: public channel_task {
 public:
 	write_task();
 	write_task( tdk::task::handler h , void* ctx );
