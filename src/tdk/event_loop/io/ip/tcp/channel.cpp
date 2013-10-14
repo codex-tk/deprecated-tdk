@@ -173,10 +173,6 @@ void channel::read( const tdk::io::buffer_adapter& buf
 	if ( _loop->in_loop() ) {
 		read_impl(rt);
 	} else {
-		/*
-		rt->thread_task()->set_channel_handler( &channel::read_impl );
-				_loop->execute(rt->thread_task());
-				*/
 		rt->execute_thread_task(&channel::read_impl);
 	}
 }
@@ -381,16 +377,16 @@ void channel::handle_error( const std::error_code& ec
 		, tdk::slist_queue<tdk::task>& queue ) {
 	_socket.close();
 	while ( !_read_tasks.is_empty() ) {
-		tdk::io_task* rt =
-				static_cast< tdk::io_task* >(
+		tdk::io::task* rt =
+				static_cast< tdk::io::task* >(
 						_read_tasks.front());
 		_read_tasks.pop_front();
 		rt->error( ec );
 		queue.add_tail( rt );
 	}
 	while( !_write_tasks.is_empty()) {
-		tdk::io_task* ct =
-				static_cast< tdk::io_task* >(
+		tdk::io::task* ct =
+				static_cast< tdk::io::task* >(
 						_write_tasks.front());
 		_write_tasks.pop_front();
 		ct->error( ec );

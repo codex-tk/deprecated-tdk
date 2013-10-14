@@ -8,7 +8,7 @@
 #ifndef CHANNEL_TASK_HPP_
 #define CHANNEL_TASK_HPP_
 
-#include <tdk/event_loop/io_task.hpp>
+#include <tdk/event_loop/io/task.hpp>
 
 namespace tdk {
 namespace io {
@@ -58,7 +58,7 @@ void execute_impl( tdk::io::ip::tcp::channel* chan , tdk::task*);
 
 
 template < typename Arg >
-class channel_task: public tdk::io_task {
+class channel_task: public tdk::io::task {
 public:
 	channel_task( Arg* a )
 		: _thread_task(a)
@@ -66,7 +66,7 @@ public:
 	}
 
 	channel_task( Arg* a , tdk::task::handler h , void* ctx )
-	: io_task( h , ctx )
+	: tdk::io::task( h , ctx )
 		, _thread_task(a)
 		, _channel( nullptr )
 	{

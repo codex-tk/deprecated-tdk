@@ -1,7 +1,7 @@
 #ifndef __tdk_io_epoll_h__
 #define __tdk_io_epoll_h__
 
-#include <tdk/event_loop/io_task.hpp>
+#include <tdk/event_loop/io/task.hpp>
 #include <tdk/time/time_span.hpp>
 #include <sys/epoll.h>
 
@@ -10,7 +10,7 @@ namespace io {
 
 class epoll{
 public:
-	class task : public io_task {
+	class task : public io::task {
 	public:
 		task( void );
 		task( tdk::task::handler h , void* ctx = nullptr );

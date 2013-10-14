@@ -70,7 +70,7 @@ epoll::task::task( void ) {
 }
 
 epoll::task::task( tdk::task::handler h , void* ctx )
-	: io_task( h , ctx )
+	: io::task( h , ctx )
 {
 	_evt.events = 0;
 	_evt.data.ptr = this;
