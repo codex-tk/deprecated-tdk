@@ -408,7 +408,6 @@
     <ClInclude Include="device\monitor_win32.hpp" />
     <ClInclude Include="error\error_category_epoll.hpp" />
     <ClInclude Include="event_loop\event_loop.hpp" />
-    <ClInclude Include="event_loop\io\epoll.hpp" />
     <ClInclude Include="event_loop\io\iocp.hpp" />
     <ClInclude Include="event_loop\io\select.hpp" />
     <ClInclude Include="event_loop\io_task.hpp" />
