@@ -48,6 +48,36 @@ public:
 private:
 	int _epoll_fd;
 	event_fd_task _wake_up_task;
+public:
+	template < typename T , typename R >
+	class memfn_task : public epoll::task {
+	public:
+		typedef R (T::*handler)( int evt );
+		memfn_task( T* obj , memfn_task::handler h )
+			: epoll::task( memfn_task::on_task , obj )
+			, _handler(h)
+		{
+
+		}
+
+		void set_memfn( T* obj , memfn_task::handler h ) {
+			_handler = h;
+			set_handler( memfn_task::on_task , obj );
+		}
+
+		void invoke( void ) {
+			T* obj = static_cast< T* >( context());
+			int evts = evt();
+			((*obj).*_handler)(evts);
+		}
+
+		static void on_task( tdk::task* t ) {
+			epoll::memfn_task<T,R>* tmf = static_cast< epoll::memfn_task<T,R>* >(t);
+			tmf->invoke();
+		}
+	private:
+		handler _handler;
+	};
 };
 
 }

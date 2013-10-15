@@ -47,12 +47,9 @@ private:
 
 int channel::write_try_count = 4;
 
-static void channel_io_handler( tdk::task* t);
-static void channel_connect_handler( tdk::task* t);
-
 channel::channel( tdk::event_loop& loop )
 	: _loop( &loop )
-	, _channel_task( &channel_io_handler , this )
+	, _channel_task( this , &channel::handle_io_event )
 	, _complete_tasks(nullptr)
 {
 
@@ -60,6 +57,17 @@ channel::channel( tdk::event_loop& loop )
 
 channel::~channel( void ) {
 
+}
+
+bool channel::accept( tdk::io::ip::tcp::accept_task* t ) {
+	if ( t->accepted() == -1 )
+		return false;
+	_socket.handle(t->accepted());
+	tdk::io::ip::socket::option::non_blocking nb;
+	if ( _socket.set_option(nb))
+		return true;
+	_socket.handle(-1);
+	return false;
 }
 
 void channel::connect( const std::vector<tdk::io::ip::address>& addrs
@@ -91,7 +99,7 @@ void channel::connect_impl( tdk::io::ip::tcp::connect_task* ct ) {
 				}while((r==-1)&&(errno==EINTR));
 				if (( r == 0 ) || errno == EINPROGRESS ) {
 					_write_tasks.add_front(ct);
-					_channel_task.set_handler( &channel_connect_handler , this );
+					_channel_task.set_memfn( this , &channel::handle_connect_event );
 					_channel_task.evt( EPOLLOUT | EPOLLONESHOT );
 					if (_loop->io_impl().register_handle(
 							_socket.handle()
@@ -107,17 +115,16 @@ void channel::connect_impl( tdk::io::ip::tcp::connect_task* ct ) {
 	}
 	_socket.close();
 	// recover
-	_channel_task.set_handler( &channel_io_handler , this );
+	_channel_task.set_memfn( this , &channel::handle_io_event );
 	ct->error(tdk::platform::error());
 	ct->io_bytes(0);
 	_loop->execute(ct);
 }
 
-void channel::handle_io_event( void ) {
+void channel::handle_io_event( int evt ) {
 	tdk::slist_queue< tdk::task > queue;
 	_complete_tasks = &queue;
-	int event = _channel_task.evt();
-	if ( event & EPOLLERR ) {
+	if ( evt & EPOLLERR ) {
 		std::error_code ec = tdk::tdk_epoll_error;
 		tdk::io::ip::socket::option::error sock_error;
 		if ( _socket.get_option( sock_error ) && sock_error.value()!= 0){
@@ -125,13 +132,13 @@ void channel::handle_io_event( void ) {
 		}
 		handle_error( ec , queue );
 	} else {
-		if ( event & EPOLLHUP ) {
+		if ( evt & EPOLLHUP ) {
 			handle_error( tdk::tdk_epoll_hang_up , queue );
 		} else {
-			if ( event & EPOLLIN ) {
+			if ( evt & EPOLLIN ) {
 				handle_readable();
 			}
-			if ( event & EPOLLOUT ) {
+			if ( evt & EPOLLOUT ) {
 				handle_writeable();
 			}
 		}
@@ -156,13 +163,12 @@ void channel::handle_io_event( void ) {
 	}
 }
 
-void channel::handle_connect_event( void ) {
+void channel::handle_connect_event( int evt ) {
 	tdk::io::ip::tcp::connect_task* ct =
 			static_cast<tdk::io::ip::tcp::connect_task*>(
 						_write_tasks.front()
 					);
 	_write_tasks.pop_front();
-	int evt = _channel_task.evt();
 	if ( evt & EPOLLOUT ) {
 		ct->error(std::error_code());
 		tdk::io::ip::socket::option::error err;
@@ -187,7 +193,7 @@ void channel::handle_connect_event( void ) {
 		connect_impl( ct );
 	} else {
 		// recover to io_handler
-		_channel_task.set_handler( &channel_io_handler , this );
+		_channel_task.set_memfn( this , &channel::handle_io_event );
 		_loop->remove_active();
 		(*ct)();
 	}
@@ -257,7 +263,7 @@ void channel::handle_readable( void ) {
 				error = tdk::platform::error();
 			}
 			break;
-		} else if ( readsize == 0 ){
+		} else if ( (readsize == 0) && rt->buffers().size() != 0 ){
 			error = tdk::tdk_network_remote_closed;
 			break;
 		} else {
@@ -447,6 +453,7 @@ void channel::close_impl( tdk::io::ip::tcp::close_task* ct ) {
 void channel::_execute_task( tdk::task* t ) {
 	if ( _complete_tasks != nullptr ) {
 		_complete_tasks->add_tail(t);
+		_loop->add_active();
 	} else {
 		_loop->execute(t);
 	}
@@ -456,6 +463,7 @@ tdk::event_loop& channel::loop( void ) {
 	return *_loop;
 }
 
+/*
 static void channel_connect_handler( tdk::task* t ) {
 	channel* ch = static_cast< channel* >( t->context());
 	ch->handle_connect_event();
@@ -465,6 +473,6 @@ static void channel_io_handler( tdk::task* t ) {
 	channel* ch = static_cast< channel* >( t->context());
 	ch->handle_io_event();
 }
-
+*/
 }}}}
 

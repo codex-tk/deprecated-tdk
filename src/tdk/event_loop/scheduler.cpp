@@ -58,7 +58,7 @@ void scheduler::schedule( tdk::slist_queue< tdk::timer_task >& expireds ) {
 
 tdk::time_span scheduler::schedule_after( void ) {
 	if ( _timer_tasks.empty())
-		return tdk::time_span(0);
+		return tdk::time_span::from_seconds(100);
 	tdk::date_time now = tdk::date_time::utc();
 	tdk::date_time expired_at = (*_timer_tasks.begin())->expired_at();
 	if ( now < expired_at )

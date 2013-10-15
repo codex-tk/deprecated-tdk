@@ -4,9 +4,9 @@
 namespace tdk {
 namespace detail {
 
-tdk::alloc_handler _alloc_handler = malloc;
-tdk::realloc_handler _realloc_handler = realloc;
-tdk::free_handler _free_handler = free;
+tdk::alloc_handler _alloc_handler = std::malloc;
+tdk::realloc_handler _realloc_handler = std::realloc;
+tdk::free_handler _free_handler = std::free;
 
 }
 

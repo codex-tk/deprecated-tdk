@@ -14,6 +14,7 @@
 #include <tdk/event_loop/io/ip/tcp/read_task.hpp>
 #include <tdk/event_loop/io/ip/tcp/close_task.hpp>
 #include <tdk/event_loop/io/ip/tcp/write_task.hpp>
+#include <tdk/event_loop/io/ip/tcp/accept_task.hpp>
 #include <vector>
 
 namespace tdk{
@@ -34,6 +35,8 @@ public:
 
 	void connect_impl( tdk::io::ip::tcp::connect_task* ct );
 
+	bool accept( tdk::io::ip::tcp::accept_task* t );
+
 	void read( void* p , int sz , tdk::io::ip::tcp::read_task* rt );
 	void read( const tdk::io::buffer_adapter& buf , tdk::io::ip::tcp::read_task* rt );
 
@@ -46,10 +49,10 @@ public:
 
 	bool register_handle( void );
 
-	void handle_io_event( void );
+	void handle_io_event( int evt );
 	void handle_readable( void );
 	void handle_writeable( void );
-	void handle_connect_event( void );
+	void handle_connect_event( int evt );
 
 	tdk::io::ip::socket& socket();
 
@@ -75,7 +78,7 @@ private:
 	void _execute_task( tdk::task* t );
 private:
 	tdk::event_loop* _loop;
-	tdk::io::epoll::task _channel_task;
+	tdk::io::epoll::memfn_task< channel , void >  _channel_task;
 	tdk::io::ip::socket _socket;
 	tdk::slist_queue< tdk::task > _read_tasks;
 	tdk::slist_queue< tdk::task > _write_tasks;
@@ -97,7 +100,7 @@ public:
 	}
 
 	static void on_task( tdk::task* t ) {
-		handler_impl* impl = static_cast< handler_impl* >(t);
+		handler_impl<T_handler,T_base>* impl = static_cast< handler_impl<T_handler,T_base>* >(t);
 		(impl->_handler)(static_cast< T_base* >(impl));
 		delete impl;
 	}

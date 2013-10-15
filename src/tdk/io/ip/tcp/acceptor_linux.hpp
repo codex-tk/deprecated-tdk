@@ -9,7 +9,7 @@ namespace tdk {
 namespace io{
 namespace ip{
 namespace tcp {
-
+/*
 class acceptor {
 public:
     typedef tdk::io::ip::socket socket_layer_type;
@@ -31,7 +31,7 @@ private:
     tdk::epoll::event_handler _io_handler;
     tdk::io::ip::socket _socket;
     tdk::io::ip::tcp::accept_req _accept_req;
-};
+};*/
 
 }}}}
 
