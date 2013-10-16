@@ -74,6 +74,35 @@ private:
 	handler_type _handler;
 };
 
+template < typename T_base , typename R , typename T_data >
+class handler_task_with_data : public T_base {
+public:
+	typedef std::function< R (T_base*) > handler_type;
+	handler_task_with_data( const handler_type& h )
+		: T_base( &handler_task_with_data::on_task , nullptr )
+		, _handler( h )
+	{
+	}
+
+	~handler_task_with_data( void ) {
+
+	}
+	T_data& data( void ) {
+		return _data;
+	}
+
+	void data( const T_data& d ) {
+		_data = d;
+	}
+	static void on_task( tdk::task* t ) {
+		handler_task_with_data< T_base , R , T_data >* impl
+			= static_cast< handler_task_with_data< T_base , R , T_data >* >(t);
+		(impl->_handler)(impl);
+	}
+private:
+	handler_type _handler;
+	T_data _data;
+};
 
 }
 

@@ -30,16 +30,26 @@ bool event_loop::in_loop( void ) {
 }
 
 void event_loop::schedule( tdk::timer_task* tt ) {
-	_scheduler.schedule( tt );
-	_active_handles.fetch_add(1);
+	if ( in_loop() ) {
+		_scheduler.schedule( tt );
+		_active_handles.fetch_add(1);
+	} else {
+		execute( tdk::task::make_one_shot_task([this,tt] {
+			schedule( tt );
+		}));
+	}
 }
 
-bool event_loop::cancel( tdk::timer_task* tt ) {
-	if ( _scheduler.cancel( tt ) ){
-		_active_handles.fetch_sub(1);
-		return true;
+void event_loop::cancel( tdk::timer_task* tt ) {
+	if ( in_loop() ) {
+		if ( _scheduler.cancel( tt ) ){
+			_active_handles.fetch_sub(1);
+		}
+	} else {
+		execute( tdk::task::make_one_shot_task([this,tt] {
+			cancel( tt );
+		}));
 	}
-	return false;
 }
 
 void event_loop::run( void ) {

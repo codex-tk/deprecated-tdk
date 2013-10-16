@@ -75,6 +75,8 @@ void channel::connect( const std::vector<tdk::io::ip::address>& addrs
 {
 	ct->channel(this);
 	ct->address(addrs);
+	ct->io_bytes(0);
+	ct->error(std::error_code());
 	if ( _loop->in_loop() ) {
 		connect_impl(ct);
 	} else {
@@ -208,6 +210,8 @@ void channel::read( const tdk::io::buffer_adapter& buf
 		, tdk::io::ip::tcp::read_task* rt ) {
 	rt->channel(this);
 	rt->buffers(buf);
+	rt->io_bytes(0);
+	rt->error(std::error_code());
 	if ( _loop->in_loop() ) {
 		read_impl(rt);
 	} else {
@@ -286,6 +290,8 @@ void channel::write( const tdk::io::buffer_adapter& buf
 		, tdk::io::ip::tcp::write_task* wt ) {
 	wt->channel(this);
 	wt->buffers(buf);
+	wt->io_bytes(0);
+	wt->error(std::error_code());
 	if ( _loop->in_loop() ) {
 		write_impl(wt);
 	} else {
