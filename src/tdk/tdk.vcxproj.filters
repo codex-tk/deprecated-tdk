@@ -56,8 +56,6 @@
     <ClCompile Include="log\writer\console_writer.cpp" />
     <ClCompile Include="log\writer\file_writer.cpp" />
     <ClCompile Include="log\writer\writer.cpp" />
-    <ClCompile Include="network\address.cpp" />
-    <ClCompile Include="network\socket.cpp" />
     <ClCompile Include="util\win32\service.cpp" />
     <ClCompile Include="util\win32\service_manager.cpp" />
     <ClCompile Include="tdk.cpp" />
@@ -74,11 +72,12 @@
     <ClCompile Include="threading\thread_local.cpp" />
     <ClCompile Include="io\buffer_adapter.cpp" />
     <ClCompile Include="event_loop\task.cpp" />
-    <ClCompile Include="event_loop\io_task.cpp" />
     <ClCompile Include="event_loop\timer_task.cpp" />
     <ClCompile Include="event_loop\scheduler.cpp" />
     <ClCompile Include="error\error_category_epoll.cpp" />
-    <ClCompile Include="event_loop\event_loop.cpp" />
+    <ClCompile Include="event_loop\io\task.cpp" />
+    <ClCompile Include="crypto\padding.cpp" />
+    <ClCompile Include="event_loop\io\iocp.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="buffer\array.hpp" />
@@ -142,8 +141,6 @@
     <ClInclude Include="log\writer\console_writer.hpp" />
     <ClInclude Include="log\writer\file_writer.hpp" />
     <ClInclude Include="log\writer\writer.hpp" />
-    <ClInclude Include="network\address.hpp" />
-    <ClInclude Include="network\socket.hpp" />
     <ClInclude Include="util\win32\service.hpp" />
     <ClInclude Include="util\win32\service_manager.hpp" />
     <ClInclude Include="task\handler.hpp" />
@@ -163,14 +160,14 @@
     <ClInclude Include="alloc.hpp" />
     <ClInclude Include="tmp\compile_time_error.hpp" />
     <ClInclude Include="util\initializer.hpp" />
-    <ClInclude Include="event_loop\event_loop.hpp" />
     <ClInclude Include="event_loop\task.hpp" />
-    <ClInclude Include="event_loop\io_task.hpp" />
     <ClInclude Include="event_loop\io\iocp.hpp" />
     <ClInclude Include="event_loop\io\select.hpp" />
     <ClInclude Include="event_loop\scheduler.hpp" />
     <ClInclude Include="event_loop\timer_task.hpp" />
     <ClInclude Include="error\error_category_epoll.hpp" />
+    <ClInclude Include="event_loop\io\task.hpp" />
+    <ClInclude Include="crypto\padding.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="crypto\seed\SEED_KISA.tab" />

@@ -4,7 +4,7 @@
  *  Created on: 2013. 10. 14.
  *      Author: tk
  */
-
+#include "stdafx.h"
 #include <tdk/event_loop/io/task.hpp>
 
 namespace tdk {

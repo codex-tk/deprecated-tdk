@@ -9,8 +9,8 @@ namespace crypto{
 class padding{
 public:    
     static void pkcs5( tdk::buffer::memory_block& mb , uint8_t align );
-    static void pkcs5( tdk::buffer::memory_block& mb , uint32_t datasz , uint8_t align );
-    static int  pkcs5_data_size( uint8_t* data , uint32_t datasz );
+    static void pkcs5( tdk::buffer::memory_block& mb , std::size_t datasz , uint8_t align );
+    static std::size_t  pkcs5_data_size( uint8_t* data , std::size_t datasz );
 };
 
 

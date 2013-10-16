@@ -1,0 +1,53 @@
+#include "stdafx.h"
+#include <tdk/event_loop/io/iocp.hpp>
+
+
+namespace tdk {
+namespace io {
+
+iocp::iocp( void ) 
+	: _iocp( CreateIoCompletionPort( INVALID_HANDLE_VALUE , NULL , NULL , 0 ))
+{
+}
+
+iocp::~iocp( void ){
+	if ( _iocp  != INVALID_HANDLE_VALUE ) {
+        CloseHandle( _iocp );
+    }
+    _iocp = INVALID_HANDLE_VALUE;	
+}
+
+
+bool iocp::register_handle( SOCKET fd , void* k) {
+	return CreateIoCompletionPort( reinterpret_cast< HANDLE >(fd) 
+        , _iocp
+        , reinterpret_cast< ULONG_PTR >( k )
+        , 0 ) != NULL;
+}
+
+void iocp::unregister_handle( SOCKET fd ) {
+	//
+}
+
+void iocp::wake_up( void ) {
+	PostQueuedCompletionStatus( _iocp , 0 , 0 , 0 ); 
+}
+
+void iocp::wait( const tdk::time_span& w ) {
+	LPOVERLAPPED overlapped = nullptr;
+    ULONG_PTR key = 0;
+    DWORD bytes_transferred = 0;
+    
+    bool result = GetQueuedCompletionStatus( 
+        _iocp
+        , &bytes_transferred 
+        , &key
+        , &overlapped
+        , static_cast<DWORD>(w.total_milli_seconds())) == TRUE;
+
+	if ( !result ) {
+
+	}
+}
+
+}}
