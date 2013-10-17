@@ -5,9 +5,9 @@
 
 namespace tdk {
 
-//todo timezone °ü·ÃÇÏ¿© ¼öÁ¤ÇÒ ºÎºÐ È®ÀÎÇÏÀÚ 
+//todo timezone ï¿½ï¿½ï¿½ï¿½Ï¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Îºï¿½ È®ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 
 class time_span;
-// 1970 01 01 ±âÁØ
+// 1970 01 01 ï¿½ï¿½ï¿½ï¿½
 class date_time {
 public:
     date_time( void );
@@ -23,7 +23,8 @@ public:
     date_time& operator=(const date_time& rhs );
     ~date_time( void );
 	    
-	uint64_t time( void ) const;	
+	uint64_t time( void ) const;
+	uint64_t time_to_milli_seconds( void ) const;
 public:
     bool operator==( const date_time& rhs ) const;
     bool operator!=( const date_time& rhs ) const;
@@ -58,9 +59,13 @@ public:
 public: 
 	static date_time utc();
 	static date_time local();
-    static date_time utc( const date_time& local );
-	static date_time local( const date_time& utc );
-    std::string to_string(void);
+	static date_time utc(const date_time& local);
+	static date_time local(const date_time& utc);
+
+	static date_time remote( const std::string& name );
+	static void remote( const std::string& name , const time_span& diff );
+
+	std::string to_string(void);
 
 private:
 	uint64_t _time;

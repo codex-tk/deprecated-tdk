@@ -74,7 +74,7 @@ public:
 
 public:
     static time_span from_micro_seconds( const int64_t v );
-    static time_span from_milli_seconds( const int32_t v );
+    static time_span from_milli_seconds( const int64_t v );
     static time_span from_seconds( const int32_t v );
     static time_span from_minutes( const int32_t v );
     static time_span from_hours( const int32_t v );

@@ -2,6 +2,8 @@
 #include <tdk/time/date_time.hpp>
 #include <tdk/time/time_span.hpp>
 #include <tdk/time/ctime.hpp>
+#include <tdk/time/remote_time.hpp>
+#include <tdk/util/singleton.hpp>
 
 using namespace tdk::time;
 
@@ -28,7 +30,7 @@ date_time::date_time( const uint16_t year
 	span += time_span::from_minutes( minute );
 	span += time_span::from_hours( hour );
 	span += time_span::from_days( ctime::daycount( 1970 , year -1 ) );
-	// day ´Â 1 ~ .. ÀÌ¹Ç·Î ´ÜÀ§·Î Ã³¸®ÇÏ±â À§ÇØ¼± - 1 ÇØ¾ßÇÔ/
+	// day ï¿½ï¿½ 1 ~ .. ï¿½Ì¹Ç·ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½ï¿½Ï±ï¿½ ï¿½ï¿½ï¿½Ø¼ï¿½ - 1 ï¿½Ø¾ï¿½ï¿½ï¿½/
 	span += time_span::from_days( ctime::daycount( year , month , day - 1 ) );
 	_time = span.delta();
 }
@@ -67,6 +69,10 @@ date_time date_time::local( const date_time& utc ) {
 
 uint64_t date_time::time( void ) const {
     return _time;
+}
+
+uint64_t date_time::time_to_milli_seconds( void ) const {
+	return _time /  tick::MILLI_SECOND_TO_MICRO_SECONDS;
 }
 
 bool date_time::operator==( const date_time& rhs ) const{
@@ -155,6 +161,14 @@ std::string date_time::to_string(void){
 		, st.wYear , st.wMonth , st.wDay , st.wHour , st.wMinute , st.wSecond , st.wMilliseconds );
 #endif
 	return std::string( buffer );
+}
+
+date_time date_time::remote( const std::string& name ) {
+	return date_time::utc() + tdk::util::singleton< tdk::remote_time >::instance()->diff( name );
+}
+
+void date_time::remote( const std::string& name , const time_span& diff ) {
+	tdk::util::singleton< tdk::remote_time >::instance()->register_time( name , diff );
 }
 
 }

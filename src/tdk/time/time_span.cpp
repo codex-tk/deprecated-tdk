@@ -83,7 +83,7 @@ time_span time_span::from_micro_seconds( const int64_t v ) {
     return time_span( v );
 }
 
-time_span time_span::from_milli_seconds( const int32_t v ) {
+time_span time_span::from_milli_seconds( const int64_t v ) {
     return time_span( v * static_cast<int64_t>(tick::MILLI_SECOND_TO_MICRO_SECONDS ));
 }
 
@@ -138,7 +138,7 @@ time_span& time_span::operator*=( const int32_t times ) {
 }   
 
 time_span  time_span::operator/ ( const int32_t times ) const{
-    return time_span( _delta / times > 0 ? times : 1 ); //max( 1 , times ) );
+    return time_span( _delta / (times > 0? times : 1)); //max( 1 , times ) );
 }
 
 time_span& time_span::operator/=( const int32_t times ) {
