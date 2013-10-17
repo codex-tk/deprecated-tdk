@@ -248,6 +248,7 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <DisableSpecificWarnings>4819;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -413,7 +414,7 @@
     <ClInclude Include="event_loop\io\task.hpp" />
     <ClInclude Include="event_loop\scheduler.hpp" />
     <ClInclude Include="event_loop\task.hpp" />
-    <ClInclude Include="event_loop\timer_task.hpp" />
+    <ClInclude Include="io\timer_task.hpp" />
     <ClInclude Include="geo.hpp" />
     <ClInclude Include="io\engine_detail.hpp" />
     <ClInclude Include="io\engine_scheduler_timer_win32.hpp" />

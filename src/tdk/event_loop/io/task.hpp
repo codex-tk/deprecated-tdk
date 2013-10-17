@@ -26,9 +26,20 @@ public:
 
     int io_bytes( void );
     void io_bytes( int io );
+#if defined (_WIN32)
+	struct overlapped_ex : public OVERLAPPED {
+		io::task* task_ptr;
+	};
+	OVERLAPPED* impl( void );
+#endif
 private:
+#if defined (_WIN32)
+	
+	overlapped_ex _impl;
+#else
 	std::error_code _error;
 	int _io_bytes;
+#endif
 };
 
 } /* namespace io */

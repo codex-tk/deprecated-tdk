@@ -45,9 +45,15 @@ void iocp::wait( const tdk::time_span& w ) {
         , &overlapped
         , static_cast<DWORD>(w.total_milli_seconds())) == TRUE;
 
+	if ( overlapped == nullptr )
+		return;
+	io::task* task_ptr = 
+		static_cast< io::task::overlapped_ex* >(overlapped)->task_ptr;
 	if ( !result ) {
-
+		task_ptr->error( tdk::platform::error());
 	}
+	task_ptr->io_bytes(bytes_transferred);
+	(*task_ptr)();
 }
 
 }}

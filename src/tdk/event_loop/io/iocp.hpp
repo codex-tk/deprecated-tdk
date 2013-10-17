@@ -1,25 +1,14 @@
 #ifndef __tdk_io_iocp_h__
 #define __tdk_io_iocp_h__
 
+#include <tdk/event_loop/io/task.hpp>
+#include <tdk/time/time_span.hpp>
+
 namespace tdk {
 namespace io {
 
 class iocp {
 public:
-	class task : public io::task {
-	public:
-		task( void );
-		task( tdk::task::handler h , void* ctx = nullptr );
-		~task( void );
-
-		OVERLAPPED* impl( void );
-	private:
-		struct overlapped_ex : public OVERLAPPED {
-			iocp::task* task;
-		};
-		overlapped_ex _ov;
-	};
-
 	iocp( void );
 	~iocp( void );
 
