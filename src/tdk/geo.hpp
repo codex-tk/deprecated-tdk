@@ -20,7 +20,7 @@ struct rect {
 	void set( A& a , const B& b ) const {
 		a.left = b.left;	a.top = b.top; a.right = b.right; a.bottom = b.bottom;
 	}
-#if defined( __WIN32 )
+#if defined( _WIN32 )
 	rect( const RECT& r ) { set( *this , r); }
 	rect& operator=( const RECT& r ) { set( *this , r); return *this; }
 	RECT to_RECT( void ) const  {
