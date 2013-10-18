@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include <tdk/event_loop/io/iocp.hpp>
 
-
+#if defined ( _WIN32 )
 namespace tdk {
 namespace io {
 
@@ -57,3 +57,4 @@ void iocp::wait( const tdk::time_span& w ) {
 }
 
 }}
+#endif

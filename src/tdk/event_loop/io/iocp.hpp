@@ -1,6 +1,7 @@
 #ifndef __tdk_io_iocp_h__
 #define __tdk_io_iocp_h__
 
+#if defined ( _WIN32 )
 #include <tdk/event_loop/io/task.hpp>
 #include <tdk/time/time_span.hpp>
 
@@ -24,4 +25,5 @@ private:
 
 }}
 
+#endif
 #endif

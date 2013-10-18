@@ -17,8 +17,10 @@ task::task( void )
 	, _io_bytes(0)
 #endif
 {
+#if defined (_WIN32 )
 	memset( &_impl , 0 , sizeof(_impl));
 	_impl.task_ptr = this;
+#endif
 }
 
 task::task( tdk::task::handler h , void* ctx )
@@ -29,8 +31,10 @@ task::task( tdk::task::handler h , void* ctx )
 	, _io_bytes(0)
 #endif
 {
+#if defined (_WIN32 )
 	memset( &_impl , 0 , sizeof(_impl));
 	_impl.task_ptr = this;
+#endif
 }
 
 task::~task( void ) {

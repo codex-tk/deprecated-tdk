@@ -5,13 +5,7 @@
 	<storageModule moduleId="org.eclipse.cdt.core.settings">
 		<cconfiguration id="cdt.managedbuild.config.gnu.lib.debug.1458606164">
 			<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="cdt.managedbuild.config.gnu.lib.debug.1458606164" moduleId="org.eclipse.cdt.core.settings" name="Debug">
-				<externalSettings>
-					<externalSetting>
-						<entry flags="VALUE_WORKSPACE_PATH" kind="includePath" name="/tdk"/>
-						<entry flags="VALUE_WORKSPACE_PATH" kind="libraryPath" name="/tdk/Debug"/>
-						<entry flags="RESOLVED" kind="libraryFile" name="tdk" srcPrefixMapping="" srcRootPath=""/>
-					</externalSetting>
-				</externalSettings>
+				<externalSettings/>
 				<extensions>
 					<extension id="org.eclipse.cdt.core.ELF" point="org.eclipse.cdt.core.BinaryParser"/>
 					<extension id="org.eclipse.cdt.core.GmakeErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
@@ -25,14 +19,20 @@
 					<folderInfo id="cdt.managedbuild.config.gnu.lib.debug.1458606164." name="/" resourcePath="">
 						<toolChain id="cdt.managedbuild.toolchain.gnu.lib.debug.1355895028" name="Linux GCC" superClass="cdt.managedbuild.toolchain.gnu.lib.debug">
 							<targetPlatform id="cdt.managedbuild.target.gnu.platform.lib.debug.1829533525" name="Debug Platform" superClass="cdt.managedbuild.target.gnu.platform.lib.debug"/>
-							<builder buildPath="${workspace_loc:/tdk}/Debug" id="cdt.managedbuild.target.gnu.builder.lib.debug.1151169417" keepEnvironmentInBuildfile="false" managedBuildOn="true" name="Gnu Make Builder" superClass="cdt.managedbuild.target.gnu.builder.lib.debug"/>
+							<builder buildPath="${workspace_loc:/tdk}/Debug" id="cdt.managedbuild.target.gnu.builder.lib.debug.1151169417" keepEnvironmentInBuildfile="false" managedBuildOn="true" name="Gnu Make Builder" superClass="cdt.managedbuild.target.gnu.builder.lib.debug">
+								<outputEntries>
+									<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="outputPath" name="Debug"/>
+									<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="outputPath" name="Release"/>
+								</outputEntries>
+							</builder>
 							<tool id="cdt.managedbuild.tool.gnu.archiver.lib.debug.489844720" name="GCC Archiver" superClass="cdt.managedbuild.tool.gnu.archiver.lib.debug"/>
 							<tool id="cdt.managedbuild.tool.gnu.cpp.compiler.lib.debug.252505733" name="GCC C++ Compiler" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.lib.debug">
 								<option id="gnu.cpp.compiler.lib.debug.option.optimization.level.1666710403" name="Optimization Level" superClass="gnu.cpp.compiler.lib.debug.option.optimization.level" value="gnu.cpp.compiler.optimization.level.none" valueType="enumerated"/>
 								<option id="gnu.cpp.compiler.lib.debug.option.debugging.level.803875617" name="Debug Level" superClass="gnu.cpp.compiler.lib.debug.option.debugging.level" value="gnu.cpp.compiler.debugging.level.max" valueType="enumerated"/>
 								<option id="gnu.cpp.compiler.option.include.paths.450770423" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" valueType="includePath">
-									<listOptionValue builtIn="false" value=".././"/>
-									<listOptionValue builtIn="false" value=".././../"/>
+									<listOptionValue builtIn="false" value="/home/tk/dev/024.center/src/tdk/"/>
+									<listOptionValue builtIn="false" value="/home/tk/dev/024.center/src/tdk"/>
+									<listOptionValue builtIn="false" value="/home/tk/dev/024.center/src/"/>
 								</option>
 								<option id="gnu.cpp.compiler.option.other.other.1587764384" name="Other flags" superClass="gnu.cpp.compiler.option.other.other" value="-c -fmessage-length=0 -std=c++11" valueType="string"/>
 								<option id="gnu.cpp.compiler.option.preprocessor.def.1678962699" name="Defined symbols (-D)" superClass="gnu.cpp.compiler.option.preprocessor.def" valueType="definedSymbols">
@@ -43,17 +43,30 @@
 							<tool id="cdt.managedbuild.tool.gnu.c.compiler.lib.debug.2024591597" name="GCC C Compiler" superClass="cdt.managedbuild.tool.gnu.c.compiler.lib.debug">
 								<option defaultValue="gnu.c.optimization.level.none" id="gnu.c.compiler.lib.debug.option.optimization.level.1022673111" name="Optimization Level" superClass="gnu.c.compiler.lib.debug.option.optimization.level" valueType="enumerated"/>
 								<option id="gnu.c.compiler.lib.debug.option.debugging.level.1945418089" name="Debug Level" superClass="gnu.c.compiler.lib.debug.option.debugging.level" value="gnu.c.debugging.level.max" valueType="enumerated"/>
+								<option id="gnu.c.compiler.option.include.paths.1684041212" name="Include paths (-I)" superClass="gnu.c.compiler.option.include.paths" valueType="includePath">
+									<listOptionValue builtIn="false" value="/home/tk/dev/024.center/src/tdk/"/>
+									<listOptionValue builtIn="false" value="/home/tk/dev/024.center/src/tdk"/>
+									<listOptionValue builtIn="false" value="/home/tk/dev/024.center/src/"/>
+								</option>
+								<option id="gnu.c.compiler.option.preprocessor.def.symbols.634361441" name="Defined symbols (-D)" superClass="gnu.c.compiler.option.preprocessor.def.symbols" valueType="definedSymbols">
+									<listOptionValue builtIn="false" value="__GXX_EXPERIMENTAL_CXX0X__"/>
+								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.c.compiler.input.461687774" superClass="cdt.managedbuild.tool.gnu.c.compiler.input"/>
 							</tool>
 							<tool id="cdt.managedbuild.tool.gnu.c.linker.base.1437416172" name="GCC C Linker" superClass="cdt.managedbuild.tool.gnu.c.linker.base"/>
 							<tool id="cdt.managedbuild.tool.gnu.cpp.linker.base.2024120849" name="GCC C++ Linker" superClass="cdt.managedbuild.tool.gnu.cpp.linker.base"/>
 							<tool id="cdt.managedbuild.tool.gnu.assembler.lib.debug.1264035674" name="GCC Assembler" superClass="cdt.managedbuild.tool.gnu.assembler.lib.debug">
+								<option id="gnu.both.asm.option.include.paths.1918600275" name="Include paths (-I)" superClass="gnu.both.asm.option.include.paths" valueType="includePath">
+									<listOptionValue builtIn="false" value="/home/tk/dev/024.center/src/tdk/"/>
+									<listOptionValue builtIn="false" value="/home/tk/dev/024.center/src/tdk"/>
+									<listOptionValue builtIn="false" value="/home/tk/dev/024.center/src/"/>
+								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.843910280" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
 							</tool>
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="io/ip/tcp/acceptor_linux.cpp|io/ip/tcp/channel_linux.cpp|io/engine_scheduler_timer_win32.cpp|threading/atomic/memory_order_win32.cpp|io/engine_tcp_win32.cpp|io/engine_scheduler_win32.cpp|io/ip/basic_socket.cpp|threading/auto_reset_event_win32.cpp|io/ip/tcp/socket_win32.cpp|network|io/ip/tcp/operation/connect_operation_win32.cpp|io/ip/tcp/operation/accept_operation_win32.cpp|io/completion_port_win32.cpp|io/engine_win32.cpp|log/writer/console_writer.cpp|log/formatter/mb_string_formatter.cpp|device/display_win32.cpp|threading/atomic/atomic_win32.cpp|util/win32|threading/mutex_win32.cpp|io/ip/tcp/operation/send_operation_win32.cpp|device/monitor_win32.cpp|util/string_win32.cpp|buffer/marshal.cpp|io/ip/tcp/operation/recv_operation_win32.cpp|task/queue_timer_win32.cpp" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
+						<entry excluding="io/engine_scheduler_timer_win32.cpp|threading/atomic/memory_order_win32.cpp|io/engine_tcp_win32.cpp|io/engine_scheduler_win32.cpp|io/ip/basic_socket.cpp|threading/auto_reset_event_win32.cpp|io/ip/tcp/socket_win32.cpp|network|io/ip/tcp/operation/connect_operation_win32.cpp|io/ip/tcp/operation/accept_operation_win32.cpp|io/completion_port_win32.cpp|io/engine_win32.cpp|log/writer/console_writer.cpp|log/formatter/mb_string_formatter.cpp|device/display_win32.cpp|threading/atomic/atomic_win32.cpp|util/win32|io/ip/tcp/acceptor_linux.cpp|threading/mutex_win32.cpp|io/ip/tcp/operation/send_operation_win32.cpp|device/monitor_win32.cpp|util/string_win32.cpp|io/ip/tcp/channel_linux.cpp|buffer/marshal.cpp|io/ip/tcp/operation/recv_operation_win32.cpp|task/queue_timer_win32.cpp" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
