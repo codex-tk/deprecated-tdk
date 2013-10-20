@@ -4,8 +4,8 @@
  *  Created on: 2013. 10. 17.
  *      Author: tk
  */
-
-#include <time/remote_time.hpp>
+#include "stdafx.h"
+#include <tdk/time/remote_time.hpp>
 
 namespace tdk {
 

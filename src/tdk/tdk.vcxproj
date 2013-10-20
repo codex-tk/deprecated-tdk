@@ -395,6 +395,8 @@
     <ClInclude Include="alloc.hpp" />
     <ClInclude Include="buffer\array.hpp" />
     <ClInclude Include="buffer\marshal.hpp" />
+    <ClInclude Include="event_loop\event_loop.hpp" />
+    <ClInclude Include="event_loop\io\ip\tcp\pipeline\connector.hpp" />
     <ClInclude Include="crypto\base64.hpp" />
     <ClInclude Include="buffer\allocator.hpp" />
     <ClInclude Include="buffer\buffer_base.hpp" />
@@ -410,6 +412,11 @@
     <ClInclude Include="device\monitor_win32.hpp" />
     <ClInclude Include="error\error_category_epoll.hpp" />
     <ClInclude Include="event_loop\io\iocp.hpp" />
+    <ClInclude Include="event_loop\io\ip\tcp\pipeline\filter.hpp" />
+    <ClInclude Include="event_loop\io\ip\tcp\pipeline\pipeline.hpp" />
+    <ClInclude Include="event_loop\io\ip\tcp\pipeline\pipeline_builder.hpp" />
+    <ClInclude Include="event_loop\io\ip\tcp\pipeline\pipeline_event.hpp" />
+    <ClInclude Include="event_loop\io\ip\tcp\pipeline\socket_filter.hpp" />
     <ClInclude Include="event_loop\io\select.hpp" />
     <ClInclude Include="event_loop\io\task.hpp" />
     <ClInclude Include="event_loop\scheduler.hpp" />
@@ -424,6 +431,7 @@
     <ClInclude Include="log\writer\udp_writer.hpp" />
     <ClInclude Include="threading\auto_reset_event_win32.hpp" />
     <ClInclude Include="threading\mutex_win32.hpp" />
+    <ClInclude Include="time\remote_time.hpp" />
     <ClInclude Include="tmp\compile_time_error.hpp" />
     <ClInclude Include="util\initializer.hpp" />
     <ClInclude Include="util\rtti.hpp" />
@@ -498,7 +506,14 @@
     <ClCompile Include="device\display_win32.cpp" />
     <ClCompile Include="device\monitor_win32.cpp" />
     <ClCompile Include="error\error_category_epoll.cpp" />
+    <ClCompile Include="event_loop\event_loop.cpp" />
     <ClCompile Include="event_loop\io\iocp.cpp" />
+    <ClCompile Include="event_loop\io\ip\tcp\pipeline\connector.cpp" />
+    <ClCompile Include="event_loop\io\ip\tcp\pipeline\filter.cpp" />
+    <ClCompile Include="event_loop\io\ip\tcp\pipeline\pipeline.cpp" />
+    <ClCompile Include="event_loop\io\ip\tcp\pipeline\pipeline_builder.cpp" />
+    <ClCompile Include="event_loop\io\ip\tcp\pipeline\pipeline_event.cpp" />
+    <ClCompile Include="event_loop\io\ip\tcp\pipeline\socket_filter.cpp" />
     <ClCompile Include="event_loop\io\task.cpp" />
     <ClCompile Include="event_loop\scheduler.cpp" />
     <ClCompile Include="event_loop\task.cpp" />
@@ -511,6 +526,7 @@
     <ClCompile Include="log\writer\udp_writer.cpp" />
     <ClCompile Include="threading\auto_reset_event_win32.cpp" />
     <ClCompile Include="threading\mutex_win32.cpp" />
+    <ClCompile Include="time\remote_time.cpp" />
     <ClCompile Include="util\rtti.cpp" />
     <ClCompile Include="task\queue_timer_win32.cpp" />
     <ClCompile Include="task\timer_handler.cpp" />

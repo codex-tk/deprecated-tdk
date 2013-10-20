@@ -4,15 +4,10 @@
 #include "stdafx.h"
 
 #include <tdk/tdk.hpp>
-#include <tdk/error/error_platform.hpp>
-#include <tdk/util/string.hpp>
-#include <tdk/log/logger.hpp>
-#include <tdk/log/writer/console_writer.hpp>
-#include <tdk/network/address.hpp>
-#include <tdk/network/socket.hpp>
-#include <tdk.task/task/event_loop.hpp>
 #include <thread>
-
+#include <tdk/log/logger.hpp>
+#include <tdk/error/error_platform.hpp>
+#include <tdk/log/writer/console_writer.hpp>
 #if defined ( _DEBUG )
 	#pragma comment( lib , "gtest_x86_debug_mtdd")
 	//#pragma comment( lib , "gtest_x86_debug_mtd")
@@ -41,9 +36,12 @@ int _tmain(int argc, _TCHAR* argv[])
 
 	tdk::init();
 
-	tdk::log::logger log(L"test.logger");
-	log.add_writer( tdk::log::console_writer::instance() );
+	tdk::log::logger logger(L"test.logger");
+	tdk::log::writer_ptr ptr = tdk::log::console_writer::instance();
+	logger.add_writer( ptr );
+	return RUN_ALL_TESTS();
 
+	/*
 	std::vector< std::thread* > thread;
 	for ( int i = 0 ; i < 10 ; ++i ) {
 		std::thread* t = new std::thread(
@@ -73,21 +71,21 @@ int _tmain(int argc, _TCHAR* argv[])
 	}
 	getchar();
 	
-
+	*/
 	//CoInitialize( nullptr );
-
+	/*
 	
-
 
 	//tdk::log::logger log(L"test.logger");
 	//log.add_writer( tdk::log::console_writer::instance() );
+	/*
 	LOG_D( log , _T("ÇÑ±Û %d") , 1 );	
 	LOG_D( log , "%s" , tdk::platform::error(0).message().c_str());
 	LOG_D( log , _T("%s") , tdk::platform::error(0).message().c_str() );
 	tdk::network::address addr("google.co.kr" , 80 );
 	LOG_D( log , "%s"  , addr.ip_address().c_str());
+	*/
 	
-	return RUN_ALL_TESTS();
 	/*
 	// default C
 	std::string old_locale = setlocale( LC_ALL , nullptr );

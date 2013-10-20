@@ -85,7 +85,8 @@ void event_loop::remove_active( void ) {
 	_active_handles.fetch_sub( 1 );
 }
 
-tdk::io::epoll& event_loop::io_impl( void ) {
+
+event_loop::io_impl_type& event_loop::io_impl( void ) {
 	return _io_impl;
 }
 

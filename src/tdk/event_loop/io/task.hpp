@@ -21,7 +21,7 @@ public:
 
 	~task( void );
 
-	const std::error_code& error( void ) ;
+	std::error_code error( void ) ;
     void error( const std::error_code& ec ) ;
 
     int io_bytes( void );
@@ -31,6 +31,8 @@ public:
 		io::task* task_ptr;
 	};
 	OVERLAPPED* impl( void );
+
+	void reset( void );
 #endif
 private:
 #if defined (_WIN32)

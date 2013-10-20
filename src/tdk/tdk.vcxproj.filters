@@ -78,6 +78,14 @@
     <ClCompile Include="event_loop\io\task.cpp" />
     <ClCompile Include="crypto\padding.cpp" />
     <ClCompile Include="event_loop\io\iocp.cpp" />
+    <ClCompile Include="event_loop\io\ip\tcp\pipeline\connector.cpp" />
+    <ClCompile Include="event_loop\event_loop.cpp" />
+    <ClCompile Include="time\remote_time.cpp" />
+    <ClCompile Include="event_loop\io\ip\tcp\pipeline\pipeline_builder.cpp" />
+    <ClCompile Include="event_loop\io\ip\tcp\pipeline\pipeline.cpp" />
+    <ClCompile Include="event_loop\io\ip\tcp\pipeline\socket_filter.cpp" />
+    <ClCompile Include="event_loop\io\ip\tcp\pipeline\filter.cpp" />
+    <ClCompile Include="event_loop\io\ip\tcp\pipeline\pipeline_event.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="buffer\array.hpp" />
@@ -168,6 +176,14 @@
     <ClInclude Include="event_loop\io\task.hpp" />
     <ClInclude Include="crypto\padding.hpp" />
     <ClInclude Include="io\timer_task.hpp" />
+    <ClInclude Include="event_loop\io\ip\tcp\pipeline\connector.hpp" />
+    <ClInclude Include="event_loop\io\ip\tcp\pipeline\pipeline_builder.hpp" />
+    <ClInclude Include="event_loop\event_loop.hpp" />
+    <ClInclude Include="time\remote_time.hpp" />
+    <ClInclude Include="event_loop\io\ip\tcp\pipeline\pipeline.hpp" />
+    <ClInclude Include="event_loop\io\ip\tcp\pipeline\socket_filter.hpp" />
+    <ClInclude Include="event_loop\io\ip\tcp\pipeline\filter.hpp" />
+    <ClInclude Include="event_loop\io\ip\tcp\pipeline\pipeline_event.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="crypto\seed\SEED_KISA.tab" />

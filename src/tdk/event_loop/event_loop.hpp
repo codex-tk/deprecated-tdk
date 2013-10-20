@@ -19,6 +19,12 @@ namespace tdk {
 
 class event_loop{
 public:
+
+#if defined ( linux ) || defined( __linux )
+	typedef tdk::io::epoll io_impl_type;
+#elif defined( _WIN32 )
+	typedef tdk::io::iocp io_impl_type;
+#endif
 	event_loop( void );
 	~event_loop( void );
 	
@@ -35,9 +41,8 @@ public:
 	void add_active( void );
 	void remove_active( void );
 
-	tdk::io::epoll& io_impl( void );
+	io_impl_type& io_impl( void );
 
-	//
 	static event_loop& default_loop( void );
 private:
 	int _run_tasks( void );
@@ -48,10 +53,7 @@ private:
 	tdk::slist_queue< tdk::task > _tasks;
 	tdk::slist_queue< tdk::task > _tasks_thread;
 	std::thread::id _thread_id;
-#if defined( linux ) || defined( __linux__ )
-	tdk::io::epoll _io_impl;
-#endif
-
+	io_impl_type _io_impl;
 };
 
 }

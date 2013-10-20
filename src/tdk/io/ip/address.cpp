@@ -225,6 +225,41 @@ socklen_t*		address::sockaddr_length_ptr( void ) {
 	return &_length;
 }
 
+bool address::resolve( const std::string& ip_address
+		, int port 
+		, std::vector< address >& addrs
+		, int af ) 
+{
+	struct addrinfo hint = {0,};
+	struct addrinfo* res = nullptr;
+	struct addrinfo* temp = nullptr;
+	hint.ai_family	    = AF_UNSPEC;
+	hint.ai_socktype	= SOCK_STREAM;
+	hint.ai_flags		= AI_PASSIVE;
+	char port_string[12];
+#if defined( _WIN32 )
+	sprintf_s( port_string , "%d" , port );
+#else
+	sprintf( port_string , "%d" , port );
+#endif
+	int err = getaddrinfo( ip_address.c_str() , port_string , &hint, &res);
+    if ( err != 0) {
+		return false;
+    }
+	temp = res;
+    while (temp) {
+		address a( temp->ai_addr, static_cast<int>(temp->ai_addrlen));	
+		if ( a.family() == af ) {
+			addrs.push_back( a );
+		}
+		temp = temp->ai_next;
+	}
+	if ( res ) {
+		freeaddrinfo(res);
+	}
+	return true;	
+}
+
 bool address::resolve( 
 	const std::string& ip_address , 
 	int port , 

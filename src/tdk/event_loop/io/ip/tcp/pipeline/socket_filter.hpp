@@ -9,7 +9,9 @@
 #define SOCKET_FILTER_HPP_
 
 #include <tdk/event_loop/io/ip/tcp/pipeline/filter.hpp>
-#include <tdk/event_loop/io/epoll.hpp>
+#include <tdk/io/ip/socket.hpp>
+#include <tdk/event_loop/io/task.hpp>
+#include <tdk/buffer/memory_block.hpp>
 
 namespace tdk {
 namespace io {
@@ -18,13 +20,24 @@ namespace tcp {
 
 class socket_filter: public tdk::io::ip::tcp::filter {
 public:
-	socket_filter();
+	socket_filter( SOCKET fd );
 	virtual ~socket_filter();
 
-	void handle_event( int evt );
+	virtual void on_connect( connect_event& evt );
+	virtual void on_recv( recv_event& evt );
+	virtual void on_error( error_event& evt );
+	virtual void on_close( close_event& e );
+
+	virtual void send( const std::vector< message >& msg );
+
+	void do_recv( void );
+	void on_recv_complete( void );
+
+	bool closed( void );
 private:
-	tdk::io::epoll::task _epoll_task;
-	int _fd;
+	tdk::io::ip::socket _fd;
+	tdk::buffer::memory_block _recv_buffer;
+	tdk::io::task _on_recv;
 };
 
 } /* namespace tcp */

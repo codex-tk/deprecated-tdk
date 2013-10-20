@@ -44,7 +44,13 @@ public:
 	socklen_t*		sockaddr_length_ptr( void );
 
 public:
-	static bool resolve( const std::string& ipAddress , int port , std::vector< address >& address );
+	static bool resolve( const std::string& ipAddress
+		, int port 
+		, std::vector< address >& address );
+	static bool resolve( const std::string& ipAddress
+		, int port 
+		, std::vector< address >& address
+		, int af );
 #if defined ( _WIN32_WINNT ) && ( _WIN32_WINNT >= 0x0600 )
 	static bool resolve( const std::wstring& ipAddress , const std::wstring& port , std::vector< address >& address );
 #endif

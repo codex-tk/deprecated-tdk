@@ -41,7 +41,7 @@ task::~task( void ) {
 
 }
 
-const std::error_code& task::error( void ) {
+std::error_code task::error( void ) {
 #if defined (_WIN32 )
 	return std::error_code( static_cast<int>(_impl.Internal) , *(std::error_category*)_impl.InternalHigh);
 #else
@@ -73,6 +73,17 @@ void task::io_bytes( int io ) {
 	_io_bytes = io;
 #endif
 }
+
+#if defined (_WIN32 )
+OVERLAPPED* task::impl( void ) {
+	return &_impl;
+}
+
+void task::reset( void ) {
+	memset( &_impl , 0 , sizeof(_impl));
+	_impl.task_ptr = this;
+}
+#endif
 
 
 } /* namespace io */
