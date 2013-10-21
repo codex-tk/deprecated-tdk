@@ -30,9 +30,8 @@
 								<option id="gnu.cpp.compiler.lib.debug.option.optimization.level.1666710403" name="Optimization Level" superClass="gnu.cpp.compiler.lib.debug.option.optimization.level" value="gnu.cpp.compiler.optimization.level.none" valueType="enumerated"/>
 								<option id="gnu.cpp.compiler.lib.debug.option.debugging.level.803875617" name="Debug Level" superClass="gnu.cpp.compiler.lib.debug.option.debugging.level" value="gnu.cpp.compiler.debugging.level.max" valueType="enumerated"/>
 								<option id="gnu.cpp.compiler.option.include.paths.450770423" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" valueType="includePath">
-									<listOptionValue builtIn="false" value="/home/tk/dev/024.center/src/tdk/"/>
-									<listOptionValue builtIn="false" value="/home/tk/dev/024.center/src/tdk"/>
-									<listOptionValue builtIn="false" value="/home/tk/dev/024.center/src/"/>
+									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/..&quot;"/>
 								</option>
 								<option id="gnu.cpp.compiler.option.other.other.1587764384" name="Other flags" superClass="gnu.cpp.compiler.option.other.other" value="-c -fmessage-length=0 -std=c++11" valueType="string"/>
 								<option id="gnu.cpp.compiler.option.preprocessor.def.1678962699" name="Defined symbols (-D)" superClass="gnu.cpp.compiler.option.preprocessor.def" valueType="definedSymbols">
@@ -103,6 +102,7 @@
 									<listOptionValue builtIn="false" value="/home/tk/dev/tdk/src/tdk"/>
 									<listOptionValue builtIn="false" value=".././"/>
 									<listOptionValue builtIn="false" value=".././../"/>
+									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}&quot;"/>
 								</option>
 								<option id="gnu.cpp.compiler.option.preprocessor.def.294153937" name="Defined symbols (-D)" superClass="gnu.cpp.compiler.option.preprocessor.def" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="__GXX_EXPERIMENTAL_CXX0X__"/>

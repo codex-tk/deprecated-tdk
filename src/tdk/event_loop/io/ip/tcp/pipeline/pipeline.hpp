@@ -6,7 +6,7 @@
 #include <tdk/event_loop/io/ip/tcp/pipeline/pipeline_event.hpp>
 #include <tdk/event_loop/io/ip/tcp/pipeline/filter_chain.hpp>
 #include <tdk/event_loop/io/ip/tcp/pipeline/config.hpp>
-
+#include <tdk/util/rc_ptr.hpp>
 #include <atomic>
 #include <list>
 
@@ -16,7 +16,7 @@ namespace io {
 namespace ip {
 namespace tcp {
 class filter;
-class pipeline {
+class pipeline : public tdk::rc_ptr_base< pipeline > {
 public:
 	pipeline( tdk::event_loop& loop
 			, const tdk::io::ip::tcp::config& cfg
@@ -36,15 +36,16 @@ public:
 	void handle_readable( void );
 	void handle_writeable( void );
 
-	void on_write( tcp::message& msg );
+	void do_write( tcp::message& msg );
 private:
 	void _error_propagation(const std::error_code& err );
+	void _error_propagation_internal(const std::error_code& err );
 	void _on_closed( void );
 	void _do_write( tcp::message& msg );
 	bool _send_remains( void );
 public:
 	void on_connected( void );
-
+	void on_accepted( const tdk::io::ip::address& addr );
 public:
 	static void _handle_io_events( tdk::task* t );
 	void handle_io_events( void );

@@ -79,15 +79,21 @@ void filter::on_closed(void) {
 	}
 }
 
-void filter::on_write( tcp::message& msg ) {
+void filter::do_write( tcp::message& msg ) {
 	write_out_bound(msg);
+}
+
+void filter::on_write( int write , bool flushed ){
+	if ( _in_bound ) {
+		_in_bound->on_write(write,flushed);
+	}
 }
 
 void filter::write_out_bound( tcp::message& msg ) {
 	if ( _out_bound ) {
-		_out_bound->on_write( msg );
+		_out_bound->do_write( msg );
 	} else {
-		_pipeline->on_write( msg );
+		_pipeline->do_write( msg );
 	}
 }
 

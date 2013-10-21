@@ -27,21 +27,28 @@ TEST( tdk_connector , connect ) {
 			printf( "On Connect %s\r\n" , addr.ip_address().c_str());
 			return true;
 		}
+
+
 	private:
 	};
 	
-	class test_filter : public tdk::io::ip::tcp::filter {
+	class test_handler : public tdk::io::ip::tcp::filter {
 	public:
-		test_filter( void ) {
+		test_handler( void ) {
 
 		}
-		virtual ~test_filter( void ) {
+		virtual ~test_handler( void ) {
 
-		}
+		}/*
+		virtual void do_write( tdk::io::ip::tcp::message& msg ) {
+			printf("Do Write %d\r\n" ,(int)msg.data().length());
+			write_out_bound(msg);
+		}*/
 		virtual void on_connected( void ) {
 			tdk::io::ip::tcp::message msg;
 			msg.data().write( "GET /index HTTP/1.1\r\n\r\n" );
-			write_out_bound( msg );
+			pipeline()->write( msg );
+			//write_out_bound( msg );
 		}
 		virtual void on_error( const std::error_code& ec ) {
 			printf( "error %s\r\n" , ec.message().c_str());
@@ -52,6 +59,11 @@ TEST( tdk_connector , connect ) {
 			char end = '\0';
 			msg.data().write(&end,1);
 			printf("%s\r\n" , msg.data().rd_ptr());
+			pipeline()->close();
+		}
+
+		virtual void on_write( int w , bool flushed ) {
+			printf( "Write %d\r\n" , w);
 		}
 
 		virtual void on_closed( void ) {
@@ -59,10 +71,11 @@ TEST( tdk_connector , connect ) {
 		}
 	};
 
+
 	class test_builder : public tdk::io::ip::tcp::pipeline_builder{
 	public:
 		virtual std::error_code build( tdk::io::ip::tcp::pipeline& p ) {
-			p.add( new test_filter());
+			p.add( new test_handler());
 			return std::error_code();
 		}
 	};

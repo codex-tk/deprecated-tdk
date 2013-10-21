@@ -37,7 +37,8 @@ public:
 	virtual void on_error( const std::error_code& ec );
 	virtual void on_read( tcp::message& msg );
 	virtual void on_closed( void );
-	virtual void on_write( tcp::message& msg );
+	virtual void do_write( tcp::message& msg );
+	virtual void on_write( int write , bool flushed );
 private:
 	tcp::pipeline* _pipeline;
 	filter* _in_bound;

@@ -15,9 +15,7 @@ namespace tcp {
 
 struct config {
 	config( int rbs = 4096);
-
 	int recv_buffer_size;
-
 	static const config& default_config( void );
 };
 

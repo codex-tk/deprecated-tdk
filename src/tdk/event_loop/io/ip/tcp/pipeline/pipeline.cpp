@@ -15,7 +15,6 @@ namespace detail {
 	int CLOSE_BIT	= 0x02;
 }
 
-
 pipeline::pipeline(
 	tdk::event_loop& loop
 	, const tdk::io::ip::tcp::config& cfg
@@ -42,6 +41,7 @@ void pipeline::add( filter* f ) {
 }
 
 void pipeline::on_connected(void) {
+	retain();
 	_chain.inbound_filter()->on_connected();
 
 	if ( _state.load() != 0 )
@@ -54,7 +54,25 @@ void pipeline::on_connected(void) {
 	{
 		_loop.add_active();
 	} else {
-		error_propagation( tdk::platform::error());
+		_error_propagation_internal( tdk::platform::error());
+	}
+}
+
+void pipeline::on_accepted( const tdk::io::ip::address& addr ) {
+	retain();
+	_chain.inbound_filter()->on_accepted(addr);
+
+	if ( _state.load() != 0 )
+		return;
+
+	_io_context.evt( EPOLLIN );
+	if ( _loop.io_impl().register_handle(
+				_socket.handle()
+				, &_io_context ) )
+	{
+		_loop.add_active();
+	} else {
+		_error_propagation_internal( tdk::platform::error());
 	}
 }
 
@@ -74,10 +92,10 @@ void pipeline::handle_io_events( void ) {
 		if ( _socket.get_option( sock_error ) && sock_error.value()!= 0){
 			ec = tdk::platform::error( sock_error.value());
 		}
-		error_propagation( ec );
+		_error_propagation_internal( ec );
 	} else {
 		if ( evt & EPOLLHUP ) {
-			error_propagation(tdk::tdk_epoll_hang_up);
+			_error_propagation_internal(tdk::tdk_epoll_hang_up);
 		} else {
 			if ( evt & EPOLLIN ) {
 				handle_readable();
@@ -100,9 +118,9 @@ void pipeline::handle_readable( void ) {
 	} while (( readsize < 0) && ( errno == EINTR ));
 
 	if ( readsize < 0 ) {
-		error_propagation( tdk::platform::error());
+		_error_propagation_internal( tdk::platform::error());
 	} else if ( readsize == 0 ){
-		error_propagation( tdk::tdk_network_remote_closed );
+		_error_propagation_internal( tdk::tdk_network_remote_closed );
 	} else {
 		msg.data().wr_ptr(readsize);
 		_chain.inbound_filter()->on_read( msg );
@@ -110,20 +128,21 @@ void pipeline::handle_readable( void ) {
 }
 
 void pipeline::handle_writeable( void ) {
-	if ( _send_remains() ) {
-		if ( !_send_queue.empty() )  {
-			_io_context.evt(EPOLLIN|EPOLLOUT);
-		} else {
-			_io_context.evt(EPOLLIN);
-		}
-		if ( _loop.io_impl().register_handle(
-					_socket.handle()
-					, &_io_context ))
-		{
-			return;
-		} else {
-			return error_propagation(tdk::platform::error());
-		}
+	if ( !_send_remains() ) {
+		_error_propagation_internal(tdk::platform::error());
+		return;
+	}
+
+	if ( _send_queue.empty() ) {
+		_io_context.evt(EPOLLIN);
+	} else {
+		_io_context.evt(EPOLLIN|EPOLLOUT);
+	}
+	if ( !_loop.io_impl().register_handle(
+				_socket.handle()
+				, &_io_context ))
+	{
+		_error_propagation_internal(tdk::platform::error());
 	}
 }
 
@@ -132,13 +151,22 @@ void pipeline::_error_propagation(const std::error_code& err ) {
 	_chain.inbound_filter()->on_error(err);
 }
 
+void pipeline::_error_propagation_internal(const std::error_code& err ) {
+	if ( _state.fetch_or( detail::ERROR_BIT ) & detail::ERROR_BIT )
+		return;
+	_error_propagation(err);
+}
+
 void pipeline::error_propagation( const std::error_code& err  ) {
 	if ( _state.fetch_or( detail::ERROR_BIT ) & detail::ERROR_BIT )
 		return;
+	// if user code req
 	// process next turn
+	retain();
 	_loop.execute(task::make_one_shot_task(
 					[this,err]{
 						_error_propagation(err);
+						release();
 					}));
 }
 
@@ -149,53 +177,56 @@ void pipeline::_on_closed( void ) {
 
 	_chain.inbound_filter()->on_closed();
 	_loop.remove_active();
-	delete this;
+	release();
 }
 
 void pipeline::close( void ) {
 	if ( _state.fetch_or( detail::CLOSE_BIT) & detail::CLOSE_BIT )
 		return;
 	// process next turn
+	retain();
 	_loop.execute(task::make_one_shot_task(
 					[this]{
 						_on_closed();
+						release();
 					}));
 }
 
 void pipeline::write( tcp::message& msg ) {
-	if ( _loop.in_loop() ) {
-		_do_write(msg);
-	} else {
-		_loop.execute(task::make_one_shot_task(
-							[this,msg]{
-								tcp::message ref( msg );
-								_do_write(ref);
-							}));
-	}
+	retain();
+	_loop.execute(task::make_one_shot_task(
+						[this,msg]{
+							tcp::message ref( msg );
+							_do_write(ref);
+							release();
+						}));
 }
 
-void pipeline::on_write( tcp::message& msg ) {
+void pipeline::do_write( tcp::message& msg ) {
 	bool process = _send_queue.empty();
 	_send_queue.push_back( msg );
-	if ( process ) {
-		if ( _send_remains() ) {
-			if ( !_send_queue.empty() )  {
-				_io_context.evt(EPOLLIN|EPOLLOUT);
-				if ( _loop.io_impl().register_handle(
-							_socket.handle()
-							, &_io_context ))
-				{
-					return;
-				} else {
-					return error_propagation(tdk::platform::error());
-				}
-			}
-		}
+	if ( !process )
+		return;
+
+	if ( !_send_remains() ) {
+		_error_propagation_internal(tdk::platform::error());
+		return;
+	}
+	if ( _send_queue.empty() )
+		return;
+
+	_io_context.evt(EPOLLIN|EPOLLOUT);
+	if ( !_loop.io_impl().register_handle(
+				_socket.handle()
+				, &_io_context ))
+	{
+		_error_propagation_internal(tdk::platform::error());
 	}
 }
 
 bool pipeline::_send_remains( void ) {
 	tdk::io::buffer_adapter buf;
+	int total_write = 0;
 	while ( !_send_queue.empty()) {
 		auto it = _send_queue.begin();
 		while ( it != _send_queue.end()) {
@@ -216,12 +247,12 @@ bool pipeline::_send_remains( void ) {
 		} while (( writesize < 0)  && ( errno == EINTR ));
 		if ( writesize < 0 ) {
 			if ( errno == EAGAIN || errno == EWOULDBLOCK ) {
+				_chain.inbound_filter()->on_write( total_write , false );
 				return true;
-			} else {
-				error_propagation(tdk::platform::error());
-				return false;
 			}
+			return false;
 		} else {
+			total_write += writesize;
 			while ( writesize > 0 ) {
 				auto msg = _send_queue.begin();
 				int move = msg->data().rd_ptr(writesize);
@@ -231,11 +262,12 @@ bool pipeline::_send_remains( void ) {
 			}
 		}
 	}
+	_chain.inbound_filter()->on_write( total_write , true );
 	return true;
 }
 
 void pipeline::_do_write( tcp::message& msg ) {
-	_chain.outbound_filter()->on_write(msg);
+	_chain.outbound_filter()->do_write(msg);
 }
 
 }}}}

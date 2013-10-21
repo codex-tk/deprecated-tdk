@@ -2,7 +2,6 @@
 #include <tdk/event_loop/io/ip/tcp/pipeline/pipeline_connector.hpp>
 #include <tdk/event_loop/io/ip/tcp/pipeline/pipeline.hpp>
 #include <tdk/event_loop/io/ip/tcp/pipeline/pipeline_builder.hpp>
-#include <tdk/event_loop/io/ip/tcp/pipeline/socket_filter.hpp>
 #include <tdk/error/error_platform.hpp>
 #include <tdk/error/error_tdk.hpp>
 
@@ -58,6 +57,11 @@ bool pipeline_connector::connect( const tdk::io::ip::address& addr ) {
 #if defined(_WIN32)
 	_fd.close();
 	if ( !_fd.open_tcp( addr.family())) {
+		return false;
+	}
+
+	tdk::io::ip::socket::option::non_blocking nb;
+	if ( !_fd.set_option( nb )) {
 		return false;
 	}
 
