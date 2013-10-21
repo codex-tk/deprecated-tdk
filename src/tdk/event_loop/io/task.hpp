@@ -11,6 +11,10 @@
 #include <system_error>
 #include <tdk/event_loop/task.hpp>
 
+#if !defined( _WIN32 )
+#include <sys/epoll.h>
+#endif
+
 namespace tdk {
 namespace io {
 
@@ -27,18 +31,24 @@ public:
     int io_bytes( void );
     void io_bytes( int io );
 #if defined (_WIN32)
-	struct overlapped_ex : public OVERLAPPED {
-		io::task* task_ptr;
-	};
-	OVERLAPPED* impl( void );
+	typedef union _data {
+		io::task *ptr;
+	}data_t;
+	typedef struct _overlapped_ex : public OVERLAPPED {
+		data_t data;
+	}impl_type;
 
 	void reset( void );
-#endif
-private:
-#if defined (_WIN32)
-	
-	overlapped_ex _impl;
 #else
+	typedef epoll_event impl_type;
+	int evt( void );
+	void evt( int e );
+#endif
+	impl_type* impl( void );
+
+private:
+	impl_type _impl;
+#if !defined (_WIN32)
 	std::error_code _error;
 	int _io_bytes;
 #endif

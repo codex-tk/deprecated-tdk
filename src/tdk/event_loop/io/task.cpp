@@ -6,35 +6,29 @@
  */
 #include "stdafx.h"
 #include <tdk/event_loop/io/task.hpp>
-
+#include <string.h>
 namespace tdk {
 namespace io {
 
 task::task( void )
-#if defined (_WIN32 )
-#else
+#if !defined (_WIN32 )
 	:_error( std::error_code())
 	, _io_bytes(0)
 #endif
 {
-#if defined (_WIN32 )
 	memset( &_impl , 0 , sizeof(_impl));
-	_impl.task_ptr = this;
-#endif
+	_impl.data.ptr = this;
 }
 
 task::task( tdk::task::handler h , void* ctx )
 	: tdk::task( h , ctx )
-#if defined (_WIN32 )
-#else
+#if !defined (_WIN32 )
 	, _error( std::error_code())
 	, _io_bytes(0)
 #endif
 {
-#if defined (_WIN32 )
 	memset( &_impl , 0 , sizeof(_impl));
-	_impl.task_ptr = this;
-#endif
+	_impl.data.ptr = this;
 }
 
 task::~task( void ) {
@@ -74,17 +68,25 @@ void task::io_bytes( int io ) {
 #endif
 }
 
-#if defined (_WIN32 )
-OVERLAPPED* task::impl( void ) {
+task::impl_type* task::impl( void ) {
 	return &_impl;
 }
-
+#if defined (_WIN32 )
 void task::reset( void ) {
 	memset( &_impl , 0 , sizeof(_impl));
-	_impl.task_ptr = this;
+	_impl.data.ptr = this;
 }
-#endif
+#else
 
+int task::evt( void ) {
+	return _impl.events;
+}
+
+void task::evt( int e ) {
+	_impl.events = e;
+}
+
+#endif
 
 } /* namespace io */
 } /* namespace tdk */

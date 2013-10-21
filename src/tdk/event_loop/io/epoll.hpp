@@ -10,6 +10,7 @@ namespace io {
 
 class epoll{
 public:
+	/*
 	class task : public io::task {
 	public:
 		task( void );
@@ -22,9 +23,10 @@ public:
 		epoll_event* impl( void );
 	private:
 		epoll_event _evt;
-	};
+	};*/
 
-	class event_fd_task : public epoll::task {
+
+	class event_fd_task : public io::task {
 	public:
 		event_fd_task( void );
 		~event_fd_task( void );
@@ -39,7 +41,7 @@ public:
 	epoll( void );
 	~epoll( void );
 
-	bool register_handle( int fd , epoll::task* task );
+	bool register_handle( int fd , io::task* task );
 	void unregister_handle( int fd );
 
 	void wake_up( void );
@@ -50,11 +52,11 @@ private:
 	event_fd_task _wake_up_task;
 public:
 	template < typename T , typename R >
-	class memfn_task : public epoll::task {
+	class memfn_task : public io::task {
 	public:
 		typedef R (T::*handler)( int evt );
 		memfn_task( T* obj , memfn_task::handler h )
-			: epoll::task( memfn_task::on_task , obj )
+			: io::task( memfn_task::on_task , obj )
 			, _handler(h)
 		{
 

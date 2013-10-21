@@ -6,16 +6,15 @@ namespace io {
 namespace ip {
 namespace tcp {
 
-void error_event::error( const std::error_code& ec ) {
-	_ec = ec;
-}
-
-std::error_code error_event::error( void ) {
-	return _ec;
-}
 
 message::message( void ) 
 	: _type(0)
+{
+
+}
+
+message::message( int type , int sz )
+	: _type(0) , _mb( sz )
 {
 
 }
@@ -58,6 +57,16 @@ void message::data( const tdk::buffer::memory_block& mb ) {
 	_mb = mb;
 }
 
+/*
+void error_event::error( const std::error_code& ec ) {
+	_ec = ec;
+}
+
+std::error_code error_event::error( void ) {
+	return _ec;
+}
+
+
 
 std::vector< message >& recv_event::messages( void ) {
 	return _messages;
@@ -70,5 +79,5 @@ void recv_event::clear( void ) {
 void recv_event::add_message( const message& m ) {
 	_messages.push_back( m );
 }
-
+*/
 }}}}

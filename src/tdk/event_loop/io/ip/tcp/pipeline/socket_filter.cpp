@@ -13,7 +13,7 @@ namespace tdk {
 namespace io {
 namespace ip {
 namespace tcp {
-
+/*
 static void _on_recv_complete( tdk::task* t ) {
 	socket_filter* f  = static_cast< socket_filter* >( t->context());
 	f->on_recv_complete();
@@ -100,7 +100,7 @@ bool socket_filter::closed( void ) {
 void socket_filter::send( const std::vector< message >& msg ) {
 	
 }
-
+*/
 } /* namespace tcp */
 } /* namespace ip */
 } /* namespace io */

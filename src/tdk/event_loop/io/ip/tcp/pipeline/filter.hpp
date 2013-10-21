@@ -13,6 +13,7 @@
 namespace tdk {
 namespace io {
 namespace ip {
+class address;
 namespace tcp {
 
 class pipeline;
@@ -24,21 +25,23 @@ public:
 	tcp::pipeline* pipeline( void );
 	void pipeline( tcp::pipeline* p );
 
-	void bind_filter( filter* prev , filter* next );
-	filter* prev( void );
-	filter* next( void );
+	filter* in_bound( void );
+	filter* out_bound( void );
 
-	virtual void on_connect( connect_event& evt ) = 0;
-	virtual void on_recv( recv_event& evt ) = 0;
-	virtual void on_error( error_event& evt ) = 0;
-	virtual void on_close( close_event& evt ) = 0;
-
-	virtual void send( const std::vector< message >& msg );
+	void in_bound( filter* f );
+	void out_bound( filter* f );
+	void write_out_bound( tcp::message& msg );
+public:
+	virtual void on_accepted( const tdk::io::ip::address& addr );
+	virtual void on_connected( void );
+	virtual void on_error( const std::error_code& ec );
+	virtual void on_read( tcp::message& msg );
+	virtual void on_closed( void );
+	virtual void on_write( tcp::message& msg );
 private:
 	tcp::pipeline* _pipeline;
-
-	filter* _prev;
-	filter* _next;
+	filter* _in_bound;
+	filter* _out_bound;
 };
 
 } /* namespace tcp */

@@ -17,7 +17,7 @@ namespace tdk {
 namespace io {
 namespace ip {
 namespace tcp {
-
+/*
 class socket_filter: public tdk::io::ip::tcp::filter {
 public:
 	socket_filter( SOCKET fd );
@@ -39,7 +39,7 @@ private:
 	tdk::buffer::memory_block _recv_buffer;
 	tdk::io::task _on_recv;
 };
-
+*/
 } /* namespace tcp */
 } /* namespace ip */
 } /* namespace io */

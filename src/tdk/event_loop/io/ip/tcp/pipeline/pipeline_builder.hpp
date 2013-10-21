@@ -2,7 +2,7 @@
 #define __tdk_io_ip_tcp_pipeline_builder_h__
 
 #include <system_error>
-
+#include <tdk/event_loop/io/ip/tcp/pipeline/config.hpp>
 namespace tdk {
 namespace io {
 namespace ip {
@@ -15,6 +15,7 @@ public:
 	virtual ~pipeline_builder( void );
 
 	virtual std::error_code build( pipeline& p );
+	virtual const tdk::io::ip::tcp::config& config( void );
 private:
 };
 

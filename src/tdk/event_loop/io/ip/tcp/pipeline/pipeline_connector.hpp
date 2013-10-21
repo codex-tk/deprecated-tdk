@@ -14,29 +14,37 @@ namespace ip {
 namespace tcp {
 
 class pipeline_builder;
-class connector {
+class pipeline_connector {
 public:
-	connector( tdk::event_loop& l );
-	virtual ~connector( void );
+	pipeline_connector( tdk::event_loop& l );
+	virtual ~pipeline_connector( void );
 
 	void connect( 
 		const std::vector< tdk::io::ip::address >& addrs
 		, pipeline_builder* builder );
+	void connect(
+			const std::vector< tdk::io::ip::address >& addrs
+			, pipeline_builder* builder
+			, const tdk::time_span& time );
 
 	bool connect( const tdk::io::ip::address& adr );
 
-	void on_io_complete(void);
-	static void _on_io_complete(tdk::task* t); 
+	void on_connect_handler(void);
+	void on_timer_handler( void );
+	static void _on_connect_handler(tdk::task* t);
+	static void _on_timer_handler(tdk::task* t);
 
-	virtual void on_connnect( const tdk::io::ip::address& addr ); 
+	virtual bool on_connnect( const tdk::io::ip::address& addr );
 	virtual void on_connect_fail( const std::error_code& ec ) = 0;
 private:
+	tdk::event_loop& _loop;
 	tdk::io::ip::socket _fd;
 	pipeline_builder* _builder;
 	std::vector< tdk::io::ip::address > _addrs;
 	tdk::io::task _on_connect;
 	std::size_t _addr_index;
-	tdk::event_loop& _loop;
+	tdk::timer_task _on_timer;
+	tdk::time_span _time_out;
 };
 
 }}}}

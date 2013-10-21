@@ -17,7 +17,7 @@ epoll::~epoll( void ) {
 	close( _epoll_fd );
 }
 
-bool epoll::register_handle( int fd , epoll::task* task ) {
+bool epoll::register_handle( int fd , io::task* task ) {
 	if ( epoll_ctl( _epoll_fd
 			, EPOLL_CTL_MOD
 			, fd
@@ -53,8 +53,8 @@ void epoll::wait( const tdk::time_span& w ) {
 		}
 	} else {
 		for ( int i = 0 ; i < nev; ++i ){
-	    	epoll::task* t =
-	    			static_cast< epoll::task* >( events[i].data.ptr );
+			io::task* t =
+	    			static_cast< io::task* >( events[i].data.ptr );
 	    	if ( t ) {
 	    		t->evt( events[i].events );
 	    		(*t)();
@@ -63,7 +63,7 @@ void epoll::wait( const tdk::time_span& w ) {
 	}
 }
 
-
+/*
 epoll::task::task( void ) {
 	_evt.events = 0;
 	_evt.data.ptr = this;
@@ -93,7 +93,7 @@ void epoll::task::evt( int e ) {
 epoll_event* epoll::task::impl( void ) {
 	return &_evt;
 }
-
+*/
 static void event_fd_task_handler( tdk::task* t ) {
 	epoll::event_fd_task* eft =
 			static_cast< epoll::event_fd_task* >(t);
@@ -106,6 +106,7 @@ epoll::event_fd_task::event_fd_task( void )
 	: _event_fd( eventfd( 0 , EFD_NONBLOCK ))
 {
 	this->set_handler( &event_fd_task_handler );
+	impl()->events = EPOLLIN;
 }
 
 epoll::event_fd_task::~event_fd_task( void ) {

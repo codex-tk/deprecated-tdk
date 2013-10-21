@@ -6,6 +6,7 @@
  */
 #include "stdafx.h"
 #include <tdk/event_loop/io/ip/tcp/pipeline/filter.hpp>
+#include <tdk/event_loop/io/ip/tcp/pipeline/pipeline.hpp>
 
 namespace tdk {
 namespace io {
@@ -14,8 +15,8 @@ namespace tcp {
 
 filter::filter()
 	: _pipeline(nullptr)
-	, _prev(nullptr)
-	, _next(nullptr)
+	, _in_bound(nullptr)
+	, _out_bound(nullptr)
 {
 	// TODO Auto-generated constructor stub
 
@@ -32,22 +33,61 @@ void filter::pipeline( tcp::pipeline* p ) {
 	_pipeline = p;
 }
 
-void filter::bind_filter( filter* prev , filter* next ) {
-	_prev = prev;
-	_next = next;
+filter* filter::in_bound( void ) {
+	return _in_bound;
 }
 
-filter* filter::prev( void ) {
-	return _prev;
+filter* filter::out_bound( void ) {
+	return _out_bound;
 }
 
-filter* filter::next( void ) {
-	return _next;
+void filter::in_bound( filter* f ) {
+	_in_bound = f;
 }
 
-void filter::send( const std::vector< message >& msg ) {
-	if ( prev() != nullptr ) {
-		prev()->send( msg );
+void filter::out_bound( filter* f ) {
+	_out_bound = f;
+}
+
+void filter::on_accepted( const tdk::io::ip::address& addr ) {
+	if ( _in_bound ) {
+		_in_bound->on_accepted(addr);
+	}
+}
+
+void filter::on_connected( void ) {
+	if ( _in_bound ) {
+		_in_bound->on_connected();
+	}
+}
+
+void filter::on_error( const std::error_code& ec ) {
+	if ( _in_bound ) {
+		_in_bound->on_error( ec );
+	}
+}
+
+void filter::on_read( tcp::message& msg ) {
+	if ( _in_bound ) {
+		_in_bound->on_read( msg );
+	}
+}
+
+void filter::on_closed(void) {
+	if ( _in_bound ) {
+		_in_bound->on_closed();
+	}
+}
+
+void filter::on_write( tcp::message& msg ) {
+	write_out_bound(msg);
+}
+
+void filter::write_out_bound( tcp::message& msg ) {
+	if ( _out_bound ) {
+		_out_bound->on_write( msg );
+	} else {
+		_pipeline->on_write( msg );
 	}
 }
 

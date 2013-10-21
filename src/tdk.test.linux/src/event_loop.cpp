@@ -19,7 +19,6 @@ TEST( tdk__event_loop , execute ) {
 	loop.execute( &run_task );
 	loop.run();
 	ASSERT_EQ( test_value , 10 );
-
 }
 
 void timer_called(tdk::task* t ) {
