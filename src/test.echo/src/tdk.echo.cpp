@@ -16,7 +16,59 @@ using namespace std;
 #include <tdk/event_loop/io/ip/tcp/channel.hpp>
 #include <tdk/buffer/memory_block.hpp>
 #include <memory>
+#include <tdk/event_loop/event_loop.hpp>
+#include <tdk/event_loop/io/ip/tcp/pipeline/pipeline_acceptor.hpp>
+#include <tdk/event_loop/io/ip/tcp/pipeline/pipeline_builder.hpp>
+#include <tdk/event_loop/io/ip/tcp/pipeline/pipeline.hpp>
+#include <tdk/event_loop/io/ip/tcp/pipeline/filter.hpp>
+#include <thread>
 
+class echo_handler : public tdk::io::ip::tcp::filter {
+public:
+	echo_handler( void ) {
+
+	}
+	virtual ~echo_handler( void ) {
+
+	}/*
+	virtual void on_connected( void ) {
+		tdk::io::ip::tcp::message msg;
+		msg.data().write( "GET /index HTTP/1.1\r\n\r\n" );
+		pipeline()->write( msg );
+		//write_out_bound( msg );
+	}*/
+
+	virtual void on_accepted( const tdk::io::ip::address& addr ) {
+		printf( "accept %s\r\n" , addr.ip_address().c_str());
+	}
+	virtual void on_error( const std::error_code& ec ) {
+		printf( "error %s\r\n" , ec.message().c_str());
+		pipeline()->close();
+	}
+	virtual void on_read( tdk::io::ip::tcp::message& msg ) {
+		printf("On Read %d\r\n" , (int)msg.data().length());
+		write_out_bound( msg );
+	}
+
+	virtual void on_write( int w , bool flushed ) {
+		printf( "Write %d\r\n" , w);
+	}
+
+	virtual void on_closed( void ) {
+		printf("On Close\r\n" );
+	}
+};
+
+
+
+class echo_builder : public tdk::io::ip::tcp::pipeline_builder{
+public:
+	virtual std::error_code build( tdk::io::ip::tcp::pipeline& p ) {
+		p.add( new echo_handler());
+		return std::error_code();
+	}
+};
+/*
 typedef std::shared_ptr< tdk::io::ip::tcp::channel > channel_ptr;
 
 void on_write( channel_ptr p , tdk::buffer::memory_block mb
@@ -52,8 +104,19 @@ void on_write( channel_ptr p , tdk::buffer::memory_block mb
 		});
 	}
 }
-
+*/
 int main() {
+
+	tdk::init();
+
+	tdk::event_loop l;
+	echo_builder b;
+
+	tdk::io::ip::tcp::pipeline_acceptor a(l);
+	if ( a.open(tdk::io::ip::address::any( 9999 ) , &b )) {
+		l.run();
+	}
+	/*
 	tdk::init();
 
 	tdk::event_loop loop;
@@ -82,5 +145,5 @@ int main() {
 
 
 	loop.run();
-	return 0;
+	return 0;*/
 }

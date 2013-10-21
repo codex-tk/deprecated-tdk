@@ -115,6 +115,7 @@ void pipeline_acceptor::on_accept_handler( void ) {
 					delete p;
 				} else {
 					p->on_accepted(addr);
+					return;
 				}
 			}
 			::close( fd );
