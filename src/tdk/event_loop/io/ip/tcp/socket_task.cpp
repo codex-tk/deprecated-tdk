@@ -5,8 +5,8 @@
  *      Author: tk
  */
 
-#include <tdk/event_loop/io/ip/tcp/channel_task.hpp>
-#include <tdk/event_loop/io/ip/tcp/channel.hpp>
+#include <tdk/event_loop/io/ip/tcp/socket_task.hpp>
+#include <tdk/event_loop/io/ip/tcp/socket.hpp>
 #include <tdk/event_loop/event_loop.hpp>
 namespace tdk {
 namespace io {
@@ -14,25 +14,25 @@ namespace ip {
 namespace tcp {
 
 
-channel_task::channel_task( void )
-	: _channel(nullptr){
+socket_task::socket_task( void )
+	: _socket(nullptr){
 }
 
-channel_task::channel_task( tdk::task::handler h , void* ctx )
+socket_task::socket_task( tdk::task::handler h , void* ctx )
 	: tdk::io::task( h , ctx )
-	, _channel( nullptr )
+	, _socket( nullptr )
 {
 }
 
-channel_task::~channel_task() {
+socket_task::~socket_task() {
 }
 
-tdk::io::ip::tcp::channel* channel_task::channel( void ) {
-	return _channel;
+tdk::io::ip::tcp::socket* socket_task::socket( void ) {
+	return _socket;
 }
 
-void channel_task::channel( tdk::io::ip::tcp::channel* chan ) {
-	_channel = chan;
+void socket_task::socket( tdk::io::ip::tcp::socket* chan ) {
+	_socket = chan;
 }
 
 /*

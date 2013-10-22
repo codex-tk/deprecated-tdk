@@ -22,8 +22,8 @@ public:
 
 	void add( filter* f );
 
-	filter* inbound_filter( void );
-	filter* outbound_filter( void );
+	filter* in_bound_filter( void );
+	filter* out_bound_filter( void );
 private:
 	filter* _head;
 	filter* _tail;

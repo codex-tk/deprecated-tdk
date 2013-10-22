@@ -15,7 +15,6 @@ public:
 	virtual ~pipeline_builder( void );
 
 	virtual std::error_code build( pipeline& p );
-	virtual const tdk::io::ip::tcp::config& config( void );
 private:
 };
 

@@ -9,7 +9,7 @@
 #define READ_TASK_HPP_
 
 #include <tdk/io/buffer_adapter.hpp>
-#include <tdk/event_loop/io/ip/tcp/channel_task.hpp>
+#include <tdk/event_loop/io/ip/tcp/socket_task.hpp>
 
 namespace tdk {
 namespace io {
@@ -17,7 +17,7 @@ namespace ip {
 namespace tcp {
 class channel;
 
-class read_task: public channel_task {
+class read_task: public socket_task {
 public:
 	read_task( void );
 	read_task( tdk::task::handler h , void* ctx );

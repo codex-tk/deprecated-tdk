@@ -1,6 +1,6 @@
 #include "stdafx.h"
-#include <tdk/event_loop/io/ip/tcp/pipeline/pipeline_connector.hpp>
-#include <tdk/event_loop/io/ip/tcp/pipeline/pipeline.hpp>
+#include <tdk/event_loop/io/ip/tcp/channel_connector.hpp>
+#include <tdk/event_loop/io/ip/tcp/channel.hpp>
 #include <tdk/event_loop/io/ip/tcp/pipeline/pipeline_builder.hpp>
 #include <tdk/error/error_platform.hpp>
 #include <tdk/error/error_tdk.hpp>
@@ -10,22 +10,22 @@ namespace io {
 namespace ip {
 namespace tcp {
 
-pipeline_connector::pipeline_connector( tdk::event_loop& l )
+channel_connector::channel_connector( tdk::event_loop& l )
 	: _loop(l)
 	, _builder( nullptr )
-	, _on_connect( pipeline_connector::_on_connect_handler , this )
+	, _on_connect( channel_connector::_on_connect_handler , this )
 	, _addr_index(0)
-	, _on_timer( pipeline_connector::_on_timer_handler , this )
+	, _on_timer( channel_connector::_on_timer_handler , this )
 	, _time_out( 0 )
 {
 
 }
 
-pipeline_connector::~pipeline_connector( void ) {
+channel_connector::~channel_connector( void ) {
 
 }
 
-void pipeline_connector::connect(
+void channel_connector::connect(
 	const std::vector< tdk::io::ip::address >& addrs
 	, pipeline_builder* builder )
 {
@@ -42,7 +42,7 @@ void pipeline_connector::connect(
 	_loop.execute( &_on_connect );
 }
 
-void pipeline_connector::connect(
+void channel_connector::connect(
 			const std::vector< tdk::io::ip::address >& addrs
 			, pipeline_builder* builder
 			, const tdk::time_span& time )
@@ -53,7 +53,7 @@ void pipeline_connector::connect(
 	connect( addrs , builder );
 }
 
-bool pipeline_connector::connect( const tdk::io::ip::address& addr ) {
+bool channel_connector::connect( const tdk::io::ip::address& addr ) {
 #if defined(_WIN32)
 	_fd.close();
 	if ( !_fd.open_tcp( addr.family())) {
@@ -139,7 +139,7 @@ bool pipeline_connector::connect( const tdk::io::ip::address& addr ) {
 #endif
 }
 
-void pipeline_connector::on_timer_handler(void) {
+void channel_connector::on_timer_handler(void) {
 	_fd.close();
 	_loop.remove_active();
 	while ( _addr_index < _addrs.size() ) {
@@ -149,7 +149,7 @@ void pipeline_connector::on_timer_handler(void) {
 	on_connect_fail( tdk::platform::error(ETIMEDOUT));
 }
 
-void pipeline_connector::on_connect_handler(void) {
+void channel_connector::on_connect_handler(void) {
 #if !defined( _WIN32 )
 	if ( _on_connect.evt() & EPOLLOUT ) {
 		_on_connect.error(std::error_code());
@@ -184,32 +184,30 @@ void pipeline_connector::on_connect_handler(void) {
 		on_connect_fail( _on_connect.error()); 
 	} else {
 		if ( on_connnect( _addrs[_addr_index] )) {
-			tdk::io::ip::tcp::pipeline* p =
-				new tdk::io::ip::tcp::pipeline(
-						_loop
-						, _builder->config()
-						, _fd.handle() );
-			std::error_code ec = _builder->build( *p );
+
+			tdk::io::ip::tcp::channel* c =
+				new tdk::io::ip::tcp::channel(_loop , _fd.handle() );
+			std::error_code ec = _builder->build( c->pipeline() );
 			if ( ec ) {
-				delete p;
+				delete c;
 			} else {
-				p->on_connected();
+				c->fire_on_connected();
 			}
 		}
 	}
 }
 
-void pipeline_connector::_on_connect_handler(tdk::task* t) {
-	pipeline_connector* c = static_cast< pipeline_connector* >(t->context());
+void channel_connector::_on_connect_handler(tdk::task* t) {
+	channel_connector* c = static_cast< channel_connector* >(t->context());
 	c->on_connect_handler();
 }
 
-void pipeline_connector::_on_timer_handler(tdk::task* t) {
-	pipeline_connector* c = static_cast< pipeline_connector* >(t->context());
+void channel_connector::_on_timer_handler(tdk::task* t) {
+	channel_connector* c = static_cast< channel_connector* >(t->context());
 	c->on_timer_handler();
 }
 
-bool pipeline_connector::on_connnect( const tdk::io::ip::address& addr ) {
+bool channel_connector::on_connnect( const tdk::io::ip::address& addr ) {
 	return true;
 }
 

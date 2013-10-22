@@ -14,18 +14,18 @@ namespace tdk {
 namespace io {
 namespace ip {
 namespace tcp {
-class channel;
+class socket;
 
-class channel_task: public tdk::io::task {
+class socket_task: public tdk::io::task {
 public:
-	channel_task( void );
-	channel_task( tdk::task::handler h , void* ctx );
-	~channel_task();
+	socket_task( void );
+	socket_task( tdk::task::handler h , void* ctx );
+	~socket_task();
 
-	tdk::io::ip::tcp::channel* channel( void );
-	void channel( tdk::io::ip::tcp::channel* chan );
+	tdk::io::ip::tcp::socket* socket( void );
+	void socket( tdk::io::ip::tcp::socket* chan );
 private:
-	tdk::io::ip::tcp::channel* _channel;
+	tdk::io::ip::tcp::socket* _socket;
 };
 
 /*

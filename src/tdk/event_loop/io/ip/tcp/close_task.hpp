@@ -8,7 +8,7 @@
 #ifndef CLOSE_TASK_HPP_
 #define CLOSE_TASK_HPP_
 
-#include <tdk/event_loop/io/ip/tcp/channel_task.hpp>
+#include <tdk/event_loop/io/ip/tcp/socket_task.hpp>
 
 namespace tdk {
 namespace io {
@@ -16,7 +16,7 @@ namespace ip {
 namespace tcp {
 
 class channel;
-class close_task : public channel_task {
+class close_task : public socket_task {
 public:
 	close_task(void);
 	close_task( tdk::task::handler h , void * ctx );

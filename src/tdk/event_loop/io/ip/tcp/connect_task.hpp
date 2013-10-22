@@ -9,7 +9,7 @@
 #define CONNECT_TASK_HPP_
 
 #include <tdk/io/ip/address.hpp>
-#include <tdk/event_loop/io/ip/tcp/channel_task.hpp>
+#include <tdk/event_loop/io/ip/tcp/socket_task.hpp>
 #include <vector>
 
 namespace tdk {
@@ -18,7 +18,7 @@ namespace ip {
 namespace tcp {
 
 class channel;
-class connect_task : public channel_task {
+class connect_task : public socket_task {
 public:
 	connect_task();
 	connect_task( tdk::task::handler h , void* ctx );

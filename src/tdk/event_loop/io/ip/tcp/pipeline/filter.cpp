@@ -6,7 +6,7 @@
  */
 #include "stdafx.h"
 #include <tdk/event_loop/io/ip/tcp/pipeline/filter.hpp>
-#include <tdk/event_loop/io/ip/tcp/pipeline/pipeline.hpp>
+#include <tdk/event_loop/io/ip/tcp/channel.hpp>
 
 namespace tdk {
 namespace io {
@@ -14,7 +14,7 @@ namespace ip {
 namespace tcp {
 
 filter::filter()
-	: _pipeline(nullptr)
+	: _channel(nullptr)
 	, _in_bound(nullptr)
 	, _out_bound(nullptr)
 {
@@ -26,11 +26,12 @@ filter::~filter() {
 	// TODO Auto-generated destructor stub
 }
 
-tcp::pipeline* filter::pipeline( void ) {
-	return _pipeline;
+tcp::channel* filter::channel( void ) {
+	return _channel;
 }
-void filter::pipeline( tcp::pipeline* p ) {
-	_pipeline = p;
+
+void filter::channel( tcp::channel* c ) {
+	_channel = c;
 }
 
 filter* filter::in_bound( void ) {
@@ -67,7 +68,7 @@ void filter::on_error( const std::error_code& ec ) {
 	}
 }
 
-void filter::on_read( tcp::message& msg ) {
+void filter::on_read( channel::message& msg ) {
 	if ( _in_bound ) {
 		_in_bound->on_read( msg );
 	}
@@ -79,7 +80,7 @@ void filter::on_closed(void) {
 	}
 }
 
-void filter::do_write( tcp::message& msg ) {
+void filter::do_write( channel::message& msg ) {
 	write_out_bound(msg);
 }
 
@@ -89,11 +90,11 @@ void filter::on_write( int write , bool flushed ){
 	}
 }
 
-void filter::write_out_bound( tcp::message& msg ) {
+void filter::write_out_bound( channel::message& msg ) {
 	if ( _out_bound ) {
 		_out_bound->do_write( msg );
 	} else {
-		_pipeline->do_write( msg );
+		_channel->do_write( msg );
 	}
 }
 

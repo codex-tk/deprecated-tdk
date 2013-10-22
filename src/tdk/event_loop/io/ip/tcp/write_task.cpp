@@ -23,7 +23,7 @@ write_task::~write_task() {
 }
 
 write_task::write_task( tdk::task::handler h , void* ctx )
- 	 :channel_task(  h , ctx )
+ 	 :socket_task(  h , ctx )
 {
 
 }

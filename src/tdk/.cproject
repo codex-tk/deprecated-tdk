@@ -56,9 +56,8 @@
 							<tool id="cdt.managedbuild.tool.gnu.cpp.linker.base.2024120849" name="GCC C++ Linker" superClass="cdt.managedbuild.tool.gnu.cpp.linker.base"/>
 							<tool id="cdt.managedbuild.tool.gnu.assembler.lib.debug.1264035674" name="GCC Assembler" superClass="cdt.managedbuild.tool.gnu.assembler.lib.debug">
 								<option id="gnu.both.asm.option.include.paths.1918600275" name="Include paths (-I)" superClass="gnu.both.asm.option.include.paths" valueType="includePath">
-									<listOptionValue builtIn="false" value="/home/tk/dev/024.center/src/tdk/"/>
-									<listOptionValue builtIn="false" value="/home/tk/dev/024.center/src/tdk"/>
-									<listOptionValue builtIn="false" value="/home/tk/dev/024.center/src/"/>
+									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/..&quot;"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.843910280" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
 							</tool>
@@ -117,6 +116,10 @@
 							<tool id="cdt.managedbuild.tool.gnu.c.linker.base.707413822" name="GCC C Linker" superClass="cdt.managedbuild.tool.gnu.c.linker.base"/>
 							<tool id="cdt.managedbuild.tool.gnu.cpp.linker.base.141966773" name="GCC C++ Linker" superClass="cdt.managedbuild.tool.gnu.cpp.linker.base"/>
 							<tool id="cdt.managedbuild.tool.gnu.assembler.lib.release.1221002583" name="GCC Assembler" superClass="cdt.managedbuild.tool.gnu.assembler.lib.release">
+								<option id="gnu.both.asm.option.include.paths.1711626786" superClass="gnu.both.asm.option.include.paths" valueType="includePath">
+									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/..&quot;"/>
+								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.2039577033" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
 							</tool>
 						</toolChain>

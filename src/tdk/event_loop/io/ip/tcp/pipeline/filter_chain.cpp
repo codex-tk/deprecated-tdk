@@ -39,11 +39,11 @@ void filter_chain::add( filter* f ) {
 	}
 }
 
-filter* filter_chain::inbound_filter( void ) {
+tcp::filter* filter_chain::in_bound_filter( void ) {
 	return _head;
 }
 
-filter* filter_chain::outbound_filter( void ) {
+tcp::filter* filter_chain::out_bound_filter( void ) {
 	return _tail;
 }
 

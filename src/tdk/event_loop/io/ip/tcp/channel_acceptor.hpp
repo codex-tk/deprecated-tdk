@@ -19,12 +19,13 @@ namespace ip {
 namespace tcp {
 
 class pipeline_builder;
-class pipeline_acceptor {
+class channel_acceptor {
 public:
-	pipeline_acceptor( event_loop& l );
-	virtual ~pipeline_acceptor();
+	channel_acceptor( event_loop& l );
+	virtual ~channel_acceptor();
 
 	virtual bool condition( const tdk::io::ip::address& addr );
+	virtual event_loop& channel_loop( void );
 
 	bool open( const tdk::io::ip::address& addr
 			, pipeline_builder* builder );

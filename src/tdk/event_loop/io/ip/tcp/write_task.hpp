@@ -9,14 +9,14 @@
 #define WRITE_TASK_HPP_
 
 #include <tdk/io/buffer_adapter.hpp>
-#include <tdk/event_loop/io/ip/tcp/channel_task.hpp>
+#include <tdk/event_loop/io/ip/tcp/socket_task.hpp>
 
 namespace tdk {
 namespace io {
 namespace ip {
 namespace tcp {
 
-class write_task: public channel_task {
+class write_task: public socket_task {
 public:
 	write_task();
 	write_task( tdk::task::handler h , void* ctx );

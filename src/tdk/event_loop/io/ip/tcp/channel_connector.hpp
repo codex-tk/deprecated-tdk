@@ -1,5 +1,5 @@
-#ifndef __tdk_io_io_tcp_connector_h__
-#define __tdk_io_io_tcp_connector_h__
+#ifndef __tdk_io_io_tcp_channel_connector_h__
+#define __tdk_io_io_tcp_channel_connector_h__
 
 #include <tdk/io/ip/address.hpp>
 #include <tdk/event_loop/io/task.hpp>
@@ -14,10 +14,10 @@ namespace ip {
 namespace tcp {
 
 class pipeline_builder;
-class pipeline_connector {
+class channel_connector {
 public:
-	pipeline_connector( tdk::event_loop& l );
-	virtual ~pipeline_connector( void );
+	channel_connector( tdk::event_loop& l );
+	virtual ~channel_connector( void );
 
 	void connect( 
 		const std::vector< tdk::io::ip::address >& addrs

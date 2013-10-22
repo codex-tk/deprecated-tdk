@@ -7,7 +7,7 @@
 #include <tdk/io/ip/tcp/req/close_req.hpp>
 #include <tdk/io/ip/tcp/req/read_req.hpp>
 #include <tdk/io/ip/tcp/req/write_req.hpp>
-
+/*
 namespace tdk {
 namespace io {
 namespace ip {
@@ -147,7 +147,7 @@ void channel::async_close( const std::error_code& ec
 }
 
 
-}}}}
+}}}}*/
 
 
 #endif
