@@ -68,7 +68,7 @@ void filter::on_error( const std::error_code& ec ) {
 	}
 }
 
-void filter::on_read( channel::message& msg ) {
+void filter::on_read( tdk::buffer::memory_block& msg ) {
 	if ( _in_bound ) {
 		_in_bound->on_read( msg );
 	}
@@ -80,7 +80,7 @@ void filter::on_closed(void) {
 	}
 }
 
-void filter::do_write( channel::message& msg ) {
+void filter::do_write( tdk::buffer::memory_block& msg ) {
 	write_out_bound(msg);
 }
 
@@ -90,12 +90,16 @@ void filter::on_write( int write , bool flushed ){
 	}
 }
 
-void filter::write_out_bound( channel::message& msg ) {
+void filter::write_out_bound( tdk::buffer::memory_block& msg ) {
 	if ( _out_bound ) {
 		_out_bound->do_write( msg );
 	} else {
 		_channel->do_write( msg );
 	}
+}
+
+void filter::on_delete( void ) {
+	delete this;
 }
 
 } /* namespace tcp */

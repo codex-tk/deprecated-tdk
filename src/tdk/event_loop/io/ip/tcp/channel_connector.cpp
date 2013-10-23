@@ -25,6 +25,18 @@ channel_connector::~channel_connector( void ) {
 
 }
 
+void channel_connector::reconnect(void) {
+	_addr_index = 0;
+
+	while (_addr_index < _addrs.size()) {
+		if (connect(_addrs[_addr_index++]))
+			return;
+	}
+	_loop.add_active();
+	_on_connect.error(tdk::platform::error());
+	_loop.execute(&_on_connect);
+}
+
 void channel_connector::connect(
 	const std::vector< tdk::io::ip::address >& addrs
 	, pipeline_builder* builder )
@@ -211,5 +223,8 @@ bool channel_connector::on_connnect( const tdk::io::ip::address& addr ) {
 	return true;
 }
 
+tdk::event_loop& channel_connector::loop( void ) {
+	return _loop;
+}
 
 }}}}

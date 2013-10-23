@@ -25,7 +25,7 @@ filter_chain::~filter_chain() {
 	while ( _head != nullptr ) {
 		filter* d = _head;
 		_head = _head->in_bound();
-		delete d;
+		d->on_delete();
 	}
 }
 

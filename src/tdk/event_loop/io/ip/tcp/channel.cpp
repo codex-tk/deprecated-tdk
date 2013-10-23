@@ -52,7 +52,7 @@ void channel::close( void ) {
 					}));
 }
 
-void channel::write( channel::message& msg ){
+void channel::write( tdk::buffer::memory_block& msg ){
 	retain();
 	_loop.execute(task::make_one_shot_task(
 						[this,msg]{
@@ -73,13 +73,21 @@ void channel::_register_handle(void) {
 	}
 }
 
+
+void channel::fire_on_connected(void) {
+	retain();
+	_pipeline.in_bound_filter()->on_connected();
+	_register_handle();
+}
+
+
 void channel::fire_on_accepted( const tdk::io::ip::address& addr ) {
 	retain();
 	_pipeline.in_bound_filter()->on_accepted(addr);
 	_register_handle();
 }
 
-void channel::fire_on_read( channel::message& msg ) {
+void channel::fire_on_read( tdk::buffer::memory_block& msg ) {
 	_pipeline.in_bound_filter()->on_read(msg);
 }
 
@@ -102,7 +110,7 @@ void channel::fire_on_close( void ) {
 	release();
 }
 
-void channel::fire_do_write( channel::message msg ) {
+void channel::fire_do_write( tdk::buffer::memory_block msg ) {
 	if ( _state.load() != 0 )
 		return;
 	_pipeline.out_bound_filter()->do_write(msg);
@@ -151,11 +159,11 @@ void channel::do_write(channel::message& msg){
 }
 
 void channel::_handle_readable( void ) {
-	channel::message msg( 0 , channel_config().recv_buffer_size );
+	tdk::buffer::memory_block msg(channel_config().recv_buffer_size );
 	int readsize = 0;
 	do {
 		iovec buf;
-		buf.iov_base = msg.data().wr_ptr();
+		buf.iov_base = msg.wr_ptr();
 		buf.iov_len  = channel_config().recv_buffer_size;
 		readsize = readv( _socket.handle() , &buf , 1);
 	} while (( readsize < 0) && ( errno == EINTR ));
@@ -165,7 +173,7 @@ void channel::_handle_readable( void ) {
 	} else if ( readsize == 0 ){
 		_error_propagation( tdk::tdk_network_remote_closed );
 	} else {
-		msg.data().wr_ptr(readsize);
+		msg.wr_ptr(readsize);
 		fire_on_read(msg);
 	}
 }
@@ -199,10 +207,10 @@ bool channel::_send_remains( void ) {
 	while ( !_send_queue.empty()) {
 		auto it = _send_queue.begin();
 		while ( it != _send_queue.end()) {
-			if ( it->data().length() == 0 ) {
+			if ( it->length() == 0 ) {
 				_send_queue.erase( it++ );
 			} else {
-				if ( !buf.push_back( it->data().rd_ptr() , it->data().length())){
+				if ( !buf.push_back( it->rd_ptr() , it->length())){
 					break;
 				}
 				++it;
@@ -224,8 +232,8 @@ bool channel::_send_remains( void ) {
 			total_write += writesize;
 			while ( writesize > 0 ) {
 				auto msg = _send_queue.begin();
-				int move = msg->data().rd_ptr(writesize);
-				if (msg->data().length() == 0 )
+				int move = msg->rd_ptr(writesize);
+				if (msg->length() == 0 )
 					_send_queue.pop_front();
 				writesize -= move;
 			}
@@ -281,7 +289,7 @@ config& channel::channel_config( void ) {
 	return cfg;
 }
 
-
+/*
 
 channel::message::message( void )
 	: _type(0)
@@ -331,7 +339,7 @@ tdk::buffer::memory_block& channel::message::data( void ) {
 
 void channel::message::data( const tdk::buffer::memory_block& mb ) {
 	_mb = mb;
-}
+}*/
 
 } /* namespace tcp */
 } /* namespace ip */

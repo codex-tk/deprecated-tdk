@@ -29,6 +29,8 @@ public:
 
 	bool connect( const tdk::io::ip::address& adr );
 
+	void reconnect( void );
+
 	void on_connect_handler(void);
 	void on_timer_handler( void );
 	static void _on_connect_handler(tdk::task* t);
@@ -36,6 +38,8 @@ public:
 
 	virtual bool on_connnect( const tdk::io::ip::address& addr );
 	virtual void on_connect_fail( const std::error_code& ec ) = 0;
+
+	tdk::event_loop& loop( void );
 private:
 	tdk::event_loop& _loop;
 	tdk::io::ip::socket _fd;

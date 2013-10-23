@@ -29,15 +29,16 @@ public:
 
 	void in_bound( filter* f );
 	void out_bound( filter* f );
-	void write_out_bound( channel::message& msg );
+	void write_out_bound( tdk::buffer::memory_block& msg );
 public:
 	virtual void on_accepted( const tdk::io::ip::address& addr );
 	virtual void on_connected( void );
 	virtual void on_error( const std::error_code& ec );
-	virtual void on_read( channel::message& msg );
+	virtual void on_read( tdk::buffer::memory_block& msg );
 	virtual void on_closed( void );
-	virtual void do_write( channel::message& msg );
+	virtual void do_write( tdk::buffer::memory_block& msg );
 	virtual void on_write( int write , bool flushed );
+	virtual void on_delete( void );
 private:
 	tcp::channel* _channel;
 	filter* _in_bound;

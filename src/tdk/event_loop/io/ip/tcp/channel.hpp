@@ -24,6 +24,8 @@ namespace tcp {
 
 class channel {
 public:
+	typedef tdk::buffer::memory_block message;
+	/*
 	class message {
 	public:
 		message( void );
@@ -42,27 +44,27 @@ public:
 	private:
 		int _type;
 		tdk::buffer::memory_block _mb;
-	};
+	};*/
 public:
 	channel( tdk::event_loop& loop , int fd );
 	~channel();
 	tdk::event_loop& loop( void );
 
 	void close( void );
-	void write( channel::message& msg );
+	void write( tdk::buffer::memory_block& msg );
 
 	void error_propagation( const std::error_code& err );
-	void do_write( channel::message& msg );
+	void do_write( tdk::buffer::memory_block& msg );
 
 	tcp::pipeline& pipeline( void );
 public:
 	void fire_on_connected( void );
 	void fire_on_accepted( const tdk::io::ip::address& addr );
-	void fire_on_read( channel::message& msg );
+	void fire_on_read( tdk::buffer::memory_block& msg );
 	void fire_on_write( int writed , bool flushed );
 	void fire_on_error( const std::error_code& ec );
 	void fire_on_close( void );
-	void fire_do_write( channel::message msg );
+	void fire_do_write( tdk::buffer::memory_block msg );
 private:
 	void _error_propagation(const std::error_code& err );
 	void _register_handle(void);
@@ -80,7 +82,7 @@ private:
 	tdk::io::ip::socket _socket;
 	tdk::io::task _io_context;
 	std::atomic<int> _state;
-	std::list< channel::message > _send_queue;
+	std::list< tdk::buffer::memory_block > _send_queue;
 	std::atomic< int > _ref_count;
 	tcp::pipeline _pipeline;
 public:
