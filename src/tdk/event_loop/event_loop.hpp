@@ -4,9 +4,9 @@
 #include <atomic>
 
 #if defined ( linux ) || defined( __linux )
-#include <tdk/event_loop/io/epoll.hpp>
+#include <tdk/io/epoll.hpp>
 #elif defined( _WIN32 )
-#include <tdk/event_loop/io/iocp.hpp>
+#include <tdk/io/iocp.hpp>
 #endif
 
 #include <tdk/event_loop/scheduler.hpp>

@@ -206,6 +206,7 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <DisableSpecificWarnings>4819</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -220,6 +221,7 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <DisableSpecificWarnings>4819</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -234,6 +236,7 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <DisableSpecificWarnings>4819</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -293,6 +296,7 @@
       <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <DisableSpecificWarnings>4819</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -311,6 +315,7 @@
       <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <DisableSpecificWarnings>4819</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -329,6 +334,7 @@
       <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <DisableSpecificWarnings>4819</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -396,7 +402,10 @@
     <ClInclude Include="buffer\array.hpp" />
     <ClInclude Include="buffer\marshal.hpp" />
     <ClInclude Include="event_loop\event_loop.hpp" />
-    <ClInclude Include="event_loop\io\ip\tcp\pipeline\connector.hpp" />
+    <ClInclude Include="io\ip\tcp\channel.hpp" />
+    <ClInclude Include="io\ip\tcp\channel_connector.hpp" />
+    <ClInclude Include="io\ip\tcp\channel_win32.hpp" />
+    <ClInclude Include="io\ip\tcp\pipeline\config.hpp" />
     <ClInclude Include="crypto\base64.hpp" />
     <ClInclude Include="buffer\allocator.hpp" />
     <ClInclude Include="buffer\buffer_base.hpp" />
@@ -411,32 +420,27 @@
     <ClInclude Include="device\display_win32.hpp" />
     <ClInclude Include="device\monitor_win32.hpp" />
     <ClInclude Include="error\error_category_epoll.hpp" />
-    <ClInclude Include="event_loop\io\iocp.hpp" />
-    <ClInclude Include="event_loop\io\ip\tcp\pipeline\filter.hpp" />
-    <ClInclude Include="event_loop\io\ip\tcp\pipeline\pipeline.hpp" />
-    <ClInclude Include="event_loop\io\ip\tcp\pipeline\pipeline_builder.hpp" />
-    <ClInclude Include="event_loop\io\ip\tcp\pipeline\pipeline_event.hpp" />
-    <ClInclude Include="event_loop\io\ip\tcp\pipeline\socket_filter.hpp" />
-    <ClInclude Include="event_loop\io\select.hpp" />
-    <ClInclude Include="event_loop\io\task.hpp" />
+    <ClInclude Include="io\iocp.hpp" />
+    <ClInclude Include="io\ip\tcp\pipeline\filter.hpp" />
+    <ClInclude Include="io\ip\tcp\pipeline\filter_chain.hpp" />
+    <ClInclude Include="io\ip\tcp\pipeline\pipeline.hpp" />
+    <ClInclude Include="io\ip\tcp\pipeline\pipeline_builder.hpp" />
+    <ClInclude Include="io\select.hpp" />
+    <ClInclude Include="io\task.hpp" />
     <ClInclude Include="event_loop\scheduler.hpp" />
     <ClInclude Include="event_loop\task.hpp" />
-    <ClInclude Include="io\timer_task.hpp" />
+    <ClInclude Include="event_loop\timer_task.hpp" />
     <ClInclude Include="geo.hpp" />
-    <ClInclude Include="io\engine_detail.hpp" />
-    <ClInclude Include="io\engine_scheduler_timer_win32.hpp" />
-    <ClInclude Include="io\engine_scheduler_win32.hpp" />
-    <ClInclude Include="io\operation_impl.hpp" />
     <ClInclude Include="log\formatter\mb_string_formatter.hpp" />
     <ClInclude Include="log\writer\udp_writer.hpp" />
+    <ClInclude Include="threading\atomic\atomic.hpp" />
+    <ClInclude Include="threading\atomic\memory_order.hpp" />
     <ClInclude Include="threading\auto_reset_event_win32.hpp" />
     <ClInclude Include="threading\mutex_win32.hpp" />
     <ClInclude Include="time\remote_time.hpp" />
     <ClInclude Include="tmp\compile_time_error.hpp" />
     <ClInclude Include="util\initializer.hpp" />
     <ClInclude Include="util\rtti.hpp" />
-    <ClInclude Include="task\queue_timer_win32.hpp" />
-    <ClInclude Include="task\timer_handler.hpp" />
     <ClInclude Include="util\conf.hpp" />
     <ClInclude Include="util\singleton.hpp" />
     <ClInclude Include="util\win32\env.hpp" />
@@ -453,17 +457,8 @@
     <ClInclude Include="error\error_category_tdk.hpp" />
     <ClInclude Include="error\error_tdk.hpp" />
     <ClInclude Include="io\buffer_adapter.hpp" />
-    <ClInclude Include="io\completion_port_win32.hpp" />
-    <ClInclude Include="io\engine_win32.hpp" />
     <ClInclude Include="io\ip\address.hpp" />
-    <ClInclude Include="io\ip\basic_socket.hpp" />
     <ClInclude Include="io\ip\socket.hpp" />
-    <ClInclude Include="io\ip\tcp\operation\accept_operation_win32.hpp" />
-    <ClInclude Include="io\ip\tcp\operation\connect_operation_win32.hpp" />
-    <ClInclude Include="io\ip\tcp\operation\recv_operation_win32.hpp" />
-    <ClInclude Include="io\ip\tcp\operation\send_operation_win32.hpp" />
-    <ClInclude Include="io\ip\tcp\socket_win32.hpp" />
-    <ClInclude Include="io\operation.hpp" />
     <ClInclude Include="log\category.hpp" />
     <ClInclude Include="log\formatter\formatter.hpp" />
     <ClInclude Include="log\formatter\string_formatter.hpp" />
@@ -507,29 +502,27 @@
     <ClCompile Include="device\monitor_win32.cpp" />
     <ClCompile Include="error\error_category_epoll.cpp" />
     <ClCompile Include="event_loop\event_loop.cpp" />
-    <ClCompile Include="event_loop\io\iocp.cpp" />
-    <ClCompile Include="event_loop\io\ip\tcp\pipeline\connector.cpp" />
-    <ClCompile Include="event_loop\io\ip\tcp\pipeline\filter.cpp" />
-    <ClCompile Include="event_loop\io\ip\tcp\pipeline\pipeline.cpp" />
-    <ClCompile Include="event_loop\io\ip\tcp\pipeline\pipeline_builder.cpp" />
-    <ClCompile Include="event_loop\io\ip\tcp\pipeline\pipeline_event.cpp" />
-    <ClCompile Include="event_loop\io\ip\tcp\pipeline\socket_filter.cpp" />
-    <ClCompile Include="event_loop\io\task.cpp" />
+    <ClCompile Include="io\iocp.cpp" />
+    <ClCompile Include="io\ip\tcp\channel_connector.cpp" />
+    <ClCompile Include="io\ip\tcp\channel_win32.cpp" />
+    <ClCompile Include="io\ip\tcp\pipeline\config.cpp" />
+    <ClCompile Include="io\ip\tcp\pipeline\filter.cpp" />
+    <ClCompile Include="io\ip\tcp\pipeline\filter_chain.cpp" />
+    <ClCompile Include="io\ip\tcp\pipeline\pipeline.cpp" />
+    <ClCompile Include="io\ip\tcp\pipeline\pipeline_builder.cpp" />
+    <ClCompile Include="io\task.cpp" />
     <ClCompile Include="event_loop\scheduler.cpp" />
     <ClCompile Include="event_loop\task.cpp" />
     <ClCompile Include="event_loop\timer_task.cpp" />
     <ClCompile Include="io\buffer_adapter.cpp" />
-    <ClCompile Include="io\engine_tcp_win32.cpp" />
-    <ClCompile Include="io\engine_scheduler_win32.cpp" />
-    <ClCompile Include="io\engine_scheduler_timer_win32.cpp" />
     <ClCompile Include="log\formatter\mb_string_formatter.cpp" />
     <ClCompile Include="log\writer\udp_writer.cpp" />
+    <ClCompile Include="threading\atomic\atomic_win32.cpp" />
+    <ClCompile Include="threading\atomic\memory_order_win32.cpp" />
     <ClCompile Include="threading\auto_reset_event_win32.cpp" />
     <ClCompile Include="threading\mutex_win32.cpp" />
     <ClCompile Include="time\remote_time.cpp" />
     <ClCompile Include="util\rtti.cpp" />
-    <ClCompile Include="task\queue_timer_win32.cpp" />
-    <ClCompile Include="task\timer_handler.cpp" />
     <ClCompile Include="util\conf.cpp" />
     <ClCompile Include="util\win32\env.cpp" />
     <ClCompile Include="util\win32\ini_file.cpp" />
@@ -544,17 +537,8 @@
     <ClCompile Include="error\last_error.cpp" />
     <ClCompile Include="error\error_platform.cpp" />
     <ClCompile Include="error\error_category_tdk.cpp" />
-    <ClCompile Include="io\completion_port_win32.cpp" />
-    <ClCompile Include="io\engine_win32.cpp" />
     <ClCompile Include="io\ip\address.cpp" />
-    <ClCompile Include="io\ip\basic_socket.cpp" />
     <ClCompile Include="io\ip\socket.cpp" />
-    <ClCompile Include="io\ip\tcp\operation\accept_operation_win32.cpp" />
-    <ClCompile Include="io\ip\tcp\operation\connect_operation_win32.cpp" />
-    <ClCompile Include="io\ip\tcp\operation\recv_operation_win32.cpp" />
-    <ClCompile Include="io\ip\tcp\operation\send_operation_win32.cpp" />
-    <ClCompile Include="io\ip\tcp\socket_win32.cpp" />
-    <ClCompile Include="io\operation.cpp" />
     <ClCompile Include="log\category.cpp" />
     <ClCompile Include="log\formatter\formatter.cpp" />
     <ClCompile Include="log\formatter\string_formatter.cpp" />

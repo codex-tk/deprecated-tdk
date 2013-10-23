@@ -1,7 +1,7 @@
 /*
  * channel.hpp
  *
- *  Created on: 2013. 10. 22.
+ *  Created on: 2013. 10. 23.
  *      Author: tk
  */
 
@@ -44,25 +44,27 @@ public:
 	void fire_on_close( void );
 	void fire_do_write( tdk::buffer::memory_block msg );
 private:
-	void _error_propagation(const std::error_code& err );
-	void _register_handle(void);
-	void _handle_readable( void );
-	void _handle_writeable( void );
-	bool _send_remains( void );
+	void _do_recv( void );
 
-	static void _handle_io_events( tdk::task* t );
-	void handle_io_events( void );
+	void _error_propagation(const std::error_code& err );
+	void _send_remains( void );
+	static void _handle_recv( tdk::task* t );
+	static void _handle_send( tdk::task* t );
+	void handle_recv( void );
+	void handle_send( void );
 public:
 	void retain( void );
 	void release( void );
 private:
 	tdk::event_loop& _loop;
 	tdk::io::ip::socket _socket;
-	tdk::io::task _io_context;
+	tdk::io::task _on_recv;
+	tdk::io::task _on_send;
+	std::atomic<int> _ref_count;
 	std::atomic<int> _state;
 	std::list< tdk::buffer::memory_block > _send_queue;
-	std::atomic< int > _ref_count;
 	tcp::pipeline _pipeline;
+	tdk::buffer::memory_block _recv_buffer;
 public:
 	static config& channel_config( void );
 };
