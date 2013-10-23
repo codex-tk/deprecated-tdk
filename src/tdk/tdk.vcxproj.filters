@@ -75,6 +75,7 @@
     <ClCompile Include="io\ip\tcp\pipeline\pipeline_builder.cpp" />
     <ClCompile Include="io\ip\tcp\channel_win32.cpp" />
     <ClCompile Include="io\ip\tcp\channel_connector.cpp" />
+    <ClCompile Include="io\ip\tcp\channel_acceptor.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="buffer\array.hpp" />
@@ -162,6 +163,7 @@
     <ClInclude Include="io\ip\tcp\channel.hpp" />
     <ClInclude Include="io\ip\tcp\channel_win32.hpp" />
     <ClInclude Include="io\ip\tcp\channel_connector.hpp" />
+    <ClInclude Include="io\ip\tcp\channel_acceptor.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="crypto\seed\SEED_KISA.tab" />

@@ -26,6 +26,8 @@
 #include <atomic>
 #include <gtest/gtest.h>
 
+
+/*
 int _tmain(int argc, _TCHAR* argv[])
 {
 	testing::InitGoogleTest( &argc , argv );
@@ -40,7 +42,82 @@ int _tmain(int argc, _TCHAR* argv[])
 	tdk::log::writer_ptr ptr = tdk::log::console_writer::instance();
 	logger.add_writer( ptr );
 	return RUN_ALL_TESTS();
+}
+*/
 
+#include <tdk/tdk.hpp>
+#include <tdk/event_loop/event_loop.hpp>
+#include <tdk/io/ip/tcp/channel_acceptor.hpp>
+#include <tdk/io/ip/tcp/channel.hpp>
+#include <tdk/buffer/memory_block.hpp>
+#include <memory>
+#include <tdk/event_loop/event_loop.hpp>
+#include <tdk/io/ip/tcp/channel_acceptor.hpp>
+#include <tdk/io/ip/tcp/pipeline/pipeline_builder.hpp>
+#include <tdk/io/ip/tcp/channel_connector.hpp>
+#include <tdk/io/ip/tcp/pipeline/filter.hpp>
+#include <thread>
+#include <system_error>
+
+class echo_handler : public tdk::io::ip::tcp::filter {
+public:
+	echo_handler( void ) {
+
+	}
+	virtual ~echo_handler( void ) {
+		printf("deleted!!\n");
+	}/*
+	virtual void on_connected( void ) {
+		tdk::io::ip::tcp::message msg;
+		msg.data().write( "GET /index HTTP/1.1\r\n\r\n" );
+		pipeline()->write( msg );
+		//write_out_bound( msg );
+	}*/
+
+
+	virtual void on_accepted( const tdk::io::ip::address& addr ) {
+		printf( "accept %s\n" , addr.ip_address().c_str());
+	}
+	virtual void on_error( const std::error_code& ec ) {
+		printf( "error %s\n" , ec.message().c_str());
+		channel()->close();
+	}
+
+	virtual void on_read( tdk::buffer::memory_block& msg ) {
+		printf("On Read %d\n" , (int)msg.length());
+		write_out_bound( msg );
+	}
+
+	virtual void on_write( int w , bool flushed ) {
+		printf( "Write %d\n" , w);
+	}
+
+	virtual void on_closed( void ) {
+		printf("On Close\r\n" );
+	}
+};
+
+
+class echo_builder : public tdk::io::ip::tcp::pipeline_builder{
+public:
+	virtual std::error_code build( tdk::io::ip::tcp::pipeline& p ) {
+		p.add( new echo_handler());
+		return std::error_code();
+	}
+};
+
+int main() {
+
+	tdk::init();
+
+	tdk::event_loop l;
+	echo_builder b;
+
+	tdk::io::ip::tcp::channel_acceptor a(l);
+	if ( a.open(tdk::io::ip::address::any( 7543 ) , &b )) {
+		l.run();
+	}
+}
 	/*
 	std::vector< std::thread* > thread;
 	for ( int i = 0 ; i < 10 ; ++i ) {
@@ -97,7 +174,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	
 	//getchar();
 	
-}
+//}
 
 /*
 

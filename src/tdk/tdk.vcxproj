@@ -403,6 +403,7 @@
     <ClInclude Include="buffer\marshal.hpp" />
     <ClInclude Include="event_loop\event_loop.hpp" />
     <ClInclude Include="io\ip\tcp\channel.hpp" />
+    <ClInclude Include="io\ip\tcp\channel_acceptor.hpp" />
     <ClInclude Include="io\ip\tcp\channel_connector.hpp" />
     <ClInclude Include="io\ip\tcp\channel_win32.hpp" />
     <ClInclude Include="io\ip\tcp\pipeline\config.hpp" />
@@ -503,6 +504,7 @@
     <ClCompile Include="error\error_category_epoll.cpp" />
     <ClCompile Include="event_loop\event_loop.cpp" />
     <ClCompile Include="io\iocp.cpp" />
+    <ClCompile Include="io\ip\tcp\channel_acceptor.cpp" />
     <ClCompile Include="io\ip\tcp\channel_connector.cpp" />
     <ClCompile Include="io\ip\tcp\channel_win32.cpp" />
     <ClCompile Include="io\ip\tcp\pipeline\config.cpp" />
