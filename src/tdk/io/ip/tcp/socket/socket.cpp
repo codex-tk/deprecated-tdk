@@ -5,7 +5,7 @@
  *      Author: tk
  */
 
-#include <tdk/event_loop/io/ip/tcp/socket.hpp>
+#include <tdk/io/ip/tcp/socket/socket.hpp>
 #include <tdk/event_loop/event_loop.hpp>
 #include <tdk/error/error_platform.hpp>
 #include <tdk/error/error_tdk.hpp>

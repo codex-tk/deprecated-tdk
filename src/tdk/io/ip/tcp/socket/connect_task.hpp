@@ -9,7 +9,7 @@
 #define CONNECT_TASK_HPP_
 
 #include <tdk/io/ip/address.hpp>
-#include <tdk/event_loop/io/ip/tcp/socket_task.hpp>
+#include <tdk/io/ip/tcp/socket/socket_task.hpp>
 #include <vector>
 
 namespace tdk {

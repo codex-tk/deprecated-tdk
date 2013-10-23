@@ -139,7 +139,7 @@ tcp::pipeline& channel::pipeline( void ) {
 	return _pipeline;
 }
 
-void channel::do_write(channel::message& msg){
+void channel::do_write(tdk::buffer::memory_block& msg){
 	bool process = _send_queue.empty();
 	_send_queue.push_back(msg);
 	if (!process)

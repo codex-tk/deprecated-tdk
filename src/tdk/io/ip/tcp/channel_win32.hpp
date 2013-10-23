@@ -4,7 +4,7 @@
  *  Created on: 2013. 10. 23.
  *      Author: tk
  */
-
+#if defined(_WIN32)
 #ifndef CHANNEL_HPP_
 #define CHANNEL_HPP_
 
@@ -77,3 +77,4 @@ public:
 } /* namespace tdk */
 
 #endif /* CHANNEL_HPP_ */
+#endif

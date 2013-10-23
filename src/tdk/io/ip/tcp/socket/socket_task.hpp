@@ -8,7 +8,7 @@
 #ifndef CHANNEL_TASK_HPP_
 #define CHANNEL_TASK_HPP_
 
-#include <tdk/event_loop/io/task.hpp>
+#include <tdk/io/task.hpp>
 
 namespace tdk {
 namespace io {

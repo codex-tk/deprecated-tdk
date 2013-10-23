@@ -9,7 +9,7 @@
 #define WRITE_TASK_HPP_
 
 #include <tdk/io/buffer_adapter.hpp>
-#include <tdk/event_loop/io/ip/tcp/socket_task.hpp>
+#include <tdk/io/ip/tcp/socket/socket_task.hpp>
 
 namespace tdk {
 namespace io {

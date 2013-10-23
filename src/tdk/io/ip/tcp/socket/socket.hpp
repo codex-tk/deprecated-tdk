@@ -9,12 +9,12 @@
 #define _tdk_io_ip_tcp_socket_h__
 
 #include <tdk/io/ip/socket.hpp>
-#include <tdk/event_loop/io/epoll.hpp>
-#include <tdk/event_loop/io/ip/tcp/connect_task.hpp>
-#include <tdk/event_loop/io/ip/tcp/read_task.hpp>
-#include <tdk/event_loop/io/ip/tcp/close_task.hpp>
-#include <tdk/event_loop/io/ip/tcp/write_task.hpp>
-#include <tdk/event_loop/io/ip/tcp/accept_task.hpp>
+#include <tdk/io/epoll.hpp>
+#include <tdk/io/ip/tcp/socket/connect_task.hpp>
+#include <tdk/io/ip/tcp/socket/read_task.hpp>
+#include <tdk/io/ip/tcp/socket/close_task.hpp>
+#include <tdk/io/ip/tcp/socket/write_task.hpp>
+#include <tdk/io/ip/tcp/socket/accept_task.hpp>
 #include <vector>
 
 namespace tdk{

@@ -5,7 +5,13 @@
 	<storageModule moduleId="org.eclipse.cdt.core.settings">
 		<cconfiguration id="cdt.managedbuild.config.gnu.lib.debug.1458606164">
 			<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="cdt.managedbuild.config.gnu.lib.debug.1458606164" moduleId="org.eclipse.cdt.core.settings" name="Debug">
-				<externalSettings/>
+				<externalSettings>
+					<externalSetting>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="includePath" name="/tdk"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="libraryPath" name="/tdk/Debug"/>
+						<entry flags="RESOLVED" kind="libraryFile" name="tdk" srcPrefixMapping="" srcRootPath=""/>
+					</externalSetting>
+				</externalSettings>
 				<extensions>
 					<extension id="org.eclipse.cdt.core.ELF" point="org.eclipse.cdt.core.BinaryParser"/>
 					<extension id="org.eclipse.cdt.core.GmakeErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
@@ -64,7 +70,7 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="io/engine_scheduler_timer_win32.cpp|threading/atomic/memory_order_win32.cpp|io/engine_tcp_win32.cpp|io/engine_scheduler_win32.cpp|io/ip/basic_socket.cpp|threading/auto_reset_event_win32.cpp|io/ip/tcp/socket_win32.cpp|network|io/ip/tcp/operation/connect_operation_win32.cpp|io/ip/tcp/operation/accept_operation_win32.cpp|io/completion_port_win32.cpp|io/engine_win32.cpp|log/writer/console_writer.cpp|log/formatter/mb_string_formatter.cpp|device/display_win32.cpp|threading/atomic/atomic_win32.cpp|util/win32|io/ip/tcp/acceptor_linux.cpp|threading/mutex_win32.cpp|io/ip/tcp/operation/send_operation_win32.cpp|device/monitor_win32.cpp|util/string_win32.cpp|io/ip/tcp/channel_linux.cpp|buffer/marshal.cpp|io/ip/tcp/operation/recv_operation_win32.cpp|task/queue_timer_win32.cpp" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
+						<entry excluding="io/ip/tcp/channel_win32.cpp|io/engine_scheduler_timer_win32.cpp|threading/atomic/memory_order_win32.cpp|io/engine_tcp_win32.cpp|io/engine_scheduler_win32.cpp|io/ip/basic_socket.cpp|threading/auto_reset_event_win32.cpp|io/ip/tcp/socket_win32.cpp|network|io/ip/tcp/operation/connect_operation_win32.cpp|io/ip/tcp/operation/accept_operation_win32.cpp|io/completion_port_win32.cpp|io/engine_win32.cpp|log/writer/console_writer.cpp|log/formatter/mb_string_formatter.cpp|device/display_win32.cpp|threading/atomic/atomic_win32.cpp|util/win32|io/ip/tcp/acceptor_linux.cpp|threading/mutex_win32.cpp|io/ip/tcp/operation/send_operation_win32.cpp|device/monitor_win32.cpp|util/string_win32.cpp|buffer/marshal.cpp|io/ip/tcp/operation/recv_operation_win32.cpp|task/queue_timer_win32.cpp" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -116,7 +122,7 @@
 							<tool id="cdt.managedbuild.tool.gnu.c.linker.base.707413822" name="GCC C Linker" superClass="cdt.managedbuild.tool.gnu.c.linker.base"/>
 							<tool id="cdt.managedbuild.tool.gnu.cpp.linker.base.141966773" name="GCC C++ Linker" superClass="cdt.managedbuild.tool.gnu.cpp.linker.base"/>
 							<tool id="cdt.managedbuild.tool.gnu.assembler.lib.release.1221002583" name="GCC Assembler" superClass="cdt.managedbuild.tool.gnu.assembler.lib.release">
-								<option id="gnu.both.asm.option.include.paths.1711626786" superClass="gnu.both.asm.option.include.paths" valueType="includePath">
+								<option id="gnu.both.asm.option.include.paths.1711626786" name="Include paths (-I)" superClass="gnu.both.asm.option.include.paths" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/..&quot;"/>
 								</option>
@@ -125,7 +131,7 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="io/ip/tcp/acceptor_linux.cpp|io/ip/tcp/channel_linux.cpp|io/engine_scheduler_timer_win32.cpp|threading/atomic/memory_order_win32.cpp|io/engine_tcp_win32.cpp|io/engine_scheduler_win32.cpp|io/ip/basic_socket.cpp|threading/auto_reset_event_win32.cpp|io/ip/tcp/socket_win32.cpp|network|io/ip/tcp/operation/connect_operation_win32.cpp|io/ip/tcp/operation/accept_operation_win32.cpp|io/completion_port_win32.cpp|io/engine_win32.cpp|log/writer/console_writer.cpp|log/formatter/mb_string_formatter.cpp|device/display_win32.cpp|threading/atomic/atomic_win32.cpp|util/win32|threading/mutex_win32.cpp|io/ip/tcp/operation/send_operation_win32.cpp|device/monitor_win32.cpp|util/string_win32.cpp|buffer/marshal.cpp|io/ip/tcp/operation/recv_operation_win32.cpp|task/queue_timer_win32.cpp" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
+						<entry excluding="io/ip/tcp/channel_win32.cpp|io/ip/tcp/acceptor_linux.cpp|io/engine_scheduler_timer_win32.cpp|threading/atomic/memory_order_win32.cpp|io/engine_tcp_win32.cpp|io/engine_scheduler_win32.cpp|io/ip/basic_socket.cpp|threading/auto_reset_event_win32.cpp|io/ip/tcp/socket_win32.cpp|network|io/ip/tcp/operation/connect_operation_win32.cpp|io/ip/tcp/operation/accept_operation_win32.cpp|io/completion_port_win32.cpp|io/engine_win32.cpp|log/writer/console_writer.cpp|log/formatter/mb_string_formatter.cpp|device/display_win32.cpp|threading/atomic/atomic_win32.cpp|util/win32|threading/mutex_win32.cpp|io/ip/tcp/operation/send_operation_win32.cpp|device/monitor_win32.cpp|util/string_win32.cpp|buffer/marshal.cpp|io/ip/tcp/operation/recv_operation_win32.cpp|task/queue_timer_win32.cpp" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>

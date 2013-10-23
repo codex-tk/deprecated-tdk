@@ -5,8 +5,8 @@
  *      Author: tk
  */
 
-#include <tdk/event_loop/io/ip/tcp/socket_task.hpp>
-#include <tdk/event_loop/io/ip/tcp/socket.hpp>
+#include <tdk/io/ip/tcp/socket/socket_task.hpp>
+#include <tdk/io/ip/tcp/socket/socket.hpp>
 #include <tdk/event_loop/event_loop.hpp>
 namespace tdk {
 namespace io {
