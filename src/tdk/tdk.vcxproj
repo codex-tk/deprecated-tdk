@@ -426,6 +426,8 @@
     <ClInclude Include="io\ip\tcp\pipeline\filter_chain.hpp" />
     <ClInclude Include="io\ip\tcp\pipeline\pipeline.hpp" />
     <ClInclude Include="io\ip\tcp\pipeline\pipeline_builder.hpp" />
+    <ClInclude Include="io\ip\tcp\ssl\ssl.hpp" />
+    <ClInclude Include="io\ip\tcp\ssl\ssl_filter.hpp" />
     <ClInclude Include="io\select.hpp" />
     <ClInclude Include="io\task.hpp" />
     <ClInclude Include="event_loop\scheduler.hpp" />
@@ -512,6 +514,7 @@
     <ClCompile Include="io\ip\tcp\pipeline\filter_chain.cpp" />
     <ClCompile Include="io\ip\tcp\pipeline\pipeline.cpp" />
     <ClCompile Include="io\ip\tcp\pipeline\pipeline_builder.cpp" />
+    <ClCompile Include="io\ip\tcp\ssl\ssl_filter.cpp" />
     <ClCompile Include="io\task.cpp" />
     <ClCompile Include="event_loop\scheduler.cpp" />
     <ClCompile Include="event_loop\task.cpp" />

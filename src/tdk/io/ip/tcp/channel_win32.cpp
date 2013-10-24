@@ -61,7 +61,6 @@ void channel::fire_on_connected(void) {
 	_do_recv();
 }
 
-
 void channel::fire_on_accepted( const tdk::io::ip::address& addr ) {
 	retain();
 	_loop.io_impl().register_handle( _socket.handle() , this ); 

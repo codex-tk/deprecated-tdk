@@ -1,0 +1,20 @@
+1. vs2005 64bit vs2005 설치시 64bit 컴파일러까지 설치(옵션이니까 설치 시 확인 하3)
+https://www.activestate.com/activeperl/downloads/
+ 
+2. www.activestate.com 접속 후 64bit 용 ActivePerl 다운로드 후 설치
+
+3. www.openssl.org 접속후 openssl source 다운로드 압축 해제(ex c:\openssl)
+
+4. openssl 설치 폴더로 이동후 아래의 명령을 수행
+
+perl Configure VC-WIN64A 
+ms\do_win64a
+nmake -f ms\nt.mak <- static lib
+nmake -f ms\ntdll.mak <- dynamic lib
+5. 정상적으로 완료 되었다면 
+static 일 경우 out32
+dynamic 일 경우 out32dll 
+폴더 이동후
+..\ms\test 실행
+ 
+6. 모두 ok 이라면 정상적으로 빌드 된거임

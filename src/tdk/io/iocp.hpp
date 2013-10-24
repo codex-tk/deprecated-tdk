@@ -2,8 +2,10 @@
 #define __tdk_io_iocp_h__
 
 #if defined ( _WIN32 )
+
 #include <tdk/io/task.hpp>
 #include <tdk/time/time_span.hpp>
+#include <atomic>
 
 namespace tdk {
 namespace io {
@@ -21,6 +23,7 @@ public:
 	void wait( const tdk::time_span& w );
 private:
 	HANDLE _iocp;
+	std::atomic<int> _posted;
 };
 
 }}

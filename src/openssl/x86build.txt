@@ -1,0 +1,130 @@
+window 환경에서 openssl을 설치하는 방법은 소스를 받아서 컴파일하는 방법과 openssl.exe , ssleay32.dll , libeay32.dll 파일을 system32에 복사하여 사용하는 2가지 입니다.
+
+둘다 openssl을 사용하는데에는 별로 큰 영향은 없는것 같습니다.
+
+첫번째 컴파일 방법은 다음과 같습니다.
+
+1. Perl
+http://www.activestate.com/Products/Download/Download.plex?id=ActivePerl 
+ 
+MSI는 Microsoft Installer가 깔려있어야 합니다. 없을 경우에는 업데이트를 하시는 것 잊지 마시기 바랍니다.
+
+2.OpenSsl 라이브러리
+ http://www.openssl.org  가서 받으시면 됩니다.
+우선 파일 받으신 다음에 압축을 해지하시면 됩니다.
+모든 명령은 압축을 해지한 폴더에서 하셔야 합니다.
+예를 들어 c:\openssl 폴더에다가 압축을 해지 하셨으면 c:\openssl 폴더에 가서 실행을 하셔야 한다는 겁니다. 
+
+첫번째로 perl 명령으로 Configure라는 것을 실행하게 되는데 다음과 같이 치시면 됩니다. 
+C:\openssl>perl Configure VC-WIN32
+C:\openssl>ms\do_masm
+C:\openssl>ms\do_ms
+ 
+ 
+C:\openssl>nmake -f ms\ntdll.mak
+ 
+환경변수에 PATH부분에 nmake.exe가 있는 경로를 추가해 주셔야 합니다.(제어판-시스템-고급-시스템변수)
+ 
+정상적으로 설치 되었는지 test
+C:\openssl>cd out32dll
+C:\openssl\out32dll>..\ms\test
+
+두번째 방법은 .dll 파일 및 exe 파일을 그냥 설치하시면 사용가능한 방법입니다.(간단함)
+
+ssleay32.dll , libeay32.dll 을 system32 에 복사하고 환경변수에서 openssl.exe 경로를 잡아주면 설치 끝입니다....
+
+개발이나 소스 수정으로 필요한 openssl 은 첫번째 방법으로 하면 더욱 좋으시고요 window apache 에서 인증서를 사용하기 위해서는 두번째 방법을 권장해 드립니다.
+
+
+/////////////////////////////////////////////////////////////////////////////////////
+
+misozulu 님 블로그에서 퍼온 것임을 밝힘니다.
+
+1. 필요한 것들
+
+     1) OpenSSL 최신 버전을  http://www.openssl.org  에서 다운 받자. (압축풀고)
+
+     2) ActivePerl
+      -> http://www.activestate.com/ActivePerl  에서 msi를 설치하자.
+    
+     3) C컴파일러
+     -> Visual C++의 nmake 이용
+
+     4) MASM32 어셈블러 : openSSL의 몇몇 모듈이 어셈블리어로 작성되어 있어 필요함.
+     -> http://www.masm32.com   에서 다운 받아 설치하자.
+
+2. 컴파일하기 위한 환경설정
+
+     1) ActivePerl를 설치하면  C:\Perl\Bin;가 환경변수의 Path에 설정되어 있는지 확인하자.
+        없다면 추가하자.
+   
+     2) MASM32를 설치하면 C:\masm32\bin가 환경변수의 Path에 설정되어 있는지 확인하자.
+       없다면 추가하자.
+
+     3) C:\Program Files\Microsoft Visual Studio\Common\MSDev98\Bin 를 환경변수의
+        Path에 추가하자. 필요한 파일 MSPDB60.dll에 여기에 있다.
+
+     4) C:\Program Files\Microsoft Visual Studio\VC98\bin 를 환경변수의 Path에 추가하자.
+        nmake.exe가 여기에 있다.
+
+3. 컴파일하기
+
+     1) 명령프론프트를 하나 띄우자.
+
+     2) 먼저 압축을 푼 openSSL폴더로 이동하자. (예:c:\openssl)
+
+     3) 컴파일 환경 설정 하기.
+        c:\openssl>perl Configure VC-WIN32  <- enter.
+
+        Configuring for VC-WIN32
+        IsWindows=1
+        CC            =cl
+        CFLAG         =-DOPENSSL_SYSNAME_WIN32 -DOPENSSL_THREADS  -DDSO_WIN32 -DOPENSSL_NO_KRB5
+        EX_LIBS       =
+        BN_ASM        =bn_asm.o
+        DES_ENC       =des_enc.o fcrypt_b.o
+        BF_ENC        =bf_enc.o
+        CAST_ENC      =c_enc.o
+        RC4_ENC       =rc4_enc.o
+        RC5_ENC       =rc5_enc.o
+        MD5_OBJ_ASM   =
+        SHA1_OBJ_ASM  =
+        RMD160_OBJ_ASM=
+        PROCESSOR     =
+        RANLIB        =true
+        ARFLAGS       =
+        PERL          =perl
+        THIRTY_TWO_BIT mode
+        BN_LLONG mode
+        RC4_INDEX mode
+        RC4_CHUNK is undefined
+
+        Configured for VC-WIN32.
+        -> 이런 메세지가 나오면 perl정상 구동. 아니면 재설치 및 환경변수의 path확인 필요.
+
+     4) 어셈블리 컴파일
+        c:\openssl> ms\do_masm <- enter
+
+        Generating x86 for MASM assembler
+        .....
+        RC5\32
+        -> 이런 메세지가 나오면 성공.
+
+     5) openSSL컴파일
+       c:\openssl> vcvars32.bat <- enter          : nmake전에 반드시해야함...
+       c:\openssl> nmake -f ms\ntdll.mak <-enter
+      
+       컴파일 시간 생각보다 오래 걸린다.
+
+4. 확인 하기.
+     1) c:\openssl\out32dll 폴더에
+
+            ssleay32.lib
+            libeay32.lib
+            ssleay32.dll
+            libeay32.dll
+        가 존재하면 끝~!
+         
+     2) Test프로그램
+
+      c:\openssl\ms\test  <- enter

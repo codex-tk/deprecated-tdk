@@ -8,6 +8,7 @@ namespace io {
 iocp::iocp( void ) 
 	: _iocp( CreateIoCompletionPort( INVALID_HANDLE_VALUE , NULL , NULL , 0 ))
 {
+	_posted.store(0);
 }
 
 iocp::~iocp( void ){
@@ -30,7 +31,12 @@ void iocp::unregister_handle( SOCKET fd ) {
 }
 
 void iocp::wake_up( void ) {
-	PostQueuedCompletionStatus( _iocp , 0 , 0 , 0 ); 
+	int expected = 0;
+	if ( _posted.compare_exchange_strong( expected , 1 )) {
+		if ( PostQueuedCompletionStatus( _iocp , 0 , 0 , 0 ) == FALSE ) {
+			_posted.exchange(0);
+		}
+	}	
 }
 
 void iocp::wait( const tdk::time_span& w ) {
@@ -45,8 +51,10 @@ void iocp::wait( const tdk::time_span& w ) {
         , &overlapped
         , static_cast<DWORD>(w.total_milli_seconds())) == TRUE;
 
-	if ( overlapped == nullptr )
+	if ( overlapped == nullptr ) {
+		_posted.exchange(0);
 		return;
+	}
 	io::task* task_ptr = 
 		static_cast< io::task::impl_type* >(overlapped)->data.ptr;
 	if ( !result ) {
