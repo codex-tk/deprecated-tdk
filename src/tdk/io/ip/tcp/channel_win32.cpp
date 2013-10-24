@@ -22,6 +22,8 @@ channel::channel(tdk::event_loop& loop , int fd )
 	, _socket(fd)
 	, _on_recv( &channel::_handle_recv , this )
 	, _on_send( &channel::_handle_send , this )
+	, _do_close( &channel::_handle_close , this )
+	, _do_error_proagation( &channel::_handle_error_proagation , this )
 	, _pipeline(this)
 {
 	_state.store(0);
@@ -38,14 +40,10 @@ tdk::event_loop& channel::loop( void ) {
 
 void channel::close( void ) {
 	if ( _state.fetch_or( detail::k_close_bit) & detail::k_close_bit )
-		return;
+			return;
 	// process next turn
 	retain();
-	_loop.execute(task::make_one_shot_task(
-					[this]{
-						fire_on_close();
-						release();
-					}));
+	_loop.execute( &_do_close );
 }
 
 void channel::write( tdk::buffer::memory_block& msg ){
@@ -120,6 +118,10 @@ void channel::error_propagation( const std::error_code& err  ) {
 
 tcp::pipeline& channel::pipeline( void ) {
 	return _pipeline;
+}
+
+tdk::io::ip::socket& channel::socket_impl( void ) {
+	return _socket;
 }
 
 void channel::_do_recv( void ) {
@@ -240,6 +242,19 @@ void channel::_handle_send( tdk::task* t ) {
 	c->handle_send();
 	c->loop().remove_active();
 	c->release();	
+}
+
+void channel::_handle_close( tdk::task* t ) {
+	channel* c = static_cast< channel* >( t->context());
+	c->fire_on_close();
+	c->release();
+}
+
+void channel::_handle_error_proagation( tdk::task* t ) {
+	channel* c = static_cast< channel* >( t->context());
+	tdk::io::task* impl = static_cast< tdk::io::task* >(t);
+	c->fire_on_error( impl->error());
+	c->release();
 }
 
 void channel::retain( void ) {

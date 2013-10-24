@@ -26,6 +26,9 @@ channel::channel(tdk::event_loop& loop , int fd )
 	: _loop( loop )
 	, _socket(fd)
 	, _io_context( &channel::_handle_io_events , this )
+	, _on_send( &channel::_handle_send , this )
+	, _do_close( &channel::_handle_close , this )
+	, _do_error_proagation( &channel::_handle_error_proagation , this )
 	, _pipeline(this)
 {
 	_state.store(0);
@@ -45,11 +48,7 @@ void channel::close( void ) {
 			return;
 	// process next turn
 	retain();
-	_loop.execute(task::make_one_shot_task(
-					[this]{
-						fire_on_close();
-						release();
-					}));
+	_loop.execute( &_do_close );
 }
 
 void channel::write( tdk::buffer::memory_block& msg ){
@@ -69,22 +68,22 @@ void channel::_register_handle(void) {
 	if (_loop.io_impl().register_handle(_socket.handle(), &_io_context)) {
 		_loop.add_active();
 	} else {
-		_error_propagation(tdk::platform::error());
+		_error_propagation(tdk::epoll_error( errno ));
 	}
 }
 
 
 void channel::fire_on_connected(void) {
 	retain();
-	_pipeline.in_bound_filter()->on_connected();
 	_register_handle();
+	_pipeline.in_bound_filter()->on_connected();
 }
 
 
 void channel::fire_on_accepted( const tdk::io::ip::address& addr ) {
 	retain();
-	_pipeline.in_bound_filter()->on_accepted(addr);
 	_register_handle();
+	_pipeline.in_bound_filter()->on_accepted(addr);
 }
 
 void channel::fire_on_read( tdk::buffer::memory_block& msg ) {
@@ -128,15 +127,16 @@ void channel::error_propagation( const std::error_code& err  ) {
 	// if user code req
 	// process next turn
 	retain();
-	_loop.execute(task::make_one_shot_task(
-					[this,err]{
-						fire_on_error(err);
-						release();
-					}));
+	_do_error_proagation.error( err );
+	_loop.execute( &_do_error_proagation );
 }
 
 tcp::pipeline& channel::pipeline( void ) {
 	return _pipeline;
+}
+
+tdk::io::ip::socket& channel::socket_impl( void ) {
+	return _socket;
 }
 
 void channel::do_write(tdk::buffer::memory_block& msg){
@@ -145,17 +145,16 @@ void channel::do_write(tdk::buffer::memory_block& msg){
 	if (!process)
 		return;
 
-	if (!_send_remains()) {
-		error_propagation(tdk::platform::error());
-		return;
+	if ( _send_remains()) {
+		if (!_send_queue.empty()) {
+			_io_context.evt(EPOLLIN | EPOLLOUT);
+			if (!_loop.io_impl().register_handle(_socket.handle(), &_io_context)) {
+				_on_send.error( tdk::epoll_error( errno ) );
+			}
+		}
 	}
-	if (_send_queue.empty())
-		return;
-
-	_io_context.evt(EPOLLIN | EPOLLOUT);
-	if (!_loop.io_impl().register_handle(_socket.handle(), &_io_context)) {
-		error_propagation(tdk::platform::error());
-	}
+	retain();
+	_loop.execute( &_on_send );
 }
 
 void channel::_handle_readable( void ) {
@@ -182,26 +181,27 @@ void channel::_handle_writeable( void ) {
 	if ( _state.load() != 0 )
 		return;
 
-	if ( !_send_remains() ) {
-		_error_propagation(tdk::platform::error());
-		return;
+	if (_send_remains()) {
+		if (_send_queue.empty()) {
+			_io_context.evt(EPOLLIN);
+		} else {
+			_io_context.evt(EPOLLIN | EPOLLOUT);
+		}
+		if (!_loop.io_impl().register_handle(_socket.handle(), &_io_context)) {
+			_on_send.error(tdk::epoll_error( errno ));
+		}
 	}
-
-	if ( _send_queue.empty() ) {
-		_io_context.evt(EPOLLIN);
+	if ( _on_send.error() ) {
+		_error_propagation(_on_send.error());
 	} else {
-		_io_context.evt(EPOLLIN|EPOLLOUT);
-	}
-	if ( !_loop.io_impl().register_handle(
-				_socket.handle()
-				, &_io_context ))
-	{
-		_error_propagation(tdk::platform::error());
+		fire_on_write( _on_send.io_bytes() , _send_queue.empty() );
 	}
 }
 
 
 bool channel::_send_remains( void ) {
+	_on_send.error( std::error_code());
+	_on_send.io_bytes(0);
 	tdk::io::buffer_adapter buf;
 	int total_write = 0;
 	while ( !_send_queue.empty()) {
@@ -218,9 +218,10 @@ bool channel::_send_remains( void ) {
 		} while (( writesize < 0)  && ( errno == EINTR ));
 		if ( writesize < 0 ) {
 			if ( errno == EAGAIN || errno == EWOULDBLOCK ) {
-				fire_on_write(total_write , false);
+				_on_send.io_bytes( total_write );
 				return true;
 			}
+			_on_send.error( tdk::platform::error());
 			return false;
 		} else {
 			total_write += writesize;
@@ -233,7 +234,7 @@ bool channel::_send_remains( void ) {
 			}
 		}
 	}
-	fire_on_write(total_write , true);
+	_on_send.io_bytes( total_write );
 	return true;
 }
 
@@ -267,6 +268,37 @@ void channel::handle_io_events( void ) {
 		}
 	}
 }
+
+void channel::_handle_send( tdk::task* t ) {
+	channel* c = static_cast< channel* >( t->context());
+	c->handle_send();
+	c->release();
+}
+
+void channel::handle_send( void ) {
+	if ( _state.load() != 0  )
+		return;
+	if ( _on_send.error() ) {
+		_error_propagation( _on_send.error());
+	} else {
+		fire_on_write( _on_send.io_bytes()
+				, _send_queue.empty());
+	}
+}
+
+void channel::_handle_close( tdk::task* t ) {
+	channel* c = static_cast< channel* >( t->context());
+	c->fire_on_close();
+	c->release();
+}
+
+void channel::_handle_error_proagation( tdk::task* t ) {
+	channel* c = static_cast< channel* >( t->context());
+	tdk::io::task* impl = static_cast< tdk::io::task* >(t);
+	c->fire_on_error( impl->error());
+	c->release();
+}
+
 
 void channel::retain( void ) {
 	++_ref_count;

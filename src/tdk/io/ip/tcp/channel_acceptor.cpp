@@ -157,19 +157,20 @@ void channel_acceptor::on_accept_handler( void ) {
 			} while((fd==-1)&&(errno==EINTR));
 			if ( fd < 0 )
 				return;
-			if ( condition(addr)){
+			if ( !condition(addr)){
+				::close( fd );
+			} else {
 				tdk::io::ip::tcp::channel* c =
 								new tdk::io::ip::tcp::channel(
 										channel_loop()
 										, fd );
 				if ( _builder->build( c->pipeline()) ) {
+					::close( fd );
 					delete c;
 				} else {
 					c->fire_on_accepted(addr);
-					return;
 				}
 			}
-			::close( fd );
 		}
 	}
 #elif defined( _WIN32 )
@@ -214,6 +215,9 @@ void channel_acceptor::_on_accept_handler(tdk::task* t) {
 	a->_loop.remove_active();
 }
 
+
+#if defined( _WIN32 )
+
 channel_acceptor::task::task( tdk::task::handler h , void* ctx  )
 	: io::task( h , ctx ){
 }
@@ -233,6 +237,8 @@ void channel_acceptor::task::accepted_fd( SOCKET fd ) {
 tdk::io::ip::address* channel_acceptor::task::address( void ) {
 	return _address;
 }
+
+#endif
 
 } /* namespace tcp */
 } /* namespace ip */

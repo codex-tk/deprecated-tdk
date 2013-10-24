@@ -35,6 +35,8 @@ public:
 	void do_write( tdk::buffer::memory_block& msg );
 
 	tcp::pipeline& pipeline( void );
+
+	tdk::io::ip::socket& socket_impl( void );
 public:
 	void fire_on_connected( void );
 	void fire_on_accepted( const tdk::io::ip::address& addr );
@@ -52,6 +54,10 @@ private:
 
 	static void _handle_io_events( tdk::task* t );
 	void handle_io_events( void );
+	static void _handle_send( tdk::task* t );
+	void handle_send( void );
+	static void _handle_close( tdk::task* t );
+	static void _handle_error_proagation( tdk::task* t );
 public:
 	void retain( void );
 	void release( void );
@@ -59,6 +65,9 @@ private:
 	tdk::event_loop& _loop;
 	tdk::io::ip::socket _socket;
 	tdk::io::task _io_context;
+	tdk::io::task _on_send;
+	tdk::task _do_close;
+	tdk::io::task _do_error_proagation;
 	std::atomic<int> _state;
 	std::list< tdk::buffer::memory_block > _send_queue;
 	std::atomic< int > _ref_count;
