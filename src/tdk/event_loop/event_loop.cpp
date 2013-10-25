@@ -15,6 +15,13 @@ event_loop::~event_loop( void ) {
 }
 
 void event_loop::execute( tdk::task* t ) {
+	do {
+		tdk::threading::scoped_lock<> guard( _lock );
+		_tasks.add_tail( t );
+	} while(0);
+	_active_handles.fetch_add(1);
+	_io_impl.wake_up();
+	/*
 	if ( in_loop()) {
 		_tasks.add_tail( t );
 	} else {
@@ -22,7 +29,7 @@ void event_loop::execute( tdk::task* t ) {
 		_tasks_thread.add_tail( t );
 	}
 	_active_handles.fetch_add(1);
-	_io_impl.wake_up();
+	_io_impl.wake_up();*/
 }
 
 bool event_loop::in_loop( void ) {
@@ -63,6 +70,20 @@ void event_loop::run( void ) {
 }
 
 int event_loop::_run_tasks( void ) {
+	tdk::slist_queue< tdk::task > queue;
+	int cnt = 0;
+	do {
+		tdk::threading::scoped_lock<> guard( _lock );
+		queue.add_tail( _tasks );
+	}while(0);
+	while ( !queue.is_empty()){
+		tdk::task* t = queue.front();
+		queue.pop_front();
+		(*t)();
+		++cnt;
+	}
+	return cnt;
+	/*
 	int cnt = 0;
 	do {
 		tdk::threading::scoped_lock<> guard( _lock );
@@ -74,7 +95,7 @@ int event_loop::_run_tasks( void ) {
 		(*t)();
 		++cnt;
 	}
-	return cnt;
+	return cnt;*/
 }
 
 void event_loop::add_active( void ) {
