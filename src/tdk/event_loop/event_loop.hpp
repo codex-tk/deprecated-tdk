@@ -51,7 +51,11 @@ private:
 	std::atomic<int> _active_handles;    
 	tdk::scheduler _scheduler;
 	tdk::slist_queue< tdk::task > _tasks;
+
+	/*
+	tdk::slist_queue< tdk::task > _tasks;
 	tdk::slist_queue< tdk::task > _tasks_thread;
+	*/
 	std::thread::id _thread_id;
 	io_impl_type _io_impl;
 };
