@@ -61,6 +61,7 @@ int _tmain(int argc, _TCHAR* argv[])
 #include <tdk/ssl/open_ssl.hpp>
 #include <tdk/ssl/context.hpp>
 #include <tdk/ssl/filter.hpp>
+#include <tdk/io/ip/tcp/filters/recv_time_out_filter.hpp>
 
 
 #pragma comment ( lib , "ssleay32" )
@@ -70,6 +71,13 @@ int _tmain(int argc, _TCHAR* argv[])
 class handler : public tdk::io::ip::tcp::filter {
 public:
 	virtual void on_connected( void ) {
+		tdk::ssl::filter* f = static_cast<tdk::ssl::filter*>(
+			channel()->pipeline().find("ssl"));
+		X509* cert = f->peer_certificate();
+		if ( cert  ) {
+
+			f->free_peer_certificate( cert );
+		}
 		tdk::buffer::memory_block mb(256);
 		mb.write( "GET /index HTTP/1.1\r\n\r\n" );
 		write_out_bound( mb );
@@ -77,8 +85,6 @@ public:
 
 	virtual void on_accepted( const tdk::io::ip::address& addr ) {
 		LOG_D( L"test.logger" , "accept %s\n" , addr.ip_address().c_str());
-		
-		
 	}
 
 	virtual void on_error( const std::error_code& ec ) {
@@ -117,6 +123,8 @@ public:
 	}
 
 	virtual std::error_code build( tdk::io::ip::tcp::pipeline& p ) {
+		p.add( new tdk::io::ip::tcp::recv_time_out_filter(
+			tdk::time_span::from_seconds(60)) , "timeout");
 		p.add( new tdk::ssl::filter(_ctx->impl()) , "ssl");
 		p.add( new handler() , "" );
 		return std::error_code();
@@ -184,6 +192,8 @@ public:
 	{		
 	}
 	virtual std::error_code build( tdk::io::ip::tcp::pipeline& p ) {
+		p.add( new tdk::io::ip::tcp::recv_time_out_filter(
+			tdk::time_span::from_seconds(60)) , "timeout");
 		p.add( new tdk::ssl::filter(_ctx->impl()) , "ssl" );
 		p.add( new echo_handler() , "" );
 		return std::error_code();
@@ -221,9 +231,8 @@ int main() {
 	test_connector c( l , &context );
 
 	std::vector<tdk::io::ip::address> addrs;
-	addrs.push_back( 
-		tdk::io::ip::address( "127.0.0.1" , 7543 ));
-	//tdk::io::ip::address::resolve( "google.co.kr" , 80  , addrs , AF_INET );
+	//addrs.push_back( tdk::io::ip::address( "127.0.0.1" , 7543 ));
+	tdk::io::ip::address::resolve( "google.co.kr" ,  443  , addrs , AF_INET );
 	c.connect( addrs , &c );
 	l.run();
 #endif

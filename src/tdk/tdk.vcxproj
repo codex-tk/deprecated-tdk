@@ -424,6 +424,7 @@
     <ClInclude Include="io\ip\tcp\channel_acceptor.hpp" />
     <ClInclude Include="io\ip\tcp\channel_connector.hpp" />
     <ClInclude Include="io\ip\tcp\channel_win32.hpp" />
+    <ClInclude Include="io\ip\tcp\filters\recv_time_out_filter.hpp" />
     <ClInclude Include="io\ip\tcp\pipeline\config.hpp" />
     <ClInclude Include="crypto\base64.hpp" />
     <ClInclude Include="buffer\allocator.hpp" />
@@ -530,6 +531,7 @@
     <ClCompile Include="io\ip\tcp\channel_acceptor.cpp" />
     <ClCompile Include="io\ip\tcp\channel_connector.cpp" />
     <ClCompile Include="io\ip\tcp\channel_win32.cpp" />
+    <ClCompile Include="io\ip\tcp\filters\recv_time_out_filter.cpp" />
     <ClCompile Include="io\ip\tcp\pipeline\config.cpp" />
     <ClCompile Include="io\ip\tcp\pipeline\filter.cpp" />
     <ClCompile Include="io\ip\tcp\pipeline\filter_chain.cpp" />

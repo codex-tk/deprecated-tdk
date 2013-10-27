@@ -80,6 +80,7 @@
     <ClCompile Include="ssl\error_category.cpp" />
     <ClCompile Include="ssl\filter.cpp" />
     <ClCompile Include="ssl\context.cpp" />
+    <ClCompile Include="io\ip\tcp\filters\recv_time_out_filter.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="buffer\array.hpp" />
@@ -173,6 +174,7 @@
     <ClInclude Include="ssl\error_category.hpp" />
     <ClInclude Include="ssl\filter.hpp" />
     <ClInclude Include="ssl\context.hpp" />
+    <ClInclude Include="io\ip\tcp\filters\recv_time_out_filter.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="crypto\seed\SEED_KISA.tab" />
