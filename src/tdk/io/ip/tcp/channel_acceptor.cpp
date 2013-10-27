@@ -164,6 +164,8 @@ void channel_acceptor::on_accept_handler( void ) {
 								new tdk::io::ip::tcp::channel(
 										channel_loop()
 										, fd );
+				tdk::io::ip::socket::option::non_blocking non_block;
+				c->socket_impl().set_option( non_block );
 				if ( _builder->build( c->pipeline()) ) {
 					::close( fd );
 					delete c;

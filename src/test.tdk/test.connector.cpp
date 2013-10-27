@@ -2,7 +2,9 @@
 #include <tdk/io/ip/tcp/channel_connector.hpp>
 #include <tdk/io/ip/tcp/pipeline/pipeline_builder.hpp>
 #include <tdk/io/ip/tcp/pipeline/filter.hpp>
+
 #include <tdk/log/logger.hpp>
+/*
 
 class handler : public tdk::io::ip::tcp::filter {
 public:
@@ -34,7 +36,9 @@ class test_connector : public tdk::io::ip::tcp::channel_connector
 {
 public:
 	test_connector( tdk::event_loop& l ) 
-		: channel_connector( l ) {
+		: channel_connector( l ) 
+	{
+		
 	}
 
 	virtual bool on_connnect( const tdk::io::ip::address& addr ) {
@@ -47,18 +51,25 @@ public:
 	}
 
 	virtual std::error_code build( tdk::io::ip::tcp::pipeline& p ) {
+		
 		p.add( new handler());
 		return std::error_code();
 	}
 private:
+	
 };
 
 TEST( connector , connect ) {
+
 	tdk::event_loop loop;
 	test_connector c( loop );
 	
 	std::vector<tdk::io::ip::address> addrs;
-	tdk::io::ip::address::resolve( "google.co.kr" , 80  , addrs , AF_INET );
+	addrs.push_back( 
+		tdk::io::ip::address( "127.0.0.1" , 1111 ));
+	//tdk::io::ip::address::resolve( "google.co.kr" , 80  , addrs , AF_INET );
 	c.connect( addrs , &c );
 	loop.run();
 }
+
+*/

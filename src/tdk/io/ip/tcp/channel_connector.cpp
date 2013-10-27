@@ -193,7 +193,7 @@ void channel_connector::on_connect_handler(void) {
 		}
 		on_connect_fail( _on_connect.error()); 
 	} else {
-		if ( on_connnect( _addrs[_addr_index] )) {
+		if ( on_connnect( _addrs[_addr_index - 1] )) {
 
 			tdk::io::ip::tcp::channel* c =
 				new tdk::io::ip::tcp::channel(_loop , _fd.handle() );

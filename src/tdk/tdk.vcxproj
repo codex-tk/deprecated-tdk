@@ -186,15 +186,33 @@
     <Import Project="tdk.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_MDd|Win32'" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_MTd|Win32'" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <IncludePath>$(SolutionDir)\openssl\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)\openssl\x86\out32dll;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_MDd|Win32'">
+    <IncludePath>$(SolutionDir)\openssl\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)\openssl\x86\out32dll;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_MTd|Win32'">
+    <IncludePath>$(SolutionDir)\openssl\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)\openssl\x86\out32dll;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_MDd|x64'" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_MTd|x64'" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_MT|Win32'" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_MD|Win32'" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <IncludePath>$(SolutionDir)\openssl\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)\openssl\x86\out32dll;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_MT|Win32'">
+    <IncludePath>$(SolutionDir)\openssl\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)\openssl\x86\out32dll;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_MD|Win32'">
+    <IncludePath>$(SolutionDir)\openssl\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)\openssl\x86\out32dll;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_MT|x64'" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_MD|x64'" />
@@ -203,7 +221,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_TDK_OPENSSL_ENABLED_;WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <DisableSpecificWarnings>4819</DisableSpecificWarnings>
@@ -218,7 +236,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_TDK_OPENSSL_ENABLED_;WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <DisableSpecificWarnings>4819</DisableSpecificWarnings>
@@ -233,7 +251,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_TDK_OPENSSL_ENABLED_;WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <DisableSpecificWarnings>4819</DisableSpecificWarnings>
@@ -293,7 +311,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_TDK_OPENSSL_ENABLED_;WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <DisableSpecificWarnings>4819</DisableSpecificWarnings>
@@ -312,7 +330,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_TDK_OPENSSL_ENABLED_;WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <DisableSpecificWarnings>4819</DisableSpecificWarnings>
@@ -331,7 +349,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_TDK_OPENSSL_ENABLED_;WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <DisableSpecificWarnings>4819</DisableSpecificWarnings>
@@ -426,8 +444,6 @@
     <ClInclude Include="io\ip\tcp\pipeline\filter_chain.hpp" />
     <ClInclude Include="io\ip\tcp\pipeline\pipeline.hpp" />
     <ClInclude Include="io\ip\tcp\pipeline\pipeline_builder.hpp" />
-    <ClInclude Include="io\ip\tcp\ssl\ssl.hpp" />
-    <ClInclude Include="io\ip\tcp\ssl\ssl_filter.hpp" />
     <ClInclude Include="io\select.hpp" />
     <ClInclude Include="io\task.hpp" />
     <ClInclude Include="event_loop\scheduler.hpp" />
@@ -436,10 +452,15 @@
     <ClInclude Include="geo.hpp" />
     <ClInclude Include="log\formatter\mb_string_formatter.hpp" />
     <ClInclude Include="log\writer\udp_writer.hpp" />
+    <ClInclude Include="ssl\context.hpp" />
+    <ClInclude Include="ssl\error_category.hpp" />
+    <ClInclude Include="ssl\open_ssl.hpp" />
+    <ClInclude Include="ssl\filter.hpp" />
     <ClInclude Include="threading\atomic\atomic.hpp" />
     <ClInclude Include="threading\atomic\memory_order.hpp" />
     <ClInclude Include="threading\auto_reset_event_win32.hpp" />
     <ClInclude Include="threading\mutex_win32.hpp" />
+    <ClInclude Include="threading\thread.hpp" />
     <ClInclude Include="time\remote_time.hpp" />
     <ClInclude Include="tmp\compile_time_error.hpp" />
     <ClInclude Include="util\initializer.hpp" />
@@ -514,7 +535,6 @@
     <ClCompile Include="io\ip\tcp\pipeline\filter_chain.cpp" />
     <ClCompile Include="io\ip\tcp\pipeline\pipeline.cpp" />
     <ClCompile Include="io\ip\tcp\pipeline\pipeline_builder.cpp" />
-    <ClCompile Include="io\ip\tcp\ssl\ssl_filter.cpp" />
     <ClCompile Include="io\task.cpp" />
     <ClCompile Include="event_loop\scheduler.cpp" />
     <ClCompile Include="event_loop\task.cpp" />
@@ -522,6 +542,10 @@
     <ClCompile Include="io\buffer_adapter.cpp" />
     <ClCompile Include="log\formatter\mb_string_formatter.cpp" />
     <ClCompile Include="log\writer\udp_writer.cpp" />
+    <ClCompile Include="ssl\context.cpp" />
+    <ClCompile Include="ssl\error_category.cpp" />
+    <ClCompile Include="ssl\filter.cpp" />
+    <ClCompile Include="ssl\open_ssl.cpp" />
     <ClCompile Include="threading\atomic\atomic_win32.cpp" />
     <ClCompile Include="threading\atomic\memory_order_win32.cpp" />
     <ClCompile Include="threading\auto_reset_event_win32.cpp" />

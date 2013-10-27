@@ -21,13 +21,14 @@ public:
 	pipeline( tcp::channel* channel );
 	~pipeline( void );
 
-	void add( filter* f );
+	void add( filter* f , const std::string& name );
 
 	tcp::channel* channel( void );
 
 	filter* in_bound_filter( void );
 	filter* out_bound_filter( void );
 
+	filter* find( const std::string& name );
 private:
 	tcp::channel* _channel;
 	filter_chain _chain;

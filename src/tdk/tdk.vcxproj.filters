@@ -76,6 +76,10 @@
     <ClCompile Include="io\ip\tcp\channel_win32.cpp" />
     <ClCompile Include="io\ip\tcp\channel_connector.cpp" />
     <ClCompile Include="io\ip\tcp\channel_acceptor.cpp" />
+    <ClCompile Include="ssl\open_ssl.cpp" />
+    <ClCompile Include="ssl\error_category.cpp" />
+    <ClCompile Include="ssl\filter.cpp" />
+    <ClCompile Include="ssl\context.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="buffer\array.hpp" />
@@ -164,6 +168,11 @@
     <ClInclude Include="io\ip\tcp\channel_win32.hpp" />
     <ClInclude Include="io\ip\tcp\channel_connector.hpp" />
     <ClInclude Include="io\ip\tcp\channel_acceptor.hpp" />
+    <ClInclude Include="threading\thread.hpp" />
+    <ClInclude Include="ssl\open_ssl.hpp" />
+    <ClInclude Include="ssl\error_category.hpp" />
+    <ClInclude Include="ssl\filter.hpp" />
+    <ClInclude Include="ssl\context.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="crypto\seed\SEED_KISA.tab" />

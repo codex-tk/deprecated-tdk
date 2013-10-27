@@ -30,6 +30,9 @@ public:
 	void in_bound( filter* f );
 	void out_bound( filter* f );
 	void write_out_bound( tdk::buffer::memory_block& msg );
+
+	const std::string& name( void );
+	void name( const std::string& n );
 public:
 	virtual void on_accepted( const tdk::io::ip::address& addr );
 	virtual void on_connected( void );
@@ -43,6 +46,7 @@ private:
 	tcp::channel* _channel;
 	filter* _in_bound;
 	filter* _out_bound;
+	std::string _name;
 };
 
 } /* namespace tcp */

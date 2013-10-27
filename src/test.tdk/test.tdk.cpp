@@ -58,6 +58,73 @@ int _tmain(int argc, _TCHAR* argv[])
 #include <tdk/io/ip/tcp/pipeline/filter.hpp>
 #include <thread>
 #include <system_error>
+#include <tdk/ssl/open_ssl.hpp>
+#include <tdk/ssl/context.hpp>
+#include <tdk/ssl/filter.hpp>
+
+
+#pragma comment ( lib , "ssleay32" )
+#pragma comment ( lib , "libeay32" )
+
+
+class handler : public tdk::io::ip::tcp::filter {
+public:
+	virtual void on_connected( void ) {
+		tdk::buffer::memory_block mb(256);
+		mb.write( "GET /index HTTP/1.1\r\n\r\n" );
+		write_out_bound( mb );
+	}
+
+	virtual void on_accepted( const tdk::io::ip::address& addr ) {
+		LOG_D( L"test.logger" , "accept %s\n" , addr.ip_address().c_str());
+		
+		
+	}
+
+	virtual void on_error( const std::error_code& ec ) {
+		LOG_D( L"test.logger" , L"error" );
+		channel()->close();
+	}
+
+	virtual void on_read( tdk::buffer::memory_block& msg ) {
+		LOG_D( L"test.logger" , L"read" );
+	}
+
+	virtual void on_closed( void ) {
+		LOG_D( L"test.logger" , L"close" );
+	}
+	virtual void on_delete( void ) {
+		LOG_D( L"test.logger" , L"on_delete" );
+	}
+};
+class test_connector : public tdk::io::ip::tcp::channel_connector
+	, public tdk::io::ip::tcp::pipeline_builder
+{
+public:
+	test_connector( tdk::event_loop& l , tdk::ssl::context* c ) 
+		: channel_connector( l ) 
+		, _ctx(c)
+	{
+	}
+
+	virtual bool on_connnect( const tdk::io::ip::address& addr ) {
+		LOG_D( L"test.logger" , L"connect" );
+		return true;
+	}
+
+	virtual void on_connect_fail( const std::error_code& ec ) {
+		LOG_D( L"test.logger" , L"connect fail" );
+	}
+
+	virtual std::error_code build( tdk::io::ip::tcp::pipeline& p ) {
+		p.add( new tdk::ssl::filter(_ctx->impl()) , "ssl");
+		p.add( new handler() , "" );
+		return std::error_code();
+	}
+private:
+	tdk::ssl::context* _ctx;
+};
+
 
 class echo_handler : public tdk::io::ip::tcp::filter {
 public:
@@ -66,17 +133,22 @@ public:
 	}
 	virtual ~echo_handler( void ) {
 		printf("deleted!!\n");
-	}/*
-	virtual void on_connected( void ) {
-		tdk::io::ip::tcp::message msg;
-		msg.data().write( "GET /index HTTP/1.1\r\n\r\n" );
-		pipeline()->write( msg );
-		//write_out_bound( msg );
-	}*/
-
+	}
+	virtual bool on_connnect( const tdk::io::ip::address& addr ) {
+		printf( "connecdt\n");
+		tdk::buffer::memory_block mb(1024);
+		return true;
+	}
 
 	virtual void on_accepted( const tdk::io::ip::address& addr ) {
 		printf( "accept %s\n" , addr.ip_address().c_str());
+		tdk::ssl::filter* f = static_cast<tdk::ssl::filter*>(
+			channel()->pipeline().find("ssl"));
+		X509* cert = f->peer_certificate();
+		if ( cert  ) {
+
+			f->free_peer_certificate( cert );
+		}
 	}
 	virtual void on_error( const std::error_code& ec ) {
 		printf( "error %s\n" , ec.message().c_str());
@@ -98,25 +170,64 @@ public:
 };
 
 
+int pem_password(char *buf, int size, int rwflag, void *userdata) {
+	//strncpy_s( buf , "1331" , size );
+	strncpy(buf, "1331",size);
+	buf[size - 1] = '\0';
+	return(strlen(buf));
+}
+
 class echo_builder : public tdk::io::ip::tcp::pipeline_builder{
 public:
+	echo_builder( tdk::ssl::context* ctx ) 
+		: _ctx(ctx)
+	{		
+	}
 	virtual std::error_code build( tdk::io::ip::tcp::pipeline& p ) {
-		p.add( new echo_handler());
+		p.add( new tdk::ssl::filter(_ctx->impl()) , "ssl" );
+		p.add( new echo_handler() , "" );
 		return std::error_code();
 	}
+private:
+	tdk::ssl::context* _ctx;
 };
 
-int main() {
 
+int main() {
 	tdk::init();
 
+	tdk::ssl::open_ssl::init();
+	tdk::ssl::context context;
+	
 	tdk::event_loop l;
-	echo_builder b;
+#if defined( _SERVER )	
+	if (!context.use_certificate_file("crt.pem")){
+		return;
+	}
+	if ( !context.use_private_key_file("key.pem" , "1331")){
+		return;
+	}
+	if ( !context.check_private_key() ) {
+		return;
+	}
+
+	echo_builder b(&context);
 
 	tdk::io::ip::tcp::channel_acceptor a(l);
 	if ( a.open(tdk::io::ip::address::any( 7543 ) , &b )) {
 		l.run();
 	}
+#else
+	test_connector c( l , &context );
+
+	std::vector<tdk::io::ip::address> addrs;
+	addrs.push_back( 
+		tdk::io::ip::address( "127.0.0.1" , 7543 ));
+	//tdk::io::ip::address::resolve( "google.co.kr" , 80  , addrs , AF_INET );
+	c.connect( addrs , &c );
+	l.run();
+#endif
+	
 }
 	/*
 	std::vector< std::thread* > thread;

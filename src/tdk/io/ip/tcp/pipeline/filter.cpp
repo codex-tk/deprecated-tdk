@@ -102,6 +102,14 @@ void filter::on_delete( void ) {
 	delete this;
 }
 
+const std::string& filter::name( void ) {
+	return _name;
+}
+
+void filter::name( const std::string& n ) {
+	_name = n;
+}
+
 } /* namespace tcp */
 } /* namespace ip */
 } /* namespace io */
