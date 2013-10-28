@@ -21,7 +21,7 @@ public:
 	pipeline( tcp::channel* channel );
 	~pipeline( void );
 
-	void add( filter* f , const std::string& name );
+	void add( const std::string& name  , filter* f );
 
 	tcp::channel* channel( void );
 

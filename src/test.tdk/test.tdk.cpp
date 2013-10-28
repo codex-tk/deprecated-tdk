@@ -75,7 +75,6 @@ public:
 			channel()->pipeline().find("ssl"));
 		X509* cert = f->peer_certificate();
 		if ( cert  ) {
-
 			f->free_peer_certificate( cert );
 		}
 		tdk::buffer::memory_block mb(256);

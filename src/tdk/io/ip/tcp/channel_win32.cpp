@@ -184,7 +184,7 @@ void channel::handle_send( void ) {
 		_error_propagation( _on_send.error());
 		return;
 	}
-
+	int write_size = _on_send.io_bytes();
 	int total_write = _on_send.io_bytes();
 	while ( total_write > 0 ) {
 		auto msg = _send_queue.begin();
@@ -194,7 +194,7 @@ void channel::handle_send( void ) {
 		total_write -= move;
 	}
 	bool flushed = _send_queue.empty();
-	fire_on_write(total_write , flushed);
+	fire_on_write(write_size , flushed);
 	if ( !flushed )
 		_send_remains();
 }

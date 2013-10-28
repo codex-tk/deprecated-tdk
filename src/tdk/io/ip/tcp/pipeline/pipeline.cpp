@@ -17,7 +17,7 @@ pipeline::~pipeline( void ) {
 }
 
 
-void pipeline::add( filter* f , const std::string& name ){
+void pipeline::add( const std::string& name  , filter* f ){
 	f->name(name);
 	f->channel( _channel );
 	_chain.add(f);

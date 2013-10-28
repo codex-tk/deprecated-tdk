@@ -44,7 +44,7 @@ void recv_time_out_filter::on_connected( void ){
 }
 
 void recv_time_out_filter::on_error( const std::error_code& ec ){
-	channel()->loop().schedule( &_on_timer );
+	channel()->loop().cancel( &_on_timer );
 	filter::on_error(ec);
 }
 

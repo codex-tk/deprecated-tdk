@@ -170,7 +170,11 @@ void channel_acceptor::on_accept_handler( void ) {
 					::close( fd );
 					delete c;
 				} else {
-					c->fire_on_accepted(addr);
+					c->loop()
+						.execute( tdk::task::make_one_shot_task([c ,remote_addr]
+					{
+						c->fire_on_accepted(remote_addr);
+					}));
 				}
 			}
 		}
@@ -203,7 +207,11 @@ void channel_acceptor::on_accept_handler( void ) {
 				::closesocket( _on_accept.accepted_fd() );
 				delete c;
 			} else {
-				c->fire_on_accepted(remote_addr);
+				c->loop()
+					.execute( tdk::task::make_one_shot_task([c ,remote_addr]
+				{
+					c->fire_on_accepted(remote_addr);
+				}));
 			}
 		}		
 	}
