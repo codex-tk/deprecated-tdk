@@ -223,7 +223,7 @@ public:
 		: channel_acceptor(l)
 	{
 		_index = 0;
-		for ( int i = 0 ; i < 8 ; ++i ) {
+		for ( int i = 0 ; i < 4 ; ++i ) {
 			tdk::event_loop* l = new tdk::event_loop();
 			std::thread( [l] {
 				tdk::threading::data td;

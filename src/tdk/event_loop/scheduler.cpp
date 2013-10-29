@@ -61,9 +61,9 @@ tdk::time_span scheduler::schedule_after( void ) {
 		return tdk::time_span::from_seconds(100);
 	tdk::date_time now = tdk::date_time::utc();
 	tdk::date_time expired_at = (*_timer_tasks.begin())->expired_at();
-	if ( now < expired_at )
+	if ( now > expired_at )
 		return tdk::time_span(0);
-	return now - expired_at;
+	return expired_at - now;
 }
 
 }

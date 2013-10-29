@@ -23,6 +23,7 @@ public:
 
     seed( void );
     seed( const block& key );
+	seed( const char* key_msg  );
     ~seed( void );
 
     void open( const block& key );

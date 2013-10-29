@@ -15,8 +15,18 @@ seed::seed( void ){
 }
 
 seed::seed( const block& key ){
-    memset( roundKey_ , 0x00 , sizeof( DWORD ) * 32 );
-    SeedRoundKey( roundKey_ ,const_cast<uint8_t*>( key.data ) );
+    open( key );
+}
+
+seed::seed( const char* key_msg  ) {
+	block b;
+    memset( b.data , 0x00 , 16 );
+#if defined( _WIN32 )
+    strncpy_s((char*) b.data , 16 , key_msg , 16 );
+#else
+	strncpy((char*) b.data , key_msg , 16 );
+#endif
+    open( b );
 }
 
 seed::~seed( void ){
@@ -35,6 +45,7 @@ void seed::open( const char* key_msg ) {
 
 void seed::open( const seed::block& key_block  ){
     close();
+	memset( roundKey_ , 0x00 , sizeof( DWORD ) * 32 );
     SeedRoundKey( roundKey_ ,const_cast<uint8_t*>( key_block.data ) );
 }
 
