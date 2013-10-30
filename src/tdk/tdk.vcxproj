@@ -457,6 +457,7 @@
     <ClInclude Include="ssl\error_category.hpp" />
     <ClInclude Include="ssl\open_ssl.hpp" />
     <ClInclude Include="ssl\filter.hpp" />
+    <ClInclude Include="task\queue.hpp" />
     <ClInclude Include="threading\atomic\atomic.hpp" />
     <ClInclude Include="threading\atomic\memory_order.hpp" />
     <ClInclude Include="threading\auto_reset_event_win32.hpp" />
@@ -548,6 +549,7 @@
     <ClCompile Include="ssl\error_category.cpp" />
     <ClCompile Include="ssl\filter.cpp" />
     <ClCompile Include="ssl\open_ssl.cpp" />
+    <ClCompile Include="task\queue.cpp" />
     <ClCompile Include="threading\atomic\atomic_win32.cpp" />
     <ClCompile Include="threading\atomic\memory_order_win32.cpp" />
     <ClCompile Include="threading\auto_reset_event_win32.cpp" />
