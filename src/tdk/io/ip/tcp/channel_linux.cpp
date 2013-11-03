@@ -100,7 +100,7 @@ void channel::_register_handle(void) {
 		_reg_events = evt;
 		_io_context.evt( evt );
 		if (!_loop.io_impl().register_handle(_socket.handle(), &_io_context)) {
-			_error_propagation(tdk::epoll_error( errno ));
+			error_propagation(tdk::epoll_error( errno ));
 		}
 	}
 }
@@ -191,6 +191,11 @@ void channel::do_write(tdk::buffer::memory_block& msg){
 }
 
 void channel::_handle_readable( void ) {
+	if ( is_bits_on( detail::k_error_bit 
+		| detail::k_close_bit
+		| detail::k_read_pending_bit ))
+		return;
+	
 	tdk::buffer::memory_block msg(channel_config().recv_buffer_size );
 	int readsize = 0;
 	do {
