@@ -37,6 +37,12 @@ public:
 	tcp::pipeline& pipeline( void );
 
 	tdk::io::ip::socket& socket_impl( void );
+
+	// must bo called in filter::on_read
+	void pending_read( void );
+	void continue_read( void );
+
+	bool is_bits_on( int b );
 public:
 	void fire_on_connected( void );
 	void fire_on_accepted( const tdk::io::ip::address& addr );

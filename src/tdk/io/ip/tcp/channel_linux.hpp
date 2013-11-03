@@ -37,6 +37,12 @@ public:
 	tcp::pipeline& pipeline( void );
 
 	tdk::io::ip::socket& socket_impl( void );
+	
+	// must bo called in filter::on_read
+	void pending_read( void );
+	void continue_read( void );
+
+	bool is_bits_on( int b );
 public:
 	void fire_on_connected( void );
 	void fire_on_accepted( const tdk::io::ip::address& addr );
@@ -53,9 +59,9 @@ private:
 	bool _send_remains( void );
 
 	static void _handle_io_events( tdk::task* t );
-	void handle_io_events( void );
+	void handle_io_events( int evt );
 	static void _handle_send( tdk::task* t );
-	void handle_send( void );
+	//void handle_send( void );
 	static void _handle_close( tdk::task* t );
 	static void _handle_error_proagation( tdk::task* t );
 public:
@@ -72,6 +78,7 @@ private:
 	std::list< tdk::buffer::memory_block > _send_queue;
 	std::atomic< int > _ref_count;
 	tcp::pipeline _pipeline;
+	int _reg_events;
 public:
 	static config& channel_config( void );
 };

@@ -18,8 +18,9 @@ namespace ip {
 namespace tcp {
 
 namespace detail {
-	int k_error_bit = 0x01;
-	int k_close_bit = 0x02;
+	int k_error_bit			= 0x01;
+	int k_close_bit			= 0x02;
+	int k_read_pending_bit	= 0x04;
 }
 
 channel::channel(tdk::event_loop& loop , int fd )
@@ -30,6 +31,7 @@ channel::channel(tdk::event_loop& loop , int fd )
 	, _do_close( &channel::_handle_close , this )
 	, _do_error_proagation( &channel::_handle_error_proagation , this )
 	, _pipeline(this)
+	, _reg_events(0)
 {
 	_state.store(0);
 	_ref_count.store(0);
@@ -60,29 +62,60 @@ void channel::write( tdk::buffer::memory_block& msg ){
 						}));
 }
 
-void channel::_register_handle(void) {
-	if (_state.load() != 0)
-		return;
 
-	_io_context.evt( EPOLLIN);
-	if (_loop.io_impl().register_handle(_socket.handle(), &_io_context)) {
-		_loop.add_active();
-	} else {
-		_error_propagation(tdk::epoll_error( errno ));
+void channel::pending_read( void ) {
+	_state |= detail::k_read_pending_bit;
+}
+
+void channel::continue_read( void ) {
+	int old = _state.fetch_xor( ~detail::k_read_pending_bit );
+	if ( old & detail::k_read_pending_bit ) {
+		retain();
+		_loop.execute(task::make_one_shot_task(
+						[this]{
+							_register_handle();
+							release();
+						}));
 	}
 }
 
+bool channel::is_bits_on( int b ) {
+	return ( _state.load() & b ) != 0;
+}
+
+void channel::_register_handle(void) {
+	if (is_bits_on( detail::k_error_bit | detail::k_close_bit))
+		return;
+
+	int evt = EPOLLIN;
+	if ( is_bits_on( detail::k_read_pending_bit )) {
+		evt = 0;
+	}
+
+	if ( !_send_queue.empty() ) {
+		evt |= EPOLLOUT;
+	}
+
+	if ( _reg_events != evt ) {
+		_reg_events = evt;
+		_io_context.evt( evt );
+		if (!_loop.io_impl().register_handle(_socket.handle(), &_io_context)) {
+			_error_propagation(tdk::epoll_error( errno ));
+		}
+	}
+}
 
 void channel::fire_on_connected(void) {
 	retain();
 	_register_handle();
+	_loop.add_active();
 	_pipeline.in_bound_filter()->on_connected();
 }
-
 
 void channel::fire_on_accepted( const tdk::io::ip::address& addr ) {
 	retain();
 	_register_handle();
+	_loop.add_active();
 	_pipeline.in_bound_filter()->on_accepted(addr);
 }
 
@@ -110,7 +143,7 @@ void channel::fire_on_close( void ) {
 }
 
 void channel::fire_do_write( tdk::buffer::memory_block msg ) {
-	if ( _state.load() != 0 )
+	if ( is_bits_on( detail::k_error_bit | detail::k_close_bit))
 		return;
 	_pipeline.out_bound_filter()->do_write(msg);
 }
@@ -144,7 +177,7 @@ void channel::do_write(tdk::buffer::memory_block& msg){
 	_send_queue.push_back(msg);
 	if (!process)
 		return;
-
+	/*
 	if ( _send_remains()) {
 		if (!_send_queue.empty()) {
 			_io_context.evt(EPOLLIN | EPOLLOUT);
@@ -152,7 +185,7 @@ void channel::do_write(tdk::buffer::memory_block& msg){
 				_on_send.error( tdk::epoll_error( errno ) );
 			}
 		}
-	}
+	}*/
 	retain();
 	_loop.execute( &_on_send );
 }
@@ -178,26 +211,20 @@ void channel::_handle_readable( void ) {
 }
 
 void channel::_handle_writeable( void ) {
-	if ( _state.load() != 0 )
+	if ( is_bits_on( detail::k_error_bit | detail::k_close_bit))
 		return;
 
-	if (_send_remains()) {
-		if (_send_queue.empty()) {
-			_io_context.evt(EPOLLIN);
-		} else {
-			_io_context.evt(EPOLLIN | EPOLLOUT);
-		}
-		if (!_loop.io_impl().register_handle(_socket.handle(), &_io_context)) {
-			_on_send.error(tdk::epoll_error( errno ));
-		}
-	}
+	if (_send_queue.empty())
+		return;
+
+	_send_remains();
+	
 	if ( _on_send.error() ) {
 		_error_propagation(_on_send.error());
 	} else {
 		fire_on_write( _on_send.io_bytes() , _send_queue.empty() );
 	}
 }
-
 
 bool channel::_send_remains( void ) {
 	_on_send.error( std::error_code());
@@ -240,14 +267,13 @@ bool channel::_send_remains( void ) {
 
 void channel::_handle_io_events( tdk::task* t ) {
 	channel* c = static_cast< channel* >( t->context());
-	c->handle_io_events();
+	c->handle_io_events( c->_io_context.evt());
 }
 
-void channel::handle_io_events( void ) {
-	if ( _state.load() != 0 )
+void channel::handle_io_events( int evt ) {
+	if ( is_bits_on( detail::k_error_bit | detail::k_close_bit))
 		return;
 
-	int evt = _io_context.evt();
 	if ( evt & EPOLLERR ) {
 		std::error_code ec = tdk::tdk_epoll_error;
 		tdk::io::ip::socket::option::error sock_error;
@@ -265,18 +291,22 @@ void channel::handle_io_events( void ) {
 			if ( evt & EPOLLOUT ) {
 				_handle_writeable();
 			}
+			_register_handle();
 		}
 	}
 }
 
 void channel::_handle_send( tdk::task* t ) {
 	channel* c = static_cast< channel* >( t->context());
-	c->handle_send();
+	c->handle_io_events( EPOLLOUT );
+	//c->handle_send();
 	c->release();
 }
-
+	/*
 void channel::handle_send( void ) {
-	if ( _state.load() != 0  )
+	handle_io_events( EPOLLOUT );
+
+	if ( is_bits_on( detail::k_error_bit | detail::k_close_bit))
 		return;
 	if ( _on_send.error() ) {
 		_error_propagation( _on_send.error());
@@ -285,7 +315,7 @@ void channel::handle_send( void ) {
 				, _send_queue.empty());
 	}
 }
-
+*/
 void channel::_handle_close( tdk::task* t ) {
 	channel* c = static_cast< channel* >( t->context());
 	c->fire_on_close();

@@ -13,8 +13,9 @@ namespace ip {
 namespace tcp {
 
 namespace detail {
-	int k_error_bit = 0x01;
-	int k_close_bit = 0x02;
+	int k_error_bit			= 0x01;
+	int k_close_bit			= 0x02;
+	int k_read_pending_bit	= 0x04;
 }
 
 channel::channel(tdk::event_loop& loop , int fd )
@@ -40,7 +41,7 @@ tdk::event_loop& channel::loop( void ) {
 
 void channel::close( void ) {
 	if ( _state.fetch_or( detail::k_close_bit) & detail::k_close_bit )
-			return;
+		return;
 	// process next turn
 	retain();
 	_loop.execute( &_do_close );
@@ -53,6 +54,26 @@ void channel::write( tdk::buffer::memory_block& msg ){
 							fire_do_write(msg);
 							release();
 						}));
+}
+
+void channel::pending_read( void ) {
+	_state |= detail::k_read_pending_bit;
+}
+
+void channel::continue_read( void ) {
+	int old = _state.fetch_xor( ~detail::k_read_pending_bit );
+	if ( old & detail::k_read_pending_bit ) {
+		retain();
+		_loop.execute(task::make_one_shot_task(
+						[this]{
+							_do_recv();
+							release();
+						}));
+	}
+}
+
+bool channel::is_bits_on( int b ) {
+	return ( _state.load() & b ) != 0;
 }
 
 void channel::fire_on_connected(void) {
@@ -91,7 +112,7 @@ void channel::fire_on_close( void ) {
 }
 
 void channel::fire_do_write( tdk::buffer::memory_block msg ) {
-	if ( _state.load() != 0 )
+	if ( is_bits_on( detail::k_error_bit | detail::k_close_bit ))
 		return;
 	_pipeline.out_bound_filter()->do_write(msg);
 }
@@ -124,7 +145,9 @@ tdk::io::ip::socket& channel::socket_impl( void ) {
 }
 
 void channel::_do_recv( void ) {
-	if ( _state.load() != 0 )
+	if ( is_bits_on( detail::k_error_bit 
+					| detail::k_close_bit
+					| detail::k_read_pending_bit ))
 		return;
 
 	_recv_buffer = tdk::buffer::memory_block( channel_config().recv_buffer_size );
@@ -161,7 +184,7 @@ void channel::do_write(tdk::buffer::memory_block& msg){
 }
 
 void channel::handle_recv( void ) {	
-	if ( _state.load() != 0 )
+	if ( is_bits_on( detail::k_error_bit | detail::k_close_bit))
 		return;
 
 	if ( _on_recv.io_bytes() == 0 ) {
@@ -177,7 +200,7 @@ void channel::handle_recv( void ) {
 }
 
 void channel::handle_send( void ) {
-	if ( _state.load() != 0 )
+	if ( is_bits_on( detail::k_error_bit | detail::k_close_bit))
 		return;
 
 	if ( _on_send.error() ) {
@@ -195,14 +218,17 @@ void channel::handle_send( void ) {
 	}
 	bool flushed = _send_queue.empty();
 	fire_on_write(write_size , flushed);
-	if ( !flushed )
-		_send_remains();
+	_send_remains();
 }
 
 
 void channel::_send_remains( void ) {
-	if ( _state.load() != 0 )
+	if ( is_bits_on( detail::k_error_bit | detail::k_close_bit))
 		return;
+
+	if ( _send_queue.empty() ) 
+		return;
+
 	tdk::io::buffer_adapter buf;
 	for( auto it : _send_queue ) {
 		if ( !buf.push_back( it.rd_ptr() , it.length())){
