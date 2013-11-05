@@ -76,10 +76,6 @@
     <ClCompile Include="io\ip\tcp\channel_win32.cpp" />
     <ClCompile Include="io\ip\tcp\channel_connector.cpp" />
     <ClCompile Include="io\ip\tcp\channel_acceptor.cpp" />
-    <ClCompile Include="ssl\open_ssl.cpp" />
-    <ClCompile Include="ssl\error_category.cpp" />
-    <ClCompile Include="ssl\filter.cpp" />
-    <ClCompile Include="ssl\context.cpp" />
     <ClCompile Include="io\ip\tcp\filters\recv_time_out_filter.cpp" />
     <ClCompile Include="task\queue.cpp" />
   </ItemGroup>
@@ -171,10 +167,6 @@
     <ClInclude Include="io\ip\tcp\channel_connector.hpp" />
     <ClInclude Include="io\ip\tcp\channel_acceptor.hpp" />
     <ClInclude Include="threading\thread.hpp" />
-    <ClInclude Include="ssl\open_ssl.hpp" />
-    <ClInclude Include="ssl\error_category.hpp" />
-    <ClInclude Include="ssl\filter.hpp" />
-    <ClInclude Include="ssl\context.hpp" />
     <ClInclude Include="io\ip\tcp\filters\recv_time_out_filter.hpp" />
     <ClInclude Include="task\queue.hpp" />
   </ItemGroup>
