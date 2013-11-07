@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include <tdk/device/monitor_win32.hpp>
-
+#if defined( _WIN32 )
 namespace tdk {
 namespace device {
 
@@ -30,3 +30,4 @@ bool monitor::is_primary( void ) const {
 }
 
 }}
+#endif

@@ -1,6 +1,9 @@
 #ifndef __ssl_filter_h__
 #define __ssl_filter_h__
 
+
+#if defined ( _TDK_OPENSSL_ENABLED_)
+
 #include <tdk/io/ip/tcp/pipeline/filter.hpp>
 #include <tdk/buffer/memory_block.hpp>
 #include <openssl/ssl.h>
@@ -39,5 +42,6 @@ private:
 
 }}
 
+#endif
 
 #endif

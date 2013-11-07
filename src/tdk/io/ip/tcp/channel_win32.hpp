@@ -78,6 +78,10 @@ private:
 	std::list< tdk::buffer::memory_block > _send_queue;
 	tcp::pipeline _pipeline;
 	tdk::buffer::memory_block _recv_buffer;
+	/*
+	int _debug_1;
+	int _debug_2;
+	int _debug_3;*/
 public:
 	static config& channel_config( void );
 };

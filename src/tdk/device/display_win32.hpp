@@ -1,6 +1,6 @@
 #ifndef __tdk_device_display_h__
 #define __tdk_device_display_h__
-
+#if defined( _WIN32 )
 #include <tdk/device/monitor_win32.hpp>
 #include <vector>
 
@@ -23,5 +23,5 @@ private:
 };
 
 }}
-
+#endif
 #endif

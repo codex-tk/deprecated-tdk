@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include <tdk/log/writer/console_writer.hpp>
 #include <tdk/log/formatter/mb_string_formatter.hpp>
-
+#if defined( _WIN32 )
 namespace tdk {
 namespace log {
 
@@ -52,3 +52,4 @@ writer_ptr console_writer::instance( void ) {
 }
 
 }}
+#endif

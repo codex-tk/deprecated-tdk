@@ -1,6 +1,7 @@
 #ifndef __tdk_ssl_context_h__
 #define __tdk_ssl_context_h__
 
+#if defined ( _TDK_OPENSSL_ENABLED_)
 #include <openssl/ssl.h>
 
 namespace tdk {
@@ -25,6 +26,7 @@ private:
 
 
 }}
+#endif
 
 #endif
 

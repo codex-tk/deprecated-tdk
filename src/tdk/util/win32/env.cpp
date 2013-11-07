@@ -1,4 +1,4 @@
-#include "StdAfx.h"
+#include "stdafx.h"
 #include <tdk/util/win32/env.hpp>
 #include <tdk/util/string.hpp>
 

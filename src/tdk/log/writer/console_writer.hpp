@@ -3,7 +3,7 @@
 
 #include <tdk/log/writer/writer.hpp>
 #include <tdk/log/record.hpp>
-
+#if defined( _WIN32 )
 namespace tdk {
 namespace log {
 
@@ -20,5 +20,5 @@ private:
 };
 
 }}
-
+#endif
 #endif

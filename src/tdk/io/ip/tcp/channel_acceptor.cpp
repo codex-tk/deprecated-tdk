@@ -171,9 +171,9 @@ void channel_acceptor::on_accept_handler( void ) {
 					delete c;
 				} else {
 					c->loop()
-						.execute( tdk::task::make_one_shot_task([c ,remote_addr]
+						.execute( tdk::task::make_one_shot_task([c ,addr]
 					{
-						c->fire_on_accepted(remote_addr);
+						c->fire_on_accepted(addr);
 					}));
 				}
 			}

@@ -6,7 +6,7 @@
 #include <tdk/error/error_platform.hpp>
 #include <tdk/error/error_tdk.hpp>
 
-
+#if defined( _WIN32 )
 namespace tdk {
 namespace io {
 namespace ip {
@@ -218,7 +218,8 @@ void channel::handle_send( void ) {
 	}
 	bool flushed = _send_queue.empty();
 	fire_on_write(write_size , flushed);
-	_send_remains();
+	if ( !flushed )
+		_send_remains();
 }
 
 
@@ -234,10 +235,13 @@ void channel::_send_remains( void ) {
 		if ( !buf.push_back( it.rd_ptr() , it.length())){
 			break;
 		}
-	}
+	}/*
+	_debug_1 = _send_queue.size();
+	_debug_2 = buf.size();
+	_debug_3 = buf.buffers()->len;*/
 	_on_send.reset();
     DWORD flag	= 0;
-    if ( WSASend(	_socket.handle() 
+	    if ( WSASend(	_socket.handle() 
 					, const_cast< LPWSABUF >( buf.buffers())
 					, buf.count()
                     , nullptr 
@@ -249,6 +253,7 @@ void channel::_send_remains( void ) {
         if ( ec.value() != WSA_IO_PENDING ){
 			_on_send.error( ec );
 			_loop.execute(&_on_send);
+			return;
         }
     }
 	retain();
@@ -298,3 +303,5 @@ config& channel::channel_config( void ) {
 }
 
 }}}}
+
+#endif

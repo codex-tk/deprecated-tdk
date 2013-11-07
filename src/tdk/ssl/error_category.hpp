@@ -1,6 +1,7 @@
 #ifndef __ssl_error_category_h__
 #define __ssl_error_category_h__
 
+#if defined ( _TDK_OPENSSL_ENABLED_)
 #include <system_error>
 
 namespace tdk {
@@ -18,5 +19,6 @@ public:
 std::error_code ssl_error( int ec );
 
 }}
+#endif
 
 #endif

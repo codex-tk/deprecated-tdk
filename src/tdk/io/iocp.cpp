@@ -59,6 +59,8 @@ void iocp::wait( const tdk::time_span& w ) {
 		static_cast< io::task::impl_type* >(overlapped)->data.ptr;
 	if ( !result ) {
 		task_ptr->error( tdk::platform::error());
+	} else {
+		task_ptr->error( std::error_code());
 	}
 	task_ptr->io_bytes(bytes_transferred);
 	(*task_ptr)();

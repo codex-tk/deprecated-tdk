@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "context.hpp"
 
+#if defined ( _TDK_OPENSSL_ENABLED_)
 #include <openssl/err.h>
 #include <openssl/x509v3.h>
 #include <tdk/threading/spin_lock.hpp>
@@ -75,38 +76,38 @@ void  ssl_info_callback(const SSL *s, int where, int ret)
 	/*
   char * writeString;
   int w;
-  // ÇöÀç ¾î¶² ¸Þ½ÃÁö ±³È¯ °úÁ¤ÀÎÁö¸¦ ³ªÅ¸³¿
+  // ï¿½ï¿½ï¿½ï¿½ ï¿½î¶² ï¿½Þ½ï¿½ï¿½ï¿½ ï¿½ï¿½È¯ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¸ï¿½ï¿½
   w = where & ~SSL_ST_MASK;
 
-  // Å¬¶óÀÌ¾ðÆ®°¡ ¿¬°á ÇßÀ» ¶§
+  // Å¬ï¿½ï¿½ï¿½Ì¾ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
   if (w & SSL_ST_CONNECT)
     writeString="SSL_connect";
-  // ¼­¹ö°¡ ¿¬°áÀ» ¹Þ¾ÒÀ» ¶§
+  // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Þ¾ï¿½ï¿½ï¿½ ï¿½ï¿½
   else if (w & SSL_ST_ACCEPT)
     writeString="SSL_accept";
-  // ¾Ë ¼ö ¾ø´Â °æ¿ì
+  // ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
   else
     writeString="undefined";
 
     fprintf(stderr, "======== writeString = [%s]\n", writeString);
 
-  // ÀÏ¹ÝÀûÀÎ ÇÚµå½¦ÀÌÅ© ÇÁ·ÎÅäÄÝ ¸Þ½ÃÁöÀÏ °æ¿ì
+  // ï¿½Ï¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Úµå½¦ï¿½ï¿½Å© ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Þ½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
   if (where & SSL_CB_LOOP)
   {
-    // SSL_state_string_long(s) ÇÔ¼ö·Î ºÎÅÍ ÇöÀç ÁøÇàµÇ´Â ¸Þ½ÃÁö°¡ ¹«¾ùÀÎÁö Ç¥½Ã
+    // SSL_state_string_long(s) ï¿½Ô¼ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ç´ï¿½ ï¿½Þ½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ç¥ï¿½ï¿½
     BIO_printf(errBIO,"%s:%s\n",writeString,SSL_state_string_long(s));
     fprintf(stderr, "======== writeString = [%s], SSL_state_string_long(s) = [%s]\n", 
         writeString, SSL_state_string_long(s));
   }
   else if (where & SSL_CB_ALERT)
-  { // alert ÇÁ·ÎÅäÄÝÀÏ °æ¿ì
+  { // alert ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
     writeString=(where & SSL_CB_READ)?"read":"write";
     BIO_printf(errBIO,"SSL3 alert %s:%s:%s\n",writeString,SSL_alert_type_string_long(ret),SSL_alert_desc_string_long(ret));
     fprintf(stderr, "======== writeString = [%s], SSL_alert_type_string_long(ret) = [%s], SSL_alert_desc_string_long(ret) = [%s]\n", 
           writeString, SSL_alert_type_string_long(ret), SSL_alert_desc_string_long(ret));
   }
   else if (where & SSL_CB_EXIT)
-  { // Á¾·á °úÁ¤ÀÏ °æ¿ì
+  { // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
     if (ret == 0) {
       BIO_printf(errBIO,"%s:failed in %s\n",writeString,SSL_state_string_long(s));
       fprintf(stderr,"======== writeString = [%s], SSL_state_string_long(s) = [%s]\n", 
@@ -124,3 +125,5 @@ void  ssl_info_callback(const SSL *s, int where, int ret)
 
 
 }}
+
+#endif

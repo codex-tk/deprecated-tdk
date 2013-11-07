@@ -1,6 +1,6 @@
 #ifndef __tdk_device_monitor_h__
 #define __tdk_device_monitor_h__
-
+#if defined( _WIN32 )
 #include <tdk/geo.hpp>
 
 namespace tdk {
@@ -22,5 +22,5 @@ private:
 
 }}
 
-
+#endif
 #endif

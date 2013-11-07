@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include <tdk/device/display_win32.hpp>
 
-
+#if defined( _WIN32 )
 namespace tdk {
 namespace device {
 namespace detail {
@@ -40,3 +40,4 @@ tdk::size display::size( void ) {
 	return _size;
 }
 }}
+#endif

@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include <tdk/threading/mutex_win32.hpp>
-
+#if defined( _WIN32 )
 namespace tdk {
 namespace threading {
 
@@ -65,3 +65,4 @@ void mutex::release( void ) {
 }
 
 }}
+#endif

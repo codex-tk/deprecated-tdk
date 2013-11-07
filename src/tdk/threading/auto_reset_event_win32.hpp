@@ -1,6 +1,6 @@
 #ifndef __tdk_threading_auto_reset_event_h__
 #define __tdk_threading_auto_reset_event_h__
-
+#if defined( _WIN32 )
 #include <tdk/time/time_span.hpp>
 
 namespace tdk {
@@ -19,6 +19,6 @@ private:
 };
 
 }}
-
+#endif
 
 #endif

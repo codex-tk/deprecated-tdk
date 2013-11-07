@@ -1,6 +1,6 @@
 #ifndef __tdk_threading_mutex_h__
 #define __tdk_threading_mutex_h__
-
+#if defined( _WIN32 )
 #include <tdk/time/time_span.hpp>
 
 namespace tdk {
@@ -21,8 +21,6 @@ private:
 	HANDLE _mutex;
 };
 
-
-
 }}
-
+#endif
 #endif

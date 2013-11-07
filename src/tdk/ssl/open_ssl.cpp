@@ -1,4 +1,7 @@
 ﻿#include "stdafx.h"
+
+#if defined ( _TDK_OPENSSL_ENABLED_)
+
 #include <tdk/ssl/open_ssl.hpp>
 
 #include <openssl/ssl.h>
@@ -83,3 +86,5 @@ bool open_ssl::init( void ) {
 }
 
 }}
+
+#endif

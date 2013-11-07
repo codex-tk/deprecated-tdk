@@ -1,6 +1,9 @@
 #include "stdafx.h"
 #include <tdk/log/formatter/mb_string_formatter.hpp>
 #include <tdk/util/string.hpp>
+
+#if defined( _WIN32 )
+
 namespace tdk {
 namespace log {
 
@@ -38,3 +41,5 @@ formatter_ptr mb_string_formatter::instance( void ) {
 }
 
 }}
+
+#endif

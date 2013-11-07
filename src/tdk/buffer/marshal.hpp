@@ -5,7 +5,7 @@
 #if defined( linux ) || defined( __linux__ )
 #include <endian.h>
 #endif
-
+#if defined( _WIN32 )
 namespace tdk {
 namespace buffer {
 
@@ -227,5 +227,5 @@ private:
 };
 
 }}
-
+#endif
 #endif

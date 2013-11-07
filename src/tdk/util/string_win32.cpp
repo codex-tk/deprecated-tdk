@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include <tdk/util/string.hpp>
 #include <vector>
-
+#if defined( _WIN32 )
 namespace tdk{
 namespace string {
 
@@ -25,7 +25,7 @@ std::wstring mbs_to_wcs( const std::string&  in ) {
 	std::wstring out;
     std::size_t length = in.length();
     if ( length != 0 ) {
-        // null term Æ÷ÇÔ ÇÊ¿äÇÑ ¹®ÀÚÀÇ °¹¼ö¸¦ ¸®ÅÏ
+        // null term ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         int numOfChar = MultiByteToWideChar( CP_ACP , 0 , in.c_str() , -1 , nullptr , 0 );
         if ( numOfChar != 0 ) {
             std::vector< wchar_t > result(numOfChar);
@@ -105,9 +105,9 @@ std::wstring& append_format( std::wstring& msg , const wchar_t* format , ... ) {
 }
 
 namespace {
-	static wchar_t ChoSungTable[] = L"¤¡¤¢¤¤¤§¤¨¤©¤±¤²¤³¤µ¤¶¤·¤¸¤¹¤º¤»¤¼¤½¤¾";
-	static wchar_t JungSungTable[] = L"¤¿¤À¤Á¤Â¤Ã¤Ä¤Å¤Æ¤Ç¤È¤É¤Ê¤Ë¤Ì¤Í¤Î¤Ï¤Ð¤Ñ¤Ò¤Ó";
-	static wchar_t JongSungTable[] = L" ¤¡¤¢¤£¤¤¤¥¤¦¤§¤©¤ª¤«¤¬¤­¤®¤¯¤°¤±¤²¤´¤µ¤¶¤·¤¸¤º¤»¤¼¤½¤¾";
+	static wchar_t ChoSungTable[] = L"ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½";
+	static wchar_t JungSungTable[] = L"ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â¤Ã¤Ä¤Å¤Æ¤Ç¤È¤É¤Ê¤Ë¤Ì¤Í¤Î¤Ï¤Ð¤Ñ¤Ò¤ï¿½";
+	static wchar_t JongSungTable[] = L" ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½";
 	static wchar_t HangulUnicodeStart = 0xAC00;
 	static wchar_t HangulUnicodeEnd   = 0xD79F;
 }
@@ -145,3 +145,4 @@ string::hangul string::extract_hangul( wchar_t ch ) {
 }
 
 }}
+#endif

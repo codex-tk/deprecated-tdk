@@ -9,6 +9,7 @@ template < typename T_object , typename T_counter  = std::atomic< int > >
 class rc_ptr_base {
 protected:
 	rc_ptr_base( void ) {
+		_counter.store(0);
 	}
 	~rc_ptr_base( void ){
 	}
@@ -130,7 +131,7 @@ public:
         return *this;
     }
 #if ( _MSC_VER >= 1600 ) 
-	// ÀÚ±â ´ëÀÔÀº std::move() ¸¦ ÀÌ¿ëÇÒ¶§¸¸ °¡´ÉÇÏ¹Ç·Î , »ç¿ëÀÚ°¡ ¾Ë¾Æ¼­ Ã³¸®~
+	// ï¿½Ú±ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ std::move() ï¿½ï¿½ ï¿½Ì¿ï¿½ï¿½Ò¶ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¹Ç·ï¿½ , ï¿½ï¿½ï¿½ï¿½Ú°ï¿½ ï¿½Ë¾Æ¼ï¿½ Ã³ï¿½ï¿½~
 	rc_ptr& operator=( rc_ptr&& rhs ) {
 		release();
 		_ptr = rhs.get();    

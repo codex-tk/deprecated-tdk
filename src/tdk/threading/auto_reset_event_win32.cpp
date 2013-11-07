@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include <tdk/threading/auto_reset_event_win32.hpp>
-
+#if defined( _WIN32 )
 namespace tdk {
 namespace threading {
 
@@ -44,3 +44,4 @@ void auto_reset_event::reset( void ) {
 }
 
 }}
+#endif

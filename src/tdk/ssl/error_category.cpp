@@ -1,4 +1,8 @@
 #include "stdafx.h"
+
+
+#if defined ( _TDK_OPENSSL_ENABLED_)
+
 #include <tdk/ssl/error_category.hpp>
 #include <openssl/err.h>
 
@@ -31,3 +35,4 @@ std::error_code ssl_error( int ec ) {
 }
 
 }}
+#endif

@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include <tdk/buffer/marshal.hpp>
-
+#if defined( _WIN32 )
 namespace tdk {
 namespace buffer {
 
@@ -18,3 +18,4 @@ endian host_endian( void ) {
 }
 
 }}
+#endif

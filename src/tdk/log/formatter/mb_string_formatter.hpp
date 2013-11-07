@@ -3,7 +3,7 @@
 
 #include <tdk/log/formatter/formatter.hpp>
 #include <tdk/log/record.hpp>
-
+#if defined( _WIN32 )
 namespace tdk {
 namespace log {
 
@@ -17,5 +17,5 @@ public:
 };
 
 }}
-
+#endif
 #endif

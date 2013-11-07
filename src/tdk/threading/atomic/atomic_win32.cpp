@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include <tdk/threading/atomic/atomic.hpp>
-
+#if defined (_WIN32)
 namespace tdk {
 namespace threading {
 
@@ -55,7 +55,7 @@ atomic32::value_type atomic32::exchange( atomic32::value_type* value , atomic32:
 			mov  ecx , value 
 			mov  eax , change
 	   lock xchg dword ptr [ecx] , eax		
-	   // eax ¿¡´Â *value ÀÇ ¿¹Àü °ª
+	   // eax ï¿½ï¿½ï¿½ï¿½ *value ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
 	}
 #else 
 	return ::InterlockedExchange( reinterpret_cast< volatile LONG* >( value ) , change );
@@ -181,3 +181,4 @@ atomic64::value_type		  atomic64::add(  value_type* value , value_type add  ){
 }
 
 }}
+#endif

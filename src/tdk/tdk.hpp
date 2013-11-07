@@ -76,7 +76,7 @@ Windows	 _WIN32 or __WIN32__
 
 // °³º° ÇÃ·§Æû »ó¼¼ ¼³Á¤
 #if defined ( _WIN32 ) 
-
+#pragma warning( disable : 4819 )
 #elif defined( linux ) || defined ( __linux )
 
 #elif defined ( __MACOSX__ ) || defined ( __APPLE__ ) 
