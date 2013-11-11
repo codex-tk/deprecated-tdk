@@ -17,6 +17,18 @@ namespace io {
 namespace ip {
 namespace tcp {
 
+	
+std::error_code recv_error( void ) {
+	static tdk::error_category_decorator impl("[tcp.recv]" , tdk::platform::category());
+	return std::error_code( errno , impl );
+}
+
+std::error_code send_error( void ) {
+	static tdk::error_category_decorator impl("[tcp.send]" , tdk::platform::category());
+	return std::error_code( errno , impl );
+}
+
+
 namespace detail {
 	int k_error_bit			= 0x01;
 	int k_close_bit			= 0x02;
@@ -206,7 +218,7 @@ void channel::_handle_readable( void ) {
 	} while (( readsize < 0) && ( errno == EINTR ));
 
 	if ( readsize < 0 ) {
-		_error_propagation( tdk::platform::error());
+		_error_propagation( recv_error() );
 	} else if ( readsize == 0 ){
 		_error_propagation( tdk::tdk_network_remote_closed );
 	} else {
@@ -253,7 +265,7 @@ bool channel::_send_remains( void ) {
 				_on_send.io_bytes( total_write );
 				return true;
 			}
-			_on_send.error( tdk::platform::error());
+			_on_send.error( send_error() );
 			return false;
 		} else {
 			total_write += writesize;

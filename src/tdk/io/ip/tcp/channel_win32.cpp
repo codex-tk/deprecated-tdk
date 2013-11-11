@@ -5,12 +5,23 @@
 #include <tdk/event_loop/event_loop.hpp>
 #include <tdk/error/error_platform.hpp>
 #include <tdk/error/error_tdk.hpp>
+#include <tdk/error/error_category_decorator.hpp>
 
 #if defined( _WIN32 )
 namespace tdk {
 namespace io {
 namespace ip {
 namespace tcp {
+
+std::error_code recv_error( void ) {
+	static tdk::error_category_decorator impl("[tcp.recv]" , tdk::platform::category());
+	return std::error_code( WSAGetLastError() , impl );
+}
+
+std::error_code send_error( void ) {
+	static tdk::error_category_decorator impl("[tcp.send]" , tdk::platform::category());
+	return std::error_code( WSAGetLastError() , impl );
+}
 
 namespace detail {
 	int k_error_bit			= 0x01;
@@ -164,8 +175,8 @@ void channel::_do_recv( void ) {
 					, _on_recv.impl()
                     , nullptr ) == SOCKET_ERROR )
     {
-        std::error_code ec = tdk::platform::error();
-        if ( ec.value() != WSA_IO_PENDING ){
+		std::error_code ec = recv_error();
+		if ( ec.value() != WSA_IO_PENDING ){
 			_error_propagation( ec );
 			return;
         }
@@ -249,8 +260,9 @@ void channel::_send_remains( void ) {
 					, _on_send.impl()
                     , nullptr ) == SOCKET_ERROR )
     {
-        std::error_code ec = tdk::platform::error();
-        if ( ec.value() != WSA_IO_PENDING ){
+        //std::error_code ec = tdk::platform::error();
+		std::error_code ec = send_error();
+		if ( ec.value() != WSA_IO_PENDING ){
 			_on_send.error( ec );
 			_loop.execute(&_on_send);
 			return;
