@@ -44,8 +44,8 @@ public:
 	bool is_bits_on( int b );
 public:
 	void fire_on_open( void );
-	void fire_on_read( tdk::buffer::memory_block& msg );
-	void fire_on_write( int writed , bool flushed );
+	void fire_on_read( const tdk::io::ip::address& addr , tdk::buffer::memory_block& msg );
+	void fire_on_write( const tdk::io::ip::address& addr , int writed , bool flushed );
 	void fire_on_error( const std::error_code& ec );
 	void fire_on_close( void );
 	void fire_do_write( tdk::buffer::memory_block msg );

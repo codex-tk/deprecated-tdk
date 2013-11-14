@@ -1,13 +1,13 @@
 #include "stdafx.h"
-#include <tdk/io/ip/tcp/pipeline/pipeline.hpp>
-#include <tdk/io/ip/tcp/pipeline/filter.hpp>
+#include <tdk/io/ip/udp/pipeline/pipeline.hpp>
+#include <tdk/io/ip/udp/pipeline/filter.hpp>
 
 namespace tdk {
 namespace io {
 namespace ip {
-namespace tcp {
+namespace udp {
 
-pipeline::pipeline( tcp::channel* c )
+pipeline::pipeline( udp::channel* c )
 	: _channel(c)
 {
 }
@@ -23,7 +23,7 @@ void pipeline::add( const std::string& name  , filter* f ){
 	_chain.add(f);
 }
 
-tcp::channel* pipeline::channel( void ) {
+udp::channel* pipeline::channel( void ) {
 	return _channel;
 }
 

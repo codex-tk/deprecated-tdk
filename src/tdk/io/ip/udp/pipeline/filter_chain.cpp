@@ -5,13 +5,13 @@
  *      Author: tk
  */
 #include "stdafx.h"
-#include <tdk/io/ip/tcp/pipeline/filter_chain.hpp>
-#include <tdk/io/ip/tcp/pipeline/filter.hpp>
+#include <tdk/io/ip/udp/pipeline/filter_chain.hpp>
+#include <tdk/io/ip/udp/pipeline/filter.hpp>
 
 namespace tdk {
 namespace io {
 namespace ip {
-namespace tcp {
+namespace udp {
 
 filter_chain::filter_chain()
 	: _head( nullptr )
@@ -39,15 +39,15 @@ void filter_chain::add( filter* f ) {
 	}
 }
 
-tcp::filter* filter_chain::in_bound_filter( void ) {
+udp::filter* filter_chain::in_bound_filter( void ) {
 	return _head;
 }
 
-tcp::filter* filter_chain::out_bound_filter( void ) {
+udp::filter* filter_chain::out_bound_filter( void ) {
 	return _tail;
 }
 
-} /* namespace tcp */
+} /* namespace udp */
 } /* namespace ip */
 } /* namespace io */
 } /* namespace tdk */

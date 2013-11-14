@@ -419,6 +419,7 @@
     <ClInclude Include="alloc.hpp" />
     <ClInclude Include="buffer\array.hpp" />
     <ClInclude Include="buffer\marshal.hpp" />
+    <ClInclude Include="error\error_category_decorator.hpp" />
     <ClInclude Include="event_loop\event_loop.hpp" />
     <ClInclude Include="io\ip\tcp\channel.hpp" />
     <ClInclude Include="io\ip\tcp\channel_acceptor.hpp" />
@@ -445,6 +446,11 @@
     <ClInclude Include="io\ip\tcp\pipeline\filter_chain.hpp" />
     <ClInclude Include="io\ip\tcp\pipeline\pipeline.hpp" />
     <ClInclude Include="io\ip\tcp\pipeline\pipeline_builder.hpp" />
+    <ClInclude Include="io\ip\udp\channel_iocp.hpp" />
+    <ClInclude Include="io\ip\udp\pipeline\filter.hpp" />
+    <ClInclude Include="io\ip\udp\pipeline\filter_chain.hpp" />
+    <ClInclude Include="io\ip\udp\pipeline\pipeline.hpp" />
+    <ClInclude Include="io\ip\udp\pipeline\pipeline_builder.hpp" />
     <ClInclude Include="io\select.hpp" />
     <ClInclude Include="io\task.hpp" />
     <ClInclude Include="event_loop\scheduler.hpp" />
@@ -522,6 +528,7 @@
     <ClCompile Include="crypto\sha1.cpp" />
     <ClCompile Include="device\display_win32.cpp" />
     <ClCompile Include="device\monitor_win32.cpp" />
+    <ClCompile Include="error\error_category_decorator.cpp" />
     <ClCompile Include="error\error_category_epoll.cpp" />
     <ClCompile Include="event_loop\event_loop.cpp" />
     <ClCompile Include="io\iocp.cpp" />
@@ -534,6 +541,10 @@
     <ClCompile Include="io\ip\tcp\pipeline\filter_chain.cpp" />
     <ClCompile Include="io\ip\tcp\pipeline\pipeline.cpp" />
     <ClCompile Include="io\ip\tcp\pipeline\pipeline_builder.cpp" />
+    <ClCompile Include="io\ip\udp\pipeline\filter.cpp" />
+    <ClCompile Include="io\ip\udp\pipeline\filter_chain.cpp" />
+    <ClCompile Include="io\ip\udp\pipeline\pipeline.cpp" />
+    <ClCompile Include="io\ip\udp\pipeline\pipeline_builder.cpp" />
     <ClCompile Include="io\task.cpp" />
     <ClCompile Include="event_loop\scheduler.cpp" />
     <ClCompile Include="event_loop\task.cpp" />

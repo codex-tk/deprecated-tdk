@@ -5,13 +5,13 @@
  *      Author: tk
  */
 #include "stdafx.h"
-#include <tdk/io/ip/tcp/pipeline/filter.hpp>
-#include <tdk/io/ip/tcp/channel.hpp>
+#include <tdk/io/ip/udp/pipeline/filter.hpp>
+#include <tdk/io/ip/udp/channel.hpp>
 
 namespace tdk {
 namespace io {
 namespace ip {
-namespace tcp {
+namespace udp {
 
 filter::filter()
 	: _channel(nullptr)
@@ -26,11 +26,11 @@ filter::~filter() {
 	// TODO Auto-generated destructor stub
 }
 
-tcp::channel* filter::channel( void ) {
+udp::channel* filter::channel( void ) {
 	return _channel;
 }
 
-void filter::channel( tcp::channel* c ) {
+void filter::channel( udp::channel* c ) {
 	_channel = c;
 }
 
@@ -110,7 +110,7 @@ void filter::name( const std::string& n ) {
 	_name = n;
 }
 
-} /* namespace tcp */
+} /* namespace udp */
 } /* namespace ip */
 } /* namespace io */
 } /* namespace tdk */
