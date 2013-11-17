@@ -446,6 +446,7 @@
     <ClInclude Include="io\ip\tcp\pipeline\filter_chain.hpp" />
     <ClInclude Include="io\ip\tcp\pipeline\pipeline.hpp" />
     <ClInclude Include="io\ip\tcp\pipeline\pipeline_builder.hpp" />
+    <ClInclude Include="io\ip\udp\channel.hpp" />
     <ClInclude Include="io\ip\udp\channel_iocp.hpp" />
     <ClInclude Include="io\ip\udp\pipeline\filter.hpp" />
     <ClInclude Include="io\ip\udp\pipeline\filter_chain.hpp" />

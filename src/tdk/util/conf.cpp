@@ -37,6 +37,7 @@ bool conf::load( void ) {
 	_wfopen_s( &fp , _filename.c_str() , L"r");
 #else
 	FILE* fp = fopen( _filename.c_str() , "r");
+
 	char * read_buffer = nullptr;
 	int read_size = 0;
 	size_t len = 0;

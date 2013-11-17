@@ -78,6 +78,11 @@
     <ClCompile Include="io\ip\tcp\channel_acceptor.cpp" />
     <ClCompile Include="io\ip\tcp\filters\recv_time_out_filter.cpp" />
     <ClCompile Include="task\queue.cpp" />
+    <ClCompile Include="error\error_category_decorator.cpp" />
+    <ClCompile Include="io\ip\udp\pipeline\filter.cpp" />
+    <ClCompile Include="io\ip\udp\pipeline\filter_chain.cpp" />
+    <ClCompile Include="io\ip\udp\pipeline\pipeline.cpp" />
+    <ClCompile Include="io\ip\udp\pipeline\pipeline_builder.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="buffer\array.hpp" />
@@ -169,6 +174,13 @@
     <ClInclude Include="threading\thread.hpp" />
     <ClInclude Include="io\ip\tcp\filters\recv_time_out_filter.hpp" />
     <ClInclude Include="task\queue.hpp" />
+    <ClInclude Include="error\error_category_decorator.hpp" />
+    <ClInclude Include="io\ip\udp\channel_iocp.hpp" />
+    <ClInclude Include="io\ip\udp\pipeline\filter.hpp" />
+    <ClInclude Include="io\ip\udp\pipeline\filter_chain.hpp" />
+    <ClInclude Include="io\ip\udp\pipeline\pipeline.hpp" />
+    <ClInclude Include="io\ip\udp\pipeline\pipeline_builder.hpp" />
+    <ClInclude Include="io\ip\udp\channel.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="crypto\seed\SEED_KISA.tab" />

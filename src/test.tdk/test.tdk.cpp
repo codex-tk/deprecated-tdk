@@ -122,10 +122,10 @@ public:
 	}
 
 	virtual std::error_code build( tdk::io::ip::tcp::pipeline& p ) {
-		p.add( new tdk::io::ip::tcp::recv_time_out_filter(
-			tdk::time_span::from_seconds(60)) , "timeout");
-		p.add( new tdk::ssl::filter(_ctx->impl()) , "ssl");
-		p.add( new handler() , "" );
+		p.add( "timeout" ,  new tdk::io::ip::tcp::recv_time_out_filter(
+			tdk::time_span::from_seconds(60)) );
+		p.add( "ssl" , new tdk::ssl::filter(_ctx->impl()));
+		p.add( "" ,  new echo_handler() );
 		return std::error_code();
 	}
 private:
@@ -191,10 +191,10 @@ public:
 	{		
 	}
 	virtual std::error_code build( tdk::io::ip::tcp::pipeline& p ) {
-		p.add( new tdk::io::ip::tcp::recv_time_out_filter(
-			tdk::time_span::from_seconds(60)) , "timeout");
-		p.add( new tdk::ssl::filter(_ctx->impl()) , "ssl" );
-		p.add( new echo_handler() , "" );
+		p.add( "timeout" ,  new tdk::io::ip::tcp::recv_time_out_filter(
+			tdk::time_span::from_seconds(60)) );
+		p.add( "ssl" , new tdk::ssl::filter(_ctx->impl()));
+		p.add( "" ,  new echo_handler() );
 		return std::error_code();
 	}
 private:
