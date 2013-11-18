@@ -13,7 +13,7 @@ class event_loop;
 namespace io {
 namespace ip {
 namespace udp {
-/*
+
 class channel;
 class pipeline {
 public:
@@ -32,7 +32,7 @@ private:
 	udp::channel* _channel;
 	filter_chain _chain;
 };
-*/
+
 }}}}
 
 #endif

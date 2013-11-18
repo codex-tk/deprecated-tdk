@@ -12,18 +12,17 @@ namespace tdk {
 namespace io {
 namespace ip {
 namespace udp {
-/*
+
 filter::filter()
 	: _channel(nullptr)
 	, _in_bound(nullptr)
 	, _out_bound(nullptr)
 {
-	// TODO Auto-generated constructor stub
-
+	
 }
 
 filter::~filter() {
-	// TODO Auto-generated destructor stub
+
 }
 
 udp::channel* filter::channel( void ) {
@@ -50,15 +49,9 @@ void filter::out_bound( filter* f ) {
 	_out_bound = f;
 }
 
-void filter::on_accepted( const tdk::io::ip::address& addr ) {
+void filter::on_open( void ) {
 	if ( _in_bound ) {
-		_in_bound->on_accepted(addr);
-	}
-}
-
-void filter::on_connected( void ) {
-	if ( _in_bound ) {
-		_in_bound->on_connected();
+		_in_bound->on_open();
 	}
 }
 
@@ -68,9 +61,10 @@ void filter::on_error( const std::error_code& ec ) {
 	}
 }
 
-void filter::on_read( tdk::buffer::memory_block& msg ) {
+void filter::on_read( const tdk::io::ip::address& addr 
+					 , tdk::buffer::memory_block& msg ) {
 	if ( _in_bound ) {
-		_in_bound->on_read( msg );
+		_in_bound->on_read( addr , msg );
 	}
 }
 
@@ -80,21 +74,17 @@ void filter::on_closed(void) {
 	}
 }
 
-void filter::do_write( tdk::buffer::memory_block& msg ) {
-	write_out_bound(msg);
+void filter::do_write( const tdk::io::ip::address& addr 
+					  , tdk::buffer::memory_block& msg ) {
+	write_out_bound( addr , msg);
 }
 
-void filter::on_write( int write , bool flushed ){
-	if ( _in_bound ) {
-		_in_bound->on_write(write,flushed);
-	}
-}
-
-void filter::write_out_bound( tdk::buffer::memory_block& msg ) {
+void filter::write_out_bound( const tdk::io::ip::address& addr 
+							 , tdk::buffer::memory_block& msg ) {
 	if ( _out_bound ) {
-		_out_bound->do_write( msg );
+		_out_bound->do_write(addr, msg );
 	} else {
-		_channel->do_write( msg );
+		_channel->do_write(addr, msg );
 	}
 }
 
@@ -109,8 +99,7 @@ const std::string& filter::name( void ) {
 void filter::name( const std::string& n ) {
 	_name = n;
 }
-*/
-} /* namespace udp */
-} /* namespace ip */
-} /* namespace io */
-} /* namespace tdk */
+}
+}
+}
+}

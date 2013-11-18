@@ -60,7 +60,6 @@
     <ClCompile Include="event_loop\task.cpp" />
     <ClCompile Include="event_loop\timer_task.cpp" />
     <ClCompile Include="event_loop\scheduler.cpp" />
-    <ClCompile Include="error\error_category_epoll.cpp" />
     <ClCompile Include="crypto\padding.cpp" />
     <ClCompile Include="event_loop\event_loop.cpp" />
     <ClCompile Include="time\remote_time.cpp" />
@@ -73,7 +72,6 @@
     <ClCompile Include="io\ip\tcp\pipeline\filter_chain.cpp" />
     <ClCompile Include="io\ip\tcp\pipeline\pipeline.cpp" />
     <ClCompile Include="io\ip\tcp\pipeline\pipeline_builder.cpp" />
-    <ClCompile Include="io\ip\tcp\channel_win32.cpp" />
     <ClCompile Include="io\ip\tcp\channel_connector.cpp" />
     <ClCompile Include="io\ip\tcp\channel_acceptor.cpp" />
     <ClCompile Include="io\ip\tcp\filters\recv_time_out_filter.cpp" />
@@ -83,6 +81,9 @@
     <ClCompile Include="io\ip\udp\pipeline\filter_chain.cpp" />
     <ClCompile Include="io\ip\udp\pipeline\pipeline.cpp" />
     <ClCompile Include="io\ip\udp\pipeline\pipeline_builder.cpp" />
+    <ClCompile Include="io\ip\tcp\channel_iocp.cpp" />
+    <ClCompile Include="io\ip\udp\channel_iocp.cpp" />
+    <ClCompile Include="io\ip\udp\bootstrap.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="buffer\array.hpp" />
@@ -152,7 +153,6 @@
     <ClInclude Include="util\initializer.hpp" />
     <ClInclude Include="event_loop\task.hpp" />
     <ClInclude Include="event_loop\scheduler.hpp" />
-    <ClInclude Include="error\error_category_epoll.hpp" />
     <ClInclude Include="crypto\padding.hpp" />
     <ClInclude Include="event_loop\event_loop.hpp" />
     <ClInclude Include="time\remote_time.hpp" />
@@ -168,7 +168,6 @@
     <ClInclude Include="io\ip\tcp\pipeline\pipeline.hpp" />
     <ClInclude Include="io\ip\tcp\pipeline\pipeline_builder.hpp" />
     <ClInclude Include="io\ip\tcp\channel.hpp" />
-    <ClInclude Include="io\ip\tcp\channel_win32.hpp" />
     <ClInclude Include="io\ip\tcp\channel_connector.hpp" />
     <ClInclude Include="io\ip\tcp\channel_acceptor.hpp" />
     <ClInclude Include="threading\thread.hpp" />
@@ -181,6 +180,8 @@
     <ClInclude Include="io\ip\udp\pipeline\pipeline.hpp" />
     <ClInclude Include="io\ip\udp\pipeline\pipeline_builder.hpp" />
     <ClInclude Include="io\ip\udp\channel.hpp" />
+    <ClInclude Include="io\ip\udp\bootstrap.hpp" />
+    <ClInclude Include="io\ip\tcp\channel_iocp.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="crypto\seed\SEED_KISA.tab" />

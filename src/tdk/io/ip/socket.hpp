@@ -62,6 +62,13 @@ public:
 		return open( tcp_v4 );
 	}
 
+	bool open_udp( int family ) {
+		if ( family == AF_INET6) {
+			return open( udp_v6 );
+		}
+		return open( udp_v4 );
+	}
+
 	template < typename T_category >
 	bool open( const T_category& cate ) {
 		return open( cate.family() , cate.type() , cate.protocol());

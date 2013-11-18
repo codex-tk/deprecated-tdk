@@ -28,10 +28,13 @@ public:
 	tdk::event_loop& loop( void );
 
 	void close( void );
-	void write( tdk::buffer::memory_block& msg );
+	void write( const tdk::io::ip::address& addr
+		, tdk::buffer::memory_block& msg );
 
 	void error_propagation( const std::error_code& err );
-	void do_write( tdk::buffer::memory_block& msg );
+
+	void do_write( const tdk::io::ip::address& addr
+		, tdk::buffer::memory_block& msg );
 
 	udp::pipeline& pipeline( void );
 
@@ -45,17 +48,15 @@ public:
 public:
 	void fire_on_open( void );
 	void fire_on_read( const tdk::io::ip::address& addr , tdk::buffer::memory_block& msg );
-	void fire_on_write( const tdk::io::ip::address& addr , int writed , bool flushed );
 	void fire_on_error( const std::error_code& ec );
 	void fire_on_close( void );
-	void fire_do_write( tdk::buffer::memory_block msg );
+	void fire_do_write( const tdk::io::ip::address& addr , tdk::buffer::memory_block msg );
 private:
 	void _do_recv( void );
 
 	void _error_propagation(const std::error_code& err );
 	void _send_remains( void );
 	static void _handle_recv( tdk::task* t );
-	static void _handle_send( tdk::task* t );
 	void handle_recv( void );
 	void handle_send( void );
 
@@ -68,22 +69,16 @@ private:
 	tdk::event_loop& _loop;
 	tdk::io::ip::socket _socket;
 	tdk::io::task _on_recv;
-	tdk::io::task _on_send;
 	tdk::task _do_close;
 	tdk::io::task _do_error_proagation;
 	std::atomic<int> _ref_count;
 	std::atomic<int> _state;
-	std::list< tdk::buffer::memory_block > _send_queue;
 	udp::pipeline _pipeline;
 	tdk::buffer::memory_block _recv_buffer;
+	tdk::io::ip::address _recv_addr;
 };
 
-
-
-} /* namespace udp */
-} /* namespace ip */
-} /* namespace io */
-} /* namespace tdk */
+}}}} 
 
 #endif /* CHANNEL_HPP_ */
 #endif
