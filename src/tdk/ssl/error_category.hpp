@@ -3,7 +3,7 @@
 
 #if defined ( _TDK_OPENSSL_ENABLED_)
 #include <system_error>
-
+#include <tdk/tdk.hpp>
 namespace tdk {
 namespace ssl {
 	

@@ -66,7 +66,8 @@ const std::string& context::password( void ) {
 
 int pem_password(char *buf, int size, int rwflag, void *userdata) {
 	context* ctx = static_cast< context* >( userdata );
-	strncpy_s( buf , size , ctx->password().c_str() , ctx->password().length());
+	strncpy( buf , ctx->password().c_str()
+			, std::min(size,static_cast<int>(ctx->password().length())));
 	buf[size - 1] = '\0';
 	return(strlen(buf));
 }

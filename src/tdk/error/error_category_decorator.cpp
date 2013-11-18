@@ -13,12 +13,11 @@ error_category_decorator::~error_category_decorator(void) _NOEXCEPT {
 }
 
 const char *error_category_decorator::name(void) const _NOEXCEPT {
-	static std::string name( _deco + " " + _base_category.name() );
-	return name.c_str();
+	return _deco.c_str();
 }
 
 std::string error_category_decorator::message(int _Errval) const {
-	std::string msg = _deco + " " + _base_category.message(_Errval);
+	std::string msg = "[" + _deco + "] " + _base_category.message(_Errval);
 	return msg;
 }
 

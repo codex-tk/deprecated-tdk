@@ -12,7 +12,7 @@ namespace tdk {
 namespace io {
 namespace ip {
 namespace udp {
-
+/*
 filter_chain::filter_chain()
 	: _head( nullptr )
 	, _tail( nullptr )
@@ -46,7 +46,7 @@ udp::filter* filter_chain::in_bound_filter( void ) {
 udp::filter* filter_chain::out_bound_filter( void ) {
 	return _tail;
 }
-
+*/
 } /* namespace udp */
 } /* namespace ip */
 } /* namespace io */

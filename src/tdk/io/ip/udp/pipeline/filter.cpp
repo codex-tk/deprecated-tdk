@@ -12,7 +12,7 @@ namespace tdk {
 namespace io {
 namespace ip {
 namespace udp {
-
+/*
 filter::filter()
 	: _channel(nullptr)
 	, _in_bound(nullptr)
@@ -109,7 +109,7 @@ const std::string& filter::name( void ) {
 void filter::name( const std::string& n ) {
 	_name = n;
 }
-
+*/
 } /* namespace udp */
 } /* namespace ip */
 } /* namespace io */

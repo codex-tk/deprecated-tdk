@@ -6,7 +6,7 @@ namespace tdk {
 namespace io {
 namespace ip {
 namespace udp {
-
+/*
 pipeline::pipeline( udp::channel* c )
 	: _channel(c)
 {
@@ -44,5 +44,5 @@ filter* pipeline::find( const std::string& name ) {
 	}
 	return f;
 }
-
+*/
 }}}}

@@ -12,7 +12,7 @@ namespace tdk {
 namespace io {
 namespace ip {
 namespace udp {
-
+/*
 class filter;
 
 class filter_chain {
@@ -28,7 +28,7 @@ private:
 	filter* _head;
 	filter* _tail;
 };
-
+*/
 } /* namespace udp */
 } /* namespace ip */
 } /* namespace io */

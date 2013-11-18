@@ -6,9 +6,9 @@
  */
 
 #include <gtest/gtest.h>
-#include <tdk/event_loop/io/ip/tcp/channel.hpp>
+#include <tdk/io/ip/tcp/channel.hpp>
 #include <tdk/event_loop/event_loop.hpp>
-
+/*
 static void test_on_close( tdk::task* t ){
 	tdk::io::ip::tcp::close_task* ct
 		= static_cast<tdk::io::ip::tcp::close_task*>(t);
@@ -57,14 +57,14 @@ static void test_connect_handler ( tdk::task* ct ) {
 		int len = sprintf( buf , "GET /index HTTP/1.1\r\n\r\n");
 		tdk::io::ip::tcp::write_task* wt
 			= new tdk::io::ip::tcp::write_task( &test_on_write , nullptr);
-		impl->channel()->write( buf , len , wt );
+		impl->channel()->write( buf , len , wt );*/
 		/*socket().send( (void*)
 				, strlen( "GET /index HTTP/1.1\r\n\r\n" )
-				, 0 );*/
+				, 0 );*//*
 	}
 
 }
-
+*/
 TEST( tcp__channel , init ) {
 	return;
 	/*

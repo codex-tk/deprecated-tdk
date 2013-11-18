@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include <tdk/error/error_tdk.hpp>
-#include <tdk/error/error_category_epoll.hpp>
+#include <tdk/error/error_category_decorator.hpp>
+#include <tdk/error/error_platform.hpp>
 
 namespace tdk {
 	
@@ -17,10 +18,9 @@ std::error_code error( tdk::errc ec ){
 
 #elif defined( linux ) || defined ( __linux )
 const std::error_category& epoll_category( void ) {
-    static tdk::error_category_epoll impl;
+    static tdk::error_category_decorator impl("epoll" , tdk::platform::category());
     return impl;
 }
-
 std::error_code epoll_error( int err ){
     return std::error_code( err , epoll_category());
 }
@@ -30,11 +30,7 @@ std::error_code epoll_error( int err ){
 
 #endif
 
-
-
-
 std::error_code tdk_success( (int)errc::tdk_success , tdk::category() );
-
 std::error_code tdk_tls_not_initialized( (int)errc::tdk_tls_not_initialized , tdk::category() );
 std::error_code tdk_user_abort( (int)errc::tdk_user_abort , tdk::category() );
 std::error_code tdk_network_user_abort( (int)errc::tdk_network_user_abort , tdk::category() );

@@ -3,6 +3,7 @@
 
 #if defined ( _TDK_OPENSSL_ENABLED_)
 #include <openssl/ssl.h>
+#include <iostream>
 
 namespace tdk {
 namespace ssl {

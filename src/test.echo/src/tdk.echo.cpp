@@ -12,15 +12,15 @@ using namespace std;
 
 #include <tdk/tdk.hpp>
 #include <tdk/event_loop/event_loop.hpp>
-#include <tdk/event_loop/io/ip/tcp/acceptor.hpp>
-#include <tdk/event_loop/io/ip/tcp/channel.hpp>
+#include <tdk/io/ip/tcp/channel_acceptor.hpp>
+#include <tdk/io/ip/tcp/channel.hpp>
 #include <tdk/buffer/memory_block.hpp>
 #include <memory>
 #include <tdk/event_loop/event_loop.hpp>
-#include <tdk/event_loop/io/ip/tcp/channel_acceptor.hpp>
-#include <tdk/event_loop/io/ip/tcp/pipeline/pipeline_builder.hpp>
-#include <tdk/event_loop/io/ip/tcp/channel_connector.hpp>
-#include <tdk/event_loop/io/ip/tcp/pipeline/filter.hpp>
+#include <tdk/io/ip/tcp/channel_acceptor.hpp>
+#include <tdk/io/ip/tcp/pipeline/pipeline_builder.hpp>
+#include <tdk/io/ip/tcp/channel_connector.hpp>
+#include <tdk/io/ip/tcp/pipeline/filter.hpp>
 #include <thread>
 #include <system_error>
 
@@ -48,8 +48,8 @@ public:
 		channel()->close();
 	}
 
-	virtual void on_read( tdk::io::ip::tcp::channel::message& msg ) {
-		printf("On Read %d\n" , (int)msg.data().length());
+	virtual void on_read( tdk::buffer::memory_block& msg ) {
+		printf("On Read %d\n" , (int)msg.length());
 		write_out_bound( msg );
 	}
 
@@ -66,10 +66,12 @@ public:
 class echo_builder : public tdk::io::ip::tcp::pipeline_builder{
 public:
 	virtual std::error_code build( tdk::io::ip::tcp::pipeline& p ) {
-		p.add( new echo_handler());
+		p.add( "" , new echo_handler());
 		return std::error_code();
 	}
 };
+
+
 
 int main() {
 

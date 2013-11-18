@@ -15,7 +15,7 @@ namespace io {
 namespace ip {
 class address;
 namespace udp {
-
+/*
 class filter {
 public:
 	filter();
@@ -48,7 +48,7 @@ private:
 	filter* _out_bound;
 	std::string _name;
 };
-
+*/
 } /* namespace udp */
 } /* namespace ip */
 } /* namespace io */

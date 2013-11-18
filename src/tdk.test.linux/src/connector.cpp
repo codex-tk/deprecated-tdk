@@ -1,17 +1,17 @@
 #include <gtest/gtest.h>
 #include <tdk/event_loop/event_loop.hpp>
-#include <tdk/event_loop/io/ip/tcp/pipeline/pipeline_connector.hpp>
-#include <tdk/event_loop/io/ip/tcp/pipeline/pipeline_builder.hpp>
-#include <tdk/event_loop/io/ip/tcp/pipeline/filter.hpp>
-#include <tdk/event_loop/io/ip/tcp/pipeline/pipeline.hpp>
+#include <tdk/io/ip/tcp/channel_connector.hpp>
+#include <tdk/io/ip/tcp/pipeline/pipeline_builder.hpp>
+#include <tdk/io/ip/tcp/pipeline/filter.hpp>
+#include <tdk/io/ip/tcp/pipeline/pipeline.hpp>
 
 TEST( tdk_connector , connect ) {
 	tdk::event_loop loop;
 
-	class test_connector : public tdk::io::ip::tcp::pipeline_connector {
+	class test_connector : public tdk::io::ip::tcp::channel_connector {
 	public:
 		test_connector( tdk::event_loop& l )
-			: pipeline_connector( l ) {
+			: channel_connector( l ) {
 
 		}
 
@@ -27,8 +27,6 @@ TEST( tdk_connector , connect ) {
 			printf( "On Connect %s\r\n" , addr.ip_address().c_str());
 			return true;
 		}
-
-
 	private:
 	};
 	
@@ -45,21 +43,21 @@ TEST( tdk_connector , connect ) {
 			write_out_bound(msg);
 		}*/
 		virtual void on_connected( void ) {
-			tdk::io::ip::tcp::message msg;
-			msg.data().write( "GET /index HTTP/1.1\r\n\r\n" );
-			pipeline()->write( msg );
+			tdk::buffer::memory_block msg;
+			msg.write( "GET /index HTTP/1.1\r\n\r\n" );
+			channel()->write( msg );
 			//write_out_bound( msg );
 		}
 		virtual void on_error( const std::error_code& ec ) {
 			printf( "error %s\r\n" , ec.message().c_str());
-			pipeline()->close();
+			channel()->close();
 		}
-		virtual void on_read( tdk::io::ip::tcp::message& msg ) {
-			printf("On Read %d\r\n" , (int)msg.data().length());
+		virtual void on_read( tdk::buffer::memory_block& msg ) {
+			printf("On Read %d\r\n" , (int)msg.length());
 			char end = '\0';
-			msg.data().write(&end,1);
-			printf("%s\r\n" , msg.data().rd_ptr());
-			pipeline()->close();
+			msg.write(&end,1);
+			printf("%s\r\n" , msg.rd_ptr());
+			channel()->close();
 		}
 
 		virtual void on_write( int w , bool flushed ) {
@@ -75,7 +73,7 @@ TEST( tdk_connector , connect ) {
 	class test_builder : public tdk::io::ip::tcp::pipeline_builder{
 	public:
 		virtual std::error_code build( tdk::io::ip::tcp::pipeline& p ) {
-			p.add( new test_handler());
+			p.add( "" , new test_handler());
 			return std::error_code();
 		}
 	};

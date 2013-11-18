@@ -8,9 +8,9 @@
 
 
 #include <gtest/gtest.h>
-#include <tdk/event_loop/io/ip/tcp/channel.hpp>
+#include <tdk/io/ip/tcp/channel.hpp>
 #include <tdk/event_loop/event_loop.hpp>
-
+/*
 void on_close(  ){
 	printf( "Closed!!\r\n");
 }
@@ -70,7 +70,7 @@ void on_connect( tdk::io::ip::tcp::connect_task* ct ) {
 			);
 	}
 }
-
+*/
 TEST( tcp__channel_handler , init ) {
 	return;
 	/*

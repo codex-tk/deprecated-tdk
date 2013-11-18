@@ -3,6 +3,7 @@
 	<name>tdk.echo</name>
 	<comment></comment>
 	<projects>
+		<project>tdk</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
