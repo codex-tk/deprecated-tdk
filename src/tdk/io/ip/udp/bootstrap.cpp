@@ -26,9 +26,9 @@ bool bootstrap::start( int af
 	if ( fd.open_udp(af)){
 		tdk::io::ip::socket::option::non_blocking non_block;
 		fd.set_option(non_block);
-
+#if defined( _WIN32 )
 		_loop.io_impl().register_handle( fd.handle() , this );
-
+#endif
 		tdk::io::ip::udp::channel* c =
 						new tdk::io::ip::udp::channel(
 								_loop
@@ -55,8 +55,9 @@ bool bootstrap::start( const tdk::io::ip::address& addr
 		tdk::io::ip::socket::option::non_blocking non_block;
 		fd.set_option(non_block);
 		if ( fd.bind( addr ) ) {
+#if defined( _WIN32 )
 			_loop.io_impl().register_handle( fd.handle() , this );
-
+#endif
 			tdk::io::ip::udp::channel* c =
 						new tdk::io::ip::udp::channel(
 								_loop
