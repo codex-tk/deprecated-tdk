@@ -39,6 +39,11 @@ logger::logger( const tdk::tstring& cate )
 {
 }
 
+logger::logger( const std::string& cate )
+	: _impl( impl::get_instance( tdk::string::mbs_to_wcs(cate)))
+{
+}
+
 logger::logger( const tdk::log::category& cate )
 	: _impl( impl::get_instance( cate ) ) 
 {

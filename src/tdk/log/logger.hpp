@@ -90,6 +90,9 @@ public:
 	};
 public:
 	explicit logger( const tdk::tstring& cate );
+#if defined( _WIN32 )
+	explicit logger( const std::string& cate );
+#endif
 	explicit logger( const tdk::log::category& cate );
 	explicit logger( logger::impl* impl );
     logger( const tdk::tstring& cate , writer_ptr ptr );

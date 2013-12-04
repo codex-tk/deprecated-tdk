@@ -7,73 +7,73 @@
 namespace tdk {
 namespace buffer {
 
-//! read / write ¿¬»êÀÇ ÀÎÅÍÆäÀÌ½º ¿ªÈ°
+//! read / write ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì½ï¿½ ï¿½ï¿½È°
 /*!
-	¹öÆÛÀÇ °ü¸®´Â T_storage ¿¡¼­ Ã³¸®ÇÑ´Ù.
+	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ T_storage ï¿½ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½ï¿½Ñ´ï¿½.
 	0 <= _read_pos <= _write_pos <= size() 
 */
 class memory_block {
 public:
-	//! »ý¼ºÀÚ 
+	//! ï¿½ï¿½ï¿½ï¿½ 
 	memory_block( void ) ;
-	//! ¹öÆÛ¸¦ ÇÒ´çÇÏ´Â »ý¼ºÀÚ
+	//! ï¿½ï¿½ï¿½Û¸ï¿½ ï¿½Ò´ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½
 	explicit memory_block( const std::size_t size 
 		, tdk::buffer::allocator* allocator = nullptr );
     memory_block( void* p 
 		, std::size_t buf_size 
 		, std::size_t data_size = 0 
 		, tdk::buffer::allocator* allocator = nullptr );
-	//! º¹»ç »ý¼ºÀÚ
+	//! ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	memory_block( const memory_block& rhs ) ;
-	//! ´ëÀÔ ¿¬»êÀÚ/
+	//! ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½/
 	memory_block& operator=( const memory_block& rhs );
 
-	//! º¹»ç »ý¼ºÀÚ
+	//! ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	memory_block( memory_block&& rhs ) ;
-	//! ´ëÀÔ ¿¬»êÀÚ/
+	//! ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½/
 	memory_block& operator=( memory_block&& rhs );
-	//! ¼Ò¸êÀÚ 
+	//! ï¿½Ò¸ï¿½ï¿½ï¿½ 
 	~memory_block( void );
 
-	//! ¹öÆÛÀÇ Å©±â
+	//! ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Å©ï¿½ï¿½
 	std::size_t size( void ) const ;	
-	//! ¾²±â °¡´ÉÇÑ Å©±â
+	//! ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Å©ï¿½ï¿½
 	std::size_t space( void ) const ;
 
 
-	//! ¾²±â °¡´ÉÇÑ Æ÷ÀÎÅÍ
+	//! ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	uint8_t* wr_ptr( void ) ;
-	//! ¾²±â °¡´ÉÇÑ Æ÷ÀÎÅÍ¸¦ ¾Õ/µÚ·Î ¿Å±è
+	//! ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Í¸ï¿½ ï¿½ï¿½/ï¿½Ú·ï¿½ ï¿½Å±ï¿½
 	int32_t wr_ptr( int32_t move );
 	void wr_ptr( uint8_t* ptr );
 
-	//! ÀÐ±â °¡´ÉÇÑ »çÀÌÁî
+	//! ï¿½Ð±ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	std::size_t length( void ) const ;
 	void length( std::size_t l );
 
 
-	//! ÀÐ±â °¡´ÉÇÑ Æ÷ÀÎÅÍ
+	//! ï¿½Ð±ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	uint8_t* rd_ptr( void  ) const;
-	//! ÀÐ±â °¡´ÉÇÑ Æ÷ÀÎÅÍ¸¦ ¾Õ/µÚ·Î ¿Å±è
+	//! ï¿½Ð±ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Í¸ï¿½ ï¿½ï¿½/ï¿½Ú·ï¿½ ï¿½Å±ï¿½
 	int32_t rd_ptr( int32_t move ) ;
 	void rd_ptr( uint8_t* ptr ) ;
 
-	//! µ¥ÀÌÅÍÀÇ ½ÃÀÛÁ¡À» ¹öÆÛÀÇ ½ÃÀÛÁ¡¿¡ ¸ÂÃß´Â ÇÔ¼ö
+	//! ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ß´ï¿½ ï¿½Ô¼ï¿½
 	void align( void ) ;
-	//! ¹öÆÛ¸¦ ´Ã¸®°Å³ª µ¶¸³¹öÆÛ·Î ¸¸µå´Â ÇÔ¼ö
+	//! ï¿½ï¿½ï¿½Û¸ï¿½ ï¿½Ã¸ï¿½ï¿½Å³ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Û·ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ô¼ï¿½
 	void reserve( std::size_t sz ) ;
-	//! µ¥ÀÌÅÍ ÃÊ±âÈ­ 
+	//! ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê±ï¿½È­ 
 	void clear( void ) ;
 	void swap( memory_block& rhs ) ;
 	int ref_count( void ) ;	
 	marker mark( void ) ;	
 	bool move( const marker& m ) ;
 	std::size_t copy( void* p , std::size_t wr_size) ;
-	//! ¹öÆÛ¿¡ µ¥ÀÌÅÍ ±â·Ï
+	//! ï¿½ï¿½ï¿½Û¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 	std::size_t write( void* buf , std::size_t write_size ) ;
-	//! µ¥ÀÌÅÍÀÇ ÀÐÀ½ Ç¥½Ã ¾øÀÌ ÀÐ¾î¿À´Â ÇÔ¼ö
+	//! ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Ç¥ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ð¾ï¿½ï¿½ï¿½ï¿½ ï¿½Ô¼ï¿½
 	std::size_t peek( void* buf , std::size_t peek_size ) ;
-	//! µ¥ÀÌÅÍ¸¦ ÀÐ¾î¿À´Â ÇÔ¼ö
+	//! ï¿½ï¿½ï¿½ï¿½ï¿½Í¸ï¿½ ï¿½Ð¾ï¿½ï¿½ï¿½ï¿½ ï¿½Ô¼ï¿½
 	std::size_t read( void* buf , std::size_t read_size ) ;
 	/*
 	template < typename T >
@@ -107,6 +107,8 @@ memory_block& operator >> ( memory_block& buffer , T& v ) {
 	buffer.read( &v , sizeof( v ));
 	return buffer;
 }
+
+memory_block& operator << ( memory_block& buffer , const memory_block&  data ) ;
 
 }}
 

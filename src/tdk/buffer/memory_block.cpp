@@ -40,7 +40,7 @@ memory_block& memory_block::operator=( const memory_block& rhs ) {
 	return *this;
 }
 
-//! º¹»ç »ý¼ºÀÚ
+//! ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 memory_block::memory_block( memory_block&& rhs ) 
 	: _base( std::move( rhs._base ))
 	, _read_pos( rhs._read_pos )
@@ -49,7 +49,7 @@ memory_block::memory_block( memory_block&& rhs )
 	rhs._write_pos = 0;
 }
 
-//! ´ëÀÔ ¿¬»êÀÚ/
+//! ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½/
 memory_block& memory_block::operator=( memory_block&& rhs ) {
 	_base = std::move( rhs._base );
 	_read_pos = rhs._read_pos;
@@ -64,17 +64,17 @@ std::size_t memory_block::size( void ) const {
 	return _base.size();
 }
 	
-//! ¾²±â °¡´ÉÇÑ Å©±â
+//! ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Å©ï¿½ï¿½
 std::size_t memory_block::space( void ) const {
 	return size() - _write_pos;
 }
 
-//! ¾²±â °¡´ÉÇÑ Æ÷ÀÎÅÍ
+//! ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 uint8_t* memory_block::wr_ptr( void ) {
 	return _base.data_ptr() + _write_pos;
 }
 
-//! ¾²±â °¡´ÉÇÑ Æ÷ÀÎÅÍ¸¦ ¾Õ/µÚ·Î ¿Å±è
+//! ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Í¸ï¿½ ï¿½ï¿½/ï¿½Ú·ï¿½ ï¿½Å±ï¿½
 int32_t memory_block::wr_ptr( int32_t move ) {
 	if ( move >= 0 ) {
 		move = std::min( move , static_cast<int32_t>(space()));
@@ -90,7 +90,7 @@ void memory_block::wr_ptr( uint8_t* ptr ) {
 	_write_pos = ptr - _base.data_ptr();
 }
 
-//! ÀÐ±â °¡´ÉÇÑ »çÀÌÁî
+//! ï¿½Ð±ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 std::size_t memory_block::length( void ) const {
 	return _write_pos - _read_pos;
 }
@@ -98,12 +98,12 @@ std::size_t memory_block::length( void ) const {
 void memory_block::length( std::size_t l ){
 	_write_pos = _read_pos + l;
 }
-//! ÀÐ±â °¡´ÉÇÑ Æ÷ÀÎÅÍ
+//! ï¿½Ð±ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 uint8_t* memory_block::rd_ptr( void  ) const {
 	return _base.data_ptr() + _read_pos;
 }
 
-//! ÀÐ±â °¡´ÉÇÑ Æ÷ÀÎÅÍ¸¦ ¾Õ/µÚ·Î ¿Å±è
+//! ï¿½Ð±ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Í¸ï¿½ ï¿½ï¿½/ï¿½Ú·ï¿½ ï¿½Å±ï¿½
 int32_t memory_block::rd_ptr( int32_t move ) {
 	if ( move >= 0 ) {
 		move = std::min( move , static_cast<int32_t>(length()));
@@ -119,7 +119,7 @@ void memory_block::rd_ptr( uint8_t* ptr ) {
 	_read_pos = ptr - _base.data_ptr();
 }
 
-//! µ¥ÀÌÅÍÀÇ ½ÃÀÛÁ¡À» ¹öÆÛÀÇ ½ÃÀÛÁ¡¿¡ ¸ÂÃß´Â ÇÔ¼ö
+//! ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ß´ï¿½ ï¿½Ô¼ï¿½
 void memory_block::align( void ) {
 	reserve( size() );
 	if ( _write_pos != _read_pos ) {
@@ -131,14 +131,14 @@ void memory_block::align( void ) {
 	}
 }
 
-//! ¹öÆÛ¸¦ ´Ã¸®°Å³ª µ¶¸³¹öÆÛ·Î ¸¸µå´Â ÇÔ¼ö
+//! ï¿½ï¿½ï¿½Û¸ï¿½ ï¿½Ã¸ï¿½ï¿½Å³ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Û·ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ô¼ï¿½
 void memory_block::reserve( std::size_t sz ) {
 	_base.reserve( sz );
 	_read_pos = std::min( size() , _read_pos );
 	_write_pos = std::min( size() , _write_pos );
 }
 
-//! µ¥ÀÌÅÍ ÃÊ±âÈ­ 
+//! ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê±ï¿½È­ 
 void memory_block::clear( void ) {
 	_base.reserve( _base.size() );
 	_write_pos = 0;
@@ -172,7 +172,7 @@ std::size_t memory_block::copy( void* p , std::size_t wr_size) {
 	return write( p , wr_size );
 }
 
-//! ¹öÆÛ¿¡ µ¥ÀÌÅÍ ±â·Ï
+//! ï¿½ï¿½ï¿½Û¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 std::size_t memory_block::write( void* buf , std::size_t write_size ) {
 	reserve( _write_pos + write_size );
 	write_size = std::min( space() , write_size );
@@ -180,14 +180,14 @@ std::size_t memory_block::write( void* buf , std::size_t write_size ) {
 	return wr_ptr( static_cast<int>(write_size));
 }
 
-//! µ¥ÀÌÅÍÀÇ ÀÐÀ½ Ç¥½Ã ¾øÀÌ ÀÐ¾î¿À´Â ÇÔ¼ö
+//! ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Ç¥ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ð¾ï¿½ï¿½ï¿½ï¿½ ï¿½Ô¼ï¿½
 std::size_t memory_block::peek( void* buf , std::size_t peek_size ) {
 	peek_size = std::min( length() , peek_size );
 	memcpy( buf , rd_ptr() , peek_size );
 	return peek_size;
 }
 
-//! µ¥ÀÌÅÍ¸¦ ÀÐ¾î¿À´Â ÇÔ¼ö
+//! ï¿½ï¿½ï¿½ï¿½ï¿½Í¸ï¿½ ï¿½Ð¾ï¿½ï¿½ï¿½ï¿½ ï¿½Ô¼ï¿½
 std::size_t memory_block::read( void* buf , std::size_t read_size ) {
 	read_size = peek( buf , read_size );
 	return rd_ptr( static_cast<int>(read_size));
@@ -214,7 +214,10 @@ int memory_block::padding( int align , uint8_t val ) {
     return align-mod;
 }
 
-
+memory_block& operator << ( memory_block& buffer , const memory_block&  data ) {
+	buffer.write( data.rd_ptr() , data.length());
+	return buffer;
+}
 
 }}
 

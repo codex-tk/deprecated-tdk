@@ -236,7 +236,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_TDK_OPENSSL_ENABLED_;WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_TDK_OPENSSL_ENABLED_;_TDK_OPENSSL_ENABLED_;WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <DisableSpecificWarnings>4819</DisableSpecificWarnings>
@@ -251,7 +251,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_TDK_OPENSSL_ENABLED_;WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_TDK_OPENSSL_ENABLED_;_TDK_OPENSSL_ENABLED_;WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <DisableSpecificWarnings>4819</DisableSpecificWarnings>
@@ -311,7 +311,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_TDK_OPENSSL_ENABLED_;WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_TDK_OPENSSL_ENABLED_;_TDK_OPENSSL_ENABLED_;WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <DisableSpecificWarnings>4819</DisableSpecificWarnings>
@@ -330,7 +330,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_TDK_OPENSSL_ENABLED_;WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_TDK_OPENSSL_ENABLED_;_TDK_OPENSSL_ENABLED_;WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <DisableSpecificWarnings>4819</DisableSpecificWarnings>
@@ -349,7 +349,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_TDK_OPENSSL_ENABLED_;WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_TDK_OPENSSL_ENABLED_;_TDK_OPENSSL_ENABLED_;WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <DisableSpecificWarnings>4819</DisableSpecificWarnings>
@@ -460,6 +460,10 @@
     <ClInclude Include="geo.hpp" />
     <ClInclude Include="log\formatter\mb_string_formatter.hpp" />
     <ClInclude Include="log\writer\udp_writer.hpp" />
+    <ClInclude Include="ssl\context.hpp" />
+    <ClInclude Include="ssl\error_category.hpp" />
+    <ClInclude Include="ssl\filter.hpp" />
+    <ClInclude Include="ssl\open_ssl.hpp" />
     <ClInclude Include="task\queue.hpp" />
     <ClInclude Include="threading\atomic\atomic.hpp" />
     <ClInclude Include="threading\atomic\memory_order.hpp" />
@@ -554,6 +558,10 @@
     <ClCompile Include="io\buffer_adapter.cpp" />
     <ClCompile Include="log\formatter\mb_string_formatter.cpp" />
     <ClCompile Include="log\writer\udp_writer.cpp" />
+    <ClCompile Include="ssl\context.cpp" />
+    <ClCompile Include="ssl\error_category.cpp" />
+    <ClCompile Include="ssl\filter.cpp" />
+    <ClCompile Include="ssl\open_ssl.cpp" />
     <ClCompile Include="task\queue.cpp" />
     <ClCompile Include="threading\atomic\atomic_win32.cpp" />
     <ClCompile Include="threading\atomic\memory_order_win32.cpp" />

@@ -239,6 +239,9 @@ void channel::_send_remains( void ) {
 	_debug_1 = _send_queue.size();
 	_debug_2 = buf.size();
 	_debug_3 = buf.buffers()->len;*/
+
+	retain();
+	_loop.add_active();
 	_on_send.reset();
     DWORD flag	= 0;
 	    if ( WSASend(	_socket.handle() 
@@ -256,8 +259,7 @@ void channel::_send_remains( void ) {
 			return;
         }
     }
-	retain();
-	_loop.add_active();
+	
 }
 
 void channel::_handle_recv( tdk::task* t ) {

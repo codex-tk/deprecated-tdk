@@ -84,6 +84,10 @@
     <ClCompile Include="io\ip\tcp\channel_iocp.cpp" />
     <ClCompile Include="io\ip\udp\channel_iocp.cpp" />
     <ClCompile Include="io\ip\udp\bootstrap.cpp" />
+    <ClCompile Include="ssl\context.cpp" />
+    <ClCompile Include="ssl\error_category.cpp" />
+    <ClCompile Include="ssl\filter.cpp" />
+    <ClCompile Include="ssl\open_ssl.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="buffer\array.hpp" />
@@ -182,6 +186,10 @@
     <ClInclude Include="io\ip\udp\channel.hpp" />
     <ClInclude Include="io\ip\udp\bootstrap.hpp" />
     <ClInclude Include="io\ip\tcp\channel_iocp.hpp" />
+    <ClInclude Include="ssl\open_ssl.hpp" />
+    <ClInclude Include="ssl\context.hpp" />
+    <ClInclude Include="ssl\error_category.hpp" />
+    <ClInclude Include="ssl\filter.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="crypto\seed\SEED_KISA.tab" />

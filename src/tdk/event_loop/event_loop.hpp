@@ -38,6 +38,9 @@ public:
 	void schedule( tdk::timer_task* tt );
 	void cancel( tdk::timer_task* tt );
 
+	template < typename T_handler >
+	void schedule( const T_handler& handler , const tdk::date_time& expired_at );
+
 	void add_active( void );
 	void remove_active( void );
 
@@ -59,6 +62,36 @@ private:
 	std::thread::id _thread_id;
 	io_impl_type _io_impl;
 };
+
+template < typename T_handler >
+void event_loop::schedule( const T_handler& handler 
+						  , const tdk::date_time& expired_at )
+{
+	class timer_task_ex : public timer_task {
+	public:
+		timer_task_ex( const T_handler& h ) 
+			: timer_task( &timer_task_ex::on_task , nullptr )
+			, _handler(h)
+		{
+		}
+
+		~timer_task_ex( void ) {
+		}
+
+		static void on_task( tdk::task* t ) {
+			timer_task_ex* impl
+				= static_cast< timer_task_ex* >(t);
+			(impl->_handler)();
+			delete impl;
+		}
+	private:
+		T_handler _handler;
+	};
+
+	tdk::timer_task* op = new timer_task_ex( handler );
+	op->expired_at( expired_at );
+	schedule(  op );
+}
 
 }
 #endif

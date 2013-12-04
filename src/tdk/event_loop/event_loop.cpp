@@ -15,11 +15,11 @@ event_loop::~event_loop( void ) {
 }
 
 void event_loop::execute( tdk::task* t ) {
+	add_active();
 	do {
 		tdk::threading::scoped_lock<> guard( _lock );
 		_tasks.add_tail( t );
 	} while(0);
-	_active_handles.fetch_add(1);
 	_io_impl.wake_up();
 	/*
 	if ( in_loop()) {
@@ -39,7 +39,7 @@ bool event_loop::in_loop( void ) {
 void event_loop::schedule( tdk::timer_task* tt ) {
 	if ( in_loop() ) {
 		_scheduler.schedule( tt );
-		_active_handles.fetch_add(1);
+		add_active();
 	} else {
 		execute( tdk::task::make_one_shot_task([this,tt] {
 			schedule( tt );
