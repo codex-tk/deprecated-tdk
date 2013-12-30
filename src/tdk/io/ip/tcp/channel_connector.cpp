@@ -45,12 +45,16 @@ void channel_connector::connect(
 	_builder = builder;
 	_addr_index = 0;
 
-	while ( _addr_index < _addrs.size() ) {
-		if ( connect( _addrs[_addr_index++]) )
-			return;
+	if ( !_addrs.empty() ) {
+		while ( _addr_index < _addrs.size() ) {
+			if ( connect( _addrs[_addr_index++]) )
+				return;
+		}
+		_on_connect.error( tdk::platform::error());
+	} else {
+		_on_connect.error( tdk::tdk_invalid_call );
 	}
 	_loop.add_active();
-	_on_connect.error( tdk::platform::error());
 	_loop.execute( &_on_connect );
 }
 

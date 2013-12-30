@@ -21,6 +21,7 @@ std::error_code epoll_error( int err );
 
 
 extern std::error_code tdk_success;
+extern std::error_code tdk_fail;
 extern std::error_code tdk_tls_not_initialized;
 extern std::error_code tdk_user_abort;
 extern std::error_code tdk_network_user_abort;

@@ -6,6 +6,7 @@
 #include <openssl/err.h>
 #include <tdk/ssl/error_category.hpp>
 #include <tdk/io/ip/tcp/channel.hpp>
+#include <tdk/log/logger.hpp>
 
 namespace tdk {
 namespace ssl {

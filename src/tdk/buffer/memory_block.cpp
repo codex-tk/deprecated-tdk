@@ -193,6 +193,19 @@ std::size_t memory_block::read( void* buf , std::size_t read_size ) {
 	return rd_ptr( static_cast<int>(read_size));
 }
 
+std::size_t memory_block::write_fmt( const char* msg , ... ) {
+	char fmt_buffer[2048] = { 0 , };
+	va_list args;
+	va_start( args , msg );
+#if defined(_WIN32) || defined(_WIN64)
+	int len = _vsnprintf_s( fmt_buffer , 2048 , msg , args );
+#else
+	int len = vsnprintf( fmt_buffer , 2048 , msg , args );
+#endif
+	va_end( args );
+	return write( fmt_buffer );
+}
+
 std::size_t memory_block::write( const char* msg ) {
 	return write( const_cast<char*>(msg) , strlen(msg));
 }

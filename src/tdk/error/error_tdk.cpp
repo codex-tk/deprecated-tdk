@@ -31,6 +31,7 @@ std::error_code epoll_error( int err ){
 #endif
 
 std::error_code tdk_success( (int)errc::tdk_success , tdk::category() );
+std::error_code tdk_fail( (int)errc::tdk_fail , tdk::category() );
 std::error_code tdk_tls_not_initialized( (int)errc::tdk_tls_not_initialized , tdk::category() );
 std::error_code tdk_user_abort( (int)errc::tdk_user_abort , tdk::category() );
 std::error_code tdk_network_user_abort( (int)errc::tdk_network_user_abort , tdk::category() );

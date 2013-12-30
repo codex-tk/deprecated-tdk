@@ -7,6 +7,7 @@ namespace tdk {
 
 enum class errc {
 	tdk_success = 0 ,
+	tdk_fail ,
 	tdk_tls_not_initialized ,
 	tdk_user_abort ,
     tdk_invalid_call ,

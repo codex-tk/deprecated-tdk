@@ -83,6 +83,28 @@ static void split( const string_type& message , const string_type& sep , out os 
     }
 }
 
+template < typename string_type >
+static std::vector<string_type> split( const string_type& message , const string_type& sep ) {
+	typename string_type::size_type msgEnd = message.length();
+    typename string_type::size_type start  = 0;
+    typename string_type::size_type stop   = 0;
+       
+	std::vector<string_type> result;
+    start = message.find_first_not_of( sep );
+    while ( true ) {
+        if ( start >= msgEnd ) break;
+
+        stop = message.find_first_of(sep, start);
+        if ( stop == string_type::npos ) 
+            stop = msgEnd;
+
+		result.push_back( message.substr( start , stop - start ));
+        start = message.find_first_not_of( sep , stop + 1 );
+    }
+	return result;
+}
+
+
 template < typename string_type  >
 static string_type replace( const string_type& message , const string_type& pattern , const string_type& replace ) {
     string_type out = message;
@@ -212,6 +234,33 @@ private:
 
 static hangul extract_hangul( wchar_t ch );
 #endif
+
+static std::string hex_string( void* p , int sz ) {
+	static const char hex[]="0123456789abcdef";
+	std::string value;
+	unsigned char* data_ptr = static_cast< unsigned char* >(p);
+	for ( int i = 0 ; i < sz ; ++i ) {
+		value += hex[ data_ptr[i] >> 4 ];
+		value += hex[ data_ptr[i] & 0x0f ];
+	}
+	return value;
+};
+
+static std::string between( const std::string& src 
+						   , const std::string& pre 
+						   , const std::string& post ) 
+{
+	std::string::size_type begin_pos = src.find( pre );
+	if ( begin_pos != std::string::npos ) {
+		begin_pos += pre.length();
+		std::string::size_type end_pos = src.find( post  , begin_pos );
+		if ( end_pos != std::string::npos ) {
+			return src.substr( begin_pos , end_pos - begin_pos );
+		}
+	}
+	return "";
+}
+
 }}
 
 #endif
