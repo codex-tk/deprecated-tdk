@@ -5,7 +5,7 @@
 #include <functional>
 
 namespace tdk {
-namespace task {
+namespace taskex {
 
 namespace {
 template < typename T >

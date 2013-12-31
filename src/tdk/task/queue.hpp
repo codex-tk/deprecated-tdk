@@ -5,7 +5,7 @@
 #include <tdk/threading/spin_lock.hpp>
 
 namespace tdk{
-namespace task {
+namespace taskex {
 
 class queue {
 public:

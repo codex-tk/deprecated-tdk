@@ -465,6 +465,7 @@
     <ClInclude Include="ssl\filter.hpp" />
     <ClInclude Include="ssl\open_ssl.hpp" />
     <ClInclude Include="task\queue.hpp" />
+    <ClInclude Include="tdk_define.hpp" />
     <ClInclude Include="threading\atomic\atomic.hpp" />
     <ClInclude Include="threading\atomic\memory_order.hpp" />
     <ClInclude Include="threading\auto_reset_event_win32.hpp" />

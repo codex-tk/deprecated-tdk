@@ -2,7 +2,7 @@
 #include <tdk/task/queue.hpp>
 
 namespace tdk {
-namespace task {
+namespace taskex {
 
 queue::queue( void ) 
 	: _running( nullptr )

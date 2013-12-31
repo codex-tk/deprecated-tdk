@@ -5,8 +5,8 @@
  *      Author: tk
  */
 #if defined(_WIN32)
-#ifndef CHANNEL_HPP_
-#define CHANNEL_HPP_
+#ifndef CHANNEL_UDP_HPP_
+#define CHANNEL_UDP_HPP_
 
 #include <tdk/io/ip/socket.hpp>
 #include <tdk/io/task.hpp>

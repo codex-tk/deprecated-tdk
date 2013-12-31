@@ -190,6 +190,7 @@
     <ClInclude Include="ssl\context.hpp" />
     <ClInclude Include="ssl\error_category.hpp" />
     <ClInclude Include="ssl\filter.hpp" />
+    <ClInclude Include="tdk_define.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="crypto\seed\SEED_KISA.tab" />

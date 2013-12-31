@@ -11,8 +11,8 @@ public:
 	service( const tdk::tstring& svc_name );
 	~service( void );
 
-	typedef tdk::task::handler< void ( service* svc ) > service_main_handler;
-	typedef tdk::task::handler< DWORD ( service* svc , int ctrl , int type , void* data )> service_event_handler;
+	typedef tdk::taskex::handler< void ( service* svc ) > service_main_handler;
+	typedef tdk::taskex::handler< DWORD ( service* svc , int ctrl , int type , void* data )> service_event_handler;
 
 	// properties
 	tdk::tstring name() const { return _name; }
